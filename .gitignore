@@ -57,3 +57,9 @@ buck-out/
 
 # Pods
 ios/Pods
+
+# VSCode
+.vscode
+
+# expo
+.expo
