@@ -1,19 +1,46 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from "react";
+import { View } from "react-native";
+import { AppLoading } from "expo";
+import { Container, Content, Spinner } from "native-base";
+import * as Font from "expo-font";
+import { Ionicons } from "@expo/vector-icons";
+import styled from "styled-components";
+
+import PlayList from "./components/PlayList";
+import Header from "./components/Header";
+
+const LoadingView = styled(View)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+`;
 
 export default function App() {
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    Font.loadAsync({
+      Roboto: require("native-base/Fonts/Roboto.ttf"),
+      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
+      ...Ionicons.font
+    }).then(() => setIsReady(true));
+  }, []);
+
+  if (!isReady) {
+    return (
+      <LoadingView>
+        <Spinner />
+      </LoadingView>
+    );
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
+    <Container>
+      <Header />
+      <Content>
+        <PlayList />
+      </Content>
+    </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
