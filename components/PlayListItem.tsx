@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableHighlight } from "react-native";
+import { View, Text, TouchableHighlight, Image } from "react-native";
 import styled from "styled-components";
 
 import Play from "../plays/play";
@@ -15,10 +15,10 @@ const PlayListItemContainer = styled(View)`
 `;
 
 const ImageView = styled(View)`
-  padding: 5px;
+  padding: 20px 5px 20px 20px;
 `;
 
-const Image = styled(View)`
+const PlayImage = styled(Image)`
   background: grey;
   height: 60px;
   width: 40px;
@@ -44,7 +44,7 @@ const PlayListItem = (props: Props) => (
   >
     <PlayListItemContainer>
       <ImageView>
-        <Image />
+        <PlayImage source={props.image} alt={props.play} />
       </ImageView>
 
       <PlayInfoView>

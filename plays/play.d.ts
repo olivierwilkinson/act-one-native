@@ -1,5 +1,8 @@
 export default interface Play {
   play: string;
   description: string;
-  data: object[];
+  script: object[];
+  image: string,
+  imageLicenceUrl: string,
+  imageLicenceCode: string,
 }
