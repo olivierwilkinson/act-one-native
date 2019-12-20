@@ -5,6 +5,8 @@ import { Container, Content, Spinner } from "native-base";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import styled from "styled-components";
+import { createAppContainer } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 
 import PlayList from "./components/PlayList";
 import Header from "./components/Header";
@@ -16,7 +18,7 @@ const LoadingView = styled(View)`
   height: 100%;
 `;
 
-export default function App() {
+function Home() {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -37,10 +39,25 @@ export default function App() {
 
   return (
     <Container>
-      <Header />
       <Content>
         <PlayList />
       </Content>
     </Container>
   );
 }
+
+const AppNavigator = createStackNavigator(
+  {
+    Home: {
+      screen: Home
+    }
+  },
+  {
+    initialRouteName: "Home",
+    defaultNavigationOptions: {
+      header: Header
+    }
+  }
+);
+
+export default createAppContainer(AppNavigator);
