@@ -15,7 +15,7 @@ export default class PlayScreen extends React.Component<
     header: () => (
       <Header
         title={navigation.getParam("play")}
-        onBack={() => navigation.navigate("Home")}
+        onBack={() => navigation.pop()}
       />
     )
   });
