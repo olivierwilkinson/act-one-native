@@ -8,8 +8,26 @@ import styled from "styled-components";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 
-import PlayList from "./components/PlayList";
+import Home from "./screens/Home";
+import Play from "./screens/Play";
 import Header from "./components/Header";
+
+const AppNavigator = createStackNavigator(
+  {
+    Home: {
+      screen: Home
+    },
+    Play: {
+      screen: Play
+    }
+  },
+  {
+    initialRouteName: "Home",
+    defaultNavigationOptions: {
+      header: Header
+    }
+  }
+);
 
 const LoadingView = styled(View)`
   display: flex;
@@ -18,7 +36,9 @@ const LoadingView = styled(View)`
   height: 100%;
 `;
 
-function Home() {
+const AppContainer = createAppContainer(AppNavigator);
+
+export default () => {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -37,27 +57,5 @@ function Home() {
     );
   }
 
-  return (
-    <Container>
-      <Content>
-        <PlayList />
-      </Content>
-    </Container>
-  );
-}
-
-const AppNavigator = createStackNavigator(
-  {
-    Home: {
-      screen: Home
-    }
-  },
-  {
-    initialRouteName: "Home",
-    defaultNavigationOptions: {
-      header: Header
-    }
-  }
-);
-
-export default createAppContainer(AppNavigator);
+  return <AppContainer />;
+};
