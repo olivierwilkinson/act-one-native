@@ -2,7 +2,7 @@ import React from "react";
 import { FlatList } from "react-native";
 
 import PlayLine from "./PlayLine";
-import { Play, Line } from "../plays/play";
+import { Play, Line } from "../types/play-types";
 
 export default (props: Play) => (
   <FlatList

@@ -9,7 +9,7 @@ export interface Play {
   play: string;
   description: string;
   script: Line[];
-  image: string,
-  imageLicenceUrl: string,
-  imageLicenceCode: string,
+  image: any,
+  imageLicenseUrl: string,
+  imageLicenseCode: string,
 }

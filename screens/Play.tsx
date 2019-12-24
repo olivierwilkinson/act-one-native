@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Content } from "native-base";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 
-import { Play as PlayType } from "../plays/play";
+import { Play as PlayType } from "../types/play-types";
 import Play from "../components/Play";
 
 type Params = PlayType

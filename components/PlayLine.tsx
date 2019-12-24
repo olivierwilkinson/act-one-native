@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text } from "react-native";
 import styled from "styled-components";
 
-import { Line } from "../plays/play";
+import { Line } from "../types/play-types";
 import { titleFont, subFont } from "../styles/typography.js";
 
 const PlayerText = styled(Text)`
