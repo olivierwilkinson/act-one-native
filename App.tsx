@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
-import { AppLoading } from "expo";
-import { Container, Content, Spinner } from "native-base";
+import { Spinner } from "native-base";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import styled from "styled-components";
@@ -24,7 +23,7 @@ const AppNavigator = createStackNavigator(
   {
     initialRouteName: "Home",
     defaultNavigationOptions: {
-      header: Header
+      header: () => <Header />
     }
   }
 );

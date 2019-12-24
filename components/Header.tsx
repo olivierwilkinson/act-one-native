@@ -1,6 +1,13 @@
 import React from "react";
-import { Header as BaseHeader, Body, Left, Title } from "native-base";
-import { TouchableHighlight } from "react-native";
+import {
+  Header as BaseHeader,
+  Body,
+  Left,
+  Right,
+  Title,
+  Button,
+  Text
+} from "native-base";
 import styled from "styled-components";
 import { StatusBar } from "react-native";
 
@@ -14,9 +21,13 @@ const WhiteTitle = styled(Title)`
   color: white;
 `;
 
+const WhiteText = styled(Text)`
+  color: white;
+`;
+
 type Props = {
   title?: string;
-  onBackClick?: () => void;
+  onBack?: () => void;
 };
 
 const defaultProps = {
@@ -27,15 +38,19 @@ const Header = (props: Props) => (
   <PrimaryHeader>
     <StatusBar barStyle="light-content" />
 
-    {props.onBackClick && (
-      <Left>
-        <TouchableHighlight>Back</TouchableHighlight>
-      </Left>
-    )}
+    <Left>
+      {props.onBack && (
+        <Button onPress={props.onBack} transparent>
+          <WhiteText>Back</WhiteText>
+        </Button>
+      )}
+    </Left>
 
     <Body>
-      <WhiteTitle>ActOne</WhiteTitle>
+      <WhiteTitle>{props.title}</WhiteTitle>
     </Body>
+
+    <Right />
   </PrimaryHeader>
 );
 
