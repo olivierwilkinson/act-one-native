@@ -1,21 +1,26 @@
 import React from "react";
 import { View, Text, TouchableHighlight, Image } from "react-native";
+import { Card } from "native-base";
 import styled from "styled-components";
 
-import { Play, } from "../types/play-types";
+import { Play } from "../types/play-types";
 import { titleFont, subFont } from "../styles/typography.js";
 
 type Props = Play & {
   onClick: () => void;
-}
+};
 
-const PlayListItemContainer = styled(View)`
+const ListItemCard = styled(Card)`
+  margin: 5px 0;
+`;
+
+const PlayListItemContent = styled(View)`
   display: flex;
   flex-direction: row;
 `;
 
 const ImageView = styled(View)`
-  padding: 20px 5px 20px 20px;
+  padding: 10px 5px 10px 20px;
 `;
 
 const PlayImage = styled(Image)`
@@ -38,21 +43,20 @@ const SubText = styled(Text)`
 `;
 
 const PlayListItem = (props: Props) => (
-  <TouchableHighlight
-    onPress={props.onClick}
-    underlayColor="white"
-  >
-    <PlayListItemContainer>
-      <ImageView>
-        <PlayImage source={props.image} alt={props.play} />
-      </ImageView>
+  <ListItemCard>
+    <TouchableHighlight onPress={props.onClick} underlayColor="white">
+      <PlayListItemContent>
+        <ImageView>
+          <PlayImage source={props.image} alt={props.play} />
+        </ImageView>
 
-      <PlayInfoView>
-        <TitleText>{props.play}</TitleText>
-        <SubText>{props.description}</SubText>
-      </PlayInfoView>
-    </PlayListItemContainer>
-  </TouchableHighlight>
+        <PlayInfoView>
+          <TitleText>{props.play}</TitleText>
+          <SubText>{props.description}</SubText>
+        </PlayInfoView>
+      </PlayListItemContent>
+    </TouchableHighlight>
+  </ListItemCard>
 );
 
 export default PlayListItem;
