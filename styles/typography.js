@@ -7,3 +7,7 @@ export const titleFont = css`
 export const subFont = css`
   font-weight: 300;
 `;
+
+export const thinFont = css`
+  font-weight: 100;
+`;

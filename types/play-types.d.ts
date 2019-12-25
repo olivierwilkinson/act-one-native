@@ -1,8 +1,13 @@
+export interface LineRow {
+  text: string,
+  number: number,
+}
+
 export interface Line {
   id: number,
   actSceneLine: string,
   player: string,
-  line: string
+  lines: LineRow[]
 }
 
 export interface Play {

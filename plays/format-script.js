@@ -1,13 +1,20 @@
-const fs = require('fs');
+const fs = require("fs");
 
-// const script = require('./shakespeare/AComedyOfErrors/AComedyOfErrors.json');
-const script = [];
+const script = require("./shakespeare/unformatted/A Comedy of Errors.json");
+// const script = [];
 let currentCharacter;
 let formattedLine;
 const formattedScript = [];
-script.forEach(line => {
-  if (currentCharacter === line.Player) {
-    formattedLine.line = `${formattedLine.line}\n${line.PlayerLine}`;
+script.forEach(unformattedLine => {
+  const line = { text: unformattedLine.PlayerLine };
+  let player = "";
+  if (unformattedLine.ActSceneLine) {
+    line.number = +unformattedLine.ActSceneLine.split(".").pop();
+    player = unformattedLine.Player;
+  }
+
+  if (currentCharacter === unformattedLine.Player) {
+    formattedLine.lines = [...formattedLine.lines, line];
     return;
   }
 
@@ -16,12 +23,11 @@ script.forEach(line => {
   }
 
   formattedLine = {
-    id: line.Dataline,
-    actSceneLine: line.ActSceneLine,
-    player: line.Player,
-    line: line.PlayerLine,
+    id: unformattedLine.Dataline,
+    player,
+    lines: [line]
   };
-  currentCharacter = line.Player;
+  currentCharacter = unformattedLine.Player;
 });
 
-fs.writeFileSync('script.json', JSON.stringify(formattedScript));
+fs.writeFileSync("script.json", JSON.stringify(formattedScript));
