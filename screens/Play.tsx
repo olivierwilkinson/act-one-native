@@ -23,12 +23,6 @@ export default class PlayScreen extends React.Component<
   render() {
     const { navigation } = this.props;
 
-    return (
-      <Container>
-        <Content>
-          <Play {...navigation.state.params} />
-        </Content>
-      </Container>
-    );
+    return <Play {...navigation.state.params} />;
   }
 }

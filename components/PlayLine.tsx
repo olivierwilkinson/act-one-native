@@ -1,20 +1,24 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
+import { Text } from "native-base";
 import styled from "styled-components";
 
 import { Line } from "../types/play-types";
-import { titleFont, subFont } from "../styles/typography.js";
 
-const PlayerText = styled(Text)`
-  ${titleFont}
+const PlayLineView = styled(View)`
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
 `;
-const LineText = styled(Text)`
-  ${subFont}
+
+const TextView = styled(View)`
+  margin-left: 15px;
 `;
 
 export default (props: Line) => (
-  <View>
-    <PlayerText>{props.player}</PlayerText>
-    <LineText>{props.line}</LineText>
-  </View>
+  <PlayLineView>
+    <TextView>
+      <Text>{props.line}</Text>
+    </TextView>
+  </PlayLineView>
 );
