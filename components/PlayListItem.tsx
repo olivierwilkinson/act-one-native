@@ -1,6 +1,5 @@
 import React from "react";
 import { View, Text, TouchableHighlight, Image } from "react-native";
-import { Card } from "native-base";
 import styled from "styled-components";
 
 import { Play } from "../types/play-types";
@@ -10,8 +9,13 @@ type Props = Play & {
   onClick: () => void;
 };
 
-const ListItemCard = styled(Card)`
-  margin: 5px 0;
+const ListItemCard = styled(View)`
+  margin: 10px 0;
+  shadow-color: black;
+  shadow-opacity: 0.2;
+  shadow-radius: 4px;
+  shadow-offset: 2px;
+  background-color: white;
 `;
 
 const PlayListItemContent = styled(View)`

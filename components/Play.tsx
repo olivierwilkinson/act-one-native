@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SectionList, View, Text } from "react-native";
+import { SectionList } from "react-native";
 import palette from "google-palette";
 import convert from "color-convert";
 

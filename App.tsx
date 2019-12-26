@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
-import { Spinner } from "native-base";
-import * as Font from "expo-font";
-import { Ionicons } from "@expo/vector-icons";
 import styled from "styled-components";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
@@ -38,23 +35,5 @@ const LoadingView = styled(View)`
 const AppContainer = createAppContainer(AppNavigator);
 
 export default () => {
-  const [isReady, setIsReady] = useState(false);
-
-  useEffect(() => {
-    Font.loadAsync({
-      Roboto: require("native-base/Fonts/Roboto.ttf"),
-      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
-      ...Ionicons.font
-    }).then(() => setIsReady(true));
-  }, []);
-
-  if (!isReady) {
-    return (
-      <LoadingView>
-        <Spinner />
-      </LoadingView>
-    );
-  }
-
   return <AppContainer />;
 };

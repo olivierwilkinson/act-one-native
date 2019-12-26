@@ -1,6 +1,5 @@
 import React from "react";
-import { View } from "react-native";
-import { Text } from "native-base";
+import { View, Text } from "react-native";
 import styled from "styled-components";
 
 import { titleFont } from "../styles/typography.js";

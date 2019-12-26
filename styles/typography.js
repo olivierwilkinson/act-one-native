@@ -1,4 +1,12 @@
-import { css } from 'styled-components';
+import { css } from "styled-components";
+
+export const bigSizeFont = css`
+  font-size: 18px;
+`;
+
+export const mediumSizeFont = css`
+  font-size: 16px;
+`;
 
 export const titleFont = css`
   font-weight: bold;

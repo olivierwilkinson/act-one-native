@@ -1,28 +1,41 @@
 import React from "react";
-import {
-  Header as BaseHeader,
-  Body,
-  Left,
-  Right,
-  Title,
-  Button,
-  Text
-} from "native-base";
+import { Text, View, TouchableHighlight, SafeAreaView } from "react-native";
 import styled from "styled-components";
 import { StatusBar } from "react-native";
 
 import { primaryColour } from "../styles/colours.js";
+import { titleFont, bigSizeFont } from "../styles/typography.js";
 
-const PrimaryHeader = styled(BaseHeader)`
+const PrimaryHeader = styled(SafeAreaView)`
   background-color: ${primaryColour};
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   border-bottom-width: 0px;
+  height: 80px;
 `;
 
-const WhiteTitle = styled(Title)`
+const TitleView = styled(View)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const SideView = styled(View)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+`;
+
+const WhiteTitle = styled(Text)`
+  ${titleFont}
+  ${bigSizeFont}
   color: white;
 `;
 
-const WhiteText = styled(Text)`
+const BackText = styled(Text)`
+  ${bigSizeFont}
   color: white;
 `;
 
@@ -38,20 +51,21 @@ const defaultProps = {
 const Header = (props: Props) => (
   <PrimaryHeader>
     <StatusBar barStyle="light-content" />
-
-    <Left>
+    <SideView>
       {props.onBack && (
-        <Button onPress={props.onBack} transparent>
-          <WhiteText>Back</WhiteText>
-        </Button>
+        <TouchableHighlight onPress={props.onBack}>
+          <View>
+            <BackText>Back</BackText>
+          </View>
+        </TouchableHighlight>
       )}
-    </Left>
+    </SideView>
 
-    <Body>
+    <TitleView>
       <WhiteTitle>{props.title}</WhiteTitle>
-    </Body>
+    </TitleView>
 
-    <Right />
+    <SideView />
   </PrimaryHeader>
 );
 

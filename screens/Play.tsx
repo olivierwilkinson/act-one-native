@@ -1,5 +1,4 @@
 import React from "react";
-import { Container, Content } from "native-base";
 import { NavigationStackScreenProps } from "react-navigation-stack";
 
 import { Play as PlayType } from "../types/play-types";
