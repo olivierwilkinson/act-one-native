@@ -4,7 +4,7 @@ import palette from "google-palette";
 import convert from "color-convert";
 
 import PlayScene from "./PlayScene";
-import PlaySceneHeader from './PlaySceneHeader';
+import PlaySceneHeader from "./PlaySceneHeader";
 import { Play } from "../types/play-types";
 
 const generateColourPalette = (play: Play) => {
@@ -35,9 +35,11 @@ export default (play: Play) => {
       renderItem={({ item: scene }) => (
         <PlayScene {...scene} colourByPlayer={colourByPlayer} />
       )}
-      renderSectionHeader={({ section: { data: [scene] } }) => (
-        <PlaySceneHeader {...scene} />
-      )}
+      renderSectionHeader={({
+        section: {
+          data: [scene]
+        }
+      }) => <PlaySceneHeader {...scene} />}
       keyExtractor={item => `${item.act}-${item.scene}`}
       stickySectionHeadersEnabled
     />

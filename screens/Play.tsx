@@ -1,6 +1,7 @@
 import React from "react";
 import { NavigationStackScreenProps } from "react-navigation-stack";
 
+import PlayContext from '../contexts/Play';
 import { Play as PlayType } from "../types/play-types";
 import Play from "../components/Play";
 import Header from "../components/Header";
@@ -20,8 +21,12 @@ export default class PlayScreen extends React.Component<
   });
 
   render() {
-    const { navigation } = this.props;
+    const { navigation: { state: { params: play } } } = this.props;
 
-    return <Play {...navigation.state.params} />;
+    return (
+      <PlayContext.Provider value={play}>
+        <Play {...play} />
+      </PlayContext.Provider>
+    );
   }
 }
