@@ -16,6 +16,7 @@ const PlaySceneHeaderView = styled(View)`
 `;
 
 const SceneText = styled(Text)`
+  ${titleFont}
   color: white;
 `;
 
