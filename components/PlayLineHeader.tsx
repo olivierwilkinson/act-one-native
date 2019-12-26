@@ -13,7 +13,7 @@ const PlayLineHeaderView = styled(View)`
 `;
 
 const PlayerBubbleView = styled(View)`
-  margin-left: 5px;
+  margin-left: 10px;
   padding: 5px 10px;
   border-radius: 15px;
   border-width: 1px;
