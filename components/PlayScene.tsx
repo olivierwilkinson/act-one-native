@@ -20,6 +20,5 @@ export default (props: Props) => (
       <PlayLineHeader player={player} colour={props.colourByPlayer[player]} />
     )}
     keyExtractor={item => item.id.toString()}
-    stickySectionHeadersEnabled
   />
 );
