@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { SectionList } from "react-native";
 import palette from "google-palette";
 import convert from "color-convert";
+import sectionListGetItemLayout from "react-native-section-list-get-item-layout";
 
 import PlayScene from "./PlayScene";
 import PlaySceneHeader from "./PlaySceneHeader";
@@ -26,11 +27,50 @@ const generateColourPalette = (play: Play) => {
   );
 };
 
+const getItemLayout = sectionListGetItemLayout({
+  getItemHeight: (scene, sectionIndex, rowIndex) => {
+    const totalLines = scene.lines.length;
+    const totalLineRows = scene.lines.reduce(
+      (total, line) => total + line.lineRows.length,
+      0
+    );
+
+    const lineMarginContribution = totalLines * 20;
+    const lineRowMarginContribution = totalLineRows * 6;
+    const lineRowContentContribution = totalLineRows * 16;
+    return (
+      lineMarginContribution +
+      lineRowMarginContribution +
+      lineRowContentContribution
+    );
+  },
+  getSectionHeaderHeight: () => 20 // The height of your section headers
+});
+
 export default (play: Play) => {
   const [colourByPlayer] = useState(generateColourPalette(play));
+  const list = useRef(null);
+
+  if (play.currentAct && play.currentScene && list && list.current) {
+    const sectionIndex = play.script.findIndex(
+      scene =>
+        scene.scene === play.currentScene && scene.act === play.currentAct
+    );
+
+    if (sectionIndex) {
+      list.current.scrollToLocation({
+        animated: false,
+        sectionIndex,
+        itemIndex: 0,
+      });
+    }
+  }
 
   return (
     <SectionList
+      ref={list}
+      getItemLayout={getItemLayout}
+      initialNumToRender={play.script.length}
       sections={play.script.map(scene => ({ data: [scene] }))}
       renderItem={({ item: scene }) => (
         <PlayScene {...scene} colourByPlayer={colourByPlayer} />

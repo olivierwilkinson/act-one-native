@@ -5042,6 +5042,10 @@ react-native-screens@^2.0.0-alpha.20:
   dependencies:
     debounce "^1.2.0"
 
+react-native-section-list-get-item-layout@^2.2.3:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/react-native-section-list-get-item-layout/-/react-native-section-list-get-item-layout-2.2.3.tgz#152a8efdcb3847dbcbeb04cd2d0de4312d3d2fcb"
+
 react-native-unimodules@~0.5.4:
   version "0.5.4"
   resolved "https://registry.yarnpkg.com/react-native-unimodules/-/react-native-unimodules-0.5.4.tgz#d4d779576a027f0455b14d396b0e002cb57963fe"

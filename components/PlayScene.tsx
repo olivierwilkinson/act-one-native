@@ -11,6 +11,7 @@ type Props = Scene & {
 
 export default (props: Props) => (
   <SectionList
+    initialNumToRender={props.lines.length}
     sections={props.lines.map(line => ({
       data: [line],
       title: line.player
