@@ -4,7 +4,9 @@
   "PlayerLinenumber": 132,
   "ActSceneLine": "",
   "Player": "OCTAVIUS CAESAR",
-  "PlayerLine": "ACT I"
+  "PlayerLine": "ACT I",
+  "isNewScene": true,
+  "isNewAct": true
 }, {
   "Dataline": 22429,
   "Play": "A Comedy of Errors",
@@ -1138,7 +1140,8 @@
   "PlayerLinenumber": 12,
   "ActSceneLine": "",
   "Player": "AEGEON",
-  "PlayerLine": "SCENE II. The Mart."
+  "PlayerLine": "SCENE II. The Mart.",
+  "isNewScene": true
 }, {
   "Dataline": 22591,
   "Play": "A Comedy of Errors",
@@ -1999,7 +2002,8 @@
   "PlayerLinenumber": 24,
   "ActSceneLine": "",
   "Player": "OF SYRACUSE",
-  "PlayerLine": "ACT II"
+  "PlayerLine": "ACT II",
+  "isNewAct": true
 }, {
   "Dataline": 22714,
   "Play": "A Comedy of Errors",
@@ -2853,7 +2857,8 @@
   "PlayerLinenumber": 39,
   "ActSceneLine": "",
   "Player": "LUCIANA",
-  "PlayerLine": "SCENE II. A public place."
+  "PlayerLine": "SCENE II. A public place.",
+  "isNewScene": true
 }, {
   "Dataline": 22836,
   "Play": "A Comedy of Errors",
@@ -4645,7 +4650,8 @@
   "PlayerLinenumber": 81,
   "ActSceneLine": "",
   "Player": "LUCIANA",
-  "PlayerLine": "ACT III"
+  "PlayerLine": "ACT III",
+  "isNewAct": true
 }, {
   "Dataline": 23092,
   "Play": "A Comedy of Errors",
@@ -5849,7 +5855,8 @@
   "PlayerLinenumber": 61,
   "ActSceneLine": "",
   "Player": "OF EPHESUS",
-  "PlayerLine": "SCENE II. The same."
+  "PlayerLine": "SCENE II. The same.",
+  "isNewScene": true
 }, {
   "Dataline": 23264,
   "Play": "A Comedy of Errors",
@@ -7382,7 +7389,8 @@
   "PlayerLinenumber": 62,
   "ActSceneLine": "",
   "Player": "OF SYRACUSE",
-  "PlayerLine": "ACT IV"
+  "PlayerLine": "ACT IV",
+  "isNewAct": true
 }, {
   "Dataline": 23483,
   "Play": "A Comedy of Errors",
@@ -8341,7 +8349,8 @@
   "PlayerLinenumber": 41,
   "ActSceneLine": "",
   "Player": "DROMIO OF SYRACUSE",
-  "PlayerLine": "SCENE II. The house of ANTIPHOLUS of Ephesus."
+  "PlayerLine": "SCENE II. The house of ANTIPHOLUS of Ephesus.",
+  "isNewScene": true
 }, {
   "Dataline": 23620,
   "Play": "A Comedy of Errors",
@@ -8901,7 +8910,8 @@
   "PlayerLinenumber": 33,
   "ActSceneLine": "",
   "Player": "ADRIANA",
-  "PlayerLine": "SCENE III. A public place."
+  "PlayerLine": "SCENE III. A public place.",
+  "isNewScene": true
 }, {
   "Dataline": 23700,
   "Play": "A Comedy of Errors",
@@ -9671,7 +9681,8 @@
   "PlayerLinenumber": 27,
   "ActSceneLine": "",
   "Player": "Courtezan",
-  "PlayerLine": "SCENE IV. A street."
+  "PlayerLine": "SCENE IV. A street.",
+  "isNewScene": true
 }, {
   "Dataline": 23810,
   "Play": "A Comedy of Errors",
@@ -11057,7 +11068,8 @@
   "PlayerLinenumber": 87,
   "ActSceneLine": "",
   "Player": "OF SYRACUSE",
-  "PlayerLine": "ACT V"
+  "PlayerLine": "ACT V",
+  "isNewAct": true
 }, {
   "Dataline": 24008,
   "Play": "A Comedy of Errors",
