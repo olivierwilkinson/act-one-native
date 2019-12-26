@@ -15,6 +15,7 @@ import { primaryColour } from "../styles/colours.js";
 
 const PrimaryHeader = styled(BaseHeader)`
   background-color: ${primaryColour};
+  border-bottom-width: 0px;
 `;
 
 const WhiteTitle = styled(Title)`
