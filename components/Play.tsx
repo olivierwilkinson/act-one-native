@@ -1,14 +1,20 @@
-import React, { useState, useCallback } from "react";
-import { SectionList } from "react-native";
+import React, { useState } from "react";
+import { SectionList, View, Text } from "react-native";
 import palette from "google-palette";
 import convert from "color-convert";
 
-import PlayLine from "./PlayLine";
-import PlayLineHeader from "./PlayLineHeader";
-import { Play, Line } from "../types/play-types";
+import PlayScene from "./PlayScene";
+import PlaySceneHeader from './PlaySceneHeader';
+import { Play } from "../types/play-types";
 
 const generateColourPalette = (play: Play) => {
-  const players = Array.from(new Set(play.script.map(({ player }) => player)));
+  const players = Array.from(
+    new Set(
+      [].concat(
+        ...play.script.map(({ lines }) => lines.map(line => line.player))
+      )
+    )
+  );
   const colours = palette("tol-rainbow", players.length);
 
   return players.reduce(
@@ -25,15 +31,14 @@ export default (play: Play) => {
 
   return (
     <SectionList
-      sections={play.script.map((line: Line) => ({
-        data: [line],
-        title: line.player
-      }))}
-      renderItem={({ item }) => <PlayLine {...item} />}
-      renderSectionHeader={({ section: { title: player } }) => (
-        <PlayLineHeader player={player} colour={colourByPlayer[player]} />
+      sections={play.script.map(scene => ({ data: [scene] }))}
+      renderItem={({ item: scene }) => (
+        <PlayScene {...scene} colourByPlayer={colourByPlayer} />
       )}
-      keyExtractor={item => item.id.toString()}
+      renderSectionHeader={({ section: { data: [scene] } }) => (
+        <PlaySceneHeader {...scene} />
+      )}
+      keyExtractor={item => `${item.act}-${item.scene}`}
       stickySectionHeadersEnabled
     />
   );

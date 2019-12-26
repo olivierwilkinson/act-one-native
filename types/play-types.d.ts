@@ -1,20 +1,26 @@
 export interface LineRow {
   text: string,
-  number: number,
-}
+  number?: number,
+};
 
 export interface Line {
   id: number,
   actSceneLine: string,
   player: string,
-  lines: LineRow[]
-}
+  lineRows: LineRow[]
+};
+
+export interface Scene {
+  act: number,
+  scene: number,
+  lines: Line[],
+};
 
 export interface Play {
   play: string;
   description: string;
-  script: Line[];
+  script: Scene[];
   image: string,
   imageLicenseUrl: string,
   imageLicenseCode: string,
-}
+};

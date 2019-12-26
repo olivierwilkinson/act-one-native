@@ -40,15 +40,15 @@ const LineRowNumberText = styled(Text)`
 
 export default (props: Line) => (
   <PlayLineView>
-    {props.lines.map((line, i) => (
+    {props.lineRows.map((lineRow, i) => (
       <LineRowView key={`${props.id}-${i}`}>
         <LineRowTextView>
-          <LineRowText bold={!props.player}>{line.text}</LineRowText>
+          <LineRowText bold={!props.player}>{lineRow.text}</LineRowText>
         </LineRowTextView>
 
         <LineNumberView>
-          {line.number % 5 === 0 && (
-            <LineRowNumberText>{line.number}</LineRowNumberText>
+          {lineRow.number % 5 === 0 && (
+            <LineRowNumberText>{lineRow.number}</LineRowNumberText>
           )}
         </LineNumberView>
       </LineRowView>
