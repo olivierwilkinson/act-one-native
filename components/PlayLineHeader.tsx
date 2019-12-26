@@ -31,13 +31,16 @@ type Props = {
 };
 
 export default (props: Props) => {
-  const [red, green, blue] = props.colour;
+  const {
+    player,
+    colour: [red, green, blue]
+  } = props;
 
   return (
     <PlayLineHeaderView>
-      {!!props.player && (
+      {!!player && (
         <PlayerBubbleView red={red} green={green} blue={blue}>
-          <PlayerText>{props.player}</PlayerText>
+          <PlayerText>{player}</PlayerText>
         </PlayerBubbleView>
       )}
     </PlayLineHeaderView>

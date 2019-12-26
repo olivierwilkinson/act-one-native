@@ -7,7 +7,7 @@ import { Line } from "../types/play-types";
 import { titleFont, subFont, thinFont } from "../styles/typography.js";
 
 const PlayLineView = styled(View)`
-  margin-bottom: 10px;
+  margin: 10px 0;
 `;
 
 const LineRowView = styled(View)`
