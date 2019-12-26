@@ -2324,13 +2324,7 @@ expo-file-system@~7.0.0:
   dependencies:
     uuid-js "^0.7.5"
 
-expo-font@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/expo-font/-/expo-font-8.0.0.tgz#33afd0b501caf8f0392aea77f08717090eeb8d41"
-  dependencies:
-    fontfaceobserver "^2.1.0"
-
-expo-font@~7.0.0:
+expo-font@^7.0.0, expo-font@~7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/expo-font/-/expo-font-7.0.0.tgz#0b36f5c91a77eb718fb20559b2c0c58d762ba535"
   dependencies:

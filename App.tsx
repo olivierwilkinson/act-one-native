@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { View } from "react-native";
-import styled from "styled-components";
+import React from "react";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 
 import Home from "./screens/Home";
 import Play from "./screens/Play";
+import PlaySceneSelectModal from "./screens/PlaySceneSelectModal";
 import Header from "./components/Header";
 
-const AppNavigator = createStackNavigator(
+const MainStack = createStackNavigator(
   {
     Home: {
       screen: Home
@@ -25,14 +24,22 @@ const AppNavigator = createStackNavigator(
   }
 );
 
-const LoadingView = styled(View)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-`;
+const RootStack = createStackNavigator(
+  {
+    Main: {
+      screen: MainStack
+    },
+    PlaySceneSelectModal: {
+      screen: PlaySceneSelectModal
+    }
+  },
+  {
+    mode: "modal",
+    headerMode: "none"
+  }
+);
 
-const AppContainer = createAppContainer(AppNavigator);
+const AppContainer = createAppContainer(RootStack);
 
 export default () => {
   return <AppContainer />;
