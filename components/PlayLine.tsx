@@ -4,7 +4,7 @@ import { Text } from "native-base";
 import styled from "styled-components";
 
 import { Line } from "../types/play-types";
-import { titleFont, subFont, thinFont } from "../styles/typography.js";
+import { italicFont, subFont, thinFont } from "../styles/typography.js";
 
 const PlayLineView = styled(View)`
   margin: 10px 0;
@@ -25,7 +25,8 @@ const LineRowTextView = styled(View)`
 `;
 
 const LineRowText = styled(Text)`
-  ${props => props.bold ? titleFont : subFont}
+  ${props => props.direction && italicFont}
+  ${subFont}
   flex-wrap: wrap;
 `;
 
@@ -43,7 +44,7 @@ export default (props: Line) => (
     {props.lineRows.map((lineRow, i) => (
       <LineRowView key={`${props.id}-${i}`}>
         <LineRowTextView>
-          <LineRowText bold={!props.player}>{lineRow.text}</LineRowText>
+          <LineRowText direction={!props.player}>{lineRow.text}</LineRowText>
         </LineRowTextView>
 
         <LineNumberView>

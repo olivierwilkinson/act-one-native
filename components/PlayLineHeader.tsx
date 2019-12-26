@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { Text } from "native-base";
 import styled from "styled-components";
 
-import { titleFont } from '../styles/typography.js';
+import { titleFont } from "../styles/typography.js";
 
 const PlayLineHeaderView = styled(View)`
   display: flex;
@@ -43,14 +43,13 @@ export default (props: Props) => {
     player,
     colour: [red, green, blue]
   } = props;
+  const colour = { red, green, blue };
 
   return (
     <PlayLineHeaderView>
       {!!player && (
-        <PlayerBubbleView red={red} green={green} blue={blue}>
-          <PlayerText red={red} green={green} blue={blue}>
-            {player}
-          </PlayerText>
+        <PlayerBubbleView {...colour}>
+          <PlayerText {...colour}>{player}</PlayerText>
         </PlayerBubbleView>
       )}
     </PlayLineHeaderView>

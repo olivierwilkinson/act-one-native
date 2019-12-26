@@ -4,6 +4,10 @@ export const titleFont = css`
   font-weight: bold;
 `;
 
+export const italicFont = css`
+  font-style: italic;
+`;
+
 export const subFont = css`
   font-weight: 300;
 `;
