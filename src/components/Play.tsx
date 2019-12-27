@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import palette from "google-palette";
 import convert from "color-convert";
+import { NavigationStackProp } from "react-navigation-stack";
 
 import PlayScene from "./PlayScene";
 import PlaySceneHeader from "./PlaySceneHeader";
@@ -29,11 +30,17 @@ const generateColourByPlayer: (scenes: Scene[]) => ColourByPlayer = scenes => {
   );
 };
 
-export default ({ play, scenes, currentAct, currentScene }: Play) => {
+type Props = Play & {
+  navigation: NavigationStackProp;
+};
+
+export default ({ navigation, ...play }: Props) => {
   const findCurrentScene = () =>
     scenes.find(
       ({ scene, act }) => act === currentAct && scene === currentScene
     );
+
+  const { play: playTitle, scenes, currentAct, currentScene } = play;
 
   const sceneElement = useRef(null);
   const [scene, setScene] = useState(findCurrentScene());
@@ -41,7 +48,9 @@ export default ({ play, scenes, currentAct, currentScene }: Play) => {
     generateColourByPlayer(scenes)
   );
 
-  useEffect(() => setColourByPlayer(generateColourByPlayer(scenes)), [play]);
+  useEffect(() => setColourByPlayer(generateColourByPlayer(scenes)), [
+    playTitle
+  ]);
   useEffect(() => {
     setScene(findCurrentScene());
     sceneElement.current.scrollToLocation({
@@ -53,7 +62,12 @@ export default ({ play, scenes, currentAct, currentScene }: Play) => {
 
   return (
     <>
-      <PlaySceneHeader {...scene} />
+      <PlaySceneHeader
+        {...scene}
+        onSceneSelectPress={() =>
+          navigation.navigate("PlaySceneSelectModal", play)
+        }
+      />
       <PlayScene
         ref={sceneElement}
         {...scene}

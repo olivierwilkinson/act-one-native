@@ -1,12 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import { View, Text, TouchableHighlight } from "react-native";
-import { withNavigation } from "react-navigation";
-import { NavigationStackProp } from "react-navigation-stack";
 import { Ionicons } from "@expo/vector-icons";
 import styled from "styled-components";
 
-import PlayContext from "../contexts/Play";
-import { Play, Scene } from "../types/play-types";
+import { Scene } from "../types/play-types";
 import { titleFont, mediumSizeFont } from "../styles/typography";
 import { lightPrimaryColour } from "../styles/colours";
 
@@ -31,24 +28,15 @@ const SceneSelectIcon = styled(Ionicons)`
 `;
 
 type Props = Scene & {
-  navigation: NavigationStackProp;
+  onSceneSelectPress: () => void;
 };
 
-export default withNavigation((props: Props) => {
-  const play: Play = useContext(PlayContext);
-  const { act, scene, navigation } = props;
+export default ({ onSceneSelectPress, act, scene }: Props) => (
+  <TouchableHighlight onPress={onSceneSelectPress}>
+    <PlaySceneHeaderView>
+      <SceneText>{`ACT ${act} - SCENE ${scene}`}</SceneText>
 
-  return (
-    <TouchableHighlight
-      onPress={() =>
-        navigation.navigate("PlaySceneSelectModal", { ...play, act, scene })
-      }
-    >
-      <PlaySceneHeaderView>
-        <SceneText>{`ACT ${act} - SCENE ${scene}`}</SceneText>
-
-        <SceneSelectIcon name="ios-list" size={32} color="white" />
-      </PlaySceneHeaderView>
-    </TouchableHighlight>
-  );
-});
+      <SceneSelectIcon name="ios-list" size={32} color="white" />
+    </PlaySceneHeaderView>
+  </TouchableHighlight>
+);
