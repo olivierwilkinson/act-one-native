@@ -4,6 +4,7 @@ import styled, { ThemeProps } from "styled-components";
 
 import { titleFont } from "../styles/typography";
 import { RGBColour } from "../types/colour-types";
+import { playBackgroundColour } from "../styles/colours";
 
 const PlayLineHeaderView = styled(View)`
   display: flex;
@@ -22,6 +23,7 @@ const PlayerBubbleView = styled(View)`
     ${({ green }: RGBColour) => green},
     ${({ blue }: RGBColour) => blue}
   );
+  background-color: ${playBackgroundColour};
 `;
 
 const PlayerText = styled(Text)`
