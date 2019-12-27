@@ -7,10 +7,10 @@ import PlaySceneHeader from "./PlaySceneHeader";
 import { Play as PlayType, Scene } from "../types/play-types";
 import { ColourByPlayer } from "../types/colour-types";
 
-const generateColourByPlayer: (script: Scene[]) => ColourByPlayer = script => {
+const generateColourByPlayer: (scenes: Scene[]) => ColourByPlayer = scenes => {
   const players = Array.from(
     new Set(
-      [].concat(...script.map(({ lines }) => lines.map(line => line.player)))
+      [].concat(...scenes.map(({ lines }) => lines.map(line => line.player)))
     )
   );
   const colours = palette("tol-rainbow", players.length);
@@ -34,19 +34,19 @@ const defaultProps = {
   currentScene: 1
 };
 
-const Play = ({ play, script, currentAct, currentScene }: PlayType) => {
+const Play = ({ play, scenes, currentAct, currentScene }: PlayType) => {
   const findCurrentScene = () =>
-    script.find(
+    scenes.find(
       ({ scene, act }) => act === currentAct && scene === currentScene
     );
 
   const sceneElement = useRef(null);
   const [scene, setScene] = useState(findCurrentScene());
   const [colourByPlayer, setColourByPlayer] = useState(
-    generateColourByPlayer(script)
+    generateColourByPlayer(scenes)
   );
 
-  useEffect(() => setColourByPlayer(generateColourByPlayer(script)), [play]);
+  useEffect(() => setColourByPlayer(generateColourByPlayer(scenes)), [play]);
   useEffect(() => {
     setScene(findCurrentScene());
     sceneElement.current.scrollToLocation({
