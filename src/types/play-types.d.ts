@@ -5,7 +5,6 @@ export interface LineRow {
 
 export interface Line {
   id: number;
-  actSceneLine: string;
   player: string;
   lineRows: LineRow[];
 }
