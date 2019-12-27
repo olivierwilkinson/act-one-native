@@ -1,3 +1,5 @@
+import { ImageSourcePropType } from "react-native";
+
 export interface LineRow {
   text: string;
   number?: number;
@@ -19,7 +21,7 @@ export interface Play {
   play: string;
   description: string;
   script: Scene[];
-  image: string;
+  image: ImageSourcePropType;
   imageLicenseUrl: string;
   imageLicenseCode: string;
   currentAct?: number;

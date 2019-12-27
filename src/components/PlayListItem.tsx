@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  TouchableHighlight,
-  Image,
-  ImageSourcePropType
-} from "react-native";
+import { View, Text, TouchableHighlight, Image } from "react-native";
 import styled from "styled-components";
 
 import { Play } from "../types/play-types";
@@ -57,7 +51,7 @@ const PlayListItem = ({ onClick, image, play, description }: Props) => (
     <TouchableHighlight onPress={onClick} underlayColor="white">
       <PlayListItemContent>
         <ImageView>
-          <PlayImage source={{ uri: image }} />
+          <PlayImage source={image} />
         </ImageView>
 
         <PlayInfoView>
