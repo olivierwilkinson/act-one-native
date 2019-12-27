@@ -29,13 +29,92 @@
     "@babel/core": "^7.6.0",
     "@types/react": "^16.8.23",
     "@types/react-native": "^0.57.65",
+    "@typescript-eslint/eslint-plugin": "^2.13.0",
+    "@typescript-eslint/parser": "^2.13.0",
     "babel-preset-expo": "^7.0.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.8.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-native": "^3.8.1",
+    "husky": "^1.3.1",
     "jest-expo": "^35.0.0",
     "jetifier": "^1.6.4",
+    "lint-staged": "^8.1.5",
+    "prettier": "^1.16.4",
     "typescript": "^3.4.5"
   },
   "jest": {
     "preset": "react-native"
   },
-  "private": true
+  "private": true,
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": 10,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "extends": [
+      "prettier/@typescript-eslint",
+      "prettier/react",
+      "prettier/standard"
+    ],
+    "plugins": [
+      "react",
+      "prettier",
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "arrow-parens": [
+        "warn",
+        "as-needed"
+      ],
+      "strict": [
+        2,
+        "never"
+      ],
+      "consistent-return": 0,
+      "no-confusing-arrow": 0,
+      "no-return-assign": 0,
+      "react/destructuring-assignment": [
+        1,
+        "always",
+        {
+          "ignoreClassFields": true
+        }
+      ],
+      "react/jsx-uses-react": 2,
+      "react/jsx-uses-vars": 2,
+      "react/react-in-jsx-scope": 2
+    },
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "linters": {
+      "(src)/**/*.(js|jsx|ts|tsx)": [
+        "eslint --fix",
+        "prettier --write",
+        "git add"
+      ],
+      "(src)/**/*.(json|md)": [
+        "prettier --write",
+        "git add"
+      ]
+    }
+  }
 }

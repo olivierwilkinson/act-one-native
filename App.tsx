@@ -2,10 +2,10 @@ import React from "react";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 
-import Home from "./screens/Home";
-import Play from "./screens/Play";
-import PlaySceneSelectModal from "./screens/PlaySceneSelectModal";
-import Header from "./components/Header";
+import Home from "./src/screens/Home";
+import Play from "./src/screens/Play";
+import PlaySceneSelectModal from "./src/screens/PlaySceneSelectModal";
+import Header from "./src/components/Header";
 
 const MainStack = createStackNavigator(
   {
