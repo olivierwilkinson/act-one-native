@@ -24,7 +24,7 @@ export interface Play {
   image: ImageSourcePropType;
   imageLicenseUrl: string;
   imageLicenseCode: string;
-  currentAct?: number;
-  currentScene?: number;
+  currentAct: number;
+  currentScene: number;
   currentLine?: number;
 }
