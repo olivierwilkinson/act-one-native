@@ -9,15 +9,15 @@ type Props = Scene & {
   colourByPlayer: { [player: string]: number[] };
 };
 
-export default (props: Props) => (
+export default ({ lines, colourByPlayer }: Props) => (
   <SectionList
-    sections={props.lines.map(line => ({
+    sections={lines.map(line => ({
       data: [line],
       title: line.player
     }))}
     renderItem={({ item: line }) => <PlayLine {...line} />}
     renderSectionHeader={({ section: { title: player } }) => (
-      <PlayLineHeader player={player} colour={props.colourByPlayer[player]} />
+      <PlayLineHeader player={player} colour={colourByPlayer[player]} />
     )}
     keyExtractor={item => item.id.toString()}
   />

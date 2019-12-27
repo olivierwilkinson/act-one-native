@@ -53,12 +53,12 @@ const defaultProps = {
   title: "ActOne"
 };
 
-const Header = (props: Props) => (
+const Header = ({ onBack, title }: Props) => (
   <PrimaryHeader>
     <StatusBar barStyle="light-content" />
     <SideView>
-      {props.onBack && (
-        <TouchableHighlight onPress={props.onBack}>
+      {onBack && (
+        <TouchableHighlight onPress={onBack}>
           <View>
             <BackText>Back</BackText>
           </View>
@@ -67,7 +67,7 @@ const Header = (props: Props) => (
     </SideView>
 
     <TitleView>
-      <WhiteTitle>{props.title}</WhiteTitle>
+      <WhiteTitle>{title}</WhiteTitle>
     </TitleView>
 
     <SideView />

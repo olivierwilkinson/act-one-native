@@ -46,17 +46,17 @@ const SubText = styled(Text)`
   ${subFont}
 `;
 
-const PlayListItem = (props: Props) => (
+const PlayListItem = ({ onClick, image, play, description }: Props) => (
   <ListItemCard>
-    <TouchableHighlight onPress={props.onClick} underlayColor="white">
+    <TouchableHighlight onPress={onClick} underlayColor="white">
       <PlayListItemContent>
         <ImageView>
-          <PlayImage source={props.image} alt={props.play} />
+          <PlayImage source={image} alt={play} />
         </ImageView>
 
         <PlayInfoView>
-          <TitleText>{props.play}</TitleText>
-          <SubText>{props.description}</SubText>
+          <TitleText>{play}</TitleText>
+          <SubText>{description}</SubText>
         </PlayInfoView>
       </PlayListItemContent>
     </TouchableHighlight>

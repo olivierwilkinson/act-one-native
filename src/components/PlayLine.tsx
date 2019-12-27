@@ -38,12 +38,12 @@ const LineRowNumberText = styled(Text)`
   text-align: center;
 `;
 
-export default (props: Line) => (
+export default ({ id, lineRows, player }: Line) => (
   <PlayLineView>
-    {props.lineRows.map((lineRow, i) => (
-      <LineRowView key={`${props.id}-${i}`}>
+    {lineRows.map((lineRow, i) => (
+      <LineRowView key={`${id}-${i}`}>
         <LineRowTextView>
-          <LineRowText direction={!props.player}>{lineRow.text}</LineRowText>
+          <LineRowText direction={!player}>{lineRow.text}</LineRowText>
         </LineRowTextView>
 
         <LineNumberView>
