@@ -4,8 +4,13 @@ import { Ionicons } from "@expo/vector-icons";
 import styled from "styled-components";
 
 import { Scene } from "../types/play-types";
-import { titleFont, mediumSizeFont } from "../styles/typography";
-import { lightPrimaryColour } from "../styles/colours";
+import {
+  titleFont,
+  mediumSizeFont,
+  subFont,
+  thinFont
+} from "../styles/typography";
+import { lightPrimaryColour, primaryColour } from "../styles/colours";
 
 type ListSection = {
   title: string;
@@ -29,14 +34,13 @@ const generateSections: (scenes: Scene[]) => ListSection[] = scenes =>
   );
 
 const ActHeaderView = styled(View)`
-  padding: 10px;
+  padding: 10px 20px;
   background-color: white;
   border-bottom-width: 1px;
   border-bottom-color: ${lightPrimaryColour};
 `;
 
 const ActText = styled(Text)`
-  ${titleFont}
   ${mediumSizeFont}
 `;
 
@@ -44,15 +48,30 @@ const SceneView = styled(View)`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background-color: ${({ isCurrentScene }: { isCurrentScene: boolean }) =>
-    isCurrentScene ? lightPrimaryColour : "white"};
+  background-color: white;
   padding: 10px 20px;
+  border-bottom-width: 1px;
+  border-bottom-color: lightgrey;
+`;
+
+const SceneInfoView = styled(View)`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
 `;
 
 const SceneText = styled(Text)`
-  ${titleFont}
-  color: ${({ isCurrentScene }: { isCurrentScene: boolean }) =>
-    isCurrentScene ? "white" : "black"};
+  ${subFont}
+  padding-left: 10px;
+`;
+
+const CurrentSceneIndicator = styled(View)`
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: ${({ visible }: { visible: boolean }) =>
+    visible ? lightPrimaryColour : "transparent"};
 `;
 
 const RightArrowView = styled(View)`
@@ -85,17 +104,14 @@ export default ({ currentAct, currentScene, scenes, onScenePress }: Props) => {
         const isCurrentScene = scene === currentScene && act === currentAct;
         return (
           <TouchableHighlight onPress={() => onScenePress({ scene, act })}>
-            <SceneView isCurrentScene={isCurrentScene}>
-              <SceneText
-                isCurrentScene={isCurrentScene}
-              >{`SCENE ${scene}`}</SceneText>
+            <SceneView>
+              <SceneInfoView>
+                <CurrentSceneIndicator visible={isCurrentScene} />
+                <SceneText>{`SCENE ${scene}`}</SceneText>
+              </SceneInfoView>
 
               <RightArrowView>
-                <Ionicons
-                  name="ios-arrow-forward"
-                  size={18}
-                  color={isCurrentScene ? "white" : "black"}
-                />
+                <Ionicons name="ios-arrow-forward" size={18} color="grey" />
               </RightArrowView>
             </SceneView>
           </TouchableHighlight>
