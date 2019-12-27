@@ -31,10 +31,31 @@
     "babel-preset-expo": "^7.0.0",
     "jest-expo": "^35.0.0",
     "jetifier": "^1.6.4",
-    "typescript": "^3.4.5"
+    "typescript": "^3.4.5",
+    "lint-staged": "^8.1.5",
+    "prettier": "^1.16.4",
+    "husky": "^1.3.1"
   },
   "jest": {
     "preset": "react-native"
   },
-  "private": true
+  "private": true,
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "linters": {
+      "(config|scripts|src|test)/**/*.(js|json|jsx)": [
+        "eslint --fix",
+        "prettier --write",
+        "git add"
+      ],
+      "(config|scripts|src|test)/**/*.(css|md)": [
+        "prettier --write",
+        "git add"
+      ]
+    }
+  }
 }
