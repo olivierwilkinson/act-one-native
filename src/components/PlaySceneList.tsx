@@ -94,6 +94,7 @@ export default ({ currentAct, currentScene, scenes, onScenePress }: Props) => {
 
   return (
     <SectionList
+      bounces={false}
       sections={sections}
       renderSectionHeader={({ section: { title } }) => (
         <ActHeaderView>
