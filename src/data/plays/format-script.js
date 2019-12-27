@@ -33,7 +33,10 @@ const formatScript = () => {
   let currentScene = 0;
 
   script.forEach(unformattedLine => {
-    const line = { text: unformattedLine.PlayerLine };
+    const line = {
+      text: unformattedLine.PlayerLine,
+      number: null
+    };
     let player = "";
     if (unformattedLine.ActSceneLine) {
       line.number = +unformattedLine.ActSceneLine.split(".").pop();
