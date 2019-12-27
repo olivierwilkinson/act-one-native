@@ -1,8 +1,9 @@
-import React from "react";
-import { View, Text } from "react-native";
-import styled from "styled-components";
+import React, { RefAttributes } from "react";
+import { View, ViewProps, Text } from "react-native";
+import styled, { ThemeProps } from "styled-components";
 
-import { titleFont } from "../styles/typography.js";
+import { titleFont } from "../styles/typography";
+import { RGBColour } from "../types/colour-types";
 
 const PlayLineHeaderView = styled(View)`
   display: flex;
@@ -17,32 +18,28 @@ const PlayerBubbleView = styled(View)`
   border-radius: 15px;
   border-width: 1px;
   border-color: rgb(
-    ${({ red }) => red},
-    ${({ green }) => green},
-    ${({ blue }) => blue}
+    ${({ red }: RGBColour) => red},
+    ${({ green }: RGBColour) => green},
+    ${({ blue }: RGBColour) => blue}
   );
 `;
 
 const PlayerText = styled(Text)`
   color: rgb(
-    ${({ red }) => red},
-    ${({ green }) => green},
-    ${({ blue }) => blue}
+    ${({ red }: RGBColour) => red},
+    ${({ green }: RGBColour) => green},
+    ${({ blue }: RGBColour) => blue}
   );
   ${titleFont}
 `;
 
 type Props = {
   player: string;
-  colour: number[];
+  colour: RGBColour;
 };
 
 export default (props: Props) => {
-  const {
-    player,
-    colour: [red, green, blue]
-  } = props;
-  const colour = { red, green, blue };
+  const { player, colour } = props;
 
   return (
     <PlayLineHeaderView>

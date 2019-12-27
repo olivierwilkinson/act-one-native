@@ -5,8 +5,9 @@ import convert from "color-convert";
 import PlayScene from "./PlayScene";
 import PlaySceneHeader from "./PlaySceneHeader";
 import { Play as PlayType, Scene } from "../types/play-types";
+import { ColourByPlayer } from "../types/colour-types";
 
-const generateColourPalette = (script: Scene[]) => {
+const generateColourByPlayer: (script: Scene[]) => ColourByPlayer = script => {
   const players = Array.from(
     new Set(
       [].concat(...script.map(({ lines }) => lines.map(line => line.player)))
@@ -14,11 +15,16 @@ const generateColourPalette = (script: Scene[]) => {
   );
   const colours = palette("tol-rainbow", players.length);
 
-  return players.reduce(
-    (colourByPlayer, player, colourIndex) => ({
-      ...colourByPlayer,
-      [player]: convert.hex.rgb(colours[colourIndex])
-    }),
+  return players.reduce<ColourByPlayer>(
+    (colourByPlayer, player, colourIndex) => {
+      const [red, green, blue] = convert.hex.rgb(colours[colourIndex]);
+      const colour = { red, green, blue };
+
+      return {
+        ...colourByPlayer,
+        [player]: colour
+      };
+    },
     {}
   );
 };
@@ -37,10 +43,10 @@ const Play = ({ play, script, currentAct, currentScene }: PlayType) => {
   const sceneElement = useRef(null);
   const [scene, setScene] = useState(findCurrentScene());
   const [colourByPlayer, setColourByPlayer] = useState(
-    generateColourPalette(script)
+    generateColourByPlayer(script)
   );
 
-  useEffect(() => setColourByPlayer(generateColourPalette(script)), [play]);
+  useEffect(() => setColourByPlayer(generateColourByPlayer(script)), [play]);
   useEffect(() => {
     setScene(findCurrentScene());
     sceneElement.current.scrollToLocation({

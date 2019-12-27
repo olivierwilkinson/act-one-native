@@ -4,9 +4,10 @@ import { SectionList } from "react-native";
 import PlayLine from "./PlayLine";
 import PlayLineHeader from "./PlayLineHeader";
 import { Scene, Line } from "../types/play-types";
+import { ColourByPlayer } from "../types/colour-types";
 
 type Props = Scene & {
-  colourByPlayer: { [player: string]: number[] };
+  colourByPlayer: ColourByPlayer;
 };
 
 type ListData = {
