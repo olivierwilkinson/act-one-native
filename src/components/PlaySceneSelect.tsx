@@ -15,7 +15,7 @@ import { titleFont, mediumSizeFont, bigSizeFont } from "../styles/typography";
 import { primaryColour, lightPrimaryColour } from "../styles/colours";
 
 const generateActList = (play: Play) =>
-  play.script.reduce<Act[]>(
+  play.scenes.reduce<Act[]>(
     (acc, scene) => {
       const latestAct = acc[acc.length - 1];
       if (latestAct.act === scene.act) {

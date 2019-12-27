@@ -20,7 +20,7 @@ export interface Scene {
 export interface Play {
   play: string;
   description: string;
-  script: Scene[];
+  scenes: Scene[];
   image: ImageSourcePropType;
   imageLicenseUrl: string;
   imageLicenseCode: string;
