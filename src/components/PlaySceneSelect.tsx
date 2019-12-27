@@ -11,12 +11,8 @@ import { NavigationStackProp } from "react-navigation-stack";
 import styled from "styled-components";
 
 import { Play, Scene } from "../types/play-types";
-import {
-  titleFont,
-  mediumSizeFont,
-  bigSizeFont
-} from "../styles/typography.js";
-import { primaryColour, lightPrimaryColour } from "../styles/colours.js";
+import { titleFont, mediumSizeFont, bigSizeFont } from "../styles/typography";
+import { primaryColour, lightPrimaryColour } from "../styles/colours";
 
 const generateActList = (play: Play) =>
   play.script.reduce<Act[]>(
@@ -73,14 +69,15 @@ const SceneView = styled(View)`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background-color: ${props =>
-    props.isCurrentScene ? lightPrimaryColour : "white"};
+  background-color: ${({ isCurrentScene }: { isCurrentScene: boolean }) =>
+    isCurrentScene ? lightPrimaryColour : "white"};
   padding: 10px 20px;
 `;
 
 const SceneText = styled(Text)`
   ${titleFont}
-  color: ${props => (props.isCurrentScene ? "white" : "black")};
+  color: ${({ isCurrentScene }: { isCurrentScene: boolean }) =>
+    isCurrentScene ? "white" : "black"};
 `;
 
 const RightArrowView = styled(View)`

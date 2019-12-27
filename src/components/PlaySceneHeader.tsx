@@ -7,8 +7,8 @@ import styled from "styled-components";
 
 import PlayContext from "../contexts/Play";
 import { Play, Scene } from "../types/play-types";
-import { titleFont, mediumSizeFont } from "../styles/typography.js";
-import { lightPrimaryColour } from "../styles/colours.js";
+import { titleFont, mediumSizeFont } from "../styles/typography";
+import { lightPrimaryColour } from "../styles/colours";
 
 const PlaySceneHeaderView = styled(View)`
   display: flex;

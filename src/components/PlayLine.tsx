@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import styled from "styled-components";
 
 import { Line } from "../types/play-types";
-import { italicFont, subFont, thinFont } from "../styles/typography.js";
+import { italicFont, subFont, thinFont } from "../styles/typography";
 
 const PlayLineView = styled(View)`
   margin: 10px 0;
@@ -24,7 +24,7 @@ const LineRowTextView = styled(View)`
 `;
 
 const LineRowText = styled(Text)`
-  ${props => props.direction && italicFont}
+  ${({ direction }: { direction: boolean }) => direction && italicFont}
   ${subFont}
   flex-wrap: wrap;
 `;
