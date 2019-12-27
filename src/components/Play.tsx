@@ -4,7 +4,7 @@ import convert from "color-convert";
 
 import PlayScene from "./PlayScene";
 import PlaySceneHeader from "./PlaySceneHeader";
-import { Play as PlayType, Scene } from "../types/play-types";
+import { Play, Scene } from "../types/play-types";
 import { ColourByPlayer } from "../types/colour-types";
 
 const generateColourByPlayer: (scenes: Scene[]) => ColourByPlayer = scenes => {
@@ -29,12 +29,7 @@ const generateColourByPlayer: (scenes: Scene[]) => ColourByPlayer = scenes => {
   );
 };
 
-const defaultProps = {
-  currentAct: 1,
-  currentScene: 1
-};
-
-const Play = ({ play, scenes, currentAct, currentScene }: PlayType) => {
+export default ({ play, scenes, currentAct, currentScene }: Play) => {
   const findCurrentScene = () =>
     scenes.find(
       ({ scene, act }) => act === currentAct && scene === currentScene
@@ -67,7 +62,3 @@ const Play = ({ play, scenes, currentAct, currentScene }: PlayType) => {
     </>
   );
 };
-
-Play.defaultProps = defaultProps;
-
-export default Play;

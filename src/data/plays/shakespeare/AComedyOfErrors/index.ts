@@ -8,7 +8,9 @@ const AComedyOfErrors: Play = {
   scenes,
   image,
   imageLicenseUrl: "https://creativecommons.org/licenses/by/2.0/legalcode",
-  imageLicenseCode: "CREATIVE_COMMONS_2"
+  imageLicenseCode: "CREATIVE_COMMONS_2",
+  currentAct: 1,
+  currentScene: 1
 };
 
 export default AComedyOfErrors;

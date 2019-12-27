@@ -4,10 +4,7 @@ import { NavigationStackScreenProps } from "react-navigation-stack";
 import { Play } from "../types/play-types";
 import PlaySceneSelect from "../components/PlaySceneSelect";
 
-type Params = Play & {
-  act: number;
-  scene: number;
-};
+type Params = Play;
 
 export default class PlayScreen extends React.Component<
   NavigationStackScreenProps<Params>
