@@ -1,4 +1,4 @@
-import { Play } from "../../../types/play-types";
+import { Play } from "../../../../types/play-types";
 import script from "./script.json";
 import image from "./image.jpg";
 
