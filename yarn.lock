@@ -2855,6 +2855,10 @@ expo-permissions@~7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/expo-permissions/-/expo-permissions-7.0.0.tgz#f4135c3cf8e49c673a9a714459a1eb2b40fe2092"
 
+expo-speech@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/expo-speech/-/expo-speech-8.0.0.tgz#adc2df27139d41571f848908dd092caa0447e632"
+
 expo-sqlite@~7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/expo-sqlite/-/expo-sqlite-7.0.0.tgz#f52585b342278b4034c06caac8384edb2531afa4"
