@@ -1,35 +1,36 @@
-import React, { forwardRef, Component } from "react";
-import { SectionList } from "react-native";
+import React, { useRef, useEffect } from "react";
 
-import PlayLine from "./PlayLine";
-import PlayLineHeader from "./PlayLineHeader";
-import { Scene, Line } from "../types/play-types";
+import PlaySceneLines from "./PlaySceneLines";
+import PlaySceneHeader from "./PlaySceneHeader";
+import PlaybackControls from "./PlaybackControls";
+import { Scene } from "../types/play-types";
 import { ColourByPlayer } from "../types/colour-types";
-import { playBackgroundColour } from "../styles/colours";
 
 type Props = Scene & {
   colourByPlayer: ColourByPlayer;
 };
 
-type ListData = {
-  data: Line[];
-  title: string;
-}[];
+export default ({ colourByPlayer, ...scene }: Props) => {
+  const { act: actNumber, scene: sceneNumber } = scene;
+  const sceneElement = useRef(null);
 
-export default forwardRef<Component<{ sections: ListData }>, Props>(
-  ({ lines, colourByPlayer }: Props, ref) => (
-    <SectionList
-      ref={ref}
-      style={{ backgroundColor: playBackgroundColour }}
-      sections={lines.map(line => ({
-        data: [line],
-        title: line.player
-      }))}
-      renderItem={({ item: line }) => <PlayLine {...line} />}
-      renderSectionHeader={({ section: { title: player } }) => (
-        <PlayLineHeader player={player} colour={colourByPlayer[player]} />
-      )}
-      keyExtractor={item => item.id.toString()}
-    />
-  )
-);
+  useEffect(() => {
+    sceneElement.current.scrollToLocation({
+      sectionIndex: 0,
+      itemIndex: 0,
+      animated: false
+    });
+  }, [actNumber, sceneNumber]);
+
+  return (
+    <>
+      <PlaySceneHeader {...scene} />
+      <PlaySceneLines
+        ref={sceneElement}
+        {...scene}
+        colourByPlayer={colourByPlayer}
+      />
+      <PlaybackControls />
+    </>
+  );
+};
