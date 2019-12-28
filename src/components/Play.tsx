@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import { SafeAreaView } from "react-native";
 import palette from "google-palette";
 import convert from "color-convert";
 
