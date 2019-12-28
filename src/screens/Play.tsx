@@ -65,8 +65,12 @@ const createPlayContextValue = (
 
   return {
     ...play,
-    goToNextScene: () => goToScene(navigation, play, sceneIndex + 1),
-    goToPreviousScene: () => goToScene(navigation, play, sceneIndex - 1),
+    goToNextScene: scenes[sceneIndex + 1]
+      ? () => goToScene(navigation, play, sceneIndex + 1)
+      : null,
+    goToPreviousScene: scenes[sceneIndex - 1]
+      ? () => goToScene(navigation, play, sceneIndex - 1)
+      : null,
     goToSceneSelect: () => navigation.navigate("PlaySceneSelectModal", play)
   };
 };
