@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import palette from "google-palette";
 import convert from "color-convert";
-import { NavigationStackProp } from "react-navigation-stack";
 
 import PlayScene from "./PlayScene";
 import PlaySceneHeader from "./PlaySceneHeader";
@@ -30,11 +29,7 @@ const generateColourByPlayer: (scenes: Scene[]) => ColourByPlayer = scenes => {
   );
 };
 
-type Props = Play & {
-  navigation: NavigationStackProp;
-};
-
-export default ({ navigation, ...play }: Props) => {
+export default (play: Play) => {
   const findCurrentScene = () =>
     scenes.find(
       ({ scene, act }) => act === currentAct && scene === currentScene
@@ -62,12 +57,7 @@ export default ({ navigation, ...play }: Props) => {
 
   return (
     <>
-      <PlaySceneHeader
-        {...scene}
-        onSceneSelectPress={() =>
-          navigation.navigate("PlaySceneSelectModal", play)
-        }
-      />
+      <PlaySceneHeader {...scene} />
       <PlayScene
         ref={sceneElement}
         {...scene}

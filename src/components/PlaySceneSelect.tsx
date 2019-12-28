@@ -8,6 +8,7 @@ import PlaySceneList from "./PlaySceneList";
 import { Play } from "../types/play-types";
 import { titleFont, bigSizeFont } from "../styles/typography";
 import { primaryColour } from "../styles/colours";
+import { screenKey } from "../screens/Play";
 
 const HeaderView = styled(View)`
   display: flex;
@@ -74,7 +75,7 @@ export default (props: Props) => {
               currentAct: act,
               currentScene: scene
             },
-            key: "play-screen"
+            key: screenKey
           })
         }
       />

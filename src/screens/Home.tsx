@@ -2,6 +2,7 @@ import React from "react";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 
 import PlayList from "../components/PlayList";
+import { screenKey } from "./Play";
 
 const HomeScreen: NavigationStackScreenComponent = props => (
   <PlayList
@@ -9,7 +10,7 @@ const HomeScreen: NavigationStackScreenComponent = props => (
       props.navigation.navigate({
         routeName: "Play",
         params: play,
-        key: "play-screen"
+        key: screenKey
       })
     }
   />
