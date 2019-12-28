@@ -1,9 +1,11 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { SafeAreaView } from "react-native";
 import palette from "google-palette";
 import convert from "color-convert";
 
 import PlayScene from "./PlayScene";
 import PlaySceneHeader from "./PlaySceneHeader";
+import PlaybackControls from "./PlaybackControls";
 import { Play, Scene } from "../types/play-types";
 import { ColourByPlayer } from "../types/colour-types";
 
@@ -38,10 +40,11 @@ export default (play: Play) => {
   const { play: playTitle, scenes, currentAct, currentScene } = play;
 
   const sceneElement = useRef(null);
-  const [scene, setScene] = useState(findCurrentScene());
   const [colourByPlayer, setColourByPlayer] = useState(
     generateColourByPlayer(scenes)
   );
+  const [scene, setScene] = useState(findCurrentScene());
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => setColourByPlayer(generateColourByPlayer(scenes)), [
     playTitle
@@ -62,6 +65,10 @@ export default (play: Play) => {
         ref={sceneElement}
         {...scene}
         colourByPlayer={colourByPlayer}
+      />
+      <PlaybackControls
+        isPlaying={isPlaying}
+        togglePlayback={() => setIsPlaying(!isPlaying)}
       />
     </>
   );
