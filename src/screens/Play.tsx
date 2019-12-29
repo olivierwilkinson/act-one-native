@@ -25,10 +25,9 @@ type Params = Play;
 type Props = NavigationStackScreenProps<Params>;
 type State = {
   playContextValue: PlayContextValue;
+  audioContextValue: AudioContextValue;
   colourByPlayer: ColourByPlayer;
   activeScene: Scene;
-  audioController: PlayAudioController;
-  audioContextValue: AudioContextValue;
 };
 
 const goToScene = (
@@ -106,10 +105,11 @@ const findActiveScene = (play: Play) => {
   );
 };
 
-const createAudioState = (play: Play) => {
+const createAudioContextValue: (play: Play) => AudioContextValue = play => {
   const audioController = new PlayAudioController(play);
 
-  const audioContextValue: AudioContextValue = {
+  return {
+    audioController,
     playbackState: PlaybackState.Stopped,
     lineId: "",
     setLineById: audioController.setLineById,
@@ -117,11 +117,6 @@ const createAudioState = (play: Play) => {
     pause: audioController.pause,
     resume: audioController.resume,
     stop: audioController.stop
-  };
-
-  return {
-    audioController,
-    audioContextValue
   };
 };
 
@@ -170,19 +165,25 @@ export default class PlayScreen extends React.Component<Props> {
       this.props.navigation,
       this.props.navigation.state.params
     ),
+    audioContextValue: createAudioContextValue(
+      this.props.navigation.state.params
+    ),
     colourByPlayer: createColourByPlayer(this.props.navigation.state.params),
-    activeScene: findActiveScene(this.props.navigation.state.params),
-    ...createAudioState(this.props.navigation.state.params)
+    activeScene: findActiveScene(this.props.navigation.state.params)
   };
 
   componentDidMount() {
-    const { audioController } = this.state;
+    const {
+      audioContextValue: { audioController }
+    } = this.state;
 
     audioController.onPlaybackStateChange = this.onPlaybackStateChange;
   }
 
   componentWillUnmount() {
-    const { audioController } = this.state;
+    const {
+      audioContextValue: { audioController }
+    } = this.state;
 
     audioController.onPlaybackStateChange = () => null;
   }
