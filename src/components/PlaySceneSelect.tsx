@@ -71,9 +71,11 @@ export default (props: Props) => {
           navigation.navigate({
             routeName: "Play",
             params: {
-              ...play,
-              currentAct: act,
-              currentScene: scene
+              play: {
+                ...play,
+                currentAct: act,
+                currentScene: scene
+              }
             },
             key: screenKey
           })

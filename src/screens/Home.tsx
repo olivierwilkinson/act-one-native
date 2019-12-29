@@ -9,7 +9,7 @@ const HomeScreen: NavigationStackScreenComponent = props => (
     goToPlay={play =>
       props.navigation.navigate({
         routeName: "Play",
-        params: play,
+        params: { play },
         key: screenKey
       })
     }
