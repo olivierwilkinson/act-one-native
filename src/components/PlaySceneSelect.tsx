@@ -1,14 +1,12 @@
 import React from "react";
 import { View, Text, SafeAreaView, TouchableHighlight } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { NavigationStackProp } from "react-navigation-stack";
 import styled from "styled-components";
 
 import PlaySceneList from "./PlaySceneList";
-import { Play } from "../types/play-types";
+import { Play, Scene } from "../types/play-types";
 import { titleFont, bigSizeFont } from "../styles/typography";
 import { primaryColour } from "../styles/colours";
-import { screenKey } from "../screens/Play";
 
 const HeaderView = styled(View)`
   display: flex;
@@ -37,11 +35,12 @@ const HeaderSideView = styled(View)`
 `;
 
 type Props = Play & {
-  navigation: NavigationStackProp;
+  onClosePress: () => void;
+  onScenePress: (scene: Scene) => void;
 };
 
 export default (props: Props) => {
-  const { navigation, ...play } = props;
+  const { onScenePress, onClosePress, ...play } = props;
   const { currentAct, currentScene, scenes } = play;
 
   return (
@@ -55,7 +54,7 @@ export default (props: Props) => {
 
         <TouchableHighlight
           underlayColor={primaryColour}
-          onPress={() => navigation.pop()}
+          onPress={onClosePress}
         >
           <HeaderSideView>
             <Ionicons name="ios-close-circle" size={32} color="white" />
@@ -67,19 +66,7 @@ export default (props: Props) => {
         currentAct={currentAct}
         currentScene={currentScene}
         scenes={scenes}
-        onScenePress={({ act, scene }) =>
-          navigation.navigate({
-            routeName: "Play",
-            params: {
-              play: {
-                ...play,
-                currentAct: act,
-                currentScene: scene
-              }
-            },
-            key: screenKey
-          })
-        }
+        onScenePress={onScenePress}
       />
     </SafeAreaView>
   );

@@ -2,18 +2,10 @@ import React from "react";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 
 import PlayList from "../components/PlayList";
-import { screenKey } from "./Play";
+import { navigateToPlay } from "../helpers/navigation-helpers";
 
-const HomeScreen: NavigationStackScreenComponent = props => (
-  <PlayList
-    goToPlay={play =>
-      props.navigation.navigate({
-        routeName: "Play",
-        params: { play },
-        key: screenKey
-      })
-    }
-  />
+const HomeScreen: NavigationStackScreenComponent = ({ navigation }) => (
+  <PlayList goToPlay={play => navigateToPlay(navigation, play)} />
 );
 
 export default HomeScreen;
