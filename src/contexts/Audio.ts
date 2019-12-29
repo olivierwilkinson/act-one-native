@@ -1,8 +1,11 @@
 import React from "react";
 
-import { PlaybackState } from "../controllers/PlayAudioController";
+import PlayAudioController, {
+  PlaybackState
+} from "../controllers/PlayAudioController";
 
 export interface AudioContextValue {
+  audioController?: PlayAudioController;
   playbackState: PlaybackState;
   lineId: string;
   setLineById: (id: number) => void;
