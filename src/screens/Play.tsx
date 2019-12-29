@@ -20,7 +20,7 @@ import Header from "../components/Header";
 
 export const screenKey = "play-screen";
 
-type Params = Play;
+type Params = { play: Play };
 type Props = NavigationStackScreenProps<Params>;
 type State = {
   playContextValue: PlayContextValue;
@@ -43,9 +43,11 @@ const goToScene = (
   navigation.dispatch(
     NavigationActions.setParams({
       params: {
-        ...play,
-        currentAct: scene.act,
-        currentScene: scene.scene
+        play: {
+          ...play,
+          currentAct: scene.act,
+          currentScene: scene.scene
+        }
       },
       key: screenKey
     })
@@ -123,7 +125,7 @@ export default class PlayScreen extends React.Component<Props> {
   static navigationOptions = ({ navigation }) => ({
     header: () => (
       <Header
-        title={navigation.getParam("play")}
+        title={navigation.state.params.play.play}
         onBack={() => navigation.pop()}
       />
     )
@@ -132,7 +134,9 @@ export default class PlayScreen extends React.Component<Props> {
   static getDerivedStateFromProps(nextProps: Props, prevState: State) {
     const { navigation } = nextProps;
     const {
-      state: { params: play }
+      state: {
+        params: { play }
+      }
     } = navigation;
     const { activeScene, playContextValue } = prevState;
     let updates = null;
@@ -162,13 +166,15 @@ export default class PlayScreen extends React.Component<Props> {
   state: State = {
     playContextValue: createPlayContextValue(
       this.props.navigation,
-      this.props.navigation.state.params
+      this.props.navigation.state.params.play
     ),
     audioContextValue: createAudioContextValue(
-      this.props.navigation.state.params
+      this.props.navigation.state.params.play
     ),
-    colourByPlayer: createColourByPlayer(this.props.navigation.state.params),
-    activeScene: findActiveScene(this.props.navigation.state.params)
+    colourByPlayer: createColourByPlayer(
+      this.props.navigation.state.params.play
+    ),
+    activeScene: findActiveScene(this.props.navigation.state.params.play)
   };
 
   componentDidMount() {
