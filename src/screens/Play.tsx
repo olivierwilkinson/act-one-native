@@ -10,14 +10,13 @@ import convert from "color-convert";
 import PlayAudioController, {
   PlaybackState
 } from "../controllers/PlayAudioController";
-import PlayContext from "../contexts/Play";
+import PlayContext, { PlayContextValue } from "../contexts/Play";
 import AudioContext, { AudioContextValue } from "../contexts/Audio";
 import { Play, Scene } from "../types/play-types";
 import { ColourByPlayer } from "../types/colour-types";
 
 import PlayScene from "../components/PlayScene";
 import Header from "../components/Header";
-import { PlayContextValue } from "../types/context-types";
 
 export const screenKey = "play-screen";
 
