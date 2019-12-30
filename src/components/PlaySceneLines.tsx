@@ -22,12 +22,19 @@ export default forwardRef<Component<{ sections: ListData }>, Props>(
       ref={ref}
       style={{ backgroundColor: playBackgroundColour }}
       sections={lines.map(line => ({
-        data: [line],
-        title: line.player
+        data: [line]
       }))}
       renderItem={({ item: line }) => <PlayLine {...line} />}
-      renderSectionHeader={({ section: { title: player } }) => (
-        <PlayLineHeader player={player} colour={colourByPlayer[player]} />
+      renderSectionHeader={({
+        section: {
+          data: [{ player, id }]
+        }
+      }) => (
+        <PlayLineHeader
+          player={player}
+          colour={colourByPlayer[player]}
+          lineId={id}
+        />
       )}
       keyExtractor={item => item.id.toString()}
     />
