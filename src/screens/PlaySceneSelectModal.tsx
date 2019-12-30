@@ -5,7 +5,9 @@ import { Play } from "../types/play-types";
 import PlaySceneSelect from "../components/PlaySceneSelect";
 import { navigateToPlay } from "../helpers/navigation";
 
-type Params = Play;
+type Params = {
+  play: Play;
+};
 
 export default class PlayScreen extends React.Component<
   NavigationStackScreenProps<Params>
@@ -13,12 +15,14 @@ export default class PlayScreen extends React.Component<
   render() {
     const { navigation } = this.props;
     const {
-      state: { params: play }
+      state: {
+        params: { play }
+      }
     } = navigation;
 
     return (
       <PlaySceneSelect
-        {...navigation.state.params}
+        {...play}
         onClosePress={() => navigation.pop()}
         onScenePress={({ act, scene }) =>
           navigateToPlay(navigation, {
