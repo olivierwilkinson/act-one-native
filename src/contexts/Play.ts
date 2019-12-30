@@ -17,5 +17,6 @@ export default React.createContext<PlayContextValue>({
   imageLicenseCode: "",
   currentAct: 1,
   currentScene: 1,
+  currentLineId: -1,
   openSceneSelect: () => null
 });
