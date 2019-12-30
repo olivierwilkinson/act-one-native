@@ -13,4 +13,4 @@ export const navigateToPlay = (navigation: NavigationStackProp, play: Play) =>
 
 // Modal Navigation
 export const openSceneSelect = (navigation: NavigationStackProp, play: Play) =>
-  navigation.navigate("PlaySceneSelect", play);
+  navigation.navigate("PlaySceneSelect", { play });
