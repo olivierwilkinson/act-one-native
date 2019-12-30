@@ -72,7 +72,7 @@ const createPlayContextValue = (
     goToPreviousScene: scenes[sceneIndex - 1]
       ? () => goToScene(navigation, play, sceneIndex - 1)
       : null,
-    goToSceneSelect: () => openSceneSelect(navigation, play)
+    openSceneSelect: () => openSceneSelect(navigation, play)
   };
 };
 

@@ -3,7 +3,7 @@ import React from "react";
 import { Play } from "../types/play-types";
 
 export interface PlayContextValue extends Play {
-  goToSceneSelect: () => void;
+  openSceneSelect: () => void;
   goToNextScene?: () => void;
   goToPreviousScene?: () => void;
 }
@@ -17,5 +17,5 @@ export default React.createContext<PlayContextValue>({
   imageLicenseCode: "",
   currentAct: 1,
   currentScene: 1,
-  goToSceneSelect: () => null
+  openSceneSelect: () => null
 });
