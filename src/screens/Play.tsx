@@ -14,6 +14,7 @@ import PlayContext, { PlayContextValue } from "../contexts/Play";
 import AudioContext, { AudioContextValue } from "../contexts/Audio";
 import { Play, Scene } from "../types/play-types";
 import { ColourByPlayer } from "../types/colour-types";
+import { openSceneSelect } from "../helpers/navigation";
 
 import PlayScene from "../components/PlayScene";
 import Header from "../components/Header";
@@ -71,7 +72,7 @@ const createPlayContextValue = (
     goToPreviousScene: scenes[sceneIndex - 1]
       ? () => goToScene(navigation, play, sceneIndex - 1)
       : null,
-    goToSceneSelect: () => navigation.navigate("PlaySceneSelectModal", play)
+    goToSceneSelect: () => openSceneSelect(navigation, play)
   };
 };
 
