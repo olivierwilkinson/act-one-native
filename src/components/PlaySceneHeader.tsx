@@ -58,7 +58,7 @@ export default ({ act, scene }: Scene) => {
   const {
     goToNextScene,
     goToPreviousScene,
-    goToSceneSelect
+    openSceneSelect
   }: PlayContextValue = useContext(PlayContext);
 
   return (
@@ -94,7 +94,7 @@ export default ({ act, scene }: Scene) => {
       <SceneSelectView>
         <TouchableHighlight
           underlayColor={lightPrimaryColour}
-          onPress={goToSceneSelect}
+          onPress={openSceneSelect}
         >
           <IconView>
             <Ionicons name="ios-list" size={32} color="white" />
