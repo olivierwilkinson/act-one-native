@@ -3,7 +3,7 @@ import { NavigationStackScreenProps } from "react-navigation-stack";
 
 import { Play } from "../types/play-types";
 import PlaySceneSelect from "../components/PlaySceneSelect";
-import { navigateToPlay } from "../helpers/navigation-helpers";
+import { navigateToPlay } from "../helpers/navigation";
 
 type Params = Play;
 
