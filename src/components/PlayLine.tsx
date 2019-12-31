@@ -1,17 +1,16 @@
 import React, { useContext } from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableHighlight } from "react-native";
 import styled from "styled-components";
 
 import { Line } from "../types/play-types";
 import { italicFont, subFont, thinFont } from "../styles/typography";
-import PlayContext from "../contexts/Play";
-import { lightPrimaryColour } from "../styles/colours";
+import PlayPositionContext from "../contexts/PlayPosition";
+import { lightPrimaryColour, playBackgroundColour } from "../styles/colours";
 
 const PlayLineView = styled(View)`
   border-color: ${({ highlighted }: { highlighted: boolean }) =>
-    highlighted ? lightPrimaryColour : "transparent"};
-  border-width: ${({ highlighted }: { highlighted: boolean }) =>
-    highlighted ? "2px" : "0px"};
+    highlighted ? lightPrimaryColour : playBackgroundColour};
+  border-width: 2px;
   border-top-width: 0px;
   padding: 10px 0;
 `;
@@ -46,22 +45,28 @@ const LineRowNumberText = styled(Text)`
 `;
 
 export default ({ id, lineRows, player }: Line) => {
-  const { currentLineId } = useContext(PlayContext);
-  return (
-    <PlayLineView highlighted={currentLineId === id}>
-      {lineRows.map((lineRow, i) => (
-        <LineRowView key={`${id}-${i}`}>
-          <LineRowTextView>
-            <LineRowText direction={!player}>{lineRow.text}</LineRowText>
-          </LineRowTextView>
+  const { activeLine, setActiveLineById } = useContext(PlayPositionContext);
 
-          <LineNumberView>
-            {lineRow.number % 5 === 0 && (
-              <LineRowNumberText>{lineRow.number}</LineRowNumberText>
-            )}
-          </LineNumberView>
-        </LineRowView>
-      ))}
-    </PlayLineView>
+  return (
+    <TouchableHighlight
+      onPress={() => setActiveLineById(id)}
+      underlayColor={playBackgroundColour}
+    >
+      <PlayLineView highlighted={activeLine.id === id}>
+        {lineRows.map((lineRow, i) => (
+          <LineRowView key={`${id}-${i}`}>
+            <LineRowTextView>
+              <LineRowText direction={!player}>{lineRow.text}</LineRowText>
+            </LineRowTextView>
+
+            <LineNumberView>
+              {lineRow.number % 5 === 0 && (
+                <LineRowNumberText>{lineRow.number}</LineRowNumberText>
+              )}
+            </LineNumberView>
+          </LineRowView>
+        ))}
+      </PlayLineView>
+    </TouchableHighlight>
   );
 };

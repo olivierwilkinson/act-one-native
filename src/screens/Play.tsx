@@ -1,71 +1,47 @@
 import React from "react";
-import { NavigationActions } from "react-navigation";
+import * as Speech from "expo-speech";
 import {
   NavigationStackScreenProps,
   NavigationStackProp
 } from "react-navigation-stack";
-import palette from "google-palette";
-import convert from "color-convert";
 
-import PlayAudioController, {
+import PlayNavigationContext, {
+  PlayNavigation
+} from "../contexts/PlayNavigation";
+import PlayPositionContext, { PlayPosition } from "../contexts/PlayPosition";
+import AudioContext, {
+  AudioContextValue,
   PlaybackState
-} from "../controllers/PlayAudioController";
-import PlayContext, { PlayContextValue } from "../contexts/Play";
-import AudioContext, { AudioContextValue } from "../contexts/Audio";
-import { Play, Scene } from "../types/play-types";
+} from "../contexts/Audio";
+import { Play } from "../types/play-types";
 import { ColourByPlayer } from "../types/colour-types";
 import { openSceneSelect } from "../helpers/navigation";
+import {
+  createColourByPlayer,
+  goToScene,
+  findActiveScene,
+  getLineText
+} from "../helpers/play";
 
 import PlayScene from "../components/PlayScene";
 import Header from "../components/Header";
 
-export const screenKey = "play-screen";
-
 type Params = { play: Play };
 type Props = NavigationStackScreenProps<Params>;
 type State = {
-  playContextValue: PlayContextValue;
-  audioContextValue: AudioContextValue;
+  playNavigation: PlayNavigation;
+  playPosition: PlayPosition;
+  audio: AudioContextValue;
   colourByPlayer: ColourByPlayer;
-  activeScene: Scene;
 };
 
-const goToScene = (
-  navigation: NavigationStackProp,
-  play: Play,
-  newSceneIndex: number
-) => {
-  const { scenes } = play;
-  const scene = scenes[newSceneIndex];
-  if (!scene) {
-    return null;
-  }
-
-  navigation.dispatch(
-    NavigationActions.setParams({
-      params: {
-        play: {
-          ...play,
-          currentAct: scene.act,
-          currentScene: scene.scene
-        }
-      },
-      key: screenKey
-    })
-  );
-};
-
-const createPlayContextValue = (
-  navigation: NavigationStackProp,
-  play: Play
-) => {
+const createPlayNavigation = (navigation: NavigationStackProp, play: Play) => {
   const { scenes, currentAct, currentScene } = play;
   const sceneIndex = scenes.findIndex(
     ({ act, scene }) => act === currentAct && scene === currentScene
   );
 
   return {
-    ...play,
     goToNextScene: scenes[sceneIndex + 1]
       ? () => goToScene(navigation, play, sceneIndex + 1)
       : null,
@@ -73,52 +49,6 @@ const createPlayContextValue = (
       ? () => goToScene(navigation, play, sceneIndex - 1)
       : null,
     openSceneSelect: () => openSceneSelect(navigation, play)
-  };
-};
-
-const createColourByPlayer: (play: Play) => ColourByPlayer = play => {
-  const { scenes } = play;
-  const players = Array.from(
-    new Set(
-      [].concat(...scenes.map(({ lines }) => lines.map(line => line.player)))
-    )
-  );
-  const colours = palette("tol-rainbow", players.length);
-
-  return players.reduce<ColourByPlayer>(
-    (colourByPlayer, player, colourIndex) => {
-      const [red, green, blue] = convert.hex.rgb(colours[colourIndex]);
-      const colour = { red, green, blue };
-
-      return {
-        ...colourByPlayer,
-        [player]: colour
-      };
-    },
-    {}
-  );
-};
-
-const findActiveScene = (play: Play) => {
-  const { scenes, currentAct, currentScene } = play;
-
-  return scenes.find(
-    ({ scene, act }) => act === currentAct && scene === currentScene
-  );
-};
-
-const createAudioContextValue: (play: Play) => AudioContextValue = play => {
-  const audioController = new PlayAudioController(play);
-
-  return {
-    audioController,
-    playbackState: PlaybackState.Stopped,
-    lineId: "",
-    setLineById: audioController.setLineById,
-    play: audioController.play,
-    pause: audioController.pause,
-    resume: audioController.resume,
-    stop: audioController.stop
   };
 };
 
@@ -139,86 +69,138 @@ export default class PlayScreen extends React.Component<Props> {
         params: { play }
       }
     } = navigation;
-    const { activeScene, playContextValue } = prevState;
-    let updates = null;
+    const { playPosition } = prevState;
+    const { activeScene: previousActiveScene } = playPosition;
 
     if (
-      activeScene.act !== play.currentAct ||
-      activeScene.scene !== play.currentScene
+      previousActiveScene.act !== play.currentAct ||
+      previousActiveScene.scene !== play.currentScene
     ) {
-      updates = {
-        ...updates,
-        activeScene: findActiveScene(play),
-        playContextValue: createPlayContextValue(navigation, play)
+      const activeScene = findActiveScene(play);
+      const {
+        lines: [activeLine]
+      } = activeScene;
+
+      return {
+        playPosition: {
+          ...playPosition,
+          activeScene,
+          activeLine
+        },
+        playNavigation: createPlayNavigation(navigation, play)
       };
     }
 
-    if (play.play !== playContextValue.play) {
-      updates = {
-        ...updates,
-        playContextValue: createPlayContextValue(navigation, play),
-        colourByPlayer: createColourByPlayer(play)
-      };
-    }
-
-    return updates;
+    return null;
   }
 
-  state: State = {
-    playContextValue: createPlayContextValue(
-      this.props.navigation,
-      this.props.navigation.state.params.play
-    ),
-    audioContextValue: createAudioContextValue(
-      this.props.navigation.state.params.play
-    ),
-    colourByPlayer: createColourByPlayer(
-      this.props.navigation.state.params.play
-    ),
-    activeScene: findActiveScene(this.props.navigation.state.params.play)
+  getNextLine = () => {
+    const { playPosition } = this.state;
+    const {
+      activeScene: { lines },
+      activeLine
+    } = playPosition;
+    const activeLineIndex = lines.findIndex(({ id }) => activeLine.id === id);
+
+    return lines[activeLineIndex + 1];
   };
 
-  componentDidMount() {
-    const {
-      audioContextValue: { audioController }
-    } = this.state;
+  beginPlayback = async () => {
+    const { playPosition } = this.state;
+    const { activeLine } = playPosition;
 
-    audioController.onPlaybackStateChange = this.onPlaybackStateChange;
-  }
-
-  componentWillUnmount() {
-    const {
-      audioContextValue: { audioController }
-    } = this.state;
-
-    audioController.onPlaybackStateChange = () => null;
-  }
-
-  onPlaybackStateChange = (playbackState: PlaybackState) => {
-    const { audioContextValue } = this.state;
-
-    this.setState({
-      audioContextValue: {
-        ...audioContextValue,
-        playbackState
+    Speech.speak(getLineText(activeLine), {
+      onDone: () => {
+        const nextLine = this.getNextLine();
+        if (nextLine) {
+          this.setState(
+            {
+              playPosition: {
+                ...playPosition,
+                activeLine: nextLine
+              }
+            },
+            this.beginPlayback
+          );
+        }
       }
     });
   };
 
-  render() {
+  handlePlaybackStateChange = async (
+    previousPlaybackState: PlaybackState,
+    playbackState: PlaybackState
+  ) => {
+    switch (playbackState) {
+      case PlaybackState.Playing:
+        switch (previousPlaybackState) {
+          case PlaybackState.Paused:
+            return Speech.resume();
+          case PlaybackState.Stopped:
+            return this.beginPlayback();
+        }
+      case PlaybackState.Paused:
+        // TODO:- figure why pausing cannot be resumed
+        Speech.pause();
+      case PlaybackState.Stopped:
+        Speech.stop();
+    }
+  };
+
+  setPlaybackState = (playbackState: PlaybackState) => {
+    const { audio } = this.state;
+    const { playbackState: previousPlaybackState } = audio;
+
+    this.setState({ audio: { ...audio, playbackState } }, () =>
+      this.handlePlaybackStateChange(previousPlaybackState, playbackState)
+    );
+  };
+
+  setActiveLineById = (activeLineId: number) => {
+    const { playPosition } = this.state;
     const {
-      playContextValue,
-      audioContextValue,
-      colourByPlayer,
-      activeScene
-    } = this.state;
+      activeScene: { lines }
+    } = playPosition;
+    const activeLine = lines.find(({ id }) => id === activeLineId);
+
+    if (activeLine) {
+      this.setState({ playPosition: { ...playPosition, activeLine } });
+      this.setPlaybackState(PlaybackState.Stopped);
+    }
+  };
+
+  state: State = {
+    playNavigation: createPlayNavigation(
+      this.props.navigation,
+      this.props.navigation.state.params.play
+    ),
+    playPosition: {
+      activeScene: findActiveScene(this.props.navigation.state.params.play),
+      activeLine: findActiveScene(this.props.navigation.state.params.play)
+        .lines[0],
+      setActiveLineById: this.setActiveLineById
+    },
+    audio: {
+      playbackState: PlaybackState.Stopped,
+      setPlaybackState: this.setPlaybackState
+    },
+    colourByPlayer: createColourByPlayer(
+      this.props.navigation.state.params.play
+    )
+  };
+
+  render() {
+    const { playPosition, audio, colourByPlayer, playNavigation } = this.state;
+    const { activeScene } = playPosition;
 
     return (
-      <PlayContext.Provider value={playContextValue}>
-        <AudioContext.Provider value={audioContextValue}>
-          <PlayScene {...activeScene} colourByPlayer={colourByPlayer} />
-        </AudioContext.Provider>
-      </PlayContext.Provider>
+      <PlayPositionContext.Provider value={playPosition}>
+        <PlayNavigationContext.Provider value={playNavigation}>
+          <AudioContext.Provider value={audio}>
+            <PlayScene {...activeScene} colourByPlayer={colourByPlayer} />
+          </AudioContext.Provider>
+        </PlayNavigationContext.Provider>
+      </PlayPositionContext.Provider>
     );
   }
 }

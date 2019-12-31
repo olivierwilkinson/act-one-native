@@ -5,7 +5,8 @@ import styled, { ThemeProps } from "styled-components";
 import { titleFont } from "../styles/typography";
 import { RGBColour } from "../types/colour-types";
 import { playBackgroundColour, lightPrimaryColour } from "../styles/colours";
-import PlayContext from "../contexts/Play";
+import PlayPositionContext from "../contexts/PlayPosition";
+import { TouchableHighlight } from "react-native-gesture-handler";
 
 type ColourProps = RGBColour & {
   highlighted: boolean;
@@ -15,9 +16,9 @@ const PlayLineHeaderView = styled(View)`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border-color: ${lightPrimaryColour};
-  border-width: ${({ highlighted }: ColourProps) =>
-    highlighted ? "2px" : "0"};
+  border-color: ${({ highlighted }: ColourProps) =>
+    highlighted ? lightPrimaryColour : playBackgroundColour};
+  border-width: 2px;
   border-bottom-width: 0;
 `;
 
@@ -45,21 +46,26 @@ type Props = {
 };
 
 export default (props: Props) => {
-  const { currentLineId } = useContext(PlayContext);
+  const { activeLine, setActiveLineById } = useContext(PlayPositionContext);
   const { player, lineId, colour } = props;
-  const isCurrentLine = currentLineId === lineId;
+  const isCurrentLine = activeLine.id === lineId;
   const colourProps = {
     ...colour,
     highlighted: isCurrentLine
   };
 
   return (
-    <PlayLineHeaderView {...colourProps}>
-      {!!player && (
-        <PlayerBubbleView {...colourProps}>
-          <PlayerText {...colourProps}>{player}</PlayerText>
-        </PlayerBubbleView>
-      )}
-    </PlayLineHeaderView>
+    <TouchableHighlight
+      onPress={() => setActiveLineById(lineId)}
+      underlayColor={playBackgroundColour}
+    >
+      <PlayLineHeaderView {...colourProps}>
+        {!!player && (
+          <PlayerBubbleView {...colourProps}>
+            <PlayerText {...colourProps}>{player}</PlayerText>
+          </PlayerBubbleView>
+        )}
+      </PlayLineHeaderView>
+    </TouchableHighlight>
   );
 };

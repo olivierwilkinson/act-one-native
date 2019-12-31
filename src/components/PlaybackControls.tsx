@@ -27,23 +27,15 @@ const PlayView = styled(View)`
 
 export default () => {
   const audio: AudioContextValue = useContext(AudioContext);
-  const { playbackState, play, resume, pause } = audio;
+  const { playbackState, setPlaybackState } = audio;
   const isPlaying = playbackState === PlaybackState.Playing;
 
   const handlePlayButtonPress = () => {
-    switch (playbackState) {
-      case PlaybackState.Stopped:
-        return play();
-
-      case PlaybackState.Paused:
-        return resume();
-
-      case PlaybackState.Playing:
-        return pause();
-
-      default:
-        return;
+    if (isPlaying) {
+      return setPlaybackState(PlaybackState.Stopped);
     }
+
+    setPlaybackState(PlaybackState.Playing);
   };
 
   return (
@@ -54,7 +46,7 @@ export default () => {
       >
         <PlayView>
           <Ionicons
-            name={isPlaying ? "ios-pause" : "ios-play"}
+            name={isPlaying ? "ios-square" : "ios-play"}
             size={32}
             color="black"
           />
