@@ -17,6 +17,12 @@ export default class PlayAudioController {
 
   private lines: Line[];
   private currentLineIndex: number;
+  playbackState: PlaybackState;
+
+  private setPlaybackState(playbackState: PlaybackState): void {
+    this.onPlaybackStateChange(playbackState);
+    this.playbackState = playbackState;
+  }
 
   private currentLineText() {
     const line = this.lines[this.currentLineIndex];
@@ -27,31 +33,36 @@ export default class PlayAudioController {
     return line.lineRows.reduce((text, row) => `${text} ${row.text}`, "");
   }
 
-  setLineById: (id: number) => void = id =>
-    (this.currentLineIndex = this.lines.findIndex(
+  setLineById: (id: number) => void = id => {
+    this.currentLineIndex = this.lines.findIndex(
       (line: Line) => line.id === id
-    ));
+    );
+  };
 
   onPlaybackStateChange: (playbackState: PlaybackState) => void = () => null;
+  onDone = () => null;
 
   play = () =>
     Speech.speak(this.currentLineText(), {
-      onStart: () => this.onPlaybackStateChange(PlaybackState.Playing),
-      onDone: () => this.onPlaybackStateChange(PlaybackState.Done)
+      onStart: () => this.setPlaybackState(PlaybackState.Playing),
+      onDone: () => {
+        this.setPlaybackState(PlaybackState.Done);
+        this.onDone();
+      }
     });
 
   pause = () => {
     Speech.pause();
-    this.onPlaybackStateChange(PlaybackState.Paused);
+    this.setPlaybackState(PlaybackState.Paused);
   };
 
   stop = () => {
     Speech.stop();
-    this.onPlaybackStateChange(PlaybackState.Stopped);
+    this.setPlaybackState(PlaybackState.Stopped);
   };
 
   resume = () => {
     Speech.resume();
-    this.onPlaybackStateChange(PlaybackState.Playing);
+    this.setPlaybackState(PlaybackState.Paused);
   };
 }

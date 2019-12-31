@@ -26,5 +26,4 @@ export interface Play {
   imageLicenseCode: string;
   currentAct: number;
   currentScene: number;
-  currentLineId: number;
 }

@@ -3,7 +3,9 @@ import { View, Text, TouchableHighlight } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import styled, { css } from "styled-components";
 
-import PlayContext, { PlayContextValue } from "../contexts/Play";
+import PlayNavigationContext, {
+  PlayNavigation
+} from "../contexts/PlayNavigation";
 import { Scene } from "../types/play-types";
 import { titleFont, mediumSizeFont } from "../styles/typography";
 import { lightPrimaryColour, primaryColour } from "../styles/colours";
@@ -59,7 +61,7 @@ export default ({ act, scene }: Scene) => {
     goToNextScene,
     goToPreviousScene,
     openSceneSelect
-  }: PlayContextValue = useContext(PlayContext);
+  }: PlayNavigation = useContext(PlayNavigationContext);
 
   return (
     <PlaySceneHeaderView>
