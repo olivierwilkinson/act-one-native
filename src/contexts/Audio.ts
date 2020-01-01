@@ -3,8 +3,7 @@ import React from "react";
 export enum PlaybackState {
   Playing = "PLAYING",
   Paused = "PAUSED",
-  Stopped = "STOPPED",
-  Done = "DONE"
+  Stopped = "STOPPED"
 }
 
 export interface AudioContextValue {
