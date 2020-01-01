@@ -19,6 +19,7 @@ type ListData = {
 export default forwardRef<Component<{ sections: ListData }>, Props>(
   ({ lines, colourByPlayer }: Props, ref) => (
     <SectionList
+      testID="play-scene-lines"
       ref={ref}
       style={{ backgroundColor: playBackgroundColour }}
       sections={lines.map(line => ({
