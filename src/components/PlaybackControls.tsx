@@ -41,6 +41,7 @@ export default () => {
   return (
     <ControlsView>
       <TouchableHighlight
+        testID="play-pause-button"
         underlayColor={lightGray}
         onPress={handlePlayButtonPress}
       >
