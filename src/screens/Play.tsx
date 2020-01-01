@@ -4,6 +4,7 @@ import {
   NavigationStackScreenProps,
   NavigationStackProp
 } from "react-navigation-stack";
+import { NavigationEvents } from "react-navigation";
 
 import PlayNavigationContext, {
   PlayNavigation
@@ -189,18 +190,37 @@ export default class PlayScreen extends React.Component<Props> {
     )
   };
 
+  componentDidUpdate(_: Props, prevState: State) {
+    const {
+      playPosition: { activeScene: prevActiveScene }
+    } = prevState;
+    const {
+      playPosition: { activeScene }
+    } = this.state;
+
+    if (prevActiveScene !== activeScene) {
+      this.setPlaybackState(PlaybackState.Stopped);
+    }
+  }
+
   render() {
     const { playPosition, audio, colourByPlayer, playNavigation } = this.state;
     const { activeScene } = playPosition;
 
     return (
-      <PlayPositionContext.Provider value={playPosition}>
-        <PlayNavigationContext.Provider value={playNavigation}>
-          <AudioContext.Provider value={audio}>
-            <PlayScene {...activeScene} colourByPlayer={colourByPlayer} />
-          </AudioContext.Provider>
-        </PlayNavigationContext.Provider>
-      </PlayPositionContext.Provider>
+      <>
+        <PlayPositionContext.Provider value={playPosition}>
+          <PlayNavigationContext.Provider value={playNavigation}>
+            <AudioContext.Provider value={audio}>
+              <PlayScene {...activeScene} colourByPlayer={colourByPlayer} />
+            </AudioContext.Provider>
+          </PlayNavigationContext.Provider>
+        </PlayPositionContext.Provider>
+
+        <NavigationEvents
+          onWillBlur={() => this.setPlaybackState(PlaybackState.Stopped)}
+        />
+      </>
     );
   }
 }
