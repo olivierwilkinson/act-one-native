@@ -1,6 +1,6 @@
 import "react-native";
 import React from "react";
-import { render } from "react-native-testing-library";
+import { render, cleanup } from "react-native-testing-library";
 
 import Header from "../Header";
 
@@ -9,6 +9,7 @@ describe("Header", () => {
   beforeEach(() => {
     ({ queryByText } = render(<Header />));
   });
+  afterEach(cleanup);
 
   it("renders default title", () => {
     expect(queryByText("ActOne")).not.toBeNull();
