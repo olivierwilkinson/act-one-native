@@ -63,3 +63,6 @@ ios/Pods
 
 # expo
 .expo
+
+# testing
+coverage
