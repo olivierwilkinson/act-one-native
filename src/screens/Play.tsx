@@ -111,6 +111,7 @@ export default class PlayScreen extends React.Component<Props> {
     const { activeLine } = playPosition;
 
     Speech.speak(getLineText(activeLine), {
+      voice: "com.apple.ttsbundle.Daniel-compact",
       onDone: () => {
         const nextLine = this.getNextLine();
         if (nextLine) {
