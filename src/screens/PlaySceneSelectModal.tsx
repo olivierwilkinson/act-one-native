@@ -2,7 +2,7 @@ import React from "react";
 import { NavigationStackScreenProps } from "react-navigation-stack";
 
 import { Play } from "../types/play-types";
-import PlaySceneSelect from "../components/PlaySceneSelect";
+import PlaySceneSelect from "../components/sceneSelectModal/PlaySceneSelect";
 import { navigateToPlay } from "../helpers/navigation";
 
 type Params = {

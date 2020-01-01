@@ -4,7 +4,7 @@ import { render, cleanup } from "react-native-testing-library";
 
 import PlayLineRow from "../PlayLineRow";
 
-import lineRow from "../../../tests/mocks/lineRow";
+import lineRow from "../../../../tests/mocks/lineRow";
 
 describe("PlayLineRow", () => {
   let queryByText;

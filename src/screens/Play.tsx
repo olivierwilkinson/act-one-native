@@ -24,8 +24,8 @@ import {
   getLineText
 } from "../helpers/play";
 
-import PlayScene from "../components/PlayScene";
-import Header from "../components/Header";
+import PlayScene from "../components/play/PlayScene";
+import Header from "../components/common/Header";
 
 type Params = { play: Play };
 type Props = NavigationStackScreenProps<Params>;

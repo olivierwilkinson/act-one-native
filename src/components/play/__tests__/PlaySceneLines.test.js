@@ -1,15 +1,15 @@
 import "react-native";
 import React from "react";
-import { render, fireEvent, cleanup } from "react-native-testing-library";
+import { render, cleanup } from "react-native-testing-library";
 
 import PlaySceneLines from "../PlaySceneLines";
-import PlayPositionContext from "../../contexts/PlayPosition";
+import PlayPositionContext from "../../../contexts/PlayPosition";
 
-import lineRow from "../../../tests/mocks/lineRow";
-import line from "../../../tests/mocks/line";
-import scene from "../../../tests/mocks/scene";
-import play from "../../../tests/mocks/play";
-import { createColourByPlayer } from "../../helpers/play";
+import lineRow from "../../../../tests/mocks/lineRow";
+import line from "../../../../tests/mocks/line";
+import scene from "../../../../tests/mocks/scene";
+import play from "../../../../tests/mocks/play";
+import { createColourByPlayer } from "../../../helpers/play";
 
 const colourByPlayer = createColourByPlayer(play);
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 
-import PlayList from "../components/PlayList";
+import PlayList from "../components/home/PlayList";
 import { navigateToPlay } from "../helpers/navigation";
 
 const HomeScreen: NavigationStackScreenComponent = ({ navigation }) => (

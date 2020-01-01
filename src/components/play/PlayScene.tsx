@@ -3,8 +3,8 @@ import React, { useRef, useEffect } from "react";
 import PlaySceneLines from "./PlaySceneLines";
 import PlaySceneHeader from "./PlaySceneHeader";
 import PlaybackControls from "./PlaybackControls";
-import { Scene } from "../types/play-types";
-import { ColourByPlayer } from "../types/colour-types";
+import { Scene } from "../../types/play-types";
+import { ColourByPlayer } from "../../types/colour-types";
 
 type Props = Scene & {
   colourByPlayer: ColourByPlayer;

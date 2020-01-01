@@ -3,9 +3,9 @@ import { SectionList } from "react-native";
 
 import PlayLine from "./PlayLine";
 import PlayLineHeader from "./PlayLineHeader";
-import { Scene, Line } from "../types/play-types";
-import { ColourByPlayer } from "../types/colour-types";
-import { playBackgroundColour } from "../styles/colours";
+import { Scene, Line } from "../../types/play-types";
+import { ColourByPlayer } from "../../types/colour-types";
+import { playBackgroundColour } from "../../styles/colours";
 
 type Props = Scene & {
   colourByPlayer: ColourByPlayer;

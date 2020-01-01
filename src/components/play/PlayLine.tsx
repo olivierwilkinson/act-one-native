@@ -2,9 +2,9 @@ import React, { useContext } from "react";
 import { View, TouchableHighlight } from "react-native";
 import styled from "styled-components";
 
-import { Line } from "../types/play-types";
-import PlayPositionContext from "../contexts/PlayPosition";
-import { lightPrimaryColour, playBackgroundColour } from "../styles/colours";
+import { Line } from "../../types/play-types";
+import PlayPositionContext from "../../contexts/PlayPosition";
+import { lightPrimaryColour, playBackgroundColour } from "../../styles/colours";
 
 import PlayLineRow from "./PlayLineRow";
 

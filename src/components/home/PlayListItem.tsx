@@ -2,8 +2,8 @@ import React from "react";
 import { View, Text, TouchableHighlight, Image } from "react-native";
 import styled from "styled-components";
 
-import { Play } from "../types/play-types";
-import { titleFont, subFont } from "../styles/typography";
+import { Play } from "../../types/play-types";
+import { titleFont, subFont } from "../../styles/typography";
 
 type Props = Play & {
   onClick: () => void;

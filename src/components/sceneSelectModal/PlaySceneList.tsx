@@ -3,14 +3,9 @@ import { View, Text, SectionList, TouchableHighlight } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import styled from "styled-components";
 
-import { Scene } from "../types/play-types";
-import {
-  titleFont,
-  mediumSizeFont,
-  subFont,
-  thinFont
-} from "../styles/typography";
-import { lightPrimaryColour, primaryColour } from "../styles/colours";
+import { Scene } from "../../types/play-types";
+import { mediumSizeFont, subFont } from "../../styles/typography";
+import { lightPrimaryColour } from "../../styles/colours";
 
 type ListSection = {
   title: string;

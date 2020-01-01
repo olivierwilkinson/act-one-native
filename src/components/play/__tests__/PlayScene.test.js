@@ -3,13 +3,13 @@ import React from "react";
 import { render, fireEvent, cleanup } from "react-native-testing-library";
 
 import PlayScene from "../PlayScene";
-import PlayPositionContext from "../../contexts/PlayPosition";
+import PlayPositionContext from "../../../contexts/PlayPosition";
 
-import line from "../../../tests/mocks/line";
-import scene from "../../../tests/mocks/scene";
-import play from "../../../tests/mocks/play";
-import { createColourByPlayer } from "../../helpers/play";
-import PlayNavigationContext from "../../contexts/PlayNavigation";
+import line from "../../../../tests/mocks/line";
+import scene from "../../../../tests/mocks/scene";
+import play from "../../../../tests/mocks/play";
+import { createColourByPlayer } from "../../../helpers/play";
+import PlayNavigationContext from "../../../contexts/PlayNavigation";
 
 const colourByPlayer = createColourByPlayer(play);
 

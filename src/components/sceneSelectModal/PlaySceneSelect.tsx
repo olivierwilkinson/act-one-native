@@ -4,9 +4,9 @@ import { Ionicons } from "@expo/vector-icons";
 import styled from "styled-components";
 
 import PlaySceneList from "./PlaySceneList";
-import { Play, Scene } from "../types/play-types";
-import { titleFont, bigSizeFont } from "../styles/typography";
-import { primaryColour } from "../styles/colours";
+import { Play, Scene } from "../../types/play-types";
+import { titleFont, bigSizeFont } from "../../styles/typography";
+import { primaryColour } from "../../styles/colours";
 
 const HeaderView = styled(View)`
   display: flex;
