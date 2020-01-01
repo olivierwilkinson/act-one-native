@@ -68,6 +68,7 @@ export default ({ act, scene }: Scene) => {
       {goToPreviousScene && (
         <LeftArrowView>
           <TouchableHighlight
+            testID="previous-scene-button"
             underlayColor={primaryColour}
             onPress={goToPreviousScene}
           >
@@ -83,6 +84,7 @@ export default ({ act, scene }: Scene) => {
       {goToNextScene && (
         <RightArrowView>
           <TouchableHighlight
+            testID="next-scene-button"
             underlayColor={primaryColour}
             onPress={goToNextScene}
           >
@@ -95,6 +97,7 @@ export default ({ act, scene }: Scene) => {
 
       <SceneSelectView>
         <TouchableHighlight
+          testID="scene-select-button"
           underlayColor={lightPrimaryColour}
           onPress={openSceneSelect}
         >
