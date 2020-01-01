@@ -5,7 +5,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import Home from "./src/screens/Home";
 import Play from "./src/screens/Play";
 import PlaySceneSelectModal from "./src/screens/PlaySceneSelectModal";
-import Header from "./src/components/Header";
+import Header from "./src/components/common/Header";
 
 const MainStack = createStackNavigator(
   {

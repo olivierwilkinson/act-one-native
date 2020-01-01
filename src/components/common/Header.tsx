@@ -8,8 +8,8 @@ import {
 } from "react-native";
 import styled from "styled-components";
 
-import { primaryColour } from "../styles/colours";
-import { titleFont, bigSizeFont } from "../styles/typography";
+import { primaryColour } from "../../styles/colours";
+import { titleFont, bigSizeFont } from "../../styles/typography";
 
 const PrimaryHeader = styled(SafeAreaView)`
   background-color: ${primaryColour};

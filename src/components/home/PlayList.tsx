@@ -3,9 +3,9 @@ import { FlatList } from "react-native";
 
 import PlayListItem from "./PlayListItem";
 
-import plays from "../data/plays";
-import { Play } from "../types/play-types";
-import { lightGray } from "../styles/colours";
+import plays from "../../data/plays";
+import { Play } from "../../types/play-types";
+import { lightGray } from "../../styles/colours";
 
 type Props = {
   goToPlay: (play: Play) => void;

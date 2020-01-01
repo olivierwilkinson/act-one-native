@@ -3,10 +3,10 @@ import React from "react";
 import { render, fireEvent, cleanup } from "react-native-testing-library";
 
 import PlayLineHeader from "../PlayLineHeader";
-import PlayPositionContext from "../../contexts/PlayPosition";
+import PlayPositionContext from "../../../contexts/PlayPosition";
 
-import line from "../../../tests/mocks/line";
-import scene from "../../../tests/mocks/scene";
+import line from "../../../../tests/mocks/line";
+import scene from "../../../../tests/mocks/scene";
 
 describe("PlayLineHeader", () => {
   let queryByTestId;

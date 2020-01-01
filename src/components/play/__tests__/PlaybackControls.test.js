@@ -3,7 +3,7 @@ import React from "react";
 import { render, fireEvent, cleanup } from "react-native-testing-library";
 
 import PlaybackControls from "../PlaybackControls";
-import AudioContext, { PlaybackState } from "../../contexts/Audio";
+import AudioContext, { PlaybackState } from "../../../contexts/Audio";
 
 describe("PlaybackControls", () => {
   let setPlaybackState;

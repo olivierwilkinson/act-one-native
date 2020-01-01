@@ -3,11 +3,11 @@ import { View, Text } from "react-native";
 import styled from "styled-components";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
-import { titleFont } from "../styles/typography";
-import { playBackgroundColour, lightPrimaryColour } from "../styles/colours";
-import { RGBColour } from "../types/colour-types";
-import { Line } from "../types/play-types";
-import PlayPositionContext from "../contexts/PlayPosition";
+import { titleFont } from "../../styles/typography";
+import { playBackgroundColour, lightPrimaryColour } from "../../styles/colours";
+import { RGBColour } from "../../types/colour-types";
+import { Line } from "../../types/play-types";
+import PlayPositionContext from "../../contexts/PlayPosition";
 
 type ColourProps = RGBColour & {
   highlighted: boolean;

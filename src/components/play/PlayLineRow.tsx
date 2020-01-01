@@ -2,8 +2,8 @@ import React from "react";
 import { View, Text } from "react-native";
 import styled from "styled-components";
 
-import { LineRow } from "../types/play-types";
-import { italicFont, subFont, thinFont } from "../styles/typography";
+import { LineRow } from "../../types/play-types";
+import { italicFont, subFont, thinFont } from "../../styles/typography";
 
 const LineRowView = styled(View)`
   display: flex;
