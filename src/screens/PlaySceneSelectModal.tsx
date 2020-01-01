@@ -9,7 +9,7 @@ type Params = {
   play: Play;
 };
 
-export default class PlayScreen extends React.Component<
+export default class PlaySceneSelectModal extends React.Component<
   NavigationStackScreenProps<Params>
 > {
   render() {
