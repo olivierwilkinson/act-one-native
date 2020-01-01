@@ -117,12 +117,17 @@ export default class PlayScreen extends React.Component<Props> {
         if (nextLine) {
           this.setState(
             {
-              playPosition: {
-                ...playPosition,
-                activeLine: nextLine
-              }
+              playPosition: { ...playPosition, activeLine: nextLine }
             },
-            this.beginPlayback
+            () => {
+              const {
+                audio: { playbackState }
+              } = this.state;
+
+              if (playbackState === PlaybackState.Playing) {
+                this.beginPlayback();
+              }
+            }
           );
         }
       }
