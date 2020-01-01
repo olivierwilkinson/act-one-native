@@ -3,8 +3,10 @@ import styled from "styled-components";
 import { TouchableHighlight, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-import AudioContext, { AudioContextValue } from "../../contexts/Audio";
-import { PlaybackState } from "../../controllers/PlayAudioController";
+import AudioContext, {
+  AudioContextValue,
+  PlaybackState
+} from "../../contexts/Audio";
 import { lightGray } from "../../styles/colours";
 
 const ControlsView = styled(View)`
