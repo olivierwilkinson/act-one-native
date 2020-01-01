@@ -141,10 +141,9 @@ export default class PlayScreen extends React.Component<Props> {
             return this.beginPlayback();
         }
       case PlaybackState.Paused:
-        // TODO:- figure why pausing cannot be resumed
-        Speech.pause();
+        return Speech.pause();
       case PlaybackState.Stopped:
-        Speech.stop();
+        return Speech.stop();
     }
   };
 
