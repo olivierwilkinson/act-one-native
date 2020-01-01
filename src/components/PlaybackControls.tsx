@@ -32,7 +32,7 @@ export default () => {
 
   const handlePlayButtonPress = () => {
     if (isPlaying) {
-      return setPlaybackState(PlaybackState.Stopped);
+      return setPlaybackState(PlaybackState.Paused);
     }
 
     setPlaybackState(PlaybackState.Playing);
@@ -46,7 +46,7 @@ export default () => {
       >
         <PlayView>
           <Ionicons
-            name={isPlaying ? "ios-square" : "ios-play"}
+            name={isPlaying ? "ios-pause" : "ios-play"}
             size={32}
             color="black"
           />
