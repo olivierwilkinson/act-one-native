@@ -1,4 +1,9 @@
-const javascriptLinters = ["eslint --fix", "prettier --write", "git add"];
+const javascriptLinters = [
+  "eslint --fix",
+  "prettier --write",
+  "yarn test --findRelatedTests",
+  "git add"
+];
 const typescriptLinters = filenames => [
   "yarn check-types",
   ...javascriptLinters.map(command => `${command} ${filenames.join(" ")}`)
