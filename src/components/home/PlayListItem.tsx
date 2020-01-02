@@ -5,10 +5,6 @@ import styled from "styled-components";
 import { Play } from "../../types/play-types";
 import { titleFont, subFont } from "../../styles/typography";
 
-type Props = Play & {
-  onClick: () => void;
-};
-
 const ListItemCard = styled(View)`
   margin: 10px 0;
   shadow-color: black;
@@ -46,9 +42,17 @@ const SubText = styled(Text)`
   ${subFont}
 `;
 
-const PlayListItem = ({ onClick, image, play, description }: Props) => (
+type Props = Play & {
+  onPress: () => void;
+};
+
+const PlayListItem = ({ onPress, image, play, description }: Props) => (
   <ListItemCard>
-    <TouchableHighlight onPress={onClick} underlayColor="white">
+    <TouchableHighlight
+      testID="play-list-item"
+      onPress={onPress}
+      underlayColor="white"
+    >
       <PlayListItemContent>
         <ImageView>
           <PlayImage source={image} />

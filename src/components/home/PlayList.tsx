@@ -16,7 +16,7 @@ export default (props: Props) => (
     style={{ backgroundColor: lightGray }}
     data={plays}
     renderItem={({ item }: { item: Play }) => (
-      <PlayListItem {...item} onClick={() => props.goToPlay(item)} />
+      <PlayListItem {...item} onPress={() => props.goToPlay(item)} />
     )}
     keyExtractor={item => item.play}
   />
