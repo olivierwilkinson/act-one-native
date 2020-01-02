@@ -9,11 +9,18 @@ import {
 
 import PlayLineHeader from "../PlayLineHeader";
 import PlayPositionContext from "../../../contexts/PlayPosition";
-
-import line from "../../../../tests/mocks/line";
-import scene from "../../../../tests/mocks/scene";
-import play from "../../../../tests/mocks/play";
 import { createColourByPlayer } from "../../../helpers/play";
+import {
+  findPlayerLine,
+  findDirectionLine
+} from "../../../../tests/helpers/play-mock-helpers";
+
+import play from "../../../data/plays/shakespeare/AComedyOfErrors";
+const {
+  scenes: [scene]
+} = play;
+const line = findPlayerLine(scene);
+const noPlayerLine = findDirectionLine(scene);
 
 const colourByPlayer = createColourByPlayer(play);
 
@@ -59,9 +66,8 @@ describe("PlayLineHeader", () => {
           }}
         >
           <PlayLineHeader
-            {...line}
-            player=""
-            colour={colourByPlayer[line.player]}
+            {...noPlayerLine}
+            colour={colourByPlayer[noPlayerLine.player]}
           />
         </PlayPositionContext.Provider>
       ));

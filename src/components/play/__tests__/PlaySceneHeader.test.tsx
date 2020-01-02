@@ -11,7 +11,10 @@ import {
 import PlaySceneHeader from "../PlaySceneHeader";
 import PlayNavigationContext from "../../../contexts/PlayNavigation";
 
-import scene from "../../../../tests/mocks/scene";
+import play from "../../../data/plays/shakespeare/AComedyOfErrors";
+const {
+  scenes: [scene]
+} = play;
 
 describe("PlaySceneHeader", () => {
   let openSceneSelect: jest.Mock;

@@ -10,12 +10,16 @@ import {
 
 import PlayScene from "../PlayScene";
 import PlayPositionContext from "../../../contexts/PlayPosition";
-
-import line from "../../../../tests/mocks/line";
-import scene from "../../../../tests/mocks/scene";
-import play from "../../../../tests/mocks/play";
 import { createColourByPlayer } from "../../../helpers/play";
 import PlayNavigationContext from "../../../contexts/PlayNavigation";
+
+import play from "../../../data/plays/shakespeare/AComedyOfErrors";
+const {
+  scenes: [scene]
+} = play;
+const {
+  lines: [line]
+} = scene;
 
 const colourByPlayer = createColourByPlayer(play);
 

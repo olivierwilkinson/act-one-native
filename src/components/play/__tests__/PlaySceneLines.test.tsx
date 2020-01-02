@@ -1,22 +1,33 @@
 import "react-native";
 import React from "react";
-import { render, cleanup, QueryByAPI } from "react-native-testing-library";
+import {
+  render,
+  cleanup,
+  QueryByAPI,
+  GetByAPI
+} from "react-native-testing-library";
 
 import PlaySceneLines from "../PlaySceneLines";
 import PlayPositionContext from "../../../contexts/PlayPosition";
-
-import lineRow from "../../../../tests/mocks/lineRow";
-import line from "../../../../tests/mocks/line";
-import scene from "../../../../tests/mocks/scene";
-import play from "../../../../tests/mocks/play";
 import { createColourByPlayer } from "../../../helpers/play";
+import { findPlayerLine } from "../../../../tests/helpers/play-mock-helpers";
+
+import play from "../../../data/plays/shakespeare/AComedyOfErrors";
+const {
+  scenes: [scene]
+} = play;
+const line = findPlayerLine(scene);
+const {
+  lineRows: [lineRow]
+} = line;
 
 const colourByPlayer = createColourByPlayer(play);
 
 describe("PlaySceneLines", () => {
   let queryByText: QueryByAPI["queryByText"];
+  let getAllByText: GetByAPI["getAllByText"];
   beforeEach(() => {
-    ({ queryByText } = render(
+    ({ queryByText, getAllByText } = render(
       <PlayPositionContext.Provider
         value={{
           activeLine: line,
@@ -35,6 +46,8 @@ describe("PlaySceneLines", () => {
   });
 
   it("renders line header", () => {
-    expect(queryByText(line.player)).not.toBeNull();
+    const headers = getAllByText(line.player);
+
+    expect(headers.length).toBeTruthy();
   });
 });
