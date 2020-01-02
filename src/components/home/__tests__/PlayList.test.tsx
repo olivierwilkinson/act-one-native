@@ -3,7 +3,7 @@ import React from "react";
 import { render, cleanup, QueryByAPI } from "react-native-testing-library";
 
 import PlayList from "../PlayList";
-import play from "../../../../tests/mocks/play";
+import play from "../../../data/plays/shakespeare/AComedyOfErrors";
 
 describe("PlayList", () => {
   let goToPlay: jest.Mock;

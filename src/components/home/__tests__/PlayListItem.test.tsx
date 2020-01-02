@@ -9,7 +9,7 @@ import {
 
 import PlayListItem from "../PlayListItem";
 
-import play from "../../../../tests/mocks/play";
+import play from "../../../data/plays/shakespeare/AComedyOfErrors";
 
 describe("PlayListItem", () => {
   let onPress: jest.Mock;

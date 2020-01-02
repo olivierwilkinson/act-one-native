@@ -25,7 +25,7 @@ export default ({ id, lineRows, player }: Line) => {
       onPress={() => setActiveLineById(id)}
       underlayColor={playBackgroundColour}
     >
-      <PlayLineView highlighted={activeLine.id === id}>
+      <PlayLineView testID="play-line-view" highlighted={activeLine.id === id}>
         {lineRows.map((lineRow, i) => (
           <PlayLineRow key={`${id}-${i}`} italic={!player} {...lineRow} />
         ))}

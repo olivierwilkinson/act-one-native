@@ -4,39 +4,74 @@ import {
   render,
   fireEvent,
   cleanup,
-  QueryByAPI
+  GetByAPI
 } from "react-native-testing-library";
 
 import PlayLine from "../PlayLine";
 import PlayPositionContext from "../../../contexts/PlayPosition";
 
-import line from "../../../../tests/mocks/line";
-import scene from "../../../../tests/mocks/scene";
+import play from "../../../data/plays/shakespeare/AComedyOfErrors";
+const {
+  scenes: [scene]
+} = play;
+const {
+  lines: [activeLine, otherLine]
+} = scene;
 
 describe("PlayLine", () => {
-  let queryByTestId: QueryByAPI["queryByTestId"];
+  let getByTestId: GetByAPI["getByTestId"];
   let setActiveLineById: jest.Mock;
   beforeEach(() => {
     setActiveLineById = jest.fn();
 
-    ({ queryByTestId } = render(
+    ({ getByTestId } = render(
       <PlayPositionContext.Provider
         value={{
-          activeLine: line,
+          activeLine,
           activeScene: scene,
           setActiveLineById
         }}
       >
-        <PlayLine {...line} />
+        <PlayLine {...activeLine} />
       </PlayPositionContext.Provider>
     ));
   });
   afterEach(cleanup);
 
   it("sets active line on press", () => {
-    const playLine = queryByTestId("play-line");
+    const playLine = getByTestId("play-line");
     fireEvent.press(playLine);
 
-    expect(setActiveLineById).toHaveBeenCalledWith(line.id);
+    expect(setActiveLineById).toHaveBeenCalledWith(activeLine.id);
+  });
+
+  it("sets highlighted style when line is active", () => {
+    const {
+      props: { highlighted }
+    } = getByTestId("play-line-view");
+    expect(highlighted).toEqual(true);
+  });
+
+  describe("when line is not the active line", () => {
+    beforeEach(() => {
+      ({ getByTestId } = render(
+        <PlayPositionContext.Provider
+          value={{
+            activeLine,
+            activeScene: scene,
+            setActiveLineById
+          }}
+        >
+          <PlayLine {...otherLine} />
+        </PlayPositionContext.Provider>
+      ));
+    });
+
+    it("sets highlighted style when line is active", () => {
+      const {
+        props: { highlighted }
+      } = getByTestId("play-line-view");
+      expect(highlighted).toEqual(false);
+    });
   });
 });
