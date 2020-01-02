@@ -1,6 +1,12 @@
 import "react-native";
 import React from "react";
-import { render, fireEvent, cleanup } from "react-native-testing-library";
+import {
+  render,
+  fireEvent,
+  cleanup,
+  QueryByAPI,
+  RenderAPI
+} from "react-native-testing-library";
 
 import PlayScene from "../PlayScene";
 import PlayPositionContext from "../../../contexts/PlayPosition";
@@ -14,9 +20,9 @@ import PlayNavigationContext from "../../../contexts/PlayNavigation";
 const colourByPlayer = createColourByPlayer(play);
 
 describe("PlayScene", () => {
-  let scrollToLocation;
-  let queryByTestId;
-  let rerender;
+  let scrollToLocation: jest.Mock;
+  let queryByTestId: QueryByAPI["queryByTestId"];
+  let rerender: RenderAPI["rerender"];
   beforeEach(() => {
     ({ queryByTestId, rerender } = render(
       <PlayPositionContext.Provider
