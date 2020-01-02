@@ -3,8 +3,7 @@ import React from "react";
 import { render, cleanup, QueryByAPI } from "react-native-testing-library";
 
 import PlayList from "../PlayList";
-import plays from "../../../data/plays";
-const [play] = plays;
+import play from "../../../../tests/mocks/play";
 
 describe("PlayList", () => {
   let goToPlay: jest.Mock;
@@ -12,7 +11,7 @@ describe("PlayList", () => {
   beforeEach(() => {
     goToPlay = jest.fn();
 
-    ({ queryByText } = render(<PlayList goToPlay={goToPlay} />));
+    ({ queryByText } = render(<PlayList plays={[play]} goToPlay={goToPlay} />));
   });
   afterEach(cleanup);
 

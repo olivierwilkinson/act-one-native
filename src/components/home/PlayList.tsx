@@ -3,20 +3,20 @@ import { FlatList } from "react-native";
 
 import PlayListItem from "./PlayListItem";
 
-import plays from "../../data/plays";
 import { Play } from "../../types/play-types";
 import { lightGray } from "../../styles/colours";
 
 type Props = {
+  plays: Play[];
   goToPlay: (play: Play) => void;
 };
 
-export default (props: Props) => (
+export default ({ plays, goToPlay }: Props) => (
   <FlatList
     style={{ backgroundColor: lightGray }}
     data={plays}
     renderItem={({ item }: { item: Play }) => (
-      <PlayListItem {...item} onPress={() => props.goToPlay(item)} />
+      <PlayListItem {...item} onPress={() => goToPlay(item)} />
     )}
     keyExtractor={item => item.play}
   />
