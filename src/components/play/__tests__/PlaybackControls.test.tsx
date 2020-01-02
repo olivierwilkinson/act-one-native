@@ -1,19 +1,25 @@
 import "react-native";
 import React from "react";
-import { render, fireEvent, cleanup } from "react-native-testing-library";
+import {
+  render,
+  fireEvent,
+  cleanup,
+  GetByAPI,
+  RenderAPI
+} from "react-native-testing-library";
 
 import PlaybackControls from "../PlaybackControls";
 import AudioContext, { PlaybackState } from "../../../contexts/Audio";
 
 describe("PlaybackControls", () => {
-  let setPlaybackState;
-  let getByTestId;
-  let rerender;
+  let setPlaybackState: jest.Mock;
+  let getByTestId: GetByAPI["getByTestId"];
+  let rerender: RenderAPI["rerender"];
 
   beforeEach(() => {
     setPlaybackState = jest.fn();
 
-    ({ queryByTestId, getByTestId, rerender } = render(
+    ({ getByTestId, rerender } = render(
       <AudioContext.Provider
         value={{
           playbackState: PlaybackState.Stopped,

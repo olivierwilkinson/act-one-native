@@ -1,6 +1,11 @@
 import "react-native";
 import React from "react";
-import { render, fireEvent, cleanup } from "react-native-testing-library";
+import {
+  render,
+  fireEvent,
+  cleanup,
+  QueryByAPI
+} from "react-native-testing-library";
 
 import PlayLine from "../PlayLine";
 import PlayPositionContext from "../../../contexts/PlayPosition";
@@ -9,8 +14,8 @@ import line from "../../../../tests/mocks/line";
 import scene from "../../../../tests/mocks/scene";
 
 describe("PlayLine", () => {
-  let queryByTestId;
-  let setActiveLineById;
+  let queryByTestId: QueryByAPI["queryByTestId"];
+  let setActiveLineById: jest.Mock;
   beforeEach(() => {
     setActiveLineById = jest.fn();
 

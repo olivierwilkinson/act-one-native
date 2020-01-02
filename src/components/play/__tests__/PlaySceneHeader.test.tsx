@@ -1,6 +1,12 @@
 import "react-native";
 import React from "react";
-import { render, fireEvent, cleanup } from "react-native-testing-library";
+import {
+  render,
+  fireEvent,
+  cleanup,
+  QueryByAPI,
+  GetByAPI
+} from "react-native-testing-library";
 
 import PlaySceneHeader from "../PlaySceneHeader";
 import PlayNavigationContext from "../../../contexts/PlayNavigation";
@@ -8,10 +14,10 @@ import PlayNavigationContext from "../../../contexts/PlayNavigation";
 import scene from "../../../../tests/mocks/scene";
 
 describe("PlaySceneHeader", () => {
-  let openSceneSelect;
-  let queryByText;
-  let queryByTestId;
-  let getByTestId;
+  let openSceneSelect: jest.Mock;
+  let queryByText: QueryByAPI["queryByText"];
+  let queryByTestId: QueryByAPI["queryByTestId"];
+  let getByTestId: GetByAPI["getByTestId"];
   beforeEach(() => {
     openSceneSelect = jest.fn();
 

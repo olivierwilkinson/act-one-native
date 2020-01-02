@@ -1,6 +1,6 @@
 import "react-native";
 import React from "react";
-import { render, cleanup } from "react-native-testing-library";
+import { render, cleanup, QueryByAPI } from "react-native-testing-library";
 
 import PlaySceneLines from "../PlaySceneLines";
 import PlayPositionContext from "../../../contexts/PlayPosition";
@@ -14,7 +14,7 @@ import { createColourByPlayer } from "../../../helpers/play";
 const colourByPlayer = createColourByPlayer(play);
 
 describe("PlaySceneLines", () => {
-  let queryByText;
+  let queryByText: QueryByAPI["queryByText"];
   beforeEach(() => {
     ({ queryByText } = render(
       <PlayPositionContext.Provider

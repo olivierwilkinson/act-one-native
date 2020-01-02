@@ -1,20 +1,29 @@
 import "react-native";
 import React from "react";
-import { render, fireEvent, cleanup } from "react-native-testing-library";
+import {
+  render,
+  fireEvent,
+  cleanup,
+  QueryByAPI
+} from "react-native-testing-library";
 
 import PlayLineHeader from "../PlayLineHeader";
 import PlayPositionContext from "../../../contexts/PlayPosition";
 
 import line from "../../../../tests/mocks/line";
 import scene from "../../../../tests/mocks/scene";
+import play from "../../../../tests/mocks/play";
+import { createColourByPlayer } from "../../../helpers/play";
+
+const colourByPlayer = createColourByPlayer(play);
 
 describe("PlayLineHeader", () => {
-  let queryByTestId;
-  let setActiveLineById;
+  let queryByTestId: QueryByAPI["queryByTestId"];
+  let setActiveLineById: jest.Mock;
   beforeEach(() => {
     setActiveLineById = jest.fn();
 
-    ({ queryByTestId, queryByText } = render(
+    ({ queryByTestId } = render(
       <PlayPositionContext.Provider
         value={{
           activeLine: line,
@@ -22,7 +31,7 @@ describe("PlayLineHeader", () => {
           setActiveLineById
         }}
       >
-        <PlayLineHeader {...line} />
+        <PlayLineHeader {...line} colour={colourByPlayer[line.player]} />
       </PlayPositionContext.Provider>
     ));
   });
@@ -41,7 +50,7 @@ describe("PlayLineHeader", () => {
 
   describe("when line has no player", () => {
     beforeEach(() => {
-      ({ queryByType, queryByText } = render(
+      ({ queryByTestId } = render(
         <PlayPositionContext.Provider
           value={{
             activeLine: line,
@@ -49,7 +58,11 @@ describe("PlayLineHeader", () => {
             setActiveLineById
           }}
         >
-          <PlayLineHeader {...line} player="" />
+          <PlayLineHeader
+            {...line}
+            player=""
+            colour={colourByPlayer[line.player]}
+          />
         </PlayPositionContext.Provider>
       ));
 
