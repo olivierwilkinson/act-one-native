@@ -39,7 +39,7 @@ describe("PlayLine", () => {
   afterEach(cleanup);
 
   it("sets active line on press", () => {
-    const playLine = getByTestId("play-line");
+    const playLine = getByTestId(`play-line-${activeLine.id}`);
     fireEvent.press(playLine);
 
     expect(setActiveLineById).toHaveBeenCalledWith(activeLine.id);
@@ -48,7 +48,7 @@ describe("PlayLine", () => {
   it("sets highlighted style when line is active", () => {
     const {
       props: { highlighted }
-    } = getByTestId("play-line-view");
+    } = getByTestId(`play-line-view-${activeLine.id}`);
     expect(highlighted).toEqual(true);
   });
 
@@ -70,7 +70,7 @@ describe("PlayLine", () => {
     it("sets highlighted style when line is active", () => {
       const {
         props: { highlighted }
-      } = getByTestId("play-line-view");
+      } = getByTestId(`play-line-view-${otherLine.id}`);
       expect(highlighted).toEqual(false);
     });
   });

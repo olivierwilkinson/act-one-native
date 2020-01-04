@@ -21,11 +21,14 @@ export default ({ id, lineRows, player }: Line) => {
 
   return (
     <TouchableHighlight
-      testID="play-line"
+      testID={`play-line-${id}`}
       onPress={() => setActiveLineById(id)}
       underlayColor={playBackgroundColour}
     >
-      <PlayLineView testID="play-line-view" highlighted={activeLine.id === id}>
+      <PlayLineView
+        testID={`play-line-view-${id}`}
+        highlighted={activeLine.id === id}
+      >
         {lineRows.map((lineRow, i) => (
           <PlayLineRow key={`${id}-${i}`} italic={!player} {...lineRow} />
         ))}
