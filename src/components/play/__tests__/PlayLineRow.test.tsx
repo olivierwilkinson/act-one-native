@@ -5,13 +5,12 @@ import { render, cleanup, QueryByAPI } from "react-native-testing-library";
 import PlayLineRow from "../PlayLineRow";
 
 import play from "../../../data/plays/shakespeare/AComedyOfErrors";
-import { findPlayerLine } from "../../../../tests/helpers/play-mock-helpers";
 const {
   scenes: [scene]
 } = play;
 const {
   lineRows: [lineRow]
-} = findPlayerLine(scene);
+} = scene.lines.find(({ player }) => player);
 
 describe("PlayLineRow", () => {
   let queryByText: QueryByAPI["queryByText"];
