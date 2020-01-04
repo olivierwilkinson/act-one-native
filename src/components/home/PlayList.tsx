@@ -13,6 +13,7 @@ type Props = {
 
 export default ({ plays, goToPlay }: Props) => (
   <FlatList
+    testID="play-list"
     style={{ backgroundColor: lightGray }}
     data={plays}
     renderItem={({ item }: { item: Play }) => (

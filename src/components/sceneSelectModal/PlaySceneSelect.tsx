@@ -44,7 +44,10 @@ export default (props: Props) => {
   const { currentAct, currentScene, scenes } = play;
 
   return (
-    <SafeAreaView style={{ backgroundColor: primaryColour }}>
+    <SafeAreaView
+      testID="scene-select"
+      style={{ backgroundColor: primaryColour }}
+    >
       <HeaderView>
         <HeaderSideView />
 
@@ -53,6 +56,7 @@ export default (props: Props) => {
         </TitleView>
 
         <TouchableHighlight
+          testID="header-close-button"
           underlayColor={primaryColour}
           onPress={onClosePress}
         >
