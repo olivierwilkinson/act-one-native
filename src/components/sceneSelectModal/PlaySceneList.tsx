@@ -7,27 +7,6 @@ import { Scene } from "../../types/play-types";
 import { mediumSizeFont, subFont } from "../../styles/typography";
 import { lightPrimaryColour } from "../../styles/colours";
 
-type ListSection = {
-  title: string;
-  data: Scene[];
-};
-
-const generateSections: (scenes: Scene[]) => ListSection[] = scenes =>
-  scenes.reduce<ListSection[]>(
-    (acc, scene) => {
-      const latestSection = acc[acc.length - 1];
-      const title = `Act ${scene.act}`;
-
-      if (latestSection.title === title) {
-        latestSection.data.push(scene);
-        return acc;
-      }
-
-      return [...acc, { title, data: [scene] }];
-    },
-    [{ title: `Act 1`, data: [] }]
-  );
-
 const ActHeaderView = styled(View)`
   padding: 10px 20px;
   background-color: white;
@@ -75,6 +54,27 @@ const RightArrowView = styled(View)`
   align-items: center;
 `;
 
+type ListSection = {
+  title: string;
+  data: Scene[];
+};
+
+const generateSections: (scenes: Scene[]) => ListSection[] = scenes =>
+  scenes.reduce<ListSection[]>(
+    (acc, scene) => {
+      const latestSection = acc[acc.length - 1];
+      const title = `Act ${scene.act}`;
+
+      if (latestSection.title === title) {
+        latestSection.data.push(scene);
+        return acc;
+      }
+
+      return [...acc, { title, data: [scene] }];
+    },
+    [{ title: `Act 1`, data: [] }]
+  );
+
 type Props = {
   scenes: Scene[];
   currentAct: number;
@@ -96,23 +96,22 @@ export default ({ currentAct, currentScene, scenes, onScenePress }: Props) => {
           <ActText>{title}</ActText>
         </ActHeaderView>
       )}
-      renderItem={({ item: { scene, act } }) => {
-        const isCurrentScene = scene === currentScene && act === currentAct;
-        return (
-          <TouchableHighlight onPress={() => onScenePress({ scene, act })}>
-            <SceneView>
-              <SceneInfoView>
-                <CurrentSceneIndicator visible={isCurrentScene} />
-                <SceneText>{`SCENE ${scene}`}</SceneText>
-              </SceneInfoView>
+      renderItem={({ item: { scene, act } }) => (
+        <TouchableHighlight onPress={() => onScenePress({ scene, act })}>
+          <SceneView>
+            <SceneInfoView>
+              <CurrentSceneIndicator
+                visible={scene === currentScene && act === currentAct}
+              />
+              <SceneText>{`SCENE ${scene}`}</SceneText>
+            </SceneInfoView>
 
-              <RightArrowView>
-                <Ionicons name="ios-arrow-forward" size={18} color="grey" />
-              </RightArrowView>
-            </SceneView>
-          </TouchableHighlight>
-        );
-      }}
+            <RightArrowView>
+              <Ionicons name="ios-arrow-forward" size={18} color="grey" />
+            </RightArrowView>
+          </SceneView>
+        </TouchableHighlight>
+      )}
       keyExtractor={item => `${item.act}-${item.scene}`}
       stickySectionHeadersEnabled
     />
