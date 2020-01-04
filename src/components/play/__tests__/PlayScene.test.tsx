@@ -2,10 +2,10 @@ import "react-native";
 import React from "react";
 import {
   render,
-  fireEvent,
   cleanup,
   QueryByAPI,
-  RenderAPI
+  RenderAPI,
+  GetByAPI
 } from "react-native-testing-library";
 
 import PlayScene from "../PlayScene";
@@ -26,9 +26,10 @@ const colourByPlayer = createColourByPlayer(play);
 describe("PlayScene", () => {
   let scrollToLocation: jest.Mock;
   let queryByTestId: QueryByAPI["queryByTestId"];
+  let getByTestId: GetByAPI["getByTestId"];
   let rerender: RenderAPI["rerender"];
   beforeEach(() => {
-    ({ queryByTestId, rerender } = render(
+    ({ queryByTestId, getByTestId, rerender } = render(
       <PlayPositionContext.Provider
         value={{
           activeLine: line,
@@ -51,6 +52,18 @@ describe("PlayScene", () => {
     sceneLines.instance.scrollToLocation = scrollToLocation;
   });
   afterEach(cleanup);
+
+  it("renders play scene header", () => {
+    expect(getByTestId("play-scene-header")).not.toBeNull();
+  });
+
+  it("renders play scene lines", () => {
+    expect(getByTestId("play-scene-lines")).not.toBeNull();
+  });
+
+  it("renders playback controls", () => {
+    expect(getByTestId("playback-controls")).not.toBeNull();
+  });
 
   describe("when act number changes", () => {
     beforeEach(() => {

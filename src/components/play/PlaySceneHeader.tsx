@@ -64,7 +64,7 @@ export default ({ act, scene }: Scene) => {
   }: PlayNavigation = useContext(PlayNavigationContext);
 
   return (
-    <PlaySceneHeaderView>
+    <PlaySceneHeaderView testID="play-scene-header">
       {goToPreviousScene && (
         <LeftArrowView>
           <TouchableHighlight
