@@ -41,7 +41,7 @@ export default () => {
   };
 
   return (
-    <ControlsView>
+    <ControlsView testID="playback-controls">
       <TouchableHighlight
         testID="play-pause-button"
         underlayColor={lightGray}
