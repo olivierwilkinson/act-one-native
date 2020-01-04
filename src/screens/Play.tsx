@@ -114,22 +114,24 @@ export default class PlayScreen extends React.Component<Props> {
       voice: "com.apple.ttsbundle.Daniel-compact",
       onDone: () => {
         const nextLine = this.getNextLine();
-        if (nextLine) {
-          this.setState(
-            {
-              playPosition: { ...playPosition, activeLine: nextLine }
-            },
-            () => {
-              const {
-                audio: { playbackState }
-              } = this.state;
-
-              if (playbackState === PlaybackState.Playing) {
-                this.beginPlayback();
-              }
-            }
-          );
+        if (!nextLine) {
+          return this.setPlaybackState(PlaybackState.Stopped);
         }
+
+        this.setState(
+          {
+            playPosition: { ...playPosition, activeLine: nextLine }
+          },
+          () => {
+            const {
+              audio: { playbackState }
+            } = this.state;
+
+            if (playbackState === PlaybackState.Playing) {
+              this.beginPlayback();
+            }
+          }
+        );
       }
     });
   };
