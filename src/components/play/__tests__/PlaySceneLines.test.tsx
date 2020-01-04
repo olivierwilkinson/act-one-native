@@ -10,13 +10,12 @@ import {
 import PlaySceneLines from "../PlaySceneLines";
 import PlayPositionContext from "../../../contexts/PlayPosition";
 import { createColourByPlayer } from "../../../helpers/play";
-import { findPlayerLine } from "../../../../tests/helpers/play-mock-helpers";
 
 import play from "../../../data/plays/shakespeare/AComedyOfErrors";
 const {
   scenes: [scene]
 } = play;
-const line = findPlayerLine(scene);
+const line = scene.lines.find(({ player }) => player);
 const {
   lineRows: [lineRow]
 } = line;
