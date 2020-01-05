@@ -1,12 +1,27 @@
 import React from "react";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
+import { NavigationStackScreenProps } from "react-navigation-stack";
 
 import plays from "../data/plays";
 import PlayList from "../components/home/PlayList";
+import Header from "../components/common/Header";
 import { navigateToPlay } from "../helpers/navigation";
+import { Play } from "../types/play-types";
 
-const HomeScreen: NavigationStackScreenComponent = ({ navigation }) => (
-  <PlayList plays={plays} goToPlay={play => navigateToPlay(navigation, play)} />
-);
+type Params = { play: Play };
+type Props = NavigationStackScreenProps<Params>;
 
-export default HomeScreen;
+export default class HomeScreen extends React.Component<Props> {
+  static navigationOptions = {
+    header: () => <Header />
+  };
+
+  render() {
+    const { navigation } = this.props;
+    return (
+      <PlayList
+        plays={plays}
+        goToPlay={play => navigateToPlay(navigation, play)}
+      />
+    );
+  }
+}
