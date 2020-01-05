@@ -1,0 +1,97 @@
+{
+  "": {
+    "red": 120,
+    "green": 28,
+    "blue": 129
+  },
+  "AEGEON": {
+    "red": 81,
+    "green": 28,
+    "blue": 128
+  },
+  "DUKE SOLINUS": {
+    "red": 67,
+    "green": 50,
+    "blue": 141
+  },
+  "Gaoler": {
+    "red": 63,
+    "green": 81,
+    "blue": 163
+  },
+  "First Merchant": {
+    "red": 65,
+    "green": 111,
+    "blue": 184
+  },
+  "ANTIPHOLUS OF SYRACUSE": {
+    "red": 71,
+    "green": 136,
+    "blue": 194
+  },
+  "DROMIO OF SYRACUSE": {
+    "red": 81,
+    "green": 156,
+    "blue": 184
+  },
+  "DROMIO OF EPHESUS": {
+    "red": 95,
+    "green": 170,
+    "blue": 160
+  },
+  "ADRIANA": {
+    "red": 112,
+    "green": 180,
+    "blue": 132
+  },
+  "LUCIANA": {
+    "red": 131,
+    "green": 186,
+    "blue": 109
+  },
+  "ANTIPHOLUS OF EPHESUS": {
+    "red": 153,
+    "green": 189,
+    "blue": 92
+  },
+  "BALTHAZAR": {
+    "red": 175,
+    "green": 190,
+    "blue": 79
+  },
+  "LUCE": {
+    "red": 195,
+    "green": 186,
+    "blue": 69
+  },
+  "ANTIPHOLUS": {
+    "red": 212,
+    "green": 178,
+    "blue": 62
+  },
+  "ANGELO": {
+    "red": 224,
+    "green": 162,
+    "blue": 57
+  },
+  "Second Merchant": {
+    "red": 230,
+    "green": 138,
+    "blue": 51
+  },
+  "Officer": {
+    "red": 230,
+    "green": 107,
+    "blue": 45
+  },
+  "Courtezan": {
+    "red": 225,
+    "green": 70,
+    "blue": 39
+  },
+  "PINCH": {
+    "red": 217,
+    "green": 33,
+    "blue": 32
+  }
+}

@@ -15,8 +15,17 @@ export const findActiveScene = (play: Play) => {
   );
 };
 
-export const getLineText = ({ lineRows }: Line) =>
-  lineRows.reduce((text, row) => `${text} ${row.text}`, "");
+export const getLineText = ({ lineRows }: Line) => {
+  if (!lineRows.length) {
+    return "";
+  }
+
+  return lineRows.reduce((text, row) => {
+    if (!text) return row.text;
+
+    return `${text}\n${row.text}`;
+  }, "");
+};
 
 export const createColourByPlayer: (play: Play) => ColourByPlayer = play => {
   const { scenes } = play;
@@ -49,7 +58,7 @@ export const goToScene = (
   const { scenes } = play;
   const scene = scenes[newSceneIndex];
   if (!scene) {
-    return null;
+    return;
   }
 
   setParams(navigation, playScreenKey, {
