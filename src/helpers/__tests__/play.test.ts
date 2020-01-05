@@ -1,5 +1,3 @@
-import fs from "fs";
-
 import play from "../../data/plays/shakespeare/AComedyOfErrors";
 const {
   scenes: [activeScene]
@@ -15,7 +13,7 @@ import {
   goToScene
 } from "../play";
 import { setParams, playScreenKey } from "../navigation";
-import { navigationMock } from "../../../tests/mocks";
+import navigationMock from "../../../tests/mocks/navigation";
 import colourByPlayer from "./data/colourByPlayer.json";
 
 jest.mock("../navigation.ts", () => ({
