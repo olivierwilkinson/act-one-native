@@ -89,6 +89,7 @@ export default ({ currentAct, currentScene, scenes, onScenePress }: Props) => {
 
   return (
     <SectionList
+      testID="play-scene-list"
       bounces={false}
       sections={sections}
       initialNumToRender={scenes.length}
