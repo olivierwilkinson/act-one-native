@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, SectionList, TouchableHighlight } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import styled from "styled-components";
+import styled from "styled-components/native";
 
 import { Scene } from "../../types/play-types";
 import { mediumSizeFont, subFont } from "../../styles/typography";
@@ -63,7 +63,7 @@ const generateSections: (scenes: Scene[]) => ListSection[] = scenes =>
   scenes.reduce<ListSection[]>(
     (acc, scene) => {
       const latestSection = acc[acc.length - 1];
-      const title = `Act ${scene.act}`;
+      const title = `ACT ${scene.act}`;
 
       if (latestSection.title === title) {
         latestSection.data.push(scene);
@@ -72,7 +72,7 @@ const generateSections: (scenes: Scene[]) => ListSection[] = scenes =>
 
       return [...acc, { title, data: [scene] }];
     },
-    [{ title: `Act 1`, data: [] }]
+    [{ title: `ACT 1`, data: [] }]
   );
 
 type Props = {
@@ -91,6 +91,7 @@ export default ({ currentAct, currentScene, scenes, onScenePress }: Props) => {
     <SectionList
       bounces={false}
       sections={sections}
+      initialNumToRender={scenes.length}
       renderSectionHeader={({ section: { title } }) => (
         <ActHeaderView>
           <ActText>{title}</ActText>
