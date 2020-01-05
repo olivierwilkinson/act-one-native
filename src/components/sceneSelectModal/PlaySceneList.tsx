@@ -99,15 +99,16 @@ export default ({ currentAct, currentScene, scenes, onScenePress }: Props) => {
       )}
       renderItem={({ item: { scene, act } }) => (
         <TouchableHighlight onPress={() => onScenePress({ scene, act })}>
-          <SceneView>
+          <SceneView testID={`scene-row-${scene}-${act}`}>
             <SceneInfoView>
               <CurrentSceneIndicator
+                testID={`current-scene-indicator-${act}-${scene}`}
                 visible={scene === currentScene && act === currentAct}
               />
               <SceneText>{`SCENE ${scene}`}</SceneText>
             </SceneInfoView>
 
-            <RightArrowView>
+            <RightArrowView testID={`right-arrow-${scene}-${act}`}>
               <Ionicons name="ios-arrow-forward" size={18} color="grey" />
             </RightArrowView>
           </SceneView>
