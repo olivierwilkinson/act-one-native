@@ -30,7 +30,7 @@ const SideView = styled(View)`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 60px;
+  width: 70px;
 `;
 
 const WhiteTitle = styled(Text)`

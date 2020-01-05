@@ -24,13 +24,20 @@ const MainStack = createStackNavigator(
   }
 );
 
+// wrap PlaySceneSelectModal in it's own stack to enable header
+const PlaySceneSelectModalStack = createStackNavigator({
+  Main: {
+    screen: PlaySceneSelectModal
+  }
+});
+
 const RootStack = createStackNavigator(
   {
     Main: {
       screen: MainStack
     },
     PlaySceneSelectModal: {
-      screen: PlaySceneSelectModal
+      screen: PlaySceneSelectModalStack
     }
   },
   {
