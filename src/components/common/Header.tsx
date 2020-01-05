@@ -39,7 +39,7 @@ const WhiteTitle = styled(Text)`
   color: white;
 `;
 
-const BackText = styled(Text)`
+const ActionText = styled(Text)`
   ${bigSizeFont}
   color: white;
 `;
@@ -47,20 +47,21 @@ const BackText = styled(Text)`
 type Props = {
   title?: string;
   onBack?: () => void;
+  onCancel?: () => void;
 };
 
 const defaultProps = {
   title: "ActOne"
 };
 
-const Header = ({ onBack, title }: Props) => (
+const Header = ({ title, onBack, onCancel }: Props) => (
   <PrimaryHeader>
     <StatusBar barStyle="light-content" />
     <SideView>
       {onBack && (
         <TouchableHighlight onPress={onBack}>
           <View>
-            <BackText>Back</BackText>
+            <ActionText>Back</ActionText>
           </View>
         </TouchableHighlight>
       )}
@@ -70,7 +71,15 @@ const Header = ({ onBack, title }: Props) => (
       <WhiteTitle>{title}</WhiteTitle>
     </TitleView>
 
-    <SideView />
+    <SideView>
+      {onCancel && (
+        <TouchableHighlight onPress={onCancel}>
+          <View>
+            <ActionText>Cancel</ActionText>
+          </View>
+        </TouchableHighlight>
+      )}
+    </SideView>
   </PrimaryHeader>
 );
 
