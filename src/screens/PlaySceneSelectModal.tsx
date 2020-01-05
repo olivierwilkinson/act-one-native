@@ -3,6 +3,7 @@ import { NavigationStackScreenProps } from "react-navigation-stack";
 
 import { Play } from "../types/play-types";
 import PlaySceneSelect from "../components/sceneSelectModal/PlaySceneSelect";
+import Header from "../components/common/Header";
 import { navigateToPlay } from "../helpers/navigation";
 
 type Params = {
@@ -12,6 +13,15 @@ type Params = {
 export default class PlaySceneSelectModal extends React.Component<
   NavigationStackScreenProps<Params>
 > {
+  static navigationOptions = ({ navigation }) => ({
+    header: () => (
+      <Header
+        title={navigation.state.params.play.play}
+        onCancel={() => navigation.pop()}
+      />
+    )
+  });
+
   render() {
     const { navigation } = this.props;
     const {
@@ -23,7 +33,6 @@ export default class PlaySceneSelectModal extends React.Component<
     return (
       <PlaySceneSelect
         {...play}
-        onClosePress={() => navigation.pop()}
         onScenePress={({ act, scene }) =>
           navigateToPlay(navigation, {
             ...play,

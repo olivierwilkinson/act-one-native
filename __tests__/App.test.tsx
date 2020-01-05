@@ -75,7 +75,7 @@ describe("App", () => {
       });
 
       it("navigates back to current scene on close button press", async () => {
-        const headerCloseButton = getByTestId("header-close-button");
+        const headerCloseButton = getByText("Cancel");
         fireEvent.press(headerCloseButton);
 
         await waitForElement(() => getByText("ACT 1 - SCENE 1"));
