@@ -59,7 +59,7 @@ const Header = ({ title, onBack, onCancel }: Props) => (
     <StatusBar barStyle="light-content" />
     <SideView>
       {onBack && (
-        <TouchableHighlight onPress={onBack}>
+        <TouchableHighlight onPress={onBack} underlayColor={primaryColour}>
           <View>
             <ActionText>Back</ActionText>
           </View>
@@ -73,7 +73,7 @@ const Header = ({ title, onBack, onCancel }: Props) => (
 
     <SideView>
       {onCancel && (
-        <TouchableHighlight onPress={onCancel}>
+        <TouchableHighlight onPress={onCancel} underlayColor={primaryColour}>
           <View>
             <ActionText>Cancel</ActionText>
           </View>
