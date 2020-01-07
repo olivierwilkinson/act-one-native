@@ -7,18 +7,18 @@ import { Scene } from "../../types/play-types";
 import { mediumSizeFont, subFont } from "../../styles/typography";
 import { lightPrimaryColour } from "../../styles/colours";
 
-const ActHeaderView = styled(View)`
+const ActHeaderView = styled.View`
   padding: 10px 20px;
   background-color: white;
   border-bottom-width: 1px;
   border-bottom-color: ${lightPrimaryColour};
 `;
 
-const ActText = styled(Text)`
+const ActText = styled.Text`
   ${mediumSizeFont}
 `;
 
-const SceneView = styled(View)`
+const SceneView = styled.View`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -28,19 +28,19 @@ const SceneView = styled(View)`
   border-bottom-color: lightgrey;
 `;
 
-const SceneInfoView = styled(View)`
+const SceneInfoView = styled.View`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
 `;
 
-const SceneText = styled(Text)`
+const SceneText = styled.Text`
   ${subFont}
   padding-left: 10px;
 `;
 
-const CurrentSceneIndicator = styled(View)`
+const CurrentSceneIndicator = styled.View`
   width: 10px;
   height: 10px;
   border-radius: 5px;
@@ -48,7 +48,7 @@ const CurrentSceneIndicator = styled(View)`
     visible ? lightPrimaryColour : "transparent"};
 `;
 
-const RightArrowView = styled(View)`
+const RightArrowView = styled.View`
   display: flex;
   justify-content: center;
   align-items: center;

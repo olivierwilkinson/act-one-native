@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import styled from "styled-components";
+import styled from "styled-components/native";
 import { TouchableHighlight, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -9,7 +9,7 @@ import AudioContext, {
 } from "../../contexts/Audio";
 import { lightGray } from "../../styles/colours";
 
-const ControlsView = styled(View)`
+const ControlsView = styled.View`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -18,7 +18,7 @@ const ControlsView = styled(View)`
   background-color: ${lightGray};
 `;
 
-const PlayView = styled(View)`
+const PlayView = styled.View`
   display: flex;
   justify-content: center;
   align-items: center;

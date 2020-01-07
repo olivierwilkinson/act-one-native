@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { View, TouchableHighlight } from "react-native";
-import styled from "styled-components";
+import styled from "styled-components/native";
 
 import { Line } from "../../types/play-types";
 import PlayPositionContext from "../../contexts/PlayPosition";
@@ -8,7 +8,7 @@ import { lightPrimaryColour, playBackgroundColour } from "../../styles/colours";
 
 import PlayLineRow from "./PlayLineRow";
 
-const PlayLineView = styled(View)`
+const PlayLineView = styled.View`
   border-color: ${({ highlighted }: { highlighted: boolean }) =>
     highlighted ? lightPrimaryColour : playBackgroundColour};
   border-width: 2px;

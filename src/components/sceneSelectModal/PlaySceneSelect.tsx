@@ -1,20 +1,20 @@
 import React from "react";
 import { View, Text, SafeAreaView } from "react-native";
-import styled from "styled-components";
+import styled from "styled-components/native";
 
 import PlaySceneList from "./PlaySceneList";
 import { Play, Scene } from "../../types/play-types";
 import { titleFont, bigSizeFont } from "../../styles/typography";
 import { lightPrimaryColour } from "../../styles/colours";
 
-const TitleView = styled(View)`
+const TitleView = styled.View`
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 10px;
 `;
 
-const TitleText = styled(Text)`
+const TitleText = styled.Text`
   ${titleFont}
   ${bigSizeFont}
   color: white;

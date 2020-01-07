@@ -6,12 +6,12 @@ import {
   SafeAreaView,
   StatusBar
 } from "react-native";
-import styled from "styled-components";
+import styled from "styled-components/native";
 
 import { primaryColour } from "../../styles/colours";
 import { titleFont, bigSizeFont } from "../../styles/typography";
 
-const PrimaryHeader = styled(SafeAreaView)`
+const PrimaryHeader = styled.SafeAreaView`
   background-color: ${primaryColour};
   display: flex;
   flex-direction: row;
@@ -20,26 +20,26 @@ const PrimaryHeader = styled(SafeAreaView)`
   height: 80px;
 `;
 
-const TitleView = styled(View)`
+const TitleView = styled.View`
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-const SideView = styled(View)`
+const SideView = styled.View`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 70px;
 `;
 
-const WhiteTitle = styled(Text)`
+const WhiteTitle = styled.Text`
   ${titleFont}
   ${bigSizeFont}
   color: white;
 `;
 
-const ActionText = styled(Text)`
+const ActionText = styled.Text`
   ${bigSizeFont}
   color: white;
 `;
