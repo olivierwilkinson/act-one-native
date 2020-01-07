@@ -79,7 +79,7 @@ type Props = {
   scenes: Scene[];
   currentAct: number;
   currentScene: number;
-  onScenePress: (newSceneInfo: { act: number; scene: number }) => void;
+  onScenePress: (scene: Scene) => void;
 };
 
 export default ({ currentAct, currentScene, scenes, onScenePress }: Props) => {
@@ -98,18 +98,20 @@ export default ({ currentAct, currentScene, scenes, onScenePress }: Props) => {
           <ActText>{title}</ActText>
         </ActHeaderView>
       )}
-      renderItem={({ item: { scene, act } }: { item: Scene }) => (
-        <TouchableHighlight onPress={() => onScenePress({ scene, act })}>
-          <SceneView testID={`scene-row-${scene}-${act}`}>
+      renderItem={({ item: scene }: { item: Scene }) => (
+        <TouchableHighlight onPress={() => onScenePress(scene)}>
+          <SceneView testID={`scene-row-${scene.act}-${scene.scene}`}>
             <SceneInfoView>
               <CurrentSceneIndicator
-                testID={`current-scene-indicator-${act}-${scene}`}
-                visible={scene === currentScene && act === currentAct}
+                testID={`current-scene-indicator-${scene.act}-${scene.scene}`}
+                visible={
+                  scene.scene === currentScene && scene.act === currentAct
+                }
               />
-              <SceneText>{`SCENE ${scene}`}</SceneText>
+              <SceneText>{`SCENE ${scene.scene}`}</SceneText>
             </SceneInfoView>
 
-            <RightArrowView testID={`right-arrow-${scene}-${act}`}>
+            <RightArrowView testID={`right-arrow-${scene.act}-${scene.scene}`}>
               <Ionicons name="ios-arrow-forward" size={18} color="grey" />
             </RightArrowView>
           </SceneView>
