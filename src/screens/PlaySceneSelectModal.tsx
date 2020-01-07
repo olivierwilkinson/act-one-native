@@ -1,5 +1,8 @@
 import React from "react";
-import { NavigationStackScreenProps } from "react-navigation-stack";
+import {
+  NavigationStackScreenProps,
+  NavigationStackProp
+} from "react-navigation-stack";
 
 import { Play } from "../types/play-types";
 import PlaySceneSelect from "../components/sceneSelectModal/PlaySceneSelect";
@@ -13,7 +16,11 @@ type Params = {
 export default class PlaySceneSelectModal extends React.Component<
   NavigationStackScreenProps<Params>
 > {
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = ({
+    navigation
+  }: {
+    navigation: NavigationStackProp;
+  }) => ({
     header: () => (
       <Header
         title={navigation.state.params.play.play}

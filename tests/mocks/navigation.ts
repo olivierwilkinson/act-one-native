@@ -1,4 +1,30 @@
-const navigationMock = {
+import { NavigationStackProp } from "react-navigation-stack";
+
+export type NavigationMock = {
+  state: NavigationStackProp["state"];
+  dispatch: jest.Mock;
+  goBack: jest.Mock;
+  dismiss: jest.Mock;
+  navigate: jest.Mock;
+  openDrawer: jest.Mock;
+  closeDrawer: jest.Mock;
+  toggleDrawer: jest.Mock;
+  getParam: jest.Mock;
+  setParams: jest.Mock;
+  addListener: jest.Mock;
+  push: jest.Mock;
+  replace: jest.Mock;
+  reset: jest.Mock;
+  pop: jest.Mock;
+  popToTop: jest.Mock;
+  isFocused: jest.Mock;
+  emit: jest.Mock;
+  isFirstRouteInParent: jest.Mock;
+  dangerouslyGetParent: jest.Mock;
+  mockRestore: () => void;
+};
+
+const navigationMock: NavigationMock = {
   state: {
     params: {},
     key: "",

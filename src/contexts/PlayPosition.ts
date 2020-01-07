@@ -8,13 +8,13 @@ export interface PlayPosition {
   setActiveLineById: (id: number) => void;
 }
 
-const activeLine = {
+const activeLine: Line = {
   id: -1,
   player: "",
   lineRows: []
 };
 
-const activeScene = {
+const activeScene: Scene = {
   act: 1,
   scene: 1,
   lines: [activeLine]
