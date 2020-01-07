@@ -1,11 +1,11 @@
 import React from "react";
 import { View, Text, TouchableHighlight, Image } from "react-native";
-import styled from "styled-components";
+import styled from "styled-components/native";
 
 import { Play } from "../../types/play-types";
 import { titleFont, subFont } from "../../styles/typography";
 
-const ListItemCard = styled(View)`
+const ListItemCard = styled.View`
   margin: 10px 0;
   shadow-color: black;
   shadow-opacity: 0.2;
@@ -14,31 +14,31 @@ const ListItemCard = styled(View)`
   background-color: white;
 `;
 
-const PlayListItemContent = styled(View)`
+const PlayListItemContent = styled.View`
   display: flex;
   flex-direction: row;
 `;
 
-const ImageView = styled(View)`
+const ImageView = styled.View`
   padding: 10px 5px 10px 20px;
 `;
 
-const PlayImage = styled(Image)`
+const PlayImage = styled.Image`
   background: grey;
   height: 60px;
   width: 40px;
 `;
 
-const PlayInfoView = styled(View)`
+const PlayInfoView = styled.View`
   display: flex;
   justify-content: center;
   padding-left: 10px;
 `;
 
-const TitleText = styled(Text)`
+const TitleText = styled.Text`
   ${titleFont}
 `;
-const SubText = styled(Text)`
+const SubText = styled.Text`
   ${subFont}
 `;
 

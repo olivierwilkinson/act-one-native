@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { View, Text } from "react-native";
-import styled from "styled-components";
+import styled from "styled-components/native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
 import { titleFont } from "../../styles/typography";
@@ -13,7 +13,7 @@ type ColourProps = RGBColour & {
   highlighted: boolean;
 };
 
-const PlayLineHeaderView = styled(View)`
+const PlayLineHeaderView = styled.View`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -23,7 +23,7 @@ const PlayLineHeaderView = styled(View)`
   border-bottom-width: 0;
 `;
 
-const PlayerBubbleView = styled(View)`
+const PlayerBubbleView = styled.View`
   margin: 5px 0px 5px 10px;
   padding: 5px 10px;
   border-radius: 15px;
@@ -34,7 +34,7 @@ const PlayerBubbleView = styled(View)`
     highlighted ? `rgb(${red},${green},${blue})` : playBackgroundColour};
 `;
 
-const PlayerText = styled(Text)`
+const PlayerText = styled.Text`
   color: ${({ red, green, blue, highlighted }: ColourProps) =>
       highlighted ? "white" : `rgb(${red},${green},${blue})`}
     ${titleFont};

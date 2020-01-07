@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { View, Text, TouchableHighlight } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/native";
 
 import PlayNavigationContext, {
   PlayNavigation
@@ -10,7 +10,7 @@ import { Scene } from "../../types/play-types";
 import { titleFont, mediumSizeFont } from "../../styles/typography";
 import { lightPrimaryColour, primaryColour } from "../../styles/colours";
 
-const PlaySceneHeaderView = styled(View)`
+const PlaySceneHeaderView = styled.View`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -18,7 +18,7 @@ const PlaySceneHeaderView = styled(View)`
   background-color: ${lightPrimaryColour};
 `;
 
-const IconView = styled(View)`
+const IconView = styled.View`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,23 +34,23 @@ const arrowView = css`
   width: 60px;
 `;
 
-const LeftArrowView = styled(View)`
+const LeftArrowView = styled.View`
   ${arrowView}
   left: 15%;
 `;
 
-const RightArrowView = styled(View)`
+const RightArrowView = styled.View`
   ${arrowView}
   right: 15%;
 `;
 
-const SceneText = styled(Text)`
+const SceneText = styled.Text`
   ${titleFont}
   ${mediumSizeFont}
   color: white;
 `;
 
-const SceneSelectView = styled(View)`
+const SceneSelectView = styled.View`
   position: absolute;
   right: 8px;
   top: 3px;

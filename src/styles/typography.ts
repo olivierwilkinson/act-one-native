@@ -1,4 +1,4 @@
-import { css } from "styled-components";
+import { css } from "styled-components/native";
 
 export const bigSizeFont = css`
   font-size: 18px;
