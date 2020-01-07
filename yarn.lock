@@ -1153,7 +1153,7 @@
     wcwidth "^1.0.1"
     ws "^1.1.0"
 
-"@react-navigation/core@^3.5.1":
+"@react-navigation/core@^3.5.0":
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-3.5.1.tgz#7a2339fca3496979305fb3a8ab88c2ca8d8c214d"
   dependencies:
@@ -6158,11 +6158,11 @@ react-navigation-stack@^1.10.3:
   dependencies:
     prop-types "^15.7.2"
 
-react-navigation@^4.0.10:
-  version "4.0.10"
-  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-4.0.10.tgz#ddf41134600689d6ba99e35dd22ba1f664f91e5c"
+react-navigation@4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-4.0.2.tgz#09fe915cdc2436c964b8f85b642eaf8d429305c6"
   dependencies:
-    "@react-navigation/core" "^3.5.1"
+    "@react-navigation/core" "^3.5.0"
     "@react-navigation/native" "^3.6.2"
 
 react-proxy@^1.1.7:

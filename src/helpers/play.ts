@@ -30,7 +30,7 @@ export const getLineText = ({ lineRows }: Line) => {
 export const findPlayers: (play: Play) => string[] = ({ scenes }) => {
   return Array.from(
     new Set(
-      scenes.reduce(
+      scenes.reduce<string[]>(
         (acc, { lines }) => [...acc, ...lines.map(line => line.player)],
         []
       )

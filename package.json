@@ -25,7 +25,7 @@
     "react-native-section-list-get-item-layout": "^2.2.3",
     "react-native-unimodules": "~0.5.4",
     "react-native-web": "^0.11.7",
-    "react-navigation": "^4.0.10",
+    "react-navigation": "4.0.2",
     "react-navigation-stack": "^1.10.3",
     "styled-components": "^4.4.1"
   },

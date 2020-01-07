@@ -6,14 +6,13 @@ import {
   QueryByAPI,
   GetByAPI,
   RenderAPI,
-  shallow,
   fireEvent
 } from "react-native-testing-library";
 import "jest-styled-components/native";
 
 import PlaySceneList from "../PlaySceneList";
-import play from "../../../data/plays/shakespeare/AComedyOfErrors";
 import { Scene } from "../../../types/play-types";
+import play from "../../../data/plays/shakespeare/AComedyOfErrors";
 
 describe("PlaySceneList", () => {
   let onScenePress: jest.Mock;
@@ -65,13 +64,11 @@ describe("PlaySceneList", () => {
   });
 
   it("calls onScenePress with scene and act numbers when row pressed", () => {
+    const [firstScene] = play.scenes;
     const sceneRow = getByTestId("scene-row-1-1");
     fireEvent.press(sceneRow);
 
-    expect(onScenePress).toHaveBeenCalledWith({
-      act: 1,
-      scene: 1
-    });
+    expect(onScenePress).toHaveBeenCalledWith(firstScene);
   });
 
   describe("when scenes change", () => {
