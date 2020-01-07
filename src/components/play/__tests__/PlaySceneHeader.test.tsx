@@ -54,7 +54,7 @@ describe("PlaySceneHeader", () => {
   });
 
   describe("when goToPreviousScene exists", () => {
-    let goToPreviousScene;
+    let goToPreviousScene: jest.Mock;
     beforeEach(() => {
       goToPreviousScene = jest.fn();
 
@@ -84,7 +84,7 @@ describe("PlaySceneHeader", () => {
   });
 
   describe("when goToNextScene exists", () => {
-    let goToNextScene;
+    let goToNextScene: jest.Mock;
     beforeEach(() => {
       goToNextScene = jest.fn();
 

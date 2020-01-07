@@ -54,7 +54,11 @@ const createPlayNavigation = (navigation: NavigationStackProp, play: Play) => {
 };
 
 export default class PlayScreen extends React.Component<Props> {
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = ({
+    navigation
+  }: {
+    navigation: NavigationStackProp;
+  }) => ({
     header: () => (
       <Header
         title={navigation.state.params.play.play}
