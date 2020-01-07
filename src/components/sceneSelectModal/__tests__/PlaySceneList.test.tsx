@@ -56,12 +56,11 @@ describe("PlaySceneList", () => {
 
   it("sets indicator invisible when not on current scene", () => {
     const { currentAct, currentScene } = play;
-    const scene = play.scenes.find(
+    const { act, scene } = play.scenes.find(
       ({ act, scene }) => act !== currentAct || scene !== currentScene
-    );
-    const indicator = getByTestId(
-      `current-scene-indicator-${scene.act}-${scene.scene}`
-    );
+    ) as Scene;
+
+    const indicator = getByTestId(`current-scene-indicator-${act}-${scene}`);
     expect(indicator.props.visible).toEqual(false);
   });
 

@@ -38,14 +38,18 @@ type Props = LineRow & {
   italic: boolean;
 };
 
-export default ({ number, text, italic }: Props) => (
-  <LineRowView>
-    <LineRowTextView>
-      <LineRowText italic={italic}>{text}</LineRowText>
-    </LineRowTextView>
+export default ({ number, text, italic }: Props) => {
+  const displayNumber = !!number && number % 5 === 0;
 
-    <LineNumberView>
-      {number % 5 === 0 && <LineRowNumberText>{number}</LineRowNumberText>}
-    </LineNumberView>
-  </LineRowView>
-);
+  return (
+    <LineRowView>
+      <LineRowTextView>
+        <LineRowText italic={italic}>{text}</LineRowText>
+      </LineRowTextView>
+
+      <LineNumberView>
+        {displayNumber && <LineRowNumberText>{number}</LineRowNumberText>}
+      </LineNumberView>
+    </LineRowView>
+  );
+};

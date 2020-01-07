@@ -14,7 +14,7 @@ import AudioContext, {
   AudioContextValue,
   PlaybackState
 } from "../contexts/Audio";
-import { Play } from "../types/play-types";
+import { Play, Scene } from "../types/play-types";
 import { ColourByPlayer } from "../types/colour-types";
 import { openSceneSelect } from "../helpers/navigation";
 import {
@@ -43,12 +43,12 @@ const createPlayNavigation = (navigation: NavigationStackProp, play: Play) => {
   );
 
   return {
-    goToNextScene: scenes[sceneIndex + 1]
-      ? () => goToScene(navigation, play, sceneIndex + 1)
-      : null,
-    goToPreviousScene: scenes[sceneIndex - 1]
-      ? () => goToScene(navigation, play, sceneIndex - 1)
-      : null,
+    goToNextScene:
+      scenes[sceneIndex + 1] &&
+      (() => goToScene(navigation, play, sceneIndex + 1)),
+    goToPreviousScene:
+      scenes[sceneIndex - 1] &&
+      (() => goToScene(navigation, play, sceneIndex - 1)),
     openSceneSelect: () => openSceneSelect(navigation, play)
   };
 };
@@ -61,7 +61,7 @@ export default class PlayScreen extends React.Component<Props> {
   }) => ({
     header: () => (
       <Header
-        title={navigation.state.params.play.play}
+        title={navigation.state.params!.play.play}
         onBack={() => navigation.pop()}
       />
     )
@@ -69,11 +69,7 @@ export default class PlayScreen extends React.Component<Props> {
 
   static getDerivedStateFromProps(nextProps: Props, prevState: State) {
     const { navigation } = nextProps;
-    const {
-      state: {
-        params: { play }
-      }
-    } = navigation;
+    const play = navigation.state.params!.play;
     const { playPosition } = prevState;
     const { activeScene: previousActiveScene } = playPosition;
 
@@ -82,9 +78,7 @@ export default class PlayScreen extends React.Component<Props> {
       previousActiveScene.scene !== play.currentScene
     ) {
       const activeScene = findActiveScene(play);
-      const {
-        lines: [activeLine]
-      } = activeScene;
+      const [activeLine] = activeScene!.lines;
 
       return {
         playPosition: {
@@ -181,24 +175,20 @@ export default class PlayScreen extends React.Component<Props> {
     }
   };
 
+  getPlay = () => this.props.navigation.state.params!.play;
+
   state: State = {
-    playNavigation: createPlayNavigation(
-      this.props.navigation,
-      this.props.navigation.state.params.play
-    ),
+    playNavigation: createPlayNavigation(this.props.navigation, this.getPlay()),
     playPosition: {
-      activeScene: findActiveScene(this.props.navigation.state.params.play),
-      activeLine: findActiveScene(this.props.navigation.state.params.play)
-        .lines[0],
+      activeScene: findActiveScene(this.getPlay()) as Scene,
+      activeLine: findActiveScene(this.getPlay())!.lines[0],
       setActiveLineById: this.setActiveLineById
     },
     audio: {
       playbackState: PlaybackState.Stopped,
       setPlaybackState: this.setPlaybackState
     },
-    colourByPlayer: createColourByPlayer(
-      this.props.navigation.state.params.play
-    )
+    colourByPlayer: createColourByPlayer(this.getPlay())
   };
 
   componentDidUpdate(_: Props, prevState: State) {
