@@ -12,14 +12,16 @@ type Props = Scene & {
 
 export default ({ colourByPlayer, ...scene }: Props) => {
   const { act: actNumber, scene: sceneNumber } = scene;
-  const sceneElement = useRef(null);
+  const sceneElement = useRef<any>(null);
 
   useEffect(() => {
-    sceneElement.current.scrollToLocation({
-      sectionIndex: 0,
-      itemIndex: 0,
-      animated: false
-    });
+    if (sceneElement && sceneElement.current) {
+      sceneElement.current.scrollToLocation({
+        sectionIndex: 0,
+        itemIndex: 0,
+        animated: false
+      });
+    }
   }, [actNumber, sceneNumber]);
 
   return (

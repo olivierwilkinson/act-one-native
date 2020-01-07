@@ -98,7 +98,7 @@ export default ({ currentAct, currentScene, scenes, onScenePress }: Props) => {
           <ActText>{title}</ActText>
         </ActHeaderView>
       )}
-      renderItem={({ item: { scene, act } }) => (
+      renderItem={({ item: { scene, act } }: { item: Scene }) => (
         <TouchableHighlight onPress={() => onScenePress({ scene, act })}>
           <SceneView testID={`scene-row-${scene}-${act}`}>
             <SceneInfoView>

@@ -23,7 +23,7 @@ export default class PlaySceneSelectModal extends React.Component<
   }) => ({
     header: () => (
       <Header
-        title={navigation.state.params.play.play}
+        title={navigation.state.params!.play.play}
         onCancel={() => navigation.pop()}
       />
     )
@@ -31,11 +31,7 @@ export default class PlaySceneSelectModal extends React.Component<
 
   render() {
     const { navigation } = this.props;
-    const {
-      state: {
-        params: { play }
-      }
-    } = navigation;
+    const play = navigation.state.params!.play;
 
     return (
       <PlaySceneSelect

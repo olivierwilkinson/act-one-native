@@ -2,7 +2,7 @@ import { ImageSourcePropType } from "react-native";
 
 export interface LineRow {
   text: string;
-  number?: number;
+  number: number | null;
 }
 
 export interface Line {

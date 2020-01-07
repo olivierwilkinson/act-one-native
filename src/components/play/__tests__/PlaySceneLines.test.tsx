@@ -12,10 +12,11 @@ import PlayPositionContext from "../../../contexts/PlayPosition";
 import { createColourByPlayer } from "../../../helpers/play";
 
 import play from "../../../data/plays/shakespeare/AComedyOfErrors";
+import { Line } from "../../../types/play-types";
 const {
   scenes: [scene]
 } = play;
-const line = scene.lines.find(({ player }) => player);
+const line = scene.lines.find(({ player }) => player) as Line;
 const {
   lineRows: [lineRow]
 } = line;

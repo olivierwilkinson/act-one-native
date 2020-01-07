@@ -27,13 +27,19 @@ export const getLineText = ({ lineRows }: Line) => {
   }, "");
 };
 
-export const createColourByPlayer: (play: Play) => ColourByPlayer = play => {
-  const { scenes } = play;
-  const players = Array.from(
+export const findPlayers: (play: Play) => string[] = ({ scenes }) => {
+  return Array.from(
     new Set(
-      [].concat(...scenes.map(({ lines }) => lines.map(line => line.player)))
+      scenes.reduce(
+        (acc, { lines }) => [...acc, ...lines.map(line => line.player)],
+        []
+      )
     )
   );
+};
+
+export const createColourByPlayer: (play: Play) => ColourByPlayer = play => {
+  const players = findPlayers(play);
   const colours = palette("tol-rainbow", players.length);
 
   return players.reduce<ColourByPlayer>(
