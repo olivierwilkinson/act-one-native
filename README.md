@@ -2,7 +2,7 @@
 
 ActOne is in the expo managed workflow, using a bare typescript template.
 
-The expo-cli is needed to run certain npm scripts.
+The expo-cli is needed to run the dev server and to install certain expo modules.
 
 expo-cli installation instructions can be found here:
 https://docs.expo.io/versions/latest/get-started/installation/
