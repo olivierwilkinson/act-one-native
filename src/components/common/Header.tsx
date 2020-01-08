@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Text,
-  View,
-  TouchableHighlight,
-  SafeAreaView,
-  StatusBar
-} from "react-native";
+import { View, TouchableHighlight, StatusBar } from "react-native";
 import styled from "styled-components/native";
 
 import { primaryColour } from "../../styles/colours";

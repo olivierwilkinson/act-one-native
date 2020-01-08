@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View, Text, TouchableHighlight } from "react-native";
+import { TouchableHighlight } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import styled, { css } from "styled-components/native";
 

@@ -5,7 +5,7 @@ import { render, cleanup, QueryByAPI } from "react-native-testing-library";
 import PlayLineRow from "../PlayLineRow";
 
 import play from "../../../data/plays/shakespeare/AComedyOfErrors";
-import { Line, LineRow } from "../../../types/play-types";
+import { Line } from "../../../types/play-types";
 const {
   scenes: [scene]
 } = play;

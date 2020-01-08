@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styled from "styled-components/native";
-import { TouchableHighlight, View } from "react-native";
+import { TouchableHighlight } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import AudioContext, {
