@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, SafeAreaView } from "react-native";
+import { SafeAreaView } from "react-native";
 import styled from "styled-components/native";
 
 import PlaySceneList from "./PlaySceneList";

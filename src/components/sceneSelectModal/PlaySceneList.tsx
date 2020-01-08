@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, SectionList, TouchableHighlight } from "react-native";
+import { SectionList, TouchableHighlight } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import styled from "styled-components/native";
 

@@ -160,7 +160,7 @@ describe("PlayScreen", () => {
         const args = calls[0];
         expect(args.length).toEqual(2);
 
-        const [_, { onDone }] = args;
+        const { onDone } = args[1];
         onDone();
       });
 
@@ -233,7 +233,7 @@ describe("PlayScreen", () => {
         const args = calls[0];
         expect(args.length).toEqual(2);
 
-        const [_, { onDone }] = args;
+        const { onDone } = args[1];
         onDone();
       });
 

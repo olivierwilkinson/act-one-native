@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View, TouchableHighlight } from "react-native";
+import { TouchableHighlight } from "react-native";
 import styled from "styled-components/native";
 
 import { Line } from "../../types/play-types";
