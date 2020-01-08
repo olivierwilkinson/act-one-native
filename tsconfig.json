@@ -8,6 +8,9 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "strict": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "noImplicitReturns": true,
+    "forceConsistentCasingInFileNames": true,
+    "noUnusedParameters": true
   }
 }
