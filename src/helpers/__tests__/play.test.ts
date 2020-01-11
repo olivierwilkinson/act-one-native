@@ -15,14 +15,14 @@ describe("play helpers", () => {
       expect(findActiveScene(play)).toEqual(activeScene);
     });
 
-    it("returns null when no active scene is found", () => {
+    it("returns first scene when no active scene is found", () => {
       expect(
         findActiveScene({
           ...play,
           currentScene: -1,
           currentAct: -1
         })
-      ).toBeUndefined();
+      ).toEqual(play.scenes[0]);
     });
   });
 
