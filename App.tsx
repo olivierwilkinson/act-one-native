@@ -36,7 +36,7 @@ const RootStack = createStackNavigator(
     Main: {
       screen: MainStack
     },
-    SceneSelectModal: {
+    SceneSelect: {
       screen: SceneSelectModalStack
     }
   },
