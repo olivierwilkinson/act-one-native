@@ -43,7 +43,7 @@ export default class Play extends React.Component<Props> {
       previousActiveScene.scene !== play.currentScene
     ) {
       const activeScene = findActiveScene(play);
-      const [activeLine] = activeScene!.lines;
+      const [activeLine] = activeScene.lines;
 
       return {
         playPosition: {
