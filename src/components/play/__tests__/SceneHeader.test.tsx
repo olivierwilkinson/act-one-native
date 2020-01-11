@@ -8,7 +8,7 @@ import {
   GetByAPI
 } from "react-native-testing-library";
 
-import PlaySceneHeader from "../PlaySceneHeader";
+import SceneHeader from "../SceneHeader";
 import PlayNavigationContext from "../../../contexts/PlayNavigation";
 
 import play from "../../../data/plays/shakespeare/AComedyOfErrors";
@@ -16,7 +16,7 @@ const {
   scenes: [scene]
 } = play;
 
-describe("PlaySceneHeader", () => {
+describe("SceneHeader", () => {
   let openSceneSelect: jest.Mock;
   let queryByText: QueryByAPI["queryByText"];
   let queryByTestId: QueryByAPI["queryByTestId"];
@@ -26,7 +26,7 @@ describe("PlaySceneHeader", () => {
 
     ({ queryByText, queryByTestId, getByTestId } = render(
       <PlayNavigationContext.Provider value={{ openSceneSelect }}>
-        <PlaySceneHeader {...scene} />
+        <SceneHeader {...scene} />
       </PlayNavigationContext.Provider>
     ));
   });
@@ -62,7 +62,7 @@ describe("PlaySceneHeader", () => {
         <PlayNavigationContext.Provider
           value={{ openSceneSelect, goToPreviousScene }}
         >
-          <PlaySceneHeader {...scene} />
+          <SceneHeader {...scene} />
         </PlayNavigationContext.Provider>
       ));
     });
@@ -92,7 +92,7 @@ describe("PlaySceneHeader", () => {
         <PlayNavigationContext.Provider
           value={{ openSceneSelect, goToNextScene }}
         >
-          <PlaySceneHeader {...scene} />
+          <SceneHeader {...scene} />
         </PlayNavigationContext.Provider>
       ));
     });

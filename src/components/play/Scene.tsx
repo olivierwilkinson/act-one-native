@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 
 import SceneLines from "./SceneLines";
-import PlaySceneHeader from "./PlaySceneHeader";
+import SceneHeader from "./SceneHeader";
 import PlaybackControls from "./PlaybackControls";
 import { Scene } from "../../types/play-types";
 import { ColourByPlayer } from "../../types/colour-types";
@@ -26,7 +26,7 @@ export default ({ colourByPlayer, ...scene }: Props) => {
 
   return (
     <>
-      <PlaySceneHeader {...scene} />
+      <SceneHeader {...scene} />
       <SceneLines
         ref={sceneElement}
         {...scene}

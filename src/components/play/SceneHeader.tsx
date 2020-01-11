@@ -10,7 +10,7 @@ import { Scene } from "../../types/play-types";
 import { titleFont, mediumSizeFont } from "../../styles/typography";
 import { lightPrimaryColour, primaryColour } from "../../styles/colours";
 
-const PlaySceneHeaderView = styled.View`
+const SceneHeaderView = styled.View`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -64,7 +64,7 @@ export default ({ act, scene }: Scene) => {
   }: PlayNavigation = useContext(PlayNavigationContext);
 
   return (
-    <PlaySceneHeaderView testID="play-scene-header">
+    <SceneHeaderView testID="play-scene-header">
       {goToPreviousScene && (
         <LeftArrowView>
           <TouchableHighlight
@@ -106,6 +106,6 @@ export default ({ act, scene }: Scene) => {
           </IconView>
         </TouchableHighlight>
       </SceneSelectView>
-    </PlaySceneHeaderView>
+    </SceneHeaderView>
   );
 };
