@@ -3,7 +3,7 @@ import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 
 import Home from "./src/screens/Home";
-import Play from "./src/screens/Play";
+import PlayScreen from "./src/screens/PlayScreen";
 import SceneSelectModal from "./src/screens/SceneSelectModal";
 import Header from "./src/components/common/Header";
 
@@ -13,7 +13,7 @@ const MainStack = createStackNavigator(
       screen: Home
     },
     Play: {
-      screen: Play
+      screen: PlayScreen
     }
   },
   {
