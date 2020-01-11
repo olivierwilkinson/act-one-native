@@ -3,7 +3,7 @@ import { NavigationStackProp } from "react-navigation-stack";
 import * as Speech from "expo-speech";
 import { NavigationEvents } from "react-navigation";
 
-import PlayScene from "./PlayScene";
+import Scene from "./Scene";
 import { Play as PlayType } from "../../types/play-types";
 import { ColourByPlayer } from "../../types/colour-types";
 import PlayPositionContext, { PlayPosition } from "../../contexts/PlayPosition";
@@ -178,7 +178,7 @@ export default class Play extends React.Component<Props> {
         <PlayPositionContext.Provider value={playPosition}>
           <PlayNavigationContext.Provider value={playNavigation}>
             <AudioContext.Provider value={audio}>
-              <PlayScene {...activeScene} colourByPlayer={colourByPlayer} />
+              <Scene {...activeScene} colourByPlayer={colourByPlayer} />
             </AudioContext.Provider>
           </PlayNavigationContext.Provider>
         </PlayPositionContext.Provider>

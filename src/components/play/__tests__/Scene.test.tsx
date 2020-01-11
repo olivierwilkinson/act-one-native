@@ -8,7 +8,7 @@ import {
   GetByAPI
 } from "react-native-testing-library";
 
-import PlayScene from "../PlayScene";
+import Scene from "../Scene";
 import PlayPositionContext from "../../../contexts/PlayPosition";
 import { createColourByPlayer } from "../../../helpers/play";
 import PlayNavigationContext from "../../../contexts/PlayNavigation";
@@ -23,7 +23,7 @@ const {
 
 const colourByPlayer = createColourByPlayer(play);
 
-describe("PlayScene", () => {
+describe("Scene", () => {
   let scrollToLocation: jest.Mock;
   let queryByTestId: QueryByAPI["queryByTestId"];
   let getByTestId: GetByAPI["getByTestId"];
@@ -38,13 +38,13 @@ describe("PlayScene", () => {
         }}
       >
         <PlayNavigationContext.Provider value={{ openSceneSelect: () => null }}>
-          <PlayScene {...scene} colourByPlayer={colourByPlayer} />
+          <Scene {...scene} colourByPlayer={colourByPlayer} />
         </PlayNavigationContext.Provider>
       </PlayPositionContext.Provider>
     ));
 
     /*
-      monkey-patch scrollToLocation on the sectionList PlayScene holds a
+      monkey-patch scrollToLocation on the sectionList Scene holds a
       reference to
     */
     scrollToLocation = jest.fn();
@@ -79,7 +79,7 @@ describe("PlayScene", () => {
           <PlayNavigationContext.Provider
             value={{ openSceneSelect: () => null }}
           >
-            <PlayScene {...newScene} colourByPlayer={colourByPlayer} />
+            <Scene {...newScene} colourByPlayer={colourByPlayer} />
           </PlayNavigationContext.Provider>
         </PlayPositionContext.Provider>
       );
@@ -108,7 +108,7 @@ describe("PlayScene", () => {
           <PlayNavigationContext.Provider
             value={{ openSceneSelect: () => null }}
           >
-            <PlayScene {...newScene} colourByPlayer={colourByPlayer} />
+            <Scene {...newScene} colourByPlayer={colourByPlayer} />
           </PlayNavigationContext.Provider>
         </PlayPositionContext.Provider>
       );
