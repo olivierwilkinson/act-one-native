@@ -8,7 +8,7 @@ import "react-native-reanimated";
 jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
 
 import play from "../../data/plays/shakespeare/AComedyOfErrors";
-import Play from "../Play";
+import PlayScreen from "../PlayScreen";
 
 describe("PlayScreen", () => {
   let queryByText: QueryByAPI["queryByText"];
@@ -17,7 +17,7 @@ describe("PlayScreen", () => {
     const PlayContainer = createAppContainer(
       createStackNavigator(
         {
-          Play: { screen: Play }
+          Play: { screen: PlayScreen }
         },
         {
           initialRouteName: "Play",
