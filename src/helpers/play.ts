@@ -7,9 +7,11 @@ import { ColourByPlayer } from "../types/colour-types";
 export const findActiveScene = (play: Play) => {
   const { scenes, currentAct, currentScene } = play;
 
-  return scenes.find(
+  const activeScene = scenes.find(
     ({ scene, act }) => act === currentAct && scene === currentScene
   );
+
+  return activeScene || scenes[0];
 };
 
 export const getLineText = ({ lineRows }: Line) => {

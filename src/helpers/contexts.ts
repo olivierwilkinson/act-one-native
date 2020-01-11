@@ -10,7 +10,7 @@ export const createPlayNavigation = (
 ) => {
   const { scenes } = play;
   const activeScene = findActiveScene(play);
-  const sceneIndex = scenes.indexOf(activeScene!);
+  const sceneIndex = scenes.indexOf(activeScene);
 
   const goToNextScene =
     scenes[sceneIndex + 1] &&
