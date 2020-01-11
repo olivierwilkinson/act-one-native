@@ -2,7 +2,7 @@ import React from "react";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 
-import Home from "./src/screens/Home";
+import HomeScreen from "./src/screens/HomeScreen";
 import PlayScreen from "./src/screens/PlayScreen";
 import SceneSelectModal from "./src/screens/SceneSelectModal";
 import Header from "./src/components/common/Header";
@@ -10,7 +10,7 @@ import Header from "./src/components/common/Header";
 const MainStack = createStackNavigator(
   {
     Home: {
-      screen: Home
+      screen: HomeScreen
     },
     Play: {
       screen: PlayScreen

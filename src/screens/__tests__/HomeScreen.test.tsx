@@ -6,7 +6,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import "react-native-reanimated";
 
 import play from "../../data/plays/shakespeare/AComedyOfErrors";
-import Home from "../Home";
+import Home from "../HomeScreen";
 
 jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
 
