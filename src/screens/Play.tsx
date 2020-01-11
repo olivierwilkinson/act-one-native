@@ -16,13 +16,12 @@ import AudioContext, {
 } from "../contexts/Audio";
 import { Play, Scene } from "../types/play-types";
 import { ColourByPlayer } from "../types/colour-types";
-import { openSceneSelect } from "../helpers/navigation";
 import {
   createColourByPlayer,
-  goToScene,
   findActiveScene,
   getLineText
 } from "../helpers/play";
+import { createPlayNavigation } from "../helpers/contexts";
 
 import PlayScene from "../components/play/PlayScene";
 import Header from "../components/common/Header";
@@ -34,23 +33,6 @@ type State = {
   playPosition: PlayPosition;
   audio: AudioContextValue;
   colourByPlayer: ColourByPlayer;
-};
-
-const createPlayNavigation = (navigation: NavigationStackProp, play: Play) => {
-  const { scenes, currentAct, currentScene } = play;
-  const sceneIndex = scenes.findIndex(
-    ({ act, scene }) => act === currentAct && scene === currentScene
-  );
-
-  return {
-    goToNextScene:
-      scenes[sceneIndex + 1] &&
-      (() => goToScene(navigation, play, sceneIndex + 1)),
-    goToPreviousScene:
-      scenes[sceneIndex - 1] &&
-      (() => goToScene(navigation, play, sceneIndex - 1)),
-    openSceneSelect: () => openSceneSelect(navigation, play)
-  };
 };
 
 export default class PlayScreen extends React.Component<Props> {
