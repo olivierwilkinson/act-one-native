@@ -6,22 +6,8 @@ const {
   lines: [line]
 } = activeScene;
 
-import {
-  findActiveScene,
-  getLineText,
-  createColourByPlayer,
-  goToScene
-} from "../play";
-import { setParams, playScreenKey } from "../navigation";
-import navigationMock from "../../../tests/mocks/navigation";
+import { findActiveScene, getLineText, createColourByPlayer } from "../play";
 import colourByPlayer from "./data/colourByPlayer.json";
-
-jest.mock("../navigation.ts", () => ({
-  setParams: jest.fn(),
-  playScreenKey: "fake-play-screen-key"
-}));
-
-const mockedSetParams = setParams as jest.Mock;
 
 describe("play helpers", () => {
   describe("#findActiveScene", () => {
@@ -55,34 +41,6 @@ describe("play helpers", () => {
   describe("#createColourByPlayer", () => {
     it("creates colourByPlayer object correctly", () => {
       expect(createColourByPlayer(play)).toEqual(colourByPlayer);
-    });
-  });
-
-  describe("#goToScene", () => {
-    afterEach(() => {
-      mockedSetParams.mockRestore();
-    });
-
-    it("does not call setParams when no scene exists at passed index", () => {
-      goToScene(navigationMock, play, -1);
-
-      expect(mockedSetParams).not.toHaveBeenCalled();
-    });
-
-    it("calls setParams with correct arguments", () => {
-      goToScene(navigationMock, play, 1);
-
-      expect(mockedSetParams).toHaveBeenCalledWith(
-        navigationMock,
-        playScreenKey,
-        {
-          play: {
-            ...play,
-            currentAct: 1,
-            currentScene: 2
-          }
-        }
-      );
     });
   });
 });

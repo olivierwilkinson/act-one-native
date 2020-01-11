@@ -13,6 +13,26 @@ export const navigateToPlay = (navigation: NavigationStackProp, play: Play) =>
     key: playScreenKey
   });
 
+export const goToScene = (
+  navigation: NavigationStackProp,
+  play: Play,
+  newSceneIndex: number
+) => {
+  const { scenes } = play;
+  const scene = scenes[newSceneIndex];
+  if (!scene) {
+    return;
+  }
+
+  setParams(navigation, playScreenKey, {
+    play: {
+      ...play,
+      currentAct: scene.act,
+      currentScene: scene.scene
+    }
+  });
+};
+
 // Modal Navigation
 export const openSceneSelect = (navigation: NavigationStackProp, play: Play) =>
   navigation.navigate("PlaySceneSelectModal", { play });
