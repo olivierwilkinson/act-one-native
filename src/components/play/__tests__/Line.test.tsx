@@ -7,7 +7,7 @@ import {
   GetByAPI
 } from "react-native-testing-library";
 
-import PlayLine from "../PlayLine";
+import Line from "../Line";
 import PlayPositionContext from "../../../contexts/PlayPosition";
 
 import play from "../../../data/plays/shakespeare/AComedyOfErrors";
@@ -18,7 +18,7 @@ const {
   lines: [activeLine, otherLine]
 } = scene;
 
-describe("PlayLine", () => {
+describe("Line", () => {
   let getByTestId: GetByAPI["getByTestId"];
   let setActiveLineById: jest.Mock;
   beforeEach(() => {
@@ -32,7 +32,7 @@ describe("PlayLine", () => {
           setActiveLineById
         }}
       >
-        <PlayLine {...activeLine} />
+        <Line {...activeLine} />
       </PlayPositionContext.Provider>
     ));
   });
@@ -62,7 +62,7 @@ describe("PlayLine", () => {
             setActiveLineById
           }}
         >
-          <PlayLine {...otherLine} />
+          <Line {...otherLine} />
         </PlayPositionContext.Provider>
       ));
     });
