@@ -10,11 +10,11 @@ jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
 import play from "../../data/plays/shakespeare/AComedyOfErrors";
 import PlaySceneSelectModal from "../PlaySceneSelectModal";
 
-describe("PlayScreen", () => {
+describe("PlaySceneSelectModal", () => {
   let queryByText: QueryByAPI["queryByText"];
 
   beforeEach(() => {
-    const PlayContainer = createAppContainer(
+    const PlaySceneSelectModalContainer = createAppContainer(
       createStackNavigator(
         {
           PlaySceneSelectModal: { screen: PlaySceneSelectModal }
@@ -26,7 +26,7 @@ describe("PlayScreen", () => {
       )
     );
 
-    ({ queryByText } = render(<PlayContainer />));
+    ({ queryByText } = render(<PlaySceneSelectModalContainer />));
   });
   afterEach(cleanup);
 
