@@ -8,7 +8,7 @@ import { lightPrimaryColour, playBackgroundColour } from "../../styles/colours";
 
 import LineRow from "./LineRow";
 
-const PlayLineView = styled.View`
+const LineView = styled.View`
   border-color: ${({ highlighted }: { highlighted: boolean }) =>
     highlighted ? lightPrimaryColour : playBackgroundColour};
   border-width: 2px;
@@ -25,14 +25,14 @@ export default ({ id, lineRows, player }: Line) => {
       onPress={() => setActiveLineById(id)}
       underlayColor={playBackgroundColour}
     >
-      <PlayLineView
+      <LineView
         testID={`play-line-view-${id}`}
         highlighted={activeLine.id === id}
       >
         {lineRows.map((lineRow, i) => (
           <LineRow key={`${id}-${i}`} italic={!player} {...lineRow} />
         ))}
-      </PlayLineView>
+      </LineView>
     </TouchableHighlight>
   );
 };

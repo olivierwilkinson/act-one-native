@@ -1,7 +1,7 @@
 import React, { forwardRef, Ref } from "react";
 import { SectionList } from "react-native";
 
-import PlayLine from "./PlayLine";
+import Line from "./Line";
 import LineHeader from "./LineHeader";
 import { Scene } from "../../types/play-types";
 import { ColourByPlayer } from "../../types/colour-types";
@@ -20,7 +20,7 @@ export default forwardRef(
       sections={lines.map(line => ({
         data: [line]
       }))}
-      renderItem={({ item: line }) => <PlayLine {...line} />}
+      renderItem={({ item: line }) => <Line {...line} />}
       renderSectionHeader={({
         section: {
           data: [line]
