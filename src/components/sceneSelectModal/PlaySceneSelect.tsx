@@ -2,7 +2,7 @@ import React from "react";
 import { SafeAreaView } from "react-native";
 import styled from "styled-components/native";
 
-import PlaySceneList from "./PlaySceneList";
+import SceneList from "./SceneList";
 import { Play, Scene } from "../../types/play-types";
 import { titleFont, bigSizeFont } from "../../styles/typography";
 import { lightPrimaryColour } from "../../styles/colours";
@@ -37,7 +37,7 @@ export default (props: Props) => {
         <TitleText>Scene Select</TitleText>
       </TitleView>
 
-      <PlaySceneList
+      <SceneList
         currentAct={currentAct}
         currentScene={currentScene}
         scenes={scenes}

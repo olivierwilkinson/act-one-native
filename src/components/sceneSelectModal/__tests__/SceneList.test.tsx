@@ -10,11 +10,11 @@ import {
 } from "react-native-testing-library";
 import "jest-styled-components/native";
 
-import PlaySceneList from "../PlaySceneList";
+import SceneList from "../SceneList";
 import { Scene } from "../../../types/play-types";
 import play from "../../../data/plays/shakespeare/AComedyOfErrors";
 
-describe("PlaySceneList", () => {
+describe("SceneList", () => {
   let onScenePress: jest.Mock;
   let queryByText: QueryByAPI["queryByText"];
   let queryByTestId: QueryByAPI["queryByTestId"];
@@ -24,7 +24,7 @@ describe("PlaySceneList", () => {
     onScenePress = jest.fn();
 
     ({ queryByText, queryByTestId, getByTestId, rerender } = render(
-      <PlaySceneList {...play} onScenePress={onScenePress} />
+      <SceneList {...play} onScenePress={onScenePress} />
     ));
   });
   afterEach(cleanup);
@@ -79,7 +79,7 @@ describe("PlaySceneList", () => {
       unusedScene = secondScene;
 
       rerender(
-        <PlaySceneList {...play} scenes={scenes} onScenePress={onScenePress} />
+        <SceneList {...play} scenes={scenes} onScenePress={onScenePress} />
       );
     });
 
