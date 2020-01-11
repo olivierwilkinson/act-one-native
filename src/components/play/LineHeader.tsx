@@ -12,7 +12,7 @@ type ColourProps = RGBColour & {
   highlighted: boolean;
 };
 
-const PlayLineHeaderView = styled.View`
+const LineHeaderView = styled.View`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -58,13 +58,13 @@ export default (props: Props) => {
       onPress={() => setActiveLineById(id)}
       underlayColor={playBackgroundColour}
     >
-      <PlayLineHeaderView {...colourProps}>
+      <LineHeaderView {...colourProps}>
         {!!player && (
           <PlayerBubbleView testID="player-bubble" {...colourProps}>
             <PlayerText {...colourProps}>{player}</PlayerText>
           </PlayerBubbleView>
         )}
-      </PlayLineHeaderView>
+      </LineHeaderView>
     </TouchableHighlight>
   );
 };

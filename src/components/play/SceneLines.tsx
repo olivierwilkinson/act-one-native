@@ -2,7 +2,7 @@ import React, { forwardRef, Ref } from "react";
 import { SectionList } from "react-native";
 
 import PlayLine from "./PlayLine";
-import PlayLineHeader from "./PlayLineHeader";
+import LineHeader from "./LineHeader";
 import { Scene } from "../../types/play-types";
 import { ColourByPlayer } from "../../types/colour-types";
 import { playBackgroundColour } from "../../styles/colours";
@@ -25,7 +25,7 @@ export default forwardRef(
         section: {
           data: [line]
         }
-      }) => <PlayLineHeader {...line} colour={colourByPlayer[line.player]} />}
+      }) => <LineHeader {...line} colour={colourByPlayer[line.player]} />}
       keyExtractor={item => item.id.toString()}
     />
   )

@@ -7,7 +7,7 @@ import {
   QueryByAPI
 } from "react-native-testing-library";
 
-import PlayLineHeader from "../PlayLineHeader";
+import LineHeader from "../LineHeader";
 import PlayPositionContext from "../../../contexts/PlayPosition";
 import { createColourByPlayer } from "../../../helpers/play";
 
@@ -21,7 +21,7 @@ const noPlayerLine = scene.lines.find(({ player }) => !player) as Line;
 
 const colourByPlayer = createColourByPlayer(play);
 
-describe("PlayLineHeader", () => {
+describe("LineHeader", () => {
   let queryByTestId: QueryByAPI["queryByTestId"];
   let setActiveLineById: jest.Mock;
   beforeEach(() => {
@@ -35,7 +35,7 @@ describe("PlayLineHeader", () => {
           setActiveLineById
         }}
       >
-        <PlayLineHeader {...line} colour={colourByPlayer[line.player]} />
+        <LineHeader {...line} colour={colourByPlayer[line.player]} />
       </PlayPositionContext.Provider>
     ));
   });
@@ -62,7 +62,7 @@ describe("PlayLineHeader", () => {
             setActiveLineById
           }}
         >
-          <PlayLineHeader
+          <LineHeader
             {...noPlayerLine}
             colour={colourByPlayer[noPlayerLine.player]}
           />
