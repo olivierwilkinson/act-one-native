@@ -46,8 +46,9 @@ application-wide contexts, e.g. a UserContext.
 The components App adds to the stack are held in the screens directory e.g.
 Home, Play etc.
 
-Each screens core logic should reside in these screen components. See
-`screens/Play.tsx`.
+Because typescript cannot correctly infer types passed as params to each screen,
+the screens should be defensive against incorrectly passed data, see
+`screens/Play`. This works towards async fetching of plays in future.
 
 Components are found in the components directory, these are organised by screen,
 with components that need to be shared between screens living in the `common`
