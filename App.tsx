@@ -4,7 +4,7 @@ import { createStackNavigator } from "react-navigation-stack";
 
 import Home from "./src/screens/Home";
 import Play from "./src/screens/Play";
-import PlaySceneSelectModal from "./src/screens/PlaySceneSelectModal";
+import SceneSelectModal from "./src/screens/SceneSelectModal";
 import Header from "./src/components/common/Header";
 
 const MainStack = createStackNavigator(
@@ -24,10 +24,10 @@ const MainStack = createStackNavigator(
   }
 );
 
-// wrap PlaySceneSelectModal in it's own stack to enable header
-const PlaySceneSelectModalStack = createStackNavigator({
+// wrap SceneSelectModal in it's own stack to enable header
+const SceneSelectModalStack = createStackNavigator({
   Main: {
-    screen: PlaySceneSelectModal
+    screen: SceneSelectModal
   }
 });
 
@@ -36,8 +36,8 @@ const RootStack = createStackNavigator(
     Main: {
       screen: MainStack
     },
-    PlaySceneSelectModal: {
-      screen: PlaySceneSelectModalStack
+    SceneSelectModal: {
+      screen: SceneSelectModalStack
     }
   },
   {

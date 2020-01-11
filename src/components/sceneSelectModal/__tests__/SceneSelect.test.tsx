@@ -3,10 +3,10 @@ import React from "react";
 import { render, cleanup, QueryByAPI } from "react-native-testing-library";
 import "jest-styled-components/native";
 
-import PlaySceneSelect from "../PlaySceneSelect";
+import SceneSelect from "../SceneSelect";
 import play from "../../../data/plays/shakespeare/AComedyOfErrors";
 
-describe("PlaySceneSelect", () => {
+describe("SceneSelect", () => {
   let onScenePress: jest.Mock;
   let queryByText: QueryByAPI["queryByText"];
   let queryByTestId: QueryByAPI["queryByTestId"];
@@ -14,7 +14,7 @@ describe("PlaySceneSelect", () => {
     onScenePress = jest.fn();
 
     ({ queryByText, queryByTestId } = render(
-      <PlaySceneSelect {...play} onScenePress={onScenePress} />
+      <SceneSelect {...play} onScenePress={onScenePress} />
     ));
   });
   afterEach(cleanup);
