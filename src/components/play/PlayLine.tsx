@@ -6,7 +6,7 @@ import { Line } from "../../types/play-types";
 import PlayPositionContext from "../../contexts/PlayPosition";
 import { lightPrimaryColour, playBackgroundColour } from "../../styles/colours";
 
-import PlayLineRow from "./PlayLineRow";
+import LineRow from "./LineRow";
 
 const PlayLineView = styled.View`
   border-color: ${({ highlighted }: { highlighted: boolean }) =>
@@ -30,7 +30,7 @@ export default ({ id, lineRows, player }: Line) => {
         highlighted={activeLine.id === id}
       >
         {lineRows.map((lineRow, i) => (
-          <PlayLineRow key={`${id}-${i}`} italic={!player} {...lineRow} />
+          <LineRow key={`${id}-${i}`} italic={!player} {...lineRow} />
         ))}
       </PlayLineView>
     </TouchableHighlight>
