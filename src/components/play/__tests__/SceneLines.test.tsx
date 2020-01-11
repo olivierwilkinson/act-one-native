@@ -7,7 +7,7 @@ import {
   GetByAPI
 } from "react-native-testing-library";
 
-import PlaySceneLines from "../PlaySceneLines";
+import SceneLines from "../SceneLines";
 import PlayPositionContext from "../../../contexts/PlayPosition";
 import { createColourByPlayer } from "../../../helpers/play";
 
@@ -23,7 +23,7 @@ const {
 
 const colourByPlayer = createColourByPlayer(play);
 
-describe("PlaySceneLines", () => {
+describe("SceneLines", () => {
   let queryByText: QueryByAPI["queryByText"];
   let getAllByText: GetByAPI["getAllByText"];
   beforeEach(() => {
@@ -35,7 +35,7 @@ describe("PlaySceneLines", () => {
           setActiveLineById: () => null
         }}
       >
-        <PlaySceneLines {...scene} colourByPlayer={colourByPlayer} />
+        <SceneLines {...scene} colourByPlayer={colourByPlayer} />
       </PlayPositionContext.Provider>
     ));
   });
