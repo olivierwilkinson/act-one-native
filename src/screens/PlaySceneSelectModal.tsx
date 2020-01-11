@@ -7,6 +7,7 @@ import {
 import { Play } from "../types/play-types";
 import PlaySceneSelect from "../components/sceneSelectModal/PlaySceneSelect";
 import Header from "../components/common/Header";
+import Error from "../components/common/Error";
 import { navigateToPlay } from "../helpers/navigation";
 
 type Params = {
@@ -23,7 +24,7 @@ export default class PlaySceneSelectModal extends React.Component<
   }) => ({
     header: () => (
       <Header
-        title={navigation.state.params!.play.play}
+        title={navigation.state.params?.play.play}
         onCancel={() => navigation.pop()}
       />
     )
@@ -31,7 +32,11 @@ export default class PlaySceneSelectModal extends React.Component<
 
   render() {
     const { navigation } = this.props;
-    const play = navigation.state.params!.play;
+    const play = navigation.state.params?.play;
+
+    if (!play) {
+      return <Error message="Unable to load Play" />;
+    }
 
     return (
       <PlaySceneSelect
