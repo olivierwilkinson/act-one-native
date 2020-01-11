@@ -30,7 +30,7 @@ describe("navigation helpers", () => {
     it("calls navigate with correct arguments", () => {
       openSceneSelect(navigation, play);
 
-      expect(navigation.navigate).toHaveBeenCalledWith("SceneSelectModal", {
+      expect(navigation.navigate).toHaveBeenCalledWith("SceneSelect", {
         play
       });
     });

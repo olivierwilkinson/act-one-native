@@ -35,7 +35,7 @@ export const goToScene = (
 
 // Modal Navigation
 export const openSceneSelect = (navigation: NavigationStackProp, play: Play) =>
-  navigation.navigate("SceneSelectModal", { play });
+  navigation.navigate("SceneSelect", { play });
 
 // Misc
 export const setParams = (
