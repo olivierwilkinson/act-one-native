@@ -1,8 +1,8 @@
 import { NavigationStackProp } from "react-navigation-stack";
 
 import { Play } from "../types/play-types";
-import { findActiveScene, goToScene } from "../helpers/play";
-import { openSceneSelect } from "../helpers/navigation";
+import { findActiveScene } from "../helpers/play";
+import { goToScene, openSceneSelect } from "../helpers/navigation";
 
 export const createPlayNavigation = (
   navigation: NavigationStackProp,

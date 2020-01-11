@@ -3,17 +3,15 @@ import play from "../../data/plays/shakespeare/AComedyOfErrors";
 import { createPlayNavigation } from "../contexts";
 import navigation from "../../../tests/mocks/navigation";
 import { PlayNavigation } from "../../contexts/PlayNavigation";
-import { openSceneSelect } from "../../helpers/navigation";
-import * as PlayHelpers from "../../helpers/play";
+import { goToScene, openSceneSelect } from "../../helpers/navigation";
 import { Play } from "../../types/play-types";
 
 jest.mock("../../helpers/navigation.ts", () => ({
+  goToScene: jest.fn(),
   openSceneSelect: jest.fn()
 }));
-// @ts-ignore
-PlayHelpers.goToScene = jest.fn();
 
-const mockedGoToScene = PlayHelpers.goToScene as jest.Mock;
+const mockedGoToScene = goToScene as jest.Mock;
 const mockedOpenSceneSelect = openSceneSelect as jest.Mock;
 
 describe("contexts helpers", () => {
