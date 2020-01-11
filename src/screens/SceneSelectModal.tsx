@@ -5,7 +5,7 @@ import {
 } from "react-navigation-stack";
 
 import { Play } from "../types/play-types";
-import PlaySceneSelect from "../components/sceneSelectModal/PlaySceneSelect";
+import SceneSelect from "../components/sceneSelectModal/SceneSelect";
 import Header from "../components/common/Header";
 import Error from "../components/common/Error";
 import { navigateToPlay } from "../helpers/navigation";
@@ -14,7 +14,7 @@ type Params = {
   play: Play;
 };
 
-export default class PlaySceneSelectModal extends React.Component<
+export default class SceneSelectModal extends React.Component<
   NavigationStackScreenProps<Params>
 > {
   static navigationOptions = ({
@@ -39,7 +39,7 @@ export default class PlaySceneSelectModal extends React.Component<
     }
 
     return (
-      <PlaySceneSelect
+      <SceneSelect
         {...play}
         onScenePress={({ act, scene }) =>
           navigateToPlay(navigation, {
