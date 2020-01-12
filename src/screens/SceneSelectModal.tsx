@@ -31,7 +31,7 @@ export default class SceneSelectModal extends React.Component<
   }) => ({
     header: () => (
       <Header
-        title={navigation.state.params?.play.play}
+        title={navigation.state.params?.play?.play}
         right={{
           onPress: () => navigation.pop(),
           view: <HeaderText>Cancel</HeaderText>
