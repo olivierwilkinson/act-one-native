@@ -24,7 +24,7 @@ export default class SceneSelectModal extends React.Component<
   }) => ({
     header: () => (
       <Header
-        title={navigation.state.params?.play.play}
+        title={navigation.state.params?.play?.play}
         onCancel={() => navigation.pop()}
       />
     )
