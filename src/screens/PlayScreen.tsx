@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components/native";
 import {
   NavigationStackScreenProps,
   NavigationStackProp
@@ -8,6 +9,12 @@ import { Play as PlayType } from "../types/play-types";
 import Play from "../components/play/Play";
 import Header from "../components/common/Header";
 import Error from "../components/common/Error";
+import { bigSizeFont } from "../styles/typography";
+
+const HeaderText = styled.Text`
+  ${bigSizeFont}
+  color: white;
+`;
 
 type Params = { play: PlayType };
 type Props = NavigationStackScreenProps<Params>;
@@ -20,8 +27,11 @@ export default class PlayScreen extends React.Component<Props> {
   }) => ({
     header: () => (
       <Header
-        title={navigation.state.params?.play.play}
-        onBack={() => navigation.pop()}
+        title={navigation.state.params?.play?.play}
+        left={{
+          onPress: () => navigation.pop(),
+          view: <HeaderText>Back</HeaderText>
+        }}
       />
     )
   });

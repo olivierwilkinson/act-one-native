@@ -1,4 +1,4 @@
-import "react-native";
+import { View, Text } from "react-native";
 import React from "react";
 import {
   render,
@@ -21,14 +21,6 @@ describe("Header", () => {
     expect(queryByText("ActOne")).not.toBeNull();
   });
 
-  it("does not render back button", () => {
-    expect(queryByText("Back")).toBeNull();
-  });
-
-  it("does not render cancel button", () => {
-    expect(queryByText("Cancel")).toBeNull();
-  });
-
   describe("when passed title", () => {
     const title = "Test Title";
     beforeEach(() => {
@@ -40,45 +32,66 @@ describe("Header", () => {
     });
   });
 
-  describe("when passed onBack", () => {
+  describe("when passed left HeaderAction", () => {
     let getByText: GetByAPI["getByText"];
-    let onBack: jest.Mock;
+    let onPress: jest.Mock;
     beforeEach(() => {
-      onBack = jest.fn();
+      onPress = jest.fn();
 
-      ({ queryByText, getByText } = render(<Header onBack={onBack} />));
+      ({ queryByText, getByText } = render(
+        <Header
+          left={{
+            onPress,
+            view: (
+              <View>
+                <Text>Back</Text>
+              </View>
+            )
+          }}
+        />
+      ));
     });
 
-    it("renders back button", () => {
+    it("renders view", () => {
       expect(queryByText("Back")).not.toBeNull();
     });
 
-    it("calls onBack on back button press", () => {
+    it("calls onPress on view press", () => {
       const backButton = getByText("Back");
       fireEvent.press(backButton);
 
-      expect(onBack).toHaveBeenCalledTimes(1);
+      expect(onPress).toHaveBeenCalledTimes(1);
     });
   });
-
-  describe("when passed onCancel", () => {
+  describe("when passed right HeaderAction", () => {
     let getByText: GetByAPI["getByText"];
-    let onCancel: jest.Mock;
+    let onPress: jest.Mock;
     beforeEach(() => {
-      onCancel = jest.fn();
+      onPress = jest.fn();
 
-      ({ queryByText, getByText } = render(<Header onCancel={onCancel} />));
+      ({ queryByText, getByText } = render(
+        <Header
+          right={{
+            onPress,
+            view: (
+              <View>
+                <Text>Cancel</Text>
+              </View>
+            )
+          }}
+        />
+      ));
     });
 
-    it("renders cancel button", () => {
+    it("renders view", () => {
       expect(queryByText("Cancel")).not.toBeNull();
     });
 
-    it("calls onCancel on back button press", () => {
-      const cancelButton = getByText("Cancel");
-      fireEvent.press(cancelButton);
+    it("calls onPress on view press", () => {
+      const backButton = getByText("Cancel");
+      fireEvent.press(backButton);
 
-      expect(onCancel).toHaveBeenCalledTimes(1);
+      expect(onPress).toHaveBeenCalledTimes(1);
     });
   });
 });

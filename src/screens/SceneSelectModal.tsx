@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components/native";
 import {
   NavigationStackScreenProps,
   NavigationStackProp
@@ -9,6 +10,12 @@ import SceneSelect from "../components/sceneSelectModal/SceneSelect";
 import Header from "../components/common/Header";
 import Error from "../components/common/Error";
 import { navigateToPlay } from "../helpers/navigation";
+import { bigSizeFont } from "../styles/typography";
+
+const HeaderText = styled.Text`
+  ${bigSizeFont}
+  color: white;
+`;
 
 type Params = {
   play: Play;
@@ -25,7 +32,10 @@ export default class SceneSelectModal extends React.Component<
     header: () => (
       <Header
         title={navigation.state.params?.play.play}
-        onCancel={() => navigation.pop()}
+        right={{
+          onPress: () => navigation.pop(),
+          view: <HeaderText>Cancel</HeaderText>
+        }}
       />
     )
   });
