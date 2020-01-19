@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, TouchableHighlight } from "react-native";
 import styled from "styled-components/native";
 import {
   NavigationStackScreenProps,
@@ -9,10 +9,16 @@ import {
 import { Play } from "../types/play-types";
 import Header from "../components/common/Header";
 import Error from "../components/common/Error";
+import CustomActionSheet from "../components/common/CustomActionSheet";
 import { findPlayers } from "../helpers/play";
 import { bigSizeFont, titleFont, mediumSizeFont } from "../styles/typography";
 import { Picker } from "react-native";
-import { lightPrimaryColour, darkGray } from "../styles/colours";
+import {
+  lightPrimaryColour,
+  lightGray,
+  darkGray,
+  primaryColour
+} from "../styles/colours";
 
 const HeaderText = styled.Text`
   ${bigSizeFont}
@@ -37,10 +43,11 @@ const SettingsView = styled.View`
   padding: 10px;
 `;
 
-const SettingHeading = styled.View`
+const SettingView = styled.View`
   padding: 10px;
   border-bottom-width: 1px;
-  border-bottom-color: ${darkGray};
+  border-bottom-color: ${lightGray};
+  background: white;
 `;
 
 const SettingText = styled.Text`
@@ -72,12 +79,13 @@ export default class PlaySettingsModal extends React.Component<
   });
 
   state = {
-    selectedPlayer: null
+    selectedPlayer: undefined,
+    playerSelectActive: false
   };
 
   render() {
     const { navigation } = this.props;
-    const { selectedPlayer } = this.state;
+    const { selectedPlayer, playerSelectActive } = this.state;
     const play = navigation.state.params?.play;
 
     if (!play) {
@@ -85,16 +93,35 @@ export default class PlaySettingsModal extends React.Component<
     }
 
     return (
-      <View>
-        <TitleView>
-          <TitleText>Play Settings</TitleText>
-        </TitleView>
+      <>
+        <View>
+          <TitleView>
+            <TitleText>Play Settings</TitleText>
+          </TitleView>
 
-        <SettingsView>
-          <SettingHeading>
-            <SettingText>Character:</SettingText>
-          </SettingHeading>
+          <SettingsView>
+            <TouchableHighlight
+              onPress={() => this.setState({ playerSelectActive: true })}
+            >
+              <SettingView>
+                <SettingText>
+                  Character{selectedPlayer && `: ${selectedPlayer}`}
+                </SettingText>
+              </SettingView>
+            </TouchableHighlight>
+          </SettingsView>
+        </View>
 
+        <CustomActionSheet
+          visible={playerSelectActive}
+          onCancel={() =>
+            this.setState({
+              playerSelectActive: false,
+              selectedPlayer: undefined
+            })
+          }
+          onDone={() => this.setState({ playerSelectActive: false })}
+        >
           <Picker
             selectedValue={selectedPlayer}
             onValueChange={itemValue =>
@@ -102,11 +129,16 @@ export default class PlaySettingsModal extends React.Component<
             }
           >
             {findPlayers(play).map(player => (
-              <Picker.Item label={player} value={player} key={player} />
+              <Picker.Item
+                color={player === selectedPlayer ? primaryColour : undefined}
+                label={player}
+                value={player}
+                key={player}
+              />
             ))}
           </Picker>
-        </SettingsView>
-      </View>
+        </CustomActionSheet>
+      </>
     );
   }
 }
