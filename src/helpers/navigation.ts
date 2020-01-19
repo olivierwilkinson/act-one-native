@@ -37,6 +37,9 @@ export const goToScene = (
 export const openSceneSelect = (navigation: NavigationStackProp, play: Play) =>
   navigation.navigate("SceneSelect", { play });
 
+export const openPlaySettings = (navigation: NavigationStackProp, play: Play) =>
+  navigation.navigate("PlaySettings", { play });
+
 // Misc
 export const setParams = (
   navigation: NavigationStackProp,

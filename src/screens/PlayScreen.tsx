@@ -4,6 +4,7 @@ import {
   NavigationStackScreenProps,
   NavigationStackProp
 } from "react-navigation-stack";
+import { Ionicons } from "@expo/vector-icons";
 
 import { Play as PlayType } from "../types/play-types";
 import Play from "../components/play/Play";
@@ -31,6 +32,13 @@ export default class PlayScreen extends React.Component<Props> {
         left={{
           onPress: () => navigation.pop(),
           view: <HeaderText>Back</HeaderText>
+        }}
+        right={{
+          onPress: () =>
+            navigation.navigate("PlaySettings", {
+              play: navigation.state.params?.play
+            }),
+          view: <Ionicons name="ios-settings" color="white" size={28} />
         }}
       />
     )
