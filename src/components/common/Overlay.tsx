@@ -15,7 +15,7 @@ type Props = {
   children?: JSX.Element;
 };
 
-const Overlay: React.FunctionComponent<Props> = ({ children }: Props) => {
+const Overlay: React.FunctionComponent<Props> = ({ children }) => {
   return <OverlayView pointerEvents="box-none">{children}</OverlayView>;
 };
 
