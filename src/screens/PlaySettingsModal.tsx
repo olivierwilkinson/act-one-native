@@ -5,14 +5,15 @@ import {
   NavigationStackScreenProps,
   NavigationStackProp
 } from "react-navigation-stack";
+import { Picker } from "react-native";
 
 import { Play } from "../types/play-types";
 import Header from "../components/common/Header";
 import Error from "../components/common/Error";
 import CustomActionSheet from "../components/common/CustomActionSheet";
+import PlayerBubble from "../components/common/PlayerBubble";
 import { findPlayers } from "../helpers/play";
 import { bigSizeFont, titleFont, mediumSizeFont } from "../styles/typography";
-import { Picker } from "react-native";
 import {
   lightPrimaryColour,
   lightGray,
@@ -44,10 +45,15 @@ const SettingsView = styled.View`
 `;
 
 const SettingView = styled.View`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
   padding: 10px;
   border-bottom-width: 1px;
   border-bottom-color: ${lightGray};
   background: white;
+  height: 60px;
 `;
 
 const SettingText = styled.Text`
@@ -78,7 +84,10 @@ export default class PlaySettingsModal extends React.Component<
     )
   });
 
-  state = {
+  state: {
+    selectedPlayer?: string;
+    playerSelectActive: boolean;
+  } = {
     selectedPlayer: undefined,
     playerSelectActive: false
   };
@@ -104,9 +113,14 @@ export default class PlaySettingsModal extends React.Component<
               onPress={() => this.setState({ playerSelectActive: true })}
             >
               <SettingView>
-                <SettingText>
-                  Character{selectedPlayer && `: ${selectedPlayer}`}
-                </SettingText>
+                <SettingText>Character:</SettingText>
+                {!!selectedPlayer && (
+                  <PlayerBubble
+                    player={selectedPlayer}
+                    colour={{ red: 0, green: 0, blue: 0 }}
+                    highlighted
+                  />
+                )}
               </SettingView>
             </TouchableHighlight>
           </SettingsView>
