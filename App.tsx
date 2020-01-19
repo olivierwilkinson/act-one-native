@@ -1,12 +1,15 @@
 import React from "react";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
+import { GatewayProvider, GatewayDest } from "react-gateway";
 
 import HomeScreen from "./src/screens/HomeScreen";
 import PlayScreen from "./src/screens/PlayScreen";
 import SceneSelectModal from "./src/screens/SceneSelectModal";
 import PlaySettingsModal from "./src/screens/PlaySettingsModal";
 import Header from "./src/components/common/Header";
+import Overlay from "./src/components/common/Overlay";
+import "./disableWarnings";
 
 const MainStack = createStackNavigator(
   {
@@ -58,6 +61,11 @@ const RootStack = createStackNavigator(
 
 const AppContainer = createAppContainer(RootStack);
 
-export default () => {
-  return <AppContainer />;
-};
+export default () => (
+  <GatewayProvider>
+    <>
+      <AppContainer />
+      <GatewayDest name="overlay" component={Overlay} />
+    </>
+  </GatewayProvider>
+);
