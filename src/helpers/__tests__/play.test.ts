@@ -40,7 +40,7 @@ describe("play helpers", () => {
 
   describe("#createColourByPlayer", () => {
     it("creates colourByPlayer object correctly", () => {
-      expect(createColourByPlayer(play)).toEqual(colourByPlayer);
+      expect(createColourByPlayer(play.scenes)).toEqual(colourByPlayer);
     });
   });
 });

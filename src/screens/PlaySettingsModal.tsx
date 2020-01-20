@@ -117,7 +117,7 @@ export default class PlaySettingsModal extends React.Component<
                 {!!selectedPlayer && (
                   <PlayerBubble
                     player={selectedPlayer}
-                    colour={{ red: 0, green: 0, blue: 0 }}
+                    colour={play.colourByPlayer[selectedPlayer]}
                     highlighted
                   />
                 )}
@@ -142,7 +142,7 @@ export default class PlaySettingsModal extends React.Component<
               this.setState({ selectedPlayer: itemValue })
             }
           >
-            {findPlayers(play).map(player => (
+            {findPlayers(play.scenes).map(player => (
               <Picker.Item
                 color={player === selectedPlayer ? primaryColour : undefined}
                 label={player}

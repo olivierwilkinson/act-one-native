@@ -9,7 +9,6 @@ import {
 
 import LineHeader from "../LineHeader";
 import PlayPositionContext from "../../../contexts/PlayPosition";
-import { createColourByPlayer } from "../../../helpers/play";
 
 import play from "../../../data/plays/shakespeare/AComedyOfErrors";
 import { Line } from "../../../types/play-types";
@@ -18,8 +17,7 @@ const {
 } = play;
 const line = scene.lines.find(({ player }) => player) as Line;
 const noPlayerLine = scene.lines.find(({ player }) => !player) as Line;
-
-const colourByPlayer = createColourByPlayer(play);
+const { colourByPlayer } = play;
 
 describe("LineHeader", () => {
   let queryByTestId: QueryByAPI["queryByTestId"];

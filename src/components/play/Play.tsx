@@ -5,7 +5,6 @@ import { NavigationEvents } from "react-navigation";
 
 import Scene from "./Scene";
 import { Play as PlayType } from "../../types/play-types";
-import { ColourByPlayer } from "../../types/colour-types";
 import PlayPositionContext, { PlayPosition } from "../../contexts/PlayPosition";
 import PlayNavigationContext, {
   PlayNavigation
@@ -14,11 +13,7 @@ import AudioContext, {
   AudioContextValue,
   PlaybackState
 } from "../../contexts/Audio";
-import {
-  findActiveScene,
-  getLineText,
-  createColourByPlayer
-} from "../../helpers/play";
+import { findActiveScene, getLineText } from "../../helpers/play";
 import { createPlayNavigation } from "../../helpers/contexts";
 
 type Props = {
@@ -29,7 +24,6 @@ type State = {
   playNavigation: PlayNavigation;
   playPosition: PlayPosition;
   audio: AudioContextValue;
-  colourByPlayer: ColourByPlayer;
 };
 
 export default class Play extends React.Component<Props> {
@@ -153,8 +147,7 @@ export default class Play extends React.Component<Props> {
     audio: {
       playbackState: PlaybackState.Stopped,
       setPlaybackState: this.setPlaybackState
-    },
-    colourByPlayer: createColourByPlayer(this.props.play)
+    }
   };
 
   componentDidUpdate(_: Props, prevState: State) {
@@ -171,7 +164,10 @@ export default class Play extends React.Component<Props> {
   }
 
   render() {
-    const { playPosition, playNavigation, colourByPlayer, audio } = this.state;
+    const {
+      play: { colourByPlayer }
+    } = this.props;
+    const { playPosition, playNavigation, audio } = this.state;
     const { activeScene } = playPosition;
     return (
       <>

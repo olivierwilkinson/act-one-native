@@ -1,7 +1,7 @@
 import palette from "google-palette";
 import convert from "color-convert";
 
-import { Play, Line } from "../types/play-types";
+import { Play, Scene, Line } from "../types/play-types";
 import { ColourByPlayer } from "../types/colour-types";
 
 export const findActiveScene = (play: Play) => {
@@ -26,7 +26,7 @@ export const getLineText = ({ lineRows }: Line) => {
   }, "");
 };
 
-export const findPlayers: (play: Play) => string[] = ({ scenes }) => {
+export const findPlayers: (scenes: Scene[]) => string[] = scenes => {
   return Array.from(
     new Set(
       scenes.reduce<string[]>(
@@ -37,8 +37,10 @@ export const findPlayers: (play: Play) => string[] = ({ scenes }) => {
   );
 };
 
-export const createColourByPlayer: (play: Play) => ColourByPlayer = play => {
-  const players = findPlayers(play);
+export const createColourByPlayer: (
+  scenes: Scene[]
+) => ColourByPlayer = scenes => {
+  const players = findPlayers(scenes);
   const colours = palette("tol-rainbow", players.length);
 
   return players.reduce<ColourByPlayer>(
