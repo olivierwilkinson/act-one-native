@@ -98,7 +98,7 @@ export default class PlaySettingsModal extends React.Component<
     const play = navigation.state.params?.play;
 
     if (!play) {
-      return <Error message="Unable to load Play" />;
+      return <Error message="Unable to load Settings" />;
     }
 
     return (
