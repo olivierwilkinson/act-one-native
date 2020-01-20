@@ -11,6 +11,7 @@ import Play from "../components/play/Play";
 import Header from "../components/common/Header";
 import Error from "../components/common/Error";
 import { bigSizeFont } from "../styles/typography";
+import { openPlaySettings } from "../helpers/navigation";
 
 const HeaderText = styled.Text`
   ${bigSizeFont}
@@ -30,15 +31,17 @@ export default class PlayScreen extends React.Component<Props> {
       <Header
         title={navigation.state.params?.play?.play}
         left={{
-          onPress: () => navigation.pop(),
-          view: <HeaderText>Back</HeaderText>
+          view: <HeaderText>Back</HeaderText>,
+          onPress: () => navigation.pop()
         }}
         right={{
-          onPress: () =>
-            navigation.navigate("PlaySettings", {
-              play: navigation.state.params?.play
-            }),
-          view: <Ionicons name="ios-settings" color="white" size={28} />
+          view: <Ionicons name="ios-settings" color="white" size={28} />,
+          onPress: () => {
+            const play = navigation.state.params?.play;
+            if (play) {
+              openPlaySettings(navigation, play);
+            }
+          }
         }}
       />
     )
