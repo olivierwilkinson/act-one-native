@@ -1,22 +1,19 @@
-import { firebase, googleAuthProvider } from '../helpers/firebase';
+import * as Google from 'expo-google-app-auth';
 
-export const logIn = (uid) => ({
-  type: 'LOGIN',
-  uid: uid
-});
+async function signInWithGoogleAsync() {
+  try {
+    const result = await Google.logInAsync({
+      androidClientId: ANDROID_ID,
+      iosClientId: IOS_ID,
+      scopes: ['profile', 'email'],
+    });
 
-export const startLogIn = () => {
-  return () => {
-    return firebase.auth().signInWithPopup(googleAuthProvider);
-  };
-};
-
-export const logOut = () => ({
-  type: 'LOGOUT'
-});
-
-export const startLogOut = () => {
-  return () => {
-    return firebase.auth().signOut();
-  };
-};
+    if (result.type === 'success') {
+      return result.accessToken;
+    } else {
+      return { cancelled: true };
+    }
+  } catch (e) {
+    return { error: true };
+  }
+}

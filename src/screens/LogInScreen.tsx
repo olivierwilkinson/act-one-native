@@ -1,8 +1,9 @@
 import React from "react";
 import { NavigationStackScreenProps } from "react-navigation-stack";
+import { Text } from 'react-native';
 
 import Header from "../components/common/Header";
-import { startLogIn } from '../components/actions/auth';
+import { signInWithGoogleAsync } from '../components/actions/auth';
 
 
 export default class LogInScreen extends React.Component<Props> {
@@ -10,12 +11,22 @@ export default class LogInScreen extends React.Component<Props> {
     header: () => <Header />
   };
 
+  checkIfLoggedIn = () => {
+
+  }
+
   render() {
     const { navigation } = this.props;
     return (
       <div>
-        <h1>Act One</h1>
-        <button className="button" onClick={startLogIn}>Log In</button>
+        <Text>Act One</Text>
+        <button
+          className="button"
+          onPress={signInWithGoogleAsync}
+          title='Google Sign In'
+          >
+            Google Sign In
+           </button>
       </div>
     );
   }

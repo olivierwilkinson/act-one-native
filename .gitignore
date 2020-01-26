@@ -66,3 +66,6 @@ ios/Pods
 
 # testing
 coverage
+
+# sign-in
+google-auth.json
