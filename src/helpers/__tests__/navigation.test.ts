@@ -5,7 +5,8 @@ import {
   openSceneSelect,
   setParams,
   goToScene,
-  playScreenKey
+  playScreenKey,
+  openPlaySettings
 } from "../navigation";
 import navigation from "../../../tests/mocks/navigation";
 
@@ -31,6 +32,16 @@ describe("navigation helpers", () => {
       openSceneSelect(navigation, play);
 
       expect(navigation.navigate).toHaveBeenCalledWith("SceneSelect", {
+        play
+      });
+    });
+  });
+
+  describe("#openPlaySettings", () => {
+    it("calls navigate with correct arguments", () => {
+      openPlaySettings(navigation, play);
+
+      expect(navigation.navigate).toHaveBeenCalledWith("PlaySettings", {
         play
       });
     });
