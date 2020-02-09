@@ -26,7 +26,7 @@ const PlayerText = styled.Text`
     ${titleFont};
 `;
 
-type Props = {
+export type Props = {
   player: string;
   colour: RGBColour;
   highlighted: boolean;

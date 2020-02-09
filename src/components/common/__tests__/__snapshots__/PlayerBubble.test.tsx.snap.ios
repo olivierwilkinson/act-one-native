@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header renders correctly 1`] = `
+<View
+  blue={0}
+  green={0}
+  highlighted={false}
+  red={0}
+  style={
+    Array [
+      Object {
+        "backgroundColor": "whitesmoke",
+        "borderColor": "rgb(0,0,0)",
+        "borderRadius": 15,
+        "borderWidth": 1,
+        "marginBottom": 5,
+        "marginLeft": 10,
+        "marginRight": 0,
+        "marginTop": 5,
+        "paddingBottom": 5,
+        "paddingLeft": 10,
+        "paddingRight": 10,
+        "paddingTop": 5,
+      },
+    ]
+  }
+  testID="player-bubble"
+>
+  <Text
+    blue={0}
+    green={0}
+    highlighted={false}
+    red={0}
+    style={
+      Array [
+        Object {
+          "color": "rgb(0,0,0)",
+          "fontWeight": "bold",
+        },
+      ]
+    }
+  >
+    Professor Poopy Pants
+  </Text>
+</View>
+`;
