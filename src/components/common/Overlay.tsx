@@ -11,7 +11,7 @@ const OverlayView = styled.View`
   width: 100%;
 `;
 
-type Props = {
+export type Props = {
   children?: JSX.Element;
 };
 
