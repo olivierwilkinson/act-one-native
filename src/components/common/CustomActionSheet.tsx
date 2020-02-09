@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Modal, Animated } from "react-native";
 import { Gateway } from "react-gateway";
 import styled from "styled-components/native";
+import { css } from "styled-components";
 
 const ModalContentView = styled.SafeAreaView`
   margin-top: auto;
@@ -46,15 +47,18 @@ const TouchableAction = styled.TouchableHighlight`
   justify-content: center;
 `;
 
-const DoneText = styled.Text`
+const ActionSheetText = css`
   align-self: center;
   font-size: 18px;
 `;
 
+const DoneText = styled.Text`
+  ${ActionSheetText}
+`;
+
 const CancelText = styled.Text`
+  ${ActionSheetText}
   color: #0069d5;
-  align-self: center;
-  font-size: 18px;
 `;
 
 type Props = {
