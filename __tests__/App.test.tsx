@@ -51,11 +51,34 @@ describe("App", () => {
       await waitForElement(() => getByTestId("scene-select"));
     });
 
+    it("navigates to PlaySettingsModal on right header button press", async () => {
+      const playSettingsButton = getByTestId("header-right-button");
+      fireEvent.press(playSettingsButton);
+
+      await waitForElement(() => getByTestId("play-settings"));
+    });
+
     it("navigates to next scene on next scene button press", async () => {
       const nextSceneButton = getByTestId("next-scene-button");
       fireEvent.press(nextSceneButton);
 
       await waitForElement(() => getByText(`ACT 1 - SCENE 2`));
+    });
+
+    describe("PlaySettingsModal navigation", () => {
+      beforeEach(async () => {
+        const playSettingsButton = getByTestId("header-right-button");
+        fireEvent.press(playSettingsButton);
+
+        await waitForElement(() => getByTestId("play-settings"));
+      });
+
+      it("navigates back to play on cancel button press", async () => {
+        const headerCancelButton = getByText("Cancel");
+        fireEvent.press(headerCancelButton);
+
+        await waitForElement(() => getByTestId("play-scene-header"));
+      });
     });
 
     describe("SceneSelectModal navigation", () => {

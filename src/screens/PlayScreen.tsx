@@ -4,12 +4,14 @@ import {
   NavigationStackScreenProps,
   NavigationStackProp
 } from "react-navigation-stack";
+import { Ionicons } from "@expo/vector-icons";
 
 import { Play as PlayType } from "../types/play-types";
 import Play from "../components/play/Play";
 import Header from "../components/common/Header";
 import Error from "../components/common/Error";
 import { bigSizeFont } from "../styles/typography";
+import { openPlaySettings } from "../helpers/navigation";
 
 const HeaderText = styled.Text`
   ${bigSizeFont}
@@ -31,6 +33,11 @@ export default class PlayScreen extends React.Component<Props> {
         left={{
           onPress: () => navigation.pop(),
           view: <HeaderText>Back</HeaderText>
+        }}
+        right={{
+          onPress: () =>
+            openPlaySettings(navigation, navigation.state.params?.play),
+          view: <Ionicons name="ios-settings" color="white" size={28} />
         }}
       />
     )

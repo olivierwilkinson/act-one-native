@@ -67,7 +67,7 @@ export default class PlaySettingsModal extends React.Component<
     }
 
     return (
-      <View>
+      <View testID="play-settings">
         <TitleView>
           <TitleText>Play Settings</TitleText>
         </TitleView>
