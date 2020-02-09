@@ -61,7 +61,7 @@ const CancelText = styled.Text`
   color: #0069d5;
 `;
 
-type Props = {
+export type Props = {
   visible: boolean;
   children: JSX.Element;
   onCancel: () => void;
@@ -88,6 +88,7 @@ export default ({ visible, children, onDone, onCancel }: Props) => {
           transparent
         >
           <TouchableModalBackground
+            testID="custom-action-sheet-background"
             underlayColor="transparent"
             onPress={onCancel}
           >
