@@ -63,12 +63,12 @@ const CancelText = styled.Text`
 
 type Props = {
   visible: boolean;
-  onDone?: () => void;
-  onCancel?: () => void;
   children: JSX.Element;
+  onCancel: () => void;
+  onDone?: () => void;
 };
 
-export default ({ visible, onDone, onCancel, children }: Props) => {
+export default ({ visible, children, onDone, onCancel }: Props) => {
   const [opacity] = useState(new Animated.Value(0));
 
   React.useEffect(() => {
@@ -102,11 +102,9 @@ export default ({ visible, onDone, onCancel, children }: Props) => {
                 </TouchableAction>
               )}
 
-              {onCancel && (
-                <TouchableAction onPress={onCancel}>
-                  <CancelText>Cancel</CancelText>
-                </TouchableAction>
-              )}
+              <TouchableAction onPress={onCancel}>
+                <CancelText>Cancel</CancelText>
+              </TouchableAction>
             </ModalContentView>
           </TouchableModalBackground>
         </Modal>
