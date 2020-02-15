@@ -81,6 +81,7 @@ const Header = ({ title, left, right }: Props) => (
     <RightView>
       {right && (
         <TouchableHighlight
+          testID="header-right-button"
           onPress={right.onPress}
           underlayColor={primaryColour}
         >

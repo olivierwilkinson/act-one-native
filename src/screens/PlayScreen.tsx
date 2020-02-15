@@ -35,13 +35,9 @@ export default class PlayScreen extends React.Component<Props> {
           onPress: () => navigation.pop()
         }}
         right={{
-          view: <Ionicons name="ios-settings" color="white" size={28} />,
-          onPress: () => {
-            const play = navigation.state.params?.play;
-            if (play) {
-              openPlaySettings(navigation, play);
-            }
-          }
+          onPress: () =>
+            openPlaySettings(navigation, navigation.state.params?.play),
+          view: <Ionicons name="ios-settings" color="white" size={28} />
         }}
       />
     )

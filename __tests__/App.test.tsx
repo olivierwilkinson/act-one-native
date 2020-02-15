@@ -13,8 +13,6 @@ import {
 import App from "../App";
 import play from "../src/data/plays/shakespeare/AComedyOfErrors";
 
-jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
-
 describe("App", () => {
   let queryByTestId: QueryByAPI["queryByTestId"];
   let getByTestId: GetByAPI["getByTestId"];
@@ -51,11 +49,34 @@ describe("App", () => {
       await waitForElement(() => getByTestId("scene-select"));
     });
 
+    it("navigates to PlaySettingsModal on right header button press", async () => {
+      const playSettingsButton = getByTestId("header-right-button");
+      fireEvent.press(playSettingsButton);
+
+      await waitForElement(() => getByTestId("play-settings"));
+    });
+
     it("navigates to next scene on next scene button press", async () => {
       const nextSceneButton = getByTestId("next-scene-button");
       fireEvent.press(nextSceneButton);
 
       await waitForElement(() => getByText(`ACT 1 - SCENE 2`));
+    });
+
+    describe("PlaySettingsModal navigation", () => {
+      beforeEach(async () => {
+        const playSettingsButton = getByTestId("header-right-button");
+        fireEvent.press(playSettingsButton);
+
+        await waitForElement(() => getByTestId("play-settings"));
+      });
+
+      it("navigates back to play on cancel button press", async () => {
+        const headerCancelButtons = getAllByText("Cancel");
+        fireEvent.press(headerCancelButtons[0]);
+
+        await waitForElement(() => getByTestId("play-scene-header"));
+      });
     });
 
     describe("SceneSelectModal navigation", () => {
@@ -75,8 +96,8 @@ describe("App", () => {
       });
 
       it("navigates back to current scene on close button press", async () => {
-        const headerCloseButton = getByText("Cancel");
-        fireEvent.press(headerCloseButton);
+        const headerCloseButtons = getAllByText("Cancel");
+        fireEvent.press(headerCloseButtons[0]);
 
         await waitForElement(() => getByText("ACT 1 - SCENE 1"));
       });

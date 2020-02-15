@@ -1,11 +1,10 @@
 import React from "react";
-import { View, TouchableHighlight } from "react-native";
+import { View, TouchableHighlight, Picker } from "react-native";
 import styled from "styled-components/native";
 import {
   NavigationStackScreenProps,
   NavigationStackProp
 } from "react-navigation-stack";
-import { Picker } from "react-native";
 
 import { Play } from "../types/play-types";
 import Header from "../components/common/Header";
@@ -103,7 +102,7 @@ export default class PlaySettingsModal extends React.Component<
 
     return (
       <>
-        <View>
+        <View testID="play-settings">
           <TitleView>
             <TitleText>Play Settings</TitleText>
           </TitleView>
