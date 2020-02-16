@@ -1,25 +1,19 @@
 import React from "react";
-import { View, TouchableHighlight, Picker } from "react-native";
+import { View, Picker } from "react-native";
 import styled from "styled-components/native";
 import {
   NavigationStackScreenProps,
   NavigationStackProp
 } from "react-navigation-stack";
-import { Ionicons } from "@expo/vector-icons";
 
 import { Play } from "../types/play-types";
 import Header from "../components/common/Header";
 import Error from "../components/common/Error";
+import SettingsRow from "../components/playSettingsModal/SettingsRow";
 import CustomActionSheet from "../components/common/CustomActionSheet";
-import PlayerBubble from "../components/common/PlayerBubble";
 import { findPlayers } from "../helpers/play";
-import { bigSizeFont, titleFont, mediumSizeFont } from "../styles/typography";
-import {
-  lightPrimaryColour,
-  lightGray,
-  darkGray,
-  primaryColour
-} from "../styles/colours";
+import { bigSizeFont, titleFont } from "../styles/typography";
+import { lightPrimaryColour, primaryColour } from "../styles/colours";
 
 const HeaderText = styled.Text`
   ${bigSizeFont}
@@ -42,55 +36,6 @@ const TitleText = styled.Text`
 
 const SettingsView = styled.View`
   padding: 0px;
-`;
-
-const SettingLeftIcon = styled(Ionicons)`
-  margin: 0 10px 0 5px;
-`;
-
-const SettingView = styled.View`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 10px;
-  background: white;
-  height: 70px;
-  width: 100%;
-`;
-
-const SettingContentView = styled.View`
-  flex: 1;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: 100%;
-  padding: 0 10px;
-
-  border-bottom-width: 1px;
-  border-bottom-color: ${lightGray};
-`;
-
-const SettingRightView = styled.View`
-  margin-left: auto;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-`;
-
-const SettingRightArrow = styled(Ionicons)`
-  margin-left: 10px;
-`;
-
-const SettingPlayerBubble = styled(PlayerBubble)`
-  max-width: 80%;
-`;
-
-const SettingText = styled.Text`
-  ${mediumSizeFont}
-  color: ${darkGray}
 `;
 
 type Params = {
@@ -141,30 +86,12 @@ export default class PlaySettingsModal extends React.Component<
           </TitleView>
 
           <SettingsView>
-            <TouchableHighlight
+            <SettingsRow
+              label="Character"
+              value={selectedPlayer}
+              leftIconName="ios-person"
               onPress={() => this.setState({ playerSelectActive: true })}
-            >
-              <SettingView>
-                <SettingLeftIcon size={24} name="ios-person" />
-                <SettingContentView>
-                  <SettingText>Character</SettingText>
-                  <SettingRightView>
-                    {!!selectedPlayer && (
-                      <SettingPlayerBubble
-                        player={selectedPlayer}
-                        colour={play.colourByPlayer[selectedPlayer]}
-                        highlighted={false}
-                      />
-                    )}
-                    <SettingRightArrow
-                      size={24}
-                      name="ios-arrow-forward"
-                      color="gray"
-                    />
-                  </SettingRightView>
-                </SettingContentView>
-              </SettingView>
-            </TouchableHighlight>
+            />
           </SettingsView>
         </View>
 
