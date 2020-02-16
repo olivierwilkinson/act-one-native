@@ -25,6 +25,7 @@ const PlayerText = styled.Text`
   color: ${({ red, green, blue, highlighted }: ColourProps) =>
       highlighted ? "white" : `rgb(${red},${green},${blue})`}
     ${titleFont};
+  overflow: hidden;
 `;
 
 export type Props = {
@@ -41,7 +42,7 @@ export default ({ player, colour, highlighted, style }: Props) => (
     style={style}
     {...colour}
   >
-    <PlayerText highlighted={highlighted} {...colour}>
+    <PlayerText numberOfLines={1} highlighted={highlighted} {...colour}>
       {player}
     </PlayerText>
   </PlayerBubbleView>

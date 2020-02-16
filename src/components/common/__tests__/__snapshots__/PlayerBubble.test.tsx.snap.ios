@@ -33,12 +33,14 @@ exports[`PlayerBubble renders correctly 1`] = `
     blue={0}
     green={0}
     highlighted={false}
+    numberOfLines={1}
     red={0}
     style={
       Array [
         Object {
           "color": "rgb(0,0,0)",
           "fontWeight": "bold",
+          "overflow": "hidden",
         },
       ]
     }
