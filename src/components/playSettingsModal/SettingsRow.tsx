@@ -62,7 +62,7 @@ const ValueText = styled.Text`
   color: gray;
 `;
 
-type Props = {
+export type Props = {
   label: string;
   onPress?: () => void;
   value?: string;
@@ -73,7 +73,13 @@ export default ({ label, onPress, leftIconName, value }: Props) => {
   return (
     <TouchableHighlight onPress={onPress}>
       <SettingView>
-        {leftIconName && <SettingLeftIcon size={24} name={leftIconName} />}
+        {leftIconName && (
+          <SettingLeftIcon
+            testID="settings-row-left-icon"
+            size={24}
+            name={leftIconName}
+          />
+        )}
 
         <SettingContentView>
           <LabelText>{label}</LabelText>
@@ -83,6 +89,7 @@ export default ({ label, onPress, leftIconName, value }: Props) => {
 
             {onPress && (
               <SettingRightArrow
+                testID="settings-row-right-arrow"
                 size={24}
                 name="ios-arrow-forward"
                 color="gray"
