@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CharacterSelectActionSheet renders picker correctly 1`] = `
+<PickerIOS
+  mode="dialog"
+  onValueChange={[Function]}
+  selectedValue="test character two"
+  testID="character-select-picker"
+>
+  <PickerItem
+    label="test character one"
+    value="test character one"
+  />
+  <PickerItem
+    color="rgb(1, 187, 211)"
+    label="test character two"
+    value="test character two"
+  />
+</PickerIOS>
+`;

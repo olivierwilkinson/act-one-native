@@ -1,19 +1,19 @@
 import React from "react";
-import { View, Picker } from "react-native";
+import { View } from "react-native";
 import styled from "styled-components/native";
 import {
   NavigationStackScreenProps,
   NavigationStackProp
 } from "react-navigation-stack";
 
-import { Play } from "../types/play-types";
 import Header from "../components/common/Header";
 import Error from "../components/common/Error";
 import SettingsRow from "../components/playSettingsModal/SettingsRow";
-import CustomActionSheet from "../components/common/CustomActionSheet";
+import CharacterSelectActionSheet from "../components/playSettingsModal/CharacterSelectActionSheet";
+import { Play } from "../types/play-types";
 import { findPlayers } from "../helpers/play";
 import { bigSizeFont, titleFont } from "../styles/typography";
-import { lightPrimaryColour, primaryColour } from "../styles/colours";
+import { lightPrimaryColour } from "../styles/colours";
 
 const HeaderText = styled.Text`
   ${bigSizeFont}
@@ -95,32 +95,18 @@ export default class PlaySettingsModal extends React.Component<
           </SettingsView>
         </View>
 
-        <CustomActionSheet
+        <CharacterSelectActionSheet
+          currentPlayer={selectedPlayer}
+          players={findPlayers(play.scenes)}
           visible={playerSelectActive}
-          onCancel={() =>
+          onCancel={() => this.setState({ playerSelectActive: false })}
+          onDone={selectedPlayer =>
             this.setState({
               playerSelectActive: false,
-              selectedPlayer: undefined
+              selectedPlayer
             })
           }
-          onDone={() => this.setState({ playerSelectActive: false })}
-        >
-          <Picker
-            selectedValue={selectedPlayer}
-            onValueChange={itemValue =>
-              this.setState({ selectedPlayer: itemValue })
-            }
-          >
-            {findPlayers(play.scenes).map(player => (
-              <Picker.Item
-                color={player === selectedPlayer ? primaryColour : undefined}
-                label={player}
-                value={player}
-                key={player}
-              />
-            ))}
-          </Picker>
-        </CustomActionSheet>
+        />
       </>
     );
   }
