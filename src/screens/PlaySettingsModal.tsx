@@ -5,6 +5,7 @@ import {
   NavigationStackScreenProps,
   NavigationStackProp
 } from "react-navigation-stack";
+import { Ionicons } from "@expo/vector-icons";
 
 import { Play } from "../types/play-types";
 import Header from "../components/common/Header";
@@ -40,19 +41,51 @@ const TitleText = styled.Text`
 `;
 
 const SettingsView = styled.View`
-  padding: 10px;
+  padding: 0px;
+`;
+
+const SettingLeftIcon = styled(Ionicons)`
+  margin: 0 10px 0 5px;
 `;
 
 const SettingView = styled.View`
   display: flex;
   flex-direction: row;
   align-items: center;
-  flex-wrap: wrap;
   padding: 10px;
+  background: white;
+  height: 70px;
+  width: 100%;
+`;
+
+const SettingContentView = styled.View`
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: 0 10px;
+
   border-bottom-width: 1px;
   border-bottom-color: ${lightGray};
-  background: white;
-  height: 60px;
+`;
+
+const SettingRightView = styled.View`
+  margin-left: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
+const SettingRightArrow = styled(Ionicons)`
+  margin-left: 10px;
+`;
+
+const SettingPlayerBubble = styled(PlayerBubble)`
+  max-width: 80%;
 `;
 
 const SettingText = styled.Text`
@@ -112,14 +145,24 @@ export default class PlaySettingsModal extends React.Component<
               onPress={() => this.setState({ playerSelectActive: true })}
             >
               <SettingView>
-                <SettingText>Character:</SettingText>
-                {!!selectedPlayer && (
-                  <PlayerBubble
-                    player={selectedPlayer}
-                    colour={play.colourByPlayer[selectedPlayer]}
-                    highlighted
-                  />
-                )}
+                <SettingLeftIcon size={24} name="ios-person" />
+                <SettingContentView>
+                  <SettingText>Character</SettingText>
+                  <SettingRightView>
+                    {!!selectedPlayer && (
+                      <SettingPlayerBubble
+                        player={selectedPlayer}
+                        colour={play.colourByPlayer[selectedPlayer]}
+                        highlighted={false}
+                      />
+                    )}
+                    <SettingRightArrow
+                      size={24}
+                      name="ios-arrow-forward"
+                      color="gray"
+                    />
+                  </SettingRightView>
+                </SettingContentView>
               </SettingView>
             </TouchableHighlight>
           </SettingsView>
