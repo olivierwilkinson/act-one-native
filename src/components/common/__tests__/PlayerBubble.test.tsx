@@ -4,7 +4,7 @@ import { render, cleanup, RenderAPI } from "react-native-testing-library";
 
 import PlayerBubble, { Props } from "../PlayerBubble";
 
-describe("Header", () => {
+describe("PlayerBubble", () => {
   let defaultProps: Props;
   let toJSON: RenderAPI["toJSON"];
   beforeEach(() => {
@@ -15,7 +15,8 @@ describe("Header", () => {
         green: 0,
         blue: 0
       },
-      highlighted: false
+      highlighted: false,
+      style: { backgroundColor: "papayawhip" }
     };
 
     ({ toJSON } = render(<PlayerBubble {...defaultProps} />));

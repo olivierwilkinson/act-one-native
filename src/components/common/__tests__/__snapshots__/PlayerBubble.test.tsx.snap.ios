@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Header renders correctly 1`] = `
+exports[`PlayerBubble renders correctly 1`] = `
 <View
   blue={0}
   green={0}
@@ -21,6 +21,9 @@ exports[`Header renders correctly 1`] = `
         "paddingLeft": 10,
         "paddingRight": 10,
         "paddingTop": 5,
+      },
+      Object {
+        "backgroundColor": "papayawhip",
       },
     ]
   }

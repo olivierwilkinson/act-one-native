@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
+import { StyleProp, ViewStyle } from "react-native";
 
 import { titleFont } from "../../styles/typography";
 import { playBackgroundColour } from "../../styles/colours";
@@ -30,12 +31,14 @@ export type Props = {
   player: string;
   colour: RGBColour;
   highlighted: boolean;
+  style?: StyleProp<ViewStyle>;
 };
 
-export default ({ player, colour, highlighted }: Props) => (
+export default ({ player, colour, highlighted, style }: Props) => (
   <PlayerBubbleView
     testID="player-bubble"
     highlighted={highlighted}
+    style={style}
     {...colour}
   >
     <PlayerText highlighted={highlighted} {...colour}>
