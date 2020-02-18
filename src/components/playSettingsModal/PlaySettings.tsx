@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View } from "react-native";
 import styled from "styled-components/native";
 
-import SettingsRow from "./SettingsRow";
+import SettingsRow from "../common/SettingsRow";
 import CharacterSelectActionSheet from "./CharacterSelectActionSheet";
 import { findPlayers } from "../../helpers/play";
 import { titleFont, bigSizeFont } from "../../styles/typography";
