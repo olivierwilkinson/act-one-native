@@ -43,4 +43,12 @@ describe("PlaySettingsModal", () => {
   it("renders correct header title", () => {
     expect(queryByText(play.play)).not.toBeNull();
   });
+
+  it("renders play settings", () => {
+    expect(queryByText("Play Settings")).not.toBeNull();
+  });
+
+  it("renders character setting", () => {
+    expect(queryByText("Character")).not.toBeNull();
+  });
 });
