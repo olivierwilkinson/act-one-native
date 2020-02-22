@@ -47,7 +47,7 @@ describe("PlaySettings", () => {
   });
 
   it("renders selected character in settings value", () => {
-    expect(queryByText(defaultProps.settings.selectedPlayer)).not.toBeNull();
+    expect(queryByText(defaultProps.settings.selectedPlayer!)).not.toBeNull();
   });
 
   it("does not render character select action sheet by default", () => {

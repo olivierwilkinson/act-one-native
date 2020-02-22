@@ -10,10 +10,11 @@ import { Play as PlayType } from "../types/play-types";
 import Play from "../components/play/Play";
 import Header from "../components/common/Header";
 import Error from "../components/common/Error";
+import Loading from '../components/common/Loading';
 import { bigSizeFont } from "../styles/typography";
 import { openPlaySettings } from "../helpers/navigation";
 import { getStoredSettings, setStoredSettings } from "../helpers/storage";
-import { PlaySettings, initialSettings } from "../contexts/PlaySettings";
+import { PlaySettings } from "../contexts/PlaySettings";
 
 const HeaderText = styled.Text`
   ${bigSizeFont}
@@ -29,24 +30,35 @@ export default class PlayScreen extends React.Component<Props> {
   }: {
     navigation: NavigationStackProp;
   }) => ({
-    header: () => (
-      <Header
-        title={navigation.state.params?.play?.play}
-        left={{
-          view: <HeaderText>Back</HeaderText>,
-          onPress: () => navigation.pop()
-        }}
-        right={{
-          onPress: () =>
-            openPlaySettings(
-              navigation,
-              navigation.state.params?.play,
-              navigation.state.params?.settings || initialSettings
-            ),
-          view: <Ionicons name="ios-settings" color="white" size={28} />
-        }}
-      />
-    )
+    header: () => {
+      const params = navigation.state.params || {};
+      const { play, settings } = params;
+
+      if (!(play || settings)) {
+        return (
+          <Header
+            left={{
+              view: <HeaderText>Back</HeaderText>,
+              onPress: () => navigation.pop()
+            }}
+          />
+        );
+      }
+
+      return (
+        <Header
+          title={play.play}
+          left={{
+            view: <HeaderText>Back</HeaderText>,
+            onPress: () => navigation.pop()
+          }}
+          right={{
+            onPress: () => openPlaySettings(navigation, play, settings),
+            view: <Ionicons name="ios-settings" color="white" size={28} />
+          }}
+        />
+      );
+    }
   });
 
   componentDidMount() {
@@ -79,17 +91,16 @@ export default class PlayScreen extends React.Component<Props> {
   render() {
     const { navigation } = this.props;
     const play = navigation.state.params?.play;
+    const settings = navigation.state.params?.settings;
 
     if (!play) {
       return <Error message="Play could not be loaded" />;
     }
 
-    return (
-      <Play
-        play={play}
-        navigation={navigation}
-        settings={navigation.state.params?.settings || initialSettings}
-      />
-    );
+    if (!settings) {
+      return <Loading message={`Loading ${play.play}...`}/>
+    }
+
+    return <Play play={play} navigation={navigation} settings={settings} />;
   }
 }

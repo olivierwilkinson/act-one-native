@@ -11,8 +11,6 @@ const AComedyOfErrors: Play = {
   imageLicenseUrl: "https://creativecommons.org/licenses/by/2.0/legalcode",
   imageLicenseCode: "CREATIVE_COMMONS_2",
   colourByPlayer: createColourByPlayer(scenes),
-  currentAct: 1,
-  currentScene: 1
 };
 
 export default AComedyOfErrors;

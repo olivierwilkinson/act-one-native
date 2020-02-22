@@ -26,7 +26,6 @@ import Play from "../Play";
 import { getLineText } from "../../../helpers/play";
 import AComedyOfErrors from "../../../data/plays/shakespeare/AComedyOfErrors";
 import navigation from "../../../../tests/mocks/navigation";
-import { initialSettings } from "../../../contexts/PlaySettings";
 
 // setup play to only have two lines to make testing final line edge cases easier
 const play = {
@@ -61,7 +60,7 @@ describe("PlayScreen", () => {
 
   beforeEach(() => {
     ({ queryByTestId, getByTestId, getByText } = render(
-      <Play navigation={navigation} play={play} settings={initialSettings} />
+      <Play navigation={navigation} play={play} />
     ));
   });
   afterEach(() => {
@@ -223,4 +222,6 @@ describe("PlayScreen", () => {
       });
     });
   });
+
+  describe('when passed settings', () => {});
 });

@@ -56,7 +56,13 @@ export default class PlaySettingsModal extends React.Component<
         scenes={play.scenes}
         settings={settings}
         onSettingsUpdate={newSettings => {
-          setParams(navigation, playScreenKey, { play, settings: newSettings });
+          setParams(navigation, playScreenKey, {
+            play,
+            settings: {
+              ...settings,
+              ...newSettings
+            }
+          });
         }}
       />
     );
