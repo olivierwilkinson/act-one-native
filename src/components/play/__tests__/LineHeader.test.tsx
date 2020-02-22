@@ -9,6 +9,7 @@ import {
 
 import LineHeader from "../LineHeader";
 import PlayPositionContext from "../../../contexts/PlayPosition";
+import PlaySettingsContext from "../../../contexts/PlaySettings";
 
 import play from "../../../data/plays/shakespeare/AComedyOfErrors";
 import { Line } from "../../../types/play-types";
@@ -70,6 +71,24 @@ describe("LineHeader", () => {
       it("does not render player bubble", () => {
         expect(queryByTestId("player-bubble")).toBeNull();
       });
+    });
+  });
+
+  describe("when line has selected player", () => {
+    beforeEach(() => {
+      ({ queryByTestId } = render(
+        <PlaySettingsContext.Provider
+          value={{
+            selectedPlayer: line.player
+          }}
+        >
+          <LineHeader {...line} colour={colourByPlayer[line.player]} />
+        </PlaySettingsContext.Provider>
+      ));
+    });
+
+    it("renders selected player icon in player bubble", () => {
+      expect(queryByTestId("player-user-icon")).not.toBeNull();
     });
   });
 });

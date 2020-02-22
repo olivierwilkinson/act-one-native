@@ -7,6 +7,7 @@ import { RGBColour } from "../../types/colour-types";
 import { Line } from "../../types/play-types";
 import PlayPositionContext from "../../contexts/PlayPosition";
 import PlayerBubble from "./PlayerBubble";
+import PlaySettingsContext from "../../contexts/PlaySettings";
 
 const LineHeaderView = styled.View`
   display: flex;
@@ -24,6 +25,7 @@ type Props = Line & {
 
 export default (props: Props) => {
   const { activeLine, setActiveLineById } = useContext(PlayPositionContext);
+  const { selectedPlayer } = useContext(PlaySettingsContext);
   const { player, id, colour } = props;
   const isCurrentLine = activeLine.id === id;
 
@@ -39,6 +41,7 @@ export default (props: Props) => {
             colour={colour}
             highlighted={isCurrentLine}
             player={player}
+            isSelected={selectedPlayer === player}
           />
         )}
       </LineHeaderView>
