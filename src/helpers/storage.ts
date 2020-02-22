@@ -25,7 +25,9 @@ export const getStoredSettings: (
 
 export const setStoredSettings = async (play: Play, settings: PlaySettings) => {
   try {
-    const serialisedSettings = JSON.stringify(settings);
+    const oldSettings = await getStoredSettings(play);
+    const serialisedSettings = JSON.stringify({ ...oldSettings, ...settings });
+
     await AsyncStorage.setItem(`@${play.play}-settings`, serialisedSettings);
   } catch (e) {
     return;

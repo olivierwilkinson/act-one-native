@@ -2,13 +2,14 @@ import palette from "google-palette";
 import convert from "color-convert";
 
 import { Play, Scene, Line } from "../types/play-types";
+import { PlaySettings } from "../contexts/PlaySettings";
 import { ColourByPlayer } from "../types/colour-types";
 
-export const findActiveScene = (play: Play) => {
-  const { scenes, currentAct, currentScene } = play;
+export const findActiveScene = (play: Play, settings: PlaySettings = {}) => {
+  const { scenes } = play;
 
   const activeScene = scenes.find(
-    ({ scene, act }) => act === currentAct && scene === currentScene
+    ({ scene, act }) => act === settings.act && scene === settings.scene
   );
 
   return activeScene || scenes[0];

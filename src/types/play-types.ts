@@ -26,6 +26,4 @@ export interface Play {
   imageLicenseUrl: string;
   imageLicenseCode: string;
   colourByPlayer: ColourByPlayer;
-  currentAct: number;
-  currentScene: number;
 }

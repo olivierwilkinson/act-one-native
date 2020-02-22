@@ -24,7 +24,12 @@ describe("SceneList", () => {
     onScenePress = jest.fn();
 
     ({ queryByText, queryByTestId, getByTestId, rerender } = render(
-      <SceneList {...play} onScenePress={onScenePress} />
+      <SceneList
+        {...play}
+        currentScene={1}
+        currentAct={1}
+        onScenePress={onScenePress}
+      />
     ));
   });
   afterEach(cleanup);
@@ -46,17 +51,15 @@ describe("SceneList", () => {
   });
 
   it("sets indicator visible when on current scene", () => {
-    const { currentAct, currentScene } = play;
     const indicator = getByTestId(
-      `current-scene-indicator-${currentAct}-${currentScene}`
+      `current-scene-indicator-1-1`
     );
     expect(indicator.props.visible).toEqual(true);
   });
 
   it("sets indicator invisible when not on current scene", () => {
-    const { currentAct, currentScene } = play;
     const { act, scene } = play.scenes.find(
-      ({ act, scene }) => act !== currentAct || scene !== currentScene
+      ({ act, scene }) => act !== 1 || scene !== 1
     ) as Scene;
 
     const indicator = getByTestId(`current-scene-indicator-${act}-${scene}`);

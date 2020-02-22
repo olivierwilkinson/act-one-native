@@ -11,7 +11,7 @@ export const navigateToPlay = (
   navigation: NavigationStackProp,
   play: Play,
   settings?: PlaySettings
-) =>
+) => console.log('hello', play.play, settings) ||
   navigation.navigate({
     routeName: "Play",
     params: { play, settings },
@@ -21,6 +21,7 @@ export const navigateToPlay = (
 export const goToScene = (
   navigation: NavigationStackProp,
   play: Play,
+  settings: PlaySettings,
   newSceneIndex: number
 ) => {
   const { scenes } = play;
@@ -30,17 +31,21 @@ export const goToScene = (
   }
 
   setParams(navigation, playScreenKey, {
-    play: {
-      ...play,
-      currentAct: scene.act,
-      currentScene: scene.scene
+    play,
+    settings: {
+      ...settings,
+      act: scene.act,
+      scene: scene.scene
     }
   });
 };
 
 // Modal Navigation
-export const openSceneSelect = (navigation: NavigationStackProp, play: Play) =>
-  navigation.navigate("SceneSelect", { play });
+export const openSceneSelect = (
+  navigation: NavigationStackProp,
+  play: Play,
+  settings: PlaySettings
+) => navigation.navigate("SceneSelect", { play, settings });
 
 export const openPlaySettings = (
   navigation: NavigationStackProp,

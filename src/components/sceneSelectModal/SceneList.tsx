@@ -77,8 +77,8 @@ const generateSections: (scenes: Scene[]) => ListSection[] = scenes =>
 
 type Props = {
   scenes: Scene[];
-  currentAct: number;
-  currentScene: number;
+  currentAct?: number;
+  currentScene?: number;
   onScenePress: (scene: Scene) => void;
 };
 

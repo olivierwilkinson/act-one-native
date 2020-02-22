@@ -1,11 +1,9 @@
 import React from "react";
 
 export type PlaySettings = {
-  selectedPlayer: string;
+  selectedPlayer?: string;
+  act?: number;
+  scene?: number;
 };
 
-export const initialSettings = {
-  selectedPlayer: ""
-};
-
-export default React.createContext<PlaySettings>(initialSettings);
+export default React.createContext<PlaySettings>({});

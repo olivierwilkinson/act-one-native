@@ -48,6 +48,7 @@ const WhiteTitle = styled.Text`
 type HeaderAction = {
   onPress: () => void;
   view: JSX.Element;
+  disabled?: boolean;
 };
 
 type Props = {
@@ -68,6 +69,7 @@ const Header = ({ title, left, right }: Props) => (
         <TouchableHighlight
           onPress={left.onPress}
           underlayColor={primaryColour}
+          disabled={left.disabled}
         >
           {left.view}
         </TouchableHighlight>
@@ -84,6 +86,7 @@ const Header = ({ title, left, right }: Props) => (
           testID="header-right-button"
           onPress={right.onPress}
           underlayColor={primaryColour}
+          disabled={right.disabled}
         >
           {right.view}
         </TouchableHighlight>

@@ -20,7 +20,7 @@ import { createPlayNavigation } from "../../helpers/contexts";
 type Props = {
   navigation: NavigationStackProp;
   play: PlayType;
-  settings: PlaySettings;
+  settings?: PlaySettings;
 };
 type State = {
   playNavigation: PlayNavigation;
@@ -30,15 +30,15 @@ type State = {
 
 export default class Play extends React.Component<Props, State> {
   static getDerivedStateFromProps(nextProps: Props, prevState: State) {
-    const { navigation, play } = nextProps;
+    const { navigation, play, settings = {} } = nextProps;
     const { playPosition } = prevState;
     const { activeScene: previousActiveScene } = playPosition;
 
     if (
-      previousActiveScene.act !== play.currentAct ||
-      previousActiveScene.scene !== play.currentScene
+      previousActiveScene.act !== settings.act ||
+      previousActiveScene.scene !== settings.scene
     ) {
-      const activeScene = findActiveScene(play);
+      const activeScene = findActiveScene(play, settings);
       const [activeLine] = activeScene.lines;
 
       return {
@@ -47,7 +47,7 @@ export default class Play extends React.Component<Props, State> {
           activeScene,
           activeLine
         },
-        playNavigation: createPlayNavigation(navigation, play)
+        playNavigation: createPlayNavigation(navigation, play, settings)
       };
     }
 
@@ -139,11 +139,12 @@ export default class Play extends React.Component<Props, State> {
   state: State = {
     playNavigation: createPlayNavigation(
       this.props.navigation,
-      this.props.play
+      this.props.play,
+      this.props.settings || {},
     ),
     playPosition: {
-      activeScene: findActiveScene(this.props.play),
-      activeLine: findActiveScene(this.props.play).lines[0],
+      activeScene: findActiveScene(this.props.play, this.props.settings),
+      activeLine: findActiveScene(this.props.play, this.props.settings).lines[0],
       setActiveLineById: this.setActiveLineById
     },
     audio: {
@@ -168,7 +169,7 @@ export default class Play extends React.Component<Props, State> {
   render() {
     const {
       play: { colourByPlayer },
-      settings
+      settings = {},
     } = this.props;
     const { playPosition, playNavigation, audio } = this.state;
     const { activeScene } = playPosition;
