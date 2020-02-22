@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View } from "react-native";
 import styled from "styled-components/native";
 
@@ -7,7 +7,8 @@ import CharacterSelectActionSheet from "./CharacterSelectActionSheet";
 import { findPlayers } from "../../helpers/play";
 import { titleFont, bigSizeFont } from "../../styles/typography";
 import { lightPrimaryColour } from "../../styles/colours";
-import { Play } from "../../types/play-types";
+import { Scene } from "../../types/play-types";
+import { PlaySettings } from "../../contexts/PlaySettings";
 
 const TitleView = styled.View`
   display: flex;
@@ -27,11 +28,21 @@ const SettingsView = styled.View`
   padding: 0px;
 `;
 
-export type Props = Play;
+export type Props = {
+  scenes: Scene[];
+  settings: PlaySettings;
+  onSettingsUpdate: (settings: PlaySettings) => void;
+};
 
-export default ({ scenes }: Props) => {
-  const [selectedPlayer, setSelectedPlayer] = useState("");
+export default ({ scenes, onSettingsUpdate, settings }: Props) => {
+  const [selectedPlayer, setSelectedPlayer] = useState(settings.selectedPlayer);
   const [playerSelectActive, setPlayerSelectActive] = useState(false);
+
+  useEffect(() => {
+    if (selectedPlayer !== settings.selectedPlayer) {
+      onSettingsUpdate({ selectedPlayer });
+    }
+  }, [selectedPlayer]);
 
   return (
     <>

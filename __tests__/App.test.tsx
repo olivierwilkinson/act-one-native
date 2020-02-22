@@ -13,6 +13,11 @@ import {
 import App from "../App";
 import play from "../src/data/plays/shakespeare/AComedyOfErrors";
 
+jest.mock("../src/helpers/storage.ts", () => ({
+  getStoredSettings: jest.fn().mockResolvedValue(null),
+  setStoredSettings: jest.fn().mockResolvedValue(undefined)
+}));
+
 describe("App", () => {
   let queryByTestId: QueryByAPI["queryByTestId"];
   let getByTestId: GetByAPI["getByTestId"];

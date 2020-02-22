@@ -9,6 +9,11 @@ import {
   openPlaySettings
 } from "../navigation";
 import navigation from "../../../tests/mocks/navigation";
+import { PlaySettings } from "../../contexts/PlaySettings";
+
+const settings: PlaySettings = {
+  selectedPlayer: "captain hindsight"
+};
 
 describe("navigation helpers", () => {
   beforeEach(() => {
@@ -22,6 +27,16 @@ describe("navigation helpers", () => {
       expect(navigation.navigate).toHaveBeenCalledWith({
         routeName: "Play",
         params: { play },
+        key: playScreenKey
+      });
+    });
+
+    it("calls navigate with correct arguments when settings passed", () => {
+      navigateToPlay(navigation, play, settings);
+
+      expect(navigation.navigate).toHaveBeenCalledWith({
+        routeName: "Play",
+        params: { play, settings },
         key: playScreenKey
       });
     });
@@ -39,10 +54,11 @@ describe("navigation helpers", () => {
 
   describe("#openPlaySettings", () => {
     it("calls navigate with correct arguments", () => {
-      openPlaySettings(navigation, play);
+      openPlaySettings(navigation, play, settings);
 
       expect(navigation.navigate).toHaveBeenCalledWith("PlaySettings", {
-        play
+        play,
+        settings
       });
     });
   });

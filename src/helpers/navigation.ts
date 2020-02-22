@@ -2,14 +2,19 @@ import { NavigationStackProp } from "react-navigation-stack";
 import { NavigationActions } from "react-navigation";
 
 import { Play } from "../types/play-types";
+import { PlaySettings } from "../contexts/PlaySettings";
 
 export const playScreenKey = "play-screen";
 
 // Screen Navigation
-export const navigateToPlay = (navigation: NavigationStackProp, play: Play) =>
+export const navigateToPlay = (
+  navigation: NavigationStackProp,
+  play: Play,
+  settings?: PlaySettings
+) =>
   navigation.navigate({
     routeName: "Play",
-    params: { play },
+    params: { play, settings },
     key: playScreenKey
   });
 
@@ -37,8 +42,11 @@ export const goToScene = (
 export const openSceneSelect = (navigation: NavigationStackProp, play: Play) =>
   navigation.navigate("SceneSelect", { play });
 
-export const openPlaySettings = (navigation: NavigationStackProp, play: Play) =>
-  navigation.navigate("PlaySettings", { play });
+export const openPlaySettings = (
+  navigation: NavigationStackProp,
+  play: Play,
+  settings: PlaySettings
+) => navigation.navigate("PlaySettings", { play, settings });
 
 // Misc
 export const setParams = (

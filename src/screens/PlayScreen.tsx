@@ -12,14 +12,16 @@ import Header from "../components/common/Header";
 import Error from "../components/common/Error";
 import { bigSizeFont } from "../styles/typography";
 import { openPlaySettings } from "../helpers/navigation";
+import { getStoredSettings, setStoredSettings } from "../helpers/storage";
+import { PlaySettings, initialSettings } from "../contexts/PlaySettings";
 
 const HeaderText = styled.Text`
   ${bigSizeFont}
   color: white;
 `;
 
-type Params = { play: PlayType };
-type Props = NavigationStackScreenProps<Params>;
+export type Params = { play: PlayType; settings?: PlaySettings };
+export type Props = NavigationStackScreenProps<Params>;
 
 export default class PlayScreen extends React.Component<Props> {
   static navigationOptions = ({
@@ -36,12 +38,43 @@ export default class PlayScreen extends React.Component<Props> {
         }}
         right={{
           onPress: () =>
-            openPlaySettings(navigation, navigation.state.params?.play),
+            openPlaySettings(
+              navigation,
+              navigation.state.params?.play,
+              navigation.state.params?.settings || initialSettings
+            ),
           view: <Ionicons name="ios-settings" color="white" size={28} />
         }}
       />
     )
   });
+
+  componentDidMount() {
+    const { navigation } = this.props;
+    const play = navigation.state.params?.play;
+
+    if (play) {
+      this.syncSettings(play);
+    }
+  }
+
+  componentDidUpdate() {
+    const { navigation } = this.props;
+    const play = navigation.state.params?.play;
+    const settings = navigation.state.params?.settings;
+
+    if (play && settings) {
+      setStoredSettings(play, settings);
+    }
+  }
+
+  syncSettings = async (play: PlayType) => {
+    const settings = await getStoredSettings(play);
+
+    if (settings) {
+      this.props.navigation.setParams({ settings });
+    }
+  };
 
   render() {
     const { navigation } = this.props;
@@ -51,6 +84,12 @@ export default class PlayScreen extends React.Component<Props> {
       return <Error message="Play could not be loaded" />;
     }
 
-    return <Play play={play} navigation={navigation} />;
+    return (
+      <Play
+        play={play}
+        navigation={navigation}
+        settings={navigation.state.params?.settings || initialSettings}
+      />
+    );
   }
 }

@@ -10,6 +10,8 @@ import Error from "../components/common/Error";
 import PlaySettings from "../components/playSettingsModal/PlaySettings";
 import { Play } from "../types/play-types";
 import { bigSizeFont } from "../styles/typography";
+import { setParams, playScreenKey } from "../helpers/navigation";
+import { PlaySettings as PlaySettingsType } from "../contexts/PlaySettings";
 
 const HeaderText = styled.Text`
   ${bigSizeFont}
@@ -18,6 +20,7 @@ const HeaderText = styled.Text`
 
 type Params = {
   play: Play;
+  settings: PlaySettingsType;
 };
 
 export default class PlaySettingsModal extends React.Component<
@@ -42,11 +45,20 @@ export default class PlaySettingsModal extends React.Component<
   render() {
     const { navigation } = this.props;
     const play = navigation.state.params?.play;
+    const settings = navigation.state.params?.settings;
 
-    if (!play) {
+    if (!play || !settings) {
       return <Error message="Unable to load Settings" />;
     }
 
-    return <PlaySettings {...play} />;
+    return (
+      <PlaySettings
+        scenes={play.scenes}
+        settings={settings}
+        onSettingsUpdate={newSettings => {
+          setParams(navigation, playScreenKey, { play, settings: newSettings });
+        }}
+      />
+    );
   }
 }

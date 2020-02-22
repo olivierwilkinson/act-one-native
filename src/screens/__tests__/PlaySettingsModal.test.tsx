@@ -27,7 +27,7 @@ describe("PlaySettingsModal", () => {
         },
         {
           initialRouteName: "PlaySettingsModal",
-          initialRouteParams: { play }
+          initialRouteParams: { play, settings: { currentPlayer: "" } }
         }
       )
     );
@@ -51,4 +51,6 @@ describe("PlaySettingsModal", () => {
   it("renders character setting", () => {
     expect(queryByText("Character")).not.toBeNull();
   });
+
+  it.skip("calls setParams correctly on settings update", () => {});
 });

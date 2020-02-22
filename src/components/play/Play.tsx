@@ -9,6 +9,7 @@ import PlayPositionContext, { PlayPosition } from "../../contexts/PlayPosition";
 import PlayNavigationContext, {
   PlayNavigation
 } from "../../contexts/PlayNavigation";
+import PlaySettingsContext, { PlaySettings } from "../../contexts/PlaySettings";
 import AudioContext, {
   AudioContextValue,
   PlaybackState
@@ -19,6 +20,7 @@ import { createPlayNavigation } from "../../helpers/contexts";
 type Props = {
   navigation: NavigationStackProp;
   play: PlayType;
+  settings: PlaySettings;
 };
 type State = {
   playNavigation: PlayNavigation;
@@ -26,7 +28,7 @@ type State = {
   audio: AudioContextValue;
 };
 
-export default class Play extends React.Component<Props> {
+export default class Play extends React.Component<Props, State> {
   static getDerivedStateFromProps(nextProps: Props, prevState: State) {
     const { navigation, play } = nextProps;
     const { playPosition } = prevState;
@@ -165,17 +167,21 @@ export default class Play extends React.Component<Props> {
 
   render() {
     const {
-      play: { colourByPlayer }
+      play: { colourByPlayer },
+      settings
     } = this.props;
     const { playPosition, playNavigation, audio } = this.state;
     const { activeScene } = playPosition;
+
     return (
       <>
         <PlayPositionContext.Provider value={playPosition}>
           <PlayNavigationContext.Provider value={playNavigation}>
-            <AudioContext.Provider value={audio}>
-              <Scene {...activeScene} colourByPlayer={colourByPlayer} />
-            </AudioContext.Provider>
+            <PlaySettingsContext.Provider value={settings}>
+              <AudioContext.Provider value={audio}>
+                <Scene {...activeScene} colourByPlayer={colourByPlayer} />
+              </AudioContext.Provider>
+            </PlaySettingsContext.Provider>
           </PlayNavigationContext.Provider>
         </PlayPositionContext.Provider>
 

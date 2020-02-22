@@ -26,7 +26,11 @@ describe("PlaySettings", () => {
   let getByTestId: GetByAPI["getByTestId"];
   let queryByText: QueryByAPI["queryByText"];
   beforeEach(() => {
-    defaultProps = { ...play };
+    defaultProps = {
+      scenes: play.scenes,
+      settings: { selectedPlayer: "captain hindsight" },
+      onSettingsUpdate: jest.fn()
+    };
 
     ({ getByText, getByTestId, queryByText } = render(
       <PlaySettings {...defaultProps} />
@@ -40,6 +44,10 @@ describe("PlaySettings", () => {
 
   it("renders character setting", () => {
     expect(queryByText("Character")).not.toBeNull();
+  });
+
+  it("renders selected character in settings value", () => {
+    expect(queryByText(defaultProps.settings.selectedPlayer)).not.toBeNull();
   });
 
   it("does not render character select action sheet by default", () => {
@@ -67,6 +75,12 @@ describe("PlaySettings", () => {
       expect(modal.props.visible).toEqual(false);
     });
 
-    it.skip("sets character setting value to selected character on done", () => {});
+    describe("when new character is selected", () => {
+      it.skip("sets character setting value to selected character on done", () => {
+        expect(defaultProps.onSettingsUpdate).toHaveBeenCalledWith({
+          selectedPlayer: "new player"
+        });
+      });
+    });
   });
 });
