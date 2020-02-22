@@ -6,7 +6,7 @@ import { playBackgroundColour, lightPrimaryColour } from "../../styles/colours";
 import { RGBColour } from "../../types/colour-types";
 import { Line } from "../../types/play-types";
 import PlayPositionContext from "../../contexts/PlayPosition";
-import PlayerBubble from "../common/PlayerBubble";
+import PlayerBubble from "./PlayerBubble";
 
 const LineHeaderView = styled.View`
   display: flex;
