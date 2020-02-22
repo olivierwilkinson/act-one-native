@@ -36,8 +36,8 @@ describe("PlaySettingsModal", () => {
   });
   afterEach(cleanup);
 
-  it("renders cancel button on header", () => {
-    expect(queryByText("Cancel")).not.toBeNull();
+  it("renders done button on header", () => {
+    expect(queryByText("Done")).not.toBeNull();
   });
 
   it("renders correct header title", () => {
