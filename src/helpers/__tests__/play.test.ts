@@ -16,13 +16,9 @@ describe("play helpers", () => {
     });
 
     it("returns first scene when no active scene is found", () => {
-      expect(
-        findActiveScene({
-          ...play,
-          currentScene: -1,
-          currentAct: -1
-        })
-      ).toEqual(play.scenes[0]);
+      expect(findActiveScene(play, { scene: -1, act: -1 })).toEqual(
+        play.scenes[0]
+      );
     });
   });
 

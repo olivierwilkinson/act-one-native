@@ -15,7 +15,7 @@ const MessageText = styled.Text`
   margin-top: 10px;
 `;
 
-type Props = {
+export type Props = {
   message?: string;
   size?: number | "small" | "large";
 };

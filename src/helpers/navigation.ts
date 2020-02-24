@@ -11,7 +11,7 @@ export const navigateToPlay = (
   navigation: NavigationStackProp,
   play: Play,
   settings?: PlaySettings
-) => console.log('hello', play.play, settings) ||
+) =>
   navigation.navigate({
     routeName: "Play",
     params: { play, settings },
