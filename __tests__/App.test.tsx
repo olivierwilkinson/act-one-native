@@ -14,7 +14,7 @@ import App from "../App";
 import play from "../src/data/plays/shakespeare/AComedyOfErrors";
 
 jest.mock("../src/helpers/storage.ts", () => ({
-  getStoredSettings: jest.fn().mockResolvedValue(null),
+  getStoredSettings: jest.fn().mockResolvedValue({}),
   setStoredSettings: jest.fn().mockResolvedValue(undefined)
 }));
 
@@ -22,10 +22,9 @@ describe("App", () => {
   let queryByTestId: QueryByAPI["queryByTestId"];
   let getByTestId: GetByAPI["getByTestId"];
   let getByText: GetByAPI["getByText"];
-  let toJSON;
   let getAllByText: GetByAPI["getAllByText"];
   beforeEach(() => {
-    ({ toJSON, queryByTestId, getByTestId, getByText, getAllByText } = render(<App />));
+    ({ queryByTestId, getByTestId, getByText, getAllByText } = render(<App />));
   });
   afterEach(cleanup);
 
@@ -33,9 +32,8 @@ describe("App", () => {
     expect(queryByTestId("play-list")).not.toBeNull();
   });
 
-  it.only("navigates to Play on play list item press", async () => {
+  it("navigates to Play on play list item press", async () => {
     const playListItem = getByText(play.play);
-    console.log(playListItem);
     fireEvent.press(playListItem);
 
     await waitForElement(() => getByTestId("play-scene-header"));
