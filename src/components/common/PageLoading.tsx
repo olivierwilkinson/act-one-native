@@ -1,7 +1,7 @@
 import React from "react";
 import { ActivityIndicator } from "react-native";
 import styled from "styled-components/native";
-import { bigSizeFont } from "../../styles/typography";
+import { subFont } from "../../styles/typography";
 
 const LoadingView = styled.SafeAreaView`
   display: flex;
@@ -11,7 +11,7 @@ const LoadingView = styled.SafeAreaView`
 `;
 
 const MessageText = styled.Text`
-  ${bigSizeFont}
+  ${subFont}
   margin-top: 10px;
 `;
 
@@ -20,17 +20,9 @@ type Props = {
   size?: number | "small" | "large";
 };
 
-const defaultProps = {
-  size: "large"
-};
-
-const Loading = ({ message, size }: Props) => (
+export default ({ message, size = "large" }: Props) => (
   <LoadingView>
     <ActivityIndicator size={size} animating />
     {message && <MessageText>{message}</MessageText>}
   </LoadingView>
 );
-
-Loading.defaultProps = defaultProps;
-
-export default Loading;

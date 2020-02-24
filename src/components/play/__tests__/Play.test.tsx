@@ -5,7 +5,7 @@ import {
   cleanup,
   GetByAPI,
   fireEvent,
-  QueryByAPI
+  QueryByAPI,
 } from "react-native-testing-library";
 import { speak, pause, resume, stop } from "expo-speech";
 import "react-navigation";
@@ -20,6 +20,10 @@ jest.mock("expo-speech", () => ({
 }));
 jest.mock("react-navigation", () => ({
   NavigationEvents: jest.fn().mockImplementation(() => null)
+}));
+jest.mock("../../../helpers/storage.ts", () => ({
+  getStoredSettings: jest.fn().mockResolvedValue({}),
+  setStoredSettings: jest.fn().mockResolvedValue(undefined)
 }));
 
 import Play from "../Play";
@@ -53,14 +57,14 @@ const mockedPause = pause as jest.Mock;
 const mockedResume = resume as jest.Mock;
 const mockedStop = stop as jest.Mock;
 
-describe("PlayScreen", () => {
+describe("Play", () => {
   let queryByTestId: QueryByAPI["queryByTestId"];
   let getByTestId: GetByAPI["getByTestId"];
   let getByText: GetByAPI["getByText"];
 
-  beforeEach(() => {
+  beforeEach(async () => {
     ({ queryByTestId, getByTestId, getByText } = render(
-      <Play navigation={navigation} play={play} />
+      <Play navigation={navigation} play={play} settings={{}} />
     ));
   });
   afterEach(() => {
