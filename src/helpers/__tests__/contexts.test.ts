@@ -4,7 +4,6 @@ import { createPlayNavigation } from "../contexts";
 import navigation from "../../../tests/mocks/navigation";
 import { PlayNavigation } from "../../contexts/PlayNavigation";
 import { goToScene, openSceneSelect } from "../../helpers/navigation";
-import { Play } from "../../types/play-types";
 import { PlaySettings } from "../../contexts/PlaySettings";
 
 jest.mock("../../helpers/navigation.ts", () => ({
@@ -37,20 +36,34 @@ describe("contexts helpers", () => {
       expect(playNavigation.goToNextScene).toBeDefined();
       playNavigation.goToNextScene!();
 
-      expect(mockedGoToScene).toHaveBeenLastCalledWith(navigation, play, settings, 2);
+      expect(mockedGoToScene).toHaveBeenLastCalledWith(
+        navigation,
+        play,
+        settings,
+        2
+      );
     });
 
     it("creates goToPreviousScene correctly", () => {
       expect(playNavigation.goToPreviousScene).toBeDefined();
       playNavigation.goToPreviousScene!();
 
-      expect(mockedGoToScene).toHaveBeenLastCalledWith(navigation, play, settings, 0);
+      expect(mockedGoToScene).toHaveBeenLastCalledWith(
+        navigation,
+        play,
+        settings,
+        0
+      );
     });
 
     it("creates openSceneSelect correctly", () => {
       playNavigation.openSceneSelect();
 
-      expect(mockedOpenSceneSelect).toHaveBeenCalledWith(navigation, play, settings);
+      expect(mockedOpenSceneSelect).toHaveBeenCalledWith(
+        navigation,
+        play,
+        settings
+      );
     });
 
     describe("when there is no previous scene", () => {
