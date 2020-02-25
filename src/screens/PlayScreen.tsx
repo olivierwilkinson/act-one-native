@@ -10,7 +10,7 @@ import { Play as PlayType } from "../types/play-types";
 import Play from "../components/play/Play";
 import Header from "../components/common/Header";
 import Error from "../components/common/Error";
-import PageLoading from '../components/common/PageLoading';
+import PageLoading from "../components/common/PageLoading";
 import { bigSizeFont } from "../styles/typography";
 import { openPlaySettings } from "../helpers/navigation";
 import { getStoredSettings, setStoredSettings } from "../helpers/storage";
@@ -84,8 +84,10 @@ export default class PlayScreen extends React.Component<Props> {
     const settings = await getStoredSettings(play);
 
     if (settings) {
-      this.props.navigation.setParams({ settings });
+      return this.props.navigation.setParams({ settings });
     }
+
+    return setStoredSettings(play, {});
   };
 
   render() {
@@ -98,7 +100,7 @@ export default class PlayScreen extends React.Component<Props> {
     }
 
     if (!settings) {
-      return <PageLoading message={`Loading ${play.play}...`}/>
+      return <PageLoading message={`Loading ${play.play}...`} />;
     }
 
     return <Play play={play} navigation={navigation} settings={settings} />;

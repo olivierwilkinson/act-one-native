@@ -51,7 +51,7 @@ type HeaderAction = {
   disabled?: boolean;
 };
 
-type Props = {
+export type Props = {
   title?: string;
   left?: HeaderAction;
   right?: HeaderAction;
@@ -67,6 +67,7 @@ const Header = ({ title, left, right }: Props) => (
     <LeftView>
       {left && (
         <TouchableHighlight
+          testID="header-left-button"
           onPress={left.onPress}
           underlayColor={primaryColour}
           disabled={left.disabled}
