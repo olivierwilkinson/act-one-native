@@ -5,7 +5,7 @@ import { Scene, Line } from "../types/play-types";
 export interface PlayPosition {
   activeScene: Scene;
   activeLine: Line;
-  setActiveLineById: (id: number) => void;
+  setActiveLine: (line: Line) => void;
 }
 
 const activeLine: Line = {
@@ -23,5 +23,5 @@ const activeScene: Scene = {
 export default React.createContext<PlayPosition>({
   activeScene,
   activeLine,
-  setActiveLineById: () => null
+  setActiveLine: () => null
 });

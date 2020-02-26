@@ -7,6 +7,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 
 import { Play as PlayType } from "../types/play-types";
+import PlayPositionProvider from "../components/play/PlayPositionProvider";
 import Play from "../components/play/Play";
 import Header from "../components/common/Header";
 import Error from "../components/common/Error";
@@ -15,6 +16,8 @@ import { bigSizeFont } from "../styles/typography";
 import { openPlaySettings } from "../helpers/navigation";
 import { getStoredSettings, setStoredSettings } from "../helpers/storage";
 import { PlaySettings } from "../contexts/PlaySettings";
+import PlayNavigationProvider from "../components/play/PlayNavigationProvider";
+import AudioProvider from '../components/play/AudioProvider';
 
 const HeaderText = styled.Text`
   ${bigSizeFont}
@@ -87,6 +90,7 @@ export default class PlayScreen extends React.Component<Props> {
       return this.props.navigation.setParams({ settings });
     }
 
+    this.props.navigation.setParams({ settings: {} });
     return setStoredSettings(play, {});
   };
 
@@ -103,6 +107,18 @@ export default class PlayScreen extends React.Component<Props> {
       return <PageLoading message={`Loading ${play.play}...`} />;
     }
 
-    return <Play play={play} navigation={navigation} settings={settings} />;
+    return (
+      <PlayPositionProvider play={play} settings={settings}>
+        <PlayNavigationProvider
+          navigation={navigation}
+          play={play}
+          settings={settings}
+        >
+          <AudioProvider>
+            <Play play={play} navigation={navigation} settings={settings} />
+          </AudioProvider>
+        </PlayNavigationProvider>
+      </PlayPositionProvider>
+    );
   }
 }

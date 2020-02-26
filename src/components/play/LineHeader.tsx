@@ -23,16 +23,16 @@ type Props = Line & {
   colour: RGBColour;
 };
 
-export default (props: Props) => {
-  const { activeLine, setActiveLineById } = useContext(PlayPositionContext);
+export default ({ colour, ...line }: Props) => {
+  const { activeLine, setActiveLine } = useContext(PlayPositionContext);
   const { selectedPlayer } = useContext(PlaySettingsContext);
-  const { player, id, colour } = props;
+  const { player, id } = line;
   const isCurrentLine = activeLine.id === id;
 
   return (
     <TouchableHighlight
       testID="play-line-header"
-      onPress={() => setActiveLineById(id)}
+      onPress={() => setActiveLine(line)}
       underlayColor={playBackgroundColour}
     >
       <LineHeaderView highlighted={isCurrentLine}>

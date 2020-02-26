@@ -16,13 +16,14 @@ const LineView = styled.View`
   padding: 10px 0;
 `;
 
-export default ({ id, lineRows, player }: Line) => {
-  const { activeLine, setActiveLineById } = useContext(PlayPositionContext);
+export default (line: Line) => {
+  const { id, lineRows, player } = line;
+  const { activeLine, setActiveLine } = useContext(PlayPositionContext);
 
   return (
     <TouchableHighlight
       testID={`play-line-${id}`}
-      onPress={() => setActiveLineById(id)}
+      onPress={() => setActiveLine(line)}
       underlayColor={playBackgroundColour}
     >
       <LineView
