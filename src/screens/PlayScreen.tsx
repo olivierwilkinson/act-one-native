@@ -17,7 +17,7 @@ import { openPlaySettings } from "../helpers/navigation";
 import { getStoredSettings, setStoredSettings } from "../helpers/storage";
 import { PlaySettings } from "../contexts/PlaySettings";
 import PlayNavigationProvider from "../components/play/PlayNavigationProvider";
-import AudioProvider from '../components/play/AudioProvider';
+import AudioProvider from "../components/play/AudioProvider";
 
 const HeaderText = styled.Text`
   ${bigSizeFont}
@@ -115,7 +115,7 @@ export default class PlayScreen extends React.Component<Props> {
           settings={settings}
         >
           <AudioProvider>
-            <Play play={play} navigation={navigation} settings={settings} />
+            <Play play={play} />
           </AudioProvider>
         </PlayNavigationProvider>
       </PlayPositionProvider>
