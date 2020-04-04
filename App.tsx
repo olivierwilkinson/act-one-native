@@ -11,6 +11,13 @@ import Header from "./src/components/common/Header";
 import Overlay from "./src/components/common/Overlay";
 import "./disableWarnings";
 
+if (__DEV__ && process.env.NODE_ENV !== "test") {
+  const whyDidYouRender = require("@welldone-software/why-did-you-render");
+  whyDidYouRender(React, {
+    trackAllPureComponents: true
+  });
+}
+
 const MainStack = createStackNavigator(
   {
     Home: {
