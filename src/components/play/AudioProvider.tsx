@@ -1,99 +1,87 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
 import * as Speech from "expo-speech";
+import { NavigationEvents } from "react-navigation";
 
 import AudioContext, { PlaybackState } from "../../contexts/Audio";
-import PlayPositionContext, { PlayPosition } from "../../contexts/PlayPosition";
+import PlayPositionContext from "../../contexts/PlayPosition";
 import { getLineText } from "../../helpers/play";
-import { NavigationEvents } from "react-navigation";
+import usePrevious from "../../hooks/usePrevious";
 
 type Props = {
   children: JSX.Element;
 };
 
-type State = {
-  playbackState: PlaybackState;
-};
+export default ({ children }: Props) => {
+  const {
+    activeScene: { lines },
+    setActiveLine,
+    activeLine
+  } = useContext(PlayPositionContext);
 
-export default class AudioContextProvider extends React.Component<
-  Props,
-  State,
-  PlayPosition
-> {
-  static contextType = PlayPositionContext;
+  const [playbackState, setPlaybackState] = useState(PlaybackState.Stopped);
+  const previousPlaybackState = usePrevious(playbackState);
+  const [audioContext, setAudioContext] = useState({
+    playbackState,
+    setPlaybackState
+  });
 
-  getNextLine = () => {
-    const {
-      activeLine,
-      activeScene: { lines }
-    }: PlayPosition = this.context;
-    const activeLineIndex = lines.findIndex(({ id }) => activeLine.id === id);
-    return lines[activeLineIndex + 1];
-  };
-
-  beginPlayback = async () => {
-    const { activeLine, setActiveLine }: PlayPosition = this.context;
-
+  const beginPlayback = async () => {
     Speech.speak(getLineText(activeLine), {
       voice: "com.apple.ttsbundle.Daniel-compact",
       onDone: () => {
-        const nextLine = this.getNextLine();
+        const activeLineIndex = lines.findIndex(
+          ({ id }) => activeLine.id === id
+        );
+
+        const nextLine = lines[activeLineIndex + 1];
         if (!nextLine) {
-          return this.setPlaybackState(PlaybackState.Stopped);
+          return setPlaybackState(PlaybackState.Stopped);
         }
 
         setActiveLine(nextLine);
-        this.beginPlayback();
+        beginPlayback();
       }
     });
   };
 
-  handlePlaybackStateChange = async (
-    previousPlaybackState: PlaybackState,
-    playbackState: PlaybackState
-  ) => {
-    switch (playbackState) {
-      case PlaybackState.Playing:
-        switch (previousPlaybackState) {
-          case PlaybackState.Paused:
-            return Speech.resume();
-          case PlaybackState.Stopped:
-            return this.beginPlayback();
-        }
-      case PlaybackState.Paused:
-        return Speech.pause();
-      case PlaybackState.Stopped:
-        return Speech.stop();
+  useEffect(() => {
+    setAudioContext({
+      playbackState,
+      setPlaybackState
+    });
+
+    if (!previousPlaybackState) {
+      return;
     }
-  };
 
-  setPlaybackState = (playbackState: PlaybackState) => {
-    const { playbackState: previousPlaybackState } = this.state;
+    if (playbackState === PlaybackState.Playing) {
+      if (previousPlaybackState === PlaybackState.Paused) {
+        Speech.resume();
+      }
 
-    this.setState({ playbackState }, () =>
-      this.handlePlaybackStateChange(previousPlaybackState, playbackState)
-    );
-  };
+      if (previousPlaybackState === PlaybackState.Stopped) {
+        beginPlayback();
+      }
+    }
 
-  state = {
-    playbackState: PlaybackState.Stopped
-  };
+    if (playbackState === PlaybackState.Paused) {
+      Speech.pause();
+    }
 
-  render() {
-    const { children } = this.props;
-    const { playbackState } = this.state;
+    if (playbackState === PlaybackState.Stopped) {
+      Speech.stop();
+    }
+  }, [playbackState, previousPlaybackState]);
 
-    return (
-      <>
-        <AudioContext.Provider
-          value={{ playbackState, setPlaybackState: this.setPlaybackState }}
-        >
-          {children}
-        </AudioContext.Provider>
+  return (
+    <>
+      <AudioContext.Provider value={audioContext}>
+        {children}
+      </AudioContext.Provider>
 
-        <NavigationEvents
-          onWillBlur={() => this.setPlaybackState(PlaybackState.Stopped)}
-        />
-      </>
-    );
-  }
-}
+      <NavigationEvents
+        onWillBlur={() => setPlaybackState(PlaybackState.Stopped)}
+      />
+    </>
+  );
+};
