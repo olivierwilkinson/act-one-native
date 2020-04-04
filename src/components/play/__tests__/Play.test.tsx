@@ -26,6 +26,9 @@ import Play from "../Play";
 import { getLineText } from "../../../helpers/play";
 import AComedyOfErrors from "../../../data/plays/shakespeare/AComedyOfErrors";
 import navigation from "../../../../tests/mocks/navigation";
+import PlayPositionProvider from "../PlayPositionProvider";
+import PlayNavigationProvider from "../PlayNavigationProvider";
+import AudioProvider from "../AudioProvider";
 
 // setup play to only have two lines to make testing final line edge cases easier
 const play = {
@@ -60,11 +63,17 @@ describe("Play", () => {
 
   beforeEach(async () => {
     ({ queryByTestId, getByTestId, getByText } = render(
-      <Play
-        navigation={navigation}
-        play={play}
-        settings={{ act: 1, scene: 1 }}
-      />
+      <PlayPositionProvider play={play} settings={{ act: 1, scene: 1 }}>
+        <PlayNavigationProvider
+          navigation={navigation}
+          play={play}
+          settings={{ act: 1, scene: 1 }}
+        >
+          <AudioProvider>
+            <Play play={play} />
+          </AudioProvider>
+        </PlayNavigationProvider>
+      </PlayPositionProvider>
     ));
   });
   afterEach(() => {
@@ -129,7 +138,7 @@ describe("Play", () => {
         fireEvent.press(newLine);
       });
 
-      it("stops speaking", () => {
+      it.only("stops speaking", () => {
         expect(mockedStop).toHaveBeenCalledTimes(1);
       });
     });

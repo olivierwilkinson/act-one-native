@@ -32,7 +32,7 @@ describe("Scene", () => {
         value={{
           activeLine: line,
           activeScene: scene,
-          setActiveLineById: () => null
+          setActiveLine: () => null
         }}
       >
         <PlayNavigationContext.Provider value={{ openSceneSelect: () => null }}>
@@ -71,7 +71,7 @@ describe("Scene", () => {
           value={{
             activeLine: line,
             activeScene: newScene,
-            setActiveLineById: () => null
+            setActiveLine: () => null
           }}
         >
           <PlayNavigationContext.Provider
@@ -100,7 +100,7 @@ describe("Scene", () => {
           value={{
             activeLine: line,
             activeScene: newScene,
-            setActiveLineById: () => null
+            setActiveLine: () => null
           }}
         >
           <PlayNavigationContext.Provider

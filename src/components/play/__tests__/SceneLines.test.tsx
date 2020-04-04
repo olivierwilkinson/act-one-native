@@ -30,7 +30,7 @@ describe("SceneLines", () => {
         value={{
           activeLine: line,
           activeScene: scene,
-          setActiveLineById: () => null
+          setActiveLine: () => null
         }}
       >
         <SceneLines {...scene} colourByPlayer={colourByPlayer} />

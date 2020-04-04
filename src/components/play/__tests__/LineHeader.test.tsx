@@ -22,16 +22,16 @@ const { colourByPlayer } = play;
 
 describe("LineHeader", () => {
   let queryByTestId: QueryByAPI["queryByTestId"];
-  let setActiveLineById: jest.Mock;
+  let setActiveLine: jest.Mock;
   beforeEach(() => {
-    setActiveLineById = jest.fn();
+    setActiveLine = jest.fn();
 
     ({ queryByTestId } = render(
       <PlayPositionContext.Provider
         value={{
           activeLine: line,
           activeScene: scene,
-          setActiveLineById
+          setActiveLine
         }}
       >
         <LineHeader {...line} colour={colourByPlayer[line.player]} />
@@ -44,7 +44,7 @@ describe("LineHeader", () => {
     const playLine = queryByTestId("play-line-header");
     fireEvent.press(playLine);
 
-    expect(setActiveLineById).toHaveBeenCalledWith(line.id);
+    expect(setActiveLine).toHaveBeenCalledWith(line);
   });
 
   it("renders player bubble", () => {
@@ -58,7 +58,7 @@ describe("LineHeader", () => {
           value={{
             activeLine: line,
             activeScene: scene,
-            setActiveLineById
+            setActiveLine
           }}
         >
           <LineHeader
