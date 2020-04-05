@@ -5,7 +5,8 @@ import {
   cleanup,
   GetByAPI,
   fireEvent,
-  QueryByAPI
+  QueryByAPI,
+  act
 } from "react-native-testing-library";
 import { speak, pause, resume, stop } from "expo-speech";
 import "react-navigation";
@@ -138,7 +139,7 @@ describe("Play", () => {
         fireEvent.press(newLine);
       });
 
-      it.only("stops speaking", () => {
+      it("stops speaking", () => {
         expect(mockedStop).toHaveBeenCalledTimes(1);
       });
     });
@@ -154,7 +155,9 @@ describe("Play", () => {
         expect(args.length).toEqual(2);
 
         const { onDone } = args[1];
-        onDone();
+        act(() => {
+          onDone();
+        });
       });
 
       it("deselects original line", () => {
@@ -227,7 +230,9 @@ describe("Play", () => {
         expect(args.length).toEqual(2);
 
         const { onDone } = args[1];
-        onDone();
+        act(() => {
+          onDone();
+        });
       });
 
       it("stops speaking", () => {
