@@ -9,6 +9,11 @@ import {
   openPlaySettings
 } from "../navigation";
 import navigation from "../../../tests/mocks/navigation";
+import { PlaySettings } from "../../contexts/PlaySettings";
+
+const settings: PlaySettings = {
+  selectedPlayer: "captain hindsight"
+};
 
 describe("navigation helpers", () => {
   beforeEach(() => {
@@ -25,24 +30,36 @@ describe("navigation helpers", () => {
         key: playScreenKey
       });
     });
+
+    it("calls navigate with correct arguments when settings passed", () => {
+      navigateToPlay(navigation, play, settings);
+
+      expect(navigation.navigate).toHaveBeenCalledWith({
+        routeName: "Play",
+        params: { play, settings },
+        key: playScreenKey
+      });
+    });
   });
 
   describe("#openSceneSelect", () => {
     it("calls navigate with correct arguments", () => {
-      openSceneSelect(navigation, play);
+      openSceneSelect(navigation, play, settings);
 
       expect(navigation.navigate).toHaveBeenCalledWith("SceneSelect", {
-        play
+        play,
+        settings
       });
     });
   });
 
   describe("#openPlaySettings", () => {
     it("calls navigate with correct arguments", () => {
-      openPlaySettings(navigation, play);
+      openPlaySettings(navigation, play, settings);
 
       expect(navigation.navigate).toHaveBeenCalledWith("PlaySettings", {
-        play
+        play,
+        settings
       });
     });
   });
@@ -63,21 +80,21 @@ describe("navigation helpers", () => {
 
   describe("#goToScene", () => {
     it("does not call setParams when no scene exists at passed index", () => {
-      goToScene(navigation, play, -1);
+      goToScene(navigation, play, {}, -1);
 
       expect(navigation.dispatch).not.toHaveBeenCalled();
     });
 
     it("calls setParams with correct arguments", () => {
-      goToScene(navigation, play, 1);
+      goToScene(navigation, play, {}, 1);
 
       expect(navigation.dispatch).toHaveBeenCalledWith({
         key: playScreenKey,
         params: {
-          play: {
-            ...play,
-            currentAct: 1,
-            currentScene: 2
+          play,
+          settings: {
+            act: 1,
+            scene: 2
           }
         },
         preserveFocus: true,

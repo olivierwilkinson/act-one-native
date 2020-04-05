@@ -1,42 +1,26 @@
 import React from "react";
-import { View } from "react-native";
 import styled from "styled-components/native";
 import {
   NavigationStackScreenProps,
   NavigationStackProp
 } from "react-navigation-stack";
 
-import { Play } from "../types/play-types";
 import Header from "../components/common/Header";
 import Error from "../components/common/Error";
-import { bigSizeFont, titleFont } from "../styles/typography";
-import { lightPrimaryColour } from "../styles/colours";
+import PlaySettings from "../components/playSettingsModal/PlaySettings";
+import { Play } from "../types/play-types";
+import { bigSizeFont } from "../styles/typography";
+import { setParams, playScreenKey } from "../helpers/navigation";
+import { PlaySettings as PlaySettingsType } from "../contexts/PlaySettings";
 
 const HeaderText = styled.Text`
   ${bigSizeFont}
   color: white;
 `;
 
-const TitleView = styled.View`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-  background: ${lightPrimaryColour};
-`;
-
-const TitleText = styled.Text`
-  ${titleFont}
-  ${bigSizeFont}
-  color: white;
-`;
-
-const SettingsView = styled.View`
-  padding: 10px;
-`;
-
 type Params = {
   play: Play;
+  settings: PlaySettingsType;
 };
 
 export default class PlaySettingsModal extends React.Component<
@@ -52,7 +36,7 @@ export default class PlaySettingsModal extends React.Component<
         title={navigation.state.params?.play?.play}
         right={{
           onPress: () => navigation.pop(),
-          view: <HeaderText>Cancel</HeaderText>
+          view: <HeaderText>Done</HeaderText>
         }}
       />
     )
@@ -61,19 +45,26 @@ export default class PlaySettingsModal extends React.Component<
   render() {
     const { navigation } = this.props;
     const play = navigation.state.params?.play;
+    const settings = navigation.state.params?.settings;
 
-    if (!play) {
-      return <Error message="Unable to load Play" />;
+    if (!play || !settings) {
+      return <Error message="Unable to load Settings" />;
     }
 
     return (
-      <View testID="play-settings">
-        <TitleView>
-          <TitleText>Play Settings</TitleText>
-        </TitleView>
-
-        <SettingsView />
-      </View>
+      <PlaySettings
+        scenes={play.scenes}
+        settings={settings}
+        onSettingsUpdate={newSettings => {
+          setParams(navigation, playScreenKey, {
+            play,
+            settings: {
+              ...settings,
+              ...newSettings
+            }
+          });
+        }}
+      />
     );
   }
 }

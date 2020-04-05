@@ -13,7 +13,10 @@ import {
 import App from "../App";
 import play from "../src/data/plays/shakespeare/AComedyOfErrors";
 
-jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
+jest.mock("../src/helpers/storage.ts", () => ({
+  getStoredSettings: jest.fn().mockResolvedValue({}),
+  setStoredSettings: jest.fn().mockResolvedValue(undefined)
+}));
 
 describe("App", () => {
   let queryByTestId: QueryByAPI["queryByTestId"];
@@ -74,8 +77,8 @@ describe("App", () => {
       });
 
       it("navigates back to play on cancel button press", async () => {
-        const headerCancelButton = getByText("Cancel");
-        fireEvent.press(headerCancelButton);
+        const headerCancelButtons = getAllByText("Cancel");
+        fireEvent.press(headerCancelButtons[0]);
 
         await waitForElement(() => getByTestId("play-scene-header"));
       });
@@ -98,8 +101,8 @@ describe("App", () => {
       });
 
       it("navigates back to current scene on close button press", async () => {
-        const headerCloseButton = getByText("Cancel");
-        fireEvent.press(headerCloseButton);
+        const headerCloseButtons = getAllByText("Cancel");
+        fireEvent.press(headerCloseButtons[0]);
 
         await waitForElement(() => getByText("ACT 1 - SCENE 1"));
       });

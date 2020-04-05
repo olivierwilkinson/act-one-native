@@ -6,6 +6,7 @@ import SceneList from "./SceneList";
 import { Play, Scene } from "../../types/play-types";
 import { titleFont, bigSizeFont } from "../../styles/typography";
 import { lightPrimaryColour } from "../../styles/colours";
+import { PlaySettings } from '../../contexts/PlaySettings';
 
 const TitleView = styled.View`
   display: flex;
@@ -20,13 +21,16 @@ const TitleText = styled.Text`
   color: white;
 `;
 
-type Props = Play & {
+type Props = {
+  play: Play;
+  settings: PlaySettings;
   onScenePress: (scene: Scene) => void;
 };
 
 export default (props: Props) => {
-  const { onScenePress, ...play } = props;
-  const { currentAct, currentScene, scenes } = play;
+  const { onScenePress, play, settings } = props;
+  const { scenes } = play;
+  const { act, scene } = settings;
 
   return (
     <SafeAreaView
@@ -38,8 +42,8 @@ export default (props: Props) => {
       </TitleView>
 
       <SceneList
-        currentAct={currentAct}
-        currentScene={currentScene}
+        currentAct={act}
+        currentScene={scene}
         scenes={scenes}
         onScenePress={onScenePress}
       />

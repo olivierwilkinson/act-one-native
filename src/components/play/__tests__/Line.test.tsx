@@ -20,16 +20,16 @@ const {
 
 describe("Line", () => {
   let getByTestId: GetByAPI["getByTestId"];
-  let setActiveLineById: jest.Mock;
+  let setActiveLine: jest.Mock;
   beforeEach(() => {
-    setActiveLineById = jest.fn();
+    setActiveLine = jest.fn();
 
     ({ getByTestId } = render(
       <PlayPositionContext.Provider
         value={{
           activeLine,
           activeScene: scene,
-          setActiveLineById
+          setActiveLine
         }}
       >
         <Line {...activeLine} />
@@ -42,7 +42,7 @@ describe("Line", () => {
     const playLine = getByTestId(`play-line-${activeLine.id}`);
     fireEvent.press(playLine);
 
-    expect(setActiveLineById).toHaveBeenCalledWith(activeLine.id);
+    expect(setActiveLine).toHaveBeenCalledWith(activeLine);
   });
 
   it("sets highlighted style when line is active", () => {
@@ -59,7 +59,7 @@ describe("Line", () => {
           value={{
             activeLine,
             activeScene: scene,
-            setActiveLineById
+            setActiveLine
           }}
         >
           <Line {...otherLine} />

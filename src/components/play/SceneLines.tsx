@@ -27,6 +27,7 @@ export default forwardRef(
         }
       }) => <LineHeader {...line} colour={colourByPlayer[line.player]} />}
       keyExtractor={item => item.id.toString()}
+      windowSize={7}
     />
   )
 );
