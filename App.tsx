@@ -13,7 +13,9 @@ import "./disableWarnings";
 
 if (__DEV__) {
   const whyDidYouRender = require("@welldone-software/why-did-you-render");
-  whyDidYouRender(React);
+  whyDidYouRender(React, {
+    trackAllPureComponents: true
+  });
 }
 
 const MainStack = createStackNavigator(
