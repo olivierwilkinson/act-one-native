@@ -1,16 +1,16 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, memo } from "react";
 
 import SceneLines from "./SceneLines";
 import SceneHeader from "./SceneHeader";
 import PlaybackControls from "./PlaybackControls";
-import { Scene } from "../../types/play-types";
+import { Scene as SceneType } from "../../types/play-types";
 import { ColourByPlayer } from "../../types/colour-types";
 
-type Props = Scene & {
+type Props = SceneType & {
   colourByPlayer: ColourByPlayer;
 };
 
-export default ({ colourByPlayer, ...scene }: Props) => {
+const Scene = ({ colourByPlayer, ...scene }: Props) => {
   const { act: actNumber, scene: sceneNumber } = scene;
   const sceneElement = useRef<any>(null);
 
@@ -36,3 +36,5 @@ export default ({ colourByPlayer, ...scene }: Props) => {
     </>
   );
 };
+
+export default memo(Scene);

@@ -5,6 +5,7 @@ import PlayNavigationContext from "../../contexts/PlayNavigation";
 import { PlaySettings } from "../../contexts/PlaySettings";
 import { createPlayNavigation } from "../../helpers/contexts";
 import { NavigationStackProp } from "react-navigation-stack";
+import usePrevious from "../../hooks/usePrevious";
 
 type Props = {
   navigation: NavigationStackProp;
@@ -13,12 +14,28 @@ type Props = {
   children: JSX.Element;
 };
 
-export default ({ navigation, play, settings, children }: Props) => {
+const PlayNavigationProvider = ({
+  navigation,
+  play,
+  settings,
+  children
+}: Props) => {
+  const previousSettings = usePrevious(settings);
   const [playNavigation, setPlayNavigation] = useState(
     createPlayNavigation(navigation, play, settings)
   );
 
   useEffect(() => {
+    if (!previousSettings) {
+      return;
+    }
+
+    const { act: prevAct, scene: prevScene } = previousSettings;
+    const { act, scene } = settings;
+    if (act === prevAct && scene === prevScene) {
+      return;
+    }
+
     setPlayNavigation(createPlayNavigation(navigation, play, settings));
   }, [settings.act, settings.scene]);
 
@@ -28,3 +45,5 @@ export default ({ navigation, play, settings, children }: Props) => {
     </PlayNavigationContext.Provider>
   );
 };
+
+export default PlayNavigationProvider;

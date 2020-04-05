@@ -15,7 +15,7 @@ import PageLoading from "../components/common/PageLoading";
 import { bigSizeFont } from "../styles/typography";
 import { openPlaySettings } from "../helpers/navigation";
 import { getStoredSettings, setStoredSettings } from "../helpers/storage";
-import { PlaySettings } from "../contexts/PlaySettings";
+import PlaySettingsContext, { PlaySettings } from "../contexts/PlaySettings";
 import PlayNavigationProvider from "../components/play/PlayNavigationProvider";
 import AudioProvider from "../components/play/AudioProvider";
 
@@ -108,17 +108,19 @@ export default class PlayScreen extends React.Component<Props> {
     }
 
     return (
-      <PlayPositionProvider play={play} settings={settings}>
-        <PlayNavigationProvider
-          navigation={navigation}
-          play={play}
-          settings={settings}
-        >
-          <AudioProvider>
-            <Play play={play} />
-          </AudioProvider>
-        </PlayNavigationProvider>
-      </PlayPositionProvider>
+      <PlaySettingsContext.Provider value={settings}>
+        <PlayPositionProvider play={play} settings={settings}>
+          <PlayNavigationProvider
+            navigation={navigation}
+            play={play}
+            settings={settings}
+          >
+            <AudioProvider>
+              <Play play={play} />
+            </AudioProvider>
+          </PlayNavigationProvider>
+        </PlayPositionProvider>
+      </PlaySettingsContext.Provider>
     );
   }
 }
