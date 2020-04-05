@@ -11,24 +11,37 @@ type Props = {
   children: JSX.Element;
 };
 
-export default ({ play, settings, children }: Props) => {
+const PlayPositionProvider = ({ play, settings, children }: Props) => {
   const [activeScene, setActiveScene] = useState(
     findActiveScene(play, settings)
   );
   const [activeLine, setActiveLine] = useState(activeScene.lines[0]);
 
   useEffect(() => {
-    const activeScene = findActiveScene(play, settings);
+    const { act: prevAct, scene: prevScene } = activeScene;
+    const { act, scene } = settings || {};
+    if (act === prevAct && scene === prevScene) {
+      return;
+    }
 
-    setActiveScene(activeScene);
-    setActiveLine(activeScene.lines[0]);
+    const newActiveScene = findActiveScene(play, settings);
+    const newActiveLine = newActiveScene.lines[0];
+
+    setActiveScene(newActiveScene);
+    setActiveLine(newActiveLine);
   }, [settings?.act, settings?.scene]);
 
   return (
     <PlayPositionContext.Provider
-      value={{ activeScene, activeLine, setActiveLine }}
+      value={{
+        activeScene,
+        activeLine,
+        setActiveLine
+      }}
     >
       {children}
     </PlayPositionContext.Provider>
   );
 };
+
+export default PlayPositionProvider;

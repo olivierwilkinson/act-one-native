@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, memo } from "react";
 import styled from "styled-components/native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
@@ -6,6 +6,7 @@ import { playBackgroundColour, lightPrimaryColour } from "../../styles/colours";
 import { RGBColour } from "../../types/colour-types";
 import { Line } from "../../types/play-types";
 import PlayPositionContext from "../../contexts/PlayPosition";
+import AudioContext, { PlaybackState } from "../../contexts/Audio";
 import PlayerBubble from "./PlayerBubble";
 import PlaySettingsContext from "../../contexts/PlaySettings";
 
@@ -23,17 +24,21 @@ type Props = Line & {
   colour: RGBColour;
 };
 
-export default ({ colour, ...line }: Props) => {
+const LineHeader = ({ colour, ...line }: Props) => {
   const { activeLine, setActiveLine } = useContext(PlayPositionContext);
   const { selectedPlayer } = useContext(PlaySettingsContext);
+  const { setPlaybackState } = useContext(AudioContext);
   const { player, id } = line;
   const isCurrentLine = activeLine.id === id;
 
   return (
     <TouchableHighlight
       testID="play-line-header"
-      onPress={() => setActiveLine(line)}
-      underlayColor={playBackgroundColour}
+      onPress={() => {
+        setActiveLine(line);
+        setPlaybackState(PlaybackState.Stopped);
+      }}
+      underlayColor="transparent"
     >
       <LineHeaderView highlighted={isCurrentLine}>
         {!!player && (
@@ -48,3 +53,6 @@ export default ({ colour, ...line }: Props) => {
     </TouchableHighlight>
   );
 };
+
+// don't rerender on prop changes to optimise lists
+export default memo(LineHeader);
