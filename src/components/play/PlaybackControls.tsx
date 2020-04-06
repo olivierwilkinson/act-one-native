@@ -32,20 +32,16 @@ export default () => {
   const { playbackState, setPlaybackState } = audio;
   const isPlaying = playbackState === PlaybackState.Playing;
 
-  const handlePlayButtonPress = () => {
-    if (isPlaying) {
-      return setPlaybackState(PlaybackState.Paused);
-    }
-
-    setPlaybackState(PlaybackState.Playing);
-  };
-
   return (
     <ControlsView testID="playback-controls">
       <TouchableHighlight
         testID="play-pause-button"
         underlayColor={lightGray}
-        onPress={handlePlayButtonPress}
+        onPress={() =>
+          setPlaybackState(
+            isPlaying ? PlaybackState.Paused : PlaybackState.Playing
+          )
+        }
       >
         <PlayView>
           <Ionicons
