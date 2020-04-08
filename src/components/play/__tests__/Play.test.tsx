@@ -240,6 +240,4 @@ describe("Play", () => {
       });
     });
   });
-
-  describe("when passed settings", () => {});
 });

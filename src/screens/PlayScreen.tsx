@@ -86,12 +86,7 @@ export default class PlayScreen extends React.Component<Props> {
   syncSettings = async (play: PlayType) => {
     const settings = await getStoredSettings(play);
 
-    if (settings) {
-      return this.props.navigation.setParams({ settings });
-    }
-
-    this.props.navigation.setParams({ settings: {} });
-    return setStoredSettings(play, {});
+    this.props.navigation.setParams({ settings: settings || {} });
   };
 
   render() {
