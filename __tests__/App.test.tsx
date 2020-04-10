@@ -47,6 +47,13 @@ describe("App", () => {
       await waitForElement(() => getByTestId("play-scene-header"));
     });
 
+    it("navigates back to home screen on back button press", async () => {
+      const backButton = getByTestId("header-left-button");
+      fireEvent.press(backButton);
+
+      await waitForElement(() => getByTestId("play-list"));
+    });
+
     it("navigates to SceneSelectModal on scene select button press", async () => {
       const sceneSelectButton = getByTestId("scene-select-button");
       fireEvent.press(sceneSelectButton);
