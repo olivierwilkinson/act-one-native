@@ -9,7 +9,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Play as PlayType } from "../types/play-types";
 import PlayPositionProvider from "../components/play/PlayPositionProvider";
 import Play from "../components/play/Play";
-import Header from "../components/common/Header";
+import Header, { Props as HeaderProps } from "../components/common/Header";
 import Error from "../components/common/Error";
 import PageLoading from "../components/common/PageLoading";
 import { bigSizeFont } from "../styles/typography";
@@ -36,31 +36,25 @@ export default class PlayScreen extends React.Component<Props> {
     header: () => {
       const params = navigation.state.params || {};
       const { play, settings } = params;
+      let props: HeaderProps = {
+        left: {
+          view: <HeaderText>Back</HeaderText>,
+          onPress: () => navigation.pop()
+        }
+      };
 
-      if (!(play || settings)) {
-        return (
-          <Header
-            left={{
-              view: <HeaderText>Back</HeaderText>,
-              onPress: () => navigation.pop()
-            }}
-          />
-        );
-      }
-
-      return (
-        <Header
-          title={play.play}
-          left={{
-            view: <HeaderText>Back</HeaderText>,
-            onPress: () => navigation.pop()
-          }}
-          right={{
+      if (play || settings) {
+        props = {
+          ...props,
+          title: play.play,
+          right: {
             onPress: () => openPlaySettings(navigation, play, settings),
             view: <Ionicons name="ios-settings" color="white" size={28} />
-          }}
-        />
-      );
+          }
+        };
+      }
+
+      return <Header {...props} />;
     }
   });
 
