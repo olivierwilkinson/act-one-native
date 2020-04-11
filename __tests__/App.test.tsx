@@ -20,16 +20,27 @@ jest.mock("../src/helpers/storage.ts", () => ({
 
 describe("App", () => {
   let queryByTestId: QueryByAPI["queryByTestId"];
+  let queryByText: QueryByAPI["queryByText"];
   let getByTestId: GetByAPI["getByTestId"];
   let getByText: GetByAPI["getByText"];
   let getAllByText: GetByAPI["getAllByText"];
   beforeEach(() => {
-    ({ queryByTestId, getByTestId, getByText, getAllByText } = render(<App />));
+    ({
+      queryByTestId,
+      queryByText,
+      getByTestId,
+      getByText,
+      getAllByText
+    } = render(<App />));
   });
   afterEach(cleanup);
 
   it("renders Home", () => {
     expect(queryByTestId("play-list")).not.toBeNull();
+  });
+
+  it("renders header", () => {
+    expect(queryByText("ActOne")).not.toBeNull();
   });
 
   it("navigates to Play on play list item press", async () => {
