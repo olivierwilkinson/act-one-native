@@ -1,4 +1,5 @@
 import { ImageSourcePropType } from "react-native";
+import { ColourByPlayer } from "./colour-types";
 
 export interface LineRow {
   text: string;
@@ -24,6 +25,5 @@ export interface Play {
   image: ImageSourcePropType;
   imageLicenseUrl: string;
   imageLicenseCode: string;
-  currentAct: number;
-  currentScene: number;
+  colourByPlayer: ColourByPlayer;
 }

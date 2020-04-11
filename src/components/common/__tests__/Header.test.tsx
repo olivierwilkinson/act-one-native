@@ -1,19 +1,28 @@
-import "react-native";
+import { Text } from "react-native";
 import React from "react";
 import {
   render,
   cleanup,
   fireEvent,
   QueryByAPI,
-  GetByAPI
+  GetByAPI,
+  RenderAPI
 } from "react-native-testing-library";
 
-import Header from "../Header";
+import Header, { Props } from "../Header";
 
 describe("Header", () => {
+  let defaultProps: Props;
   let queryByText: QueryByAPI["queryByText"];
+  let getByText: GetByAPI["getByText"];
+  let getByTestId: GetByAPI["getByTestId"];
+  let rerender: RenderAPI["rerender"];
   beforeEach(() => {
-    ({ queryByText } = render(<Header />));
+    defaultProps = {};
+
+    ({ queryByText, getByText, getByTestId, rerender } = render(
+      <Header {...defaultProps} />
+    ));
   });
   afterEach(cleanup);
 
@@ -21,64 +30,106 @@ describe("Header", () => {
     expect(queryByText("ActOne")).not.toBeNull();
   });
 
-  it("does not render back button", () => {
-    expect(queryByText("Back")).toBeNull();
-  });
-
-  it("does not render cancel button", () => {
-    expect(queryByText("Cancel")).toBeNull();
-  });
-
   describe("when passed title", () => {
-    const title = "Test Title";
     beforeEach(() => {
-      ({ queryByText } = render(<Header title={title} />));
+      defaultProps = {
+        ...defaultProps,
+        title: "Test Title"
+      };
+
+      rerender(<Header {...defaultProps} />);
     });
 
     it("renders passed title", () => {
-      expect(queryByText(title)).not.toBeNull();
+      expect(queryByText(defaultProps.title!)).not.toBeNull();
     });
   });
 
-  describe("when passed onBack", () => {
-    let getByText: GetByAPI["getByText"];
-    let onBack: jest.Mock;
+  describe("when passed left HeaderAction", () => {
     beforeEach(() => {
-      onBack = jest.fn();
+      defaultProps = {
+        ...defaultProps,
+        left: {
+          onPress: jest.fn(),
+          view: <Text>Back</Text>
+        }
+      };
 
-      ({ queryByText, getByText } = render(<Header onBack={onBack} />));
+      rerender(<Header {...defaultProps} />);
     });
 
-    it("renders back button", () => {
+    it("renders view", () => {
       expect(queryByText("Back")).not.toBeNull();
     });
 
-    it("calls onBack on back button press", () => {
+    it("calls onPress on view press", () => {
       const backButton = getByText("Back");
       fireEvent.press(backButton);
 
-      expect(onBack).toHaveBeenCalledTimes(1);
+      expect(defaultProps.left!.onPress).toHaveBeenCalledTimes(1);
+    });
+
+    describe("when left header action is passed disabled", () => {
+      beforeEach(() => {
+        defaultProps = {
+          ...defaultProps,
+          left: {
+            ...defaultProps.left!,
+            disabled: true
+          }
+        };
+
+        rerender(<Header {...defaultProps} />);
+      });
+
+      it("disables left header button", () => {
+        const button = getByTestId("header-left-button");
+        expect(button.props.disabled).toEqual(true);
+      });
     });
   });
 
-  describe("when passed onCancel", () => {
-    let getByText: GetByAPI["getByText"];
-    let onCancel: jest.Mock;
+  describe("when passed right HeaderAction", () => {
     beforeEach(() => {
-      onCancel = jest.fn();
+      defaultProps = {
+        ...defaultProps,
+        right: {
+          onPress: jest.fn(),
+          view: <Text>Cancel</Text>
+        }
+      };
 
-      ({ queryByText, getByText } = render(<Header onCancel={onCancel} />));
+      rerender(<Header {...defaultProps} />);
     });
 
-    it("renders cancel button", () => {
+    it("renders view", () => {
       expect(queryByText("Cancel")).not.toBeNull();
     });
 
-    it("calls onCancel on back button press", () => {
-      const cancelButton = getByText("Cancel");
-      fireEvent.press(cancelButton);
+    it("calls onPress on view press", () => {
+      const backButton = getByText("Cancel");
+      fireEvent.press(backButton);
 
-      expect(onCancel).toHaveBeenCalledTimes(1);
+      expect(defaultProps.right!.onPress).toHaveBeenCalledTimes(1);
+    });
+
+    describe("when right header action is passed disabled", () => {
+      beforeEach(() => {
+        defaultProps = {
+          ...defaultProps,
+          right: {
+            ...defaultProps.right!,
+            disabled: true
+          }
+        };
+
+        rerender(<Header {...defaultProps} />);
+      });
+
+      it("disables right header button", () => {
+        const button = getByTestId("header-right-button");
+        expect(button.props.disabled).toEqual(true);
+      });
     });
   });
 });

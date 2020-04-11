@@ -1,9 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, memo } from "react";
 import { TouchableHighlight } from "react-native";
 import styled from "styled-components/native";
 
-import { Line } from "../../types/play-types";
+import { Line as LineType } from "../../types/play-types";
 import PlayPositionContext from "../../contexts/PlayPosition";
+import AudioContext, { PlaybackState } from "../../contexts/Audio";
 import { lightPrimaryColour, playBackgroundColour } from "../../styles/colours";
 
 import LineRow from "./LineRow";
@@ -16,23 +17,35 @@ const LineView = styled.View`
   padding: 10px 0;
 `;
 
-export default ({ id, lineRows, player }: Line) => {
-  const { activeLine, setActiveLineById } = useContext(PlayPositionContext);
+const Line = (line: LineType) => {
+  const { id, lineRows, player } = line;
+  const { activeLine, setActiveLine } = useContext(PlayPositionContext);
+  const { setPlaybackState } = useContext(AudioContext);
 
   return (
     <TouchableHighlight
       testID={`play-line-${id}`}
-      onPress={() => setActiveLineById(id)}
-      underlayColor={playBackgroundColour}
+      onPress={() => {
+        setActiveLine(line);
+        setPlaybackState(PlaybackState.Stopped);
+      }}
+      underlayColor="transparent"
     >
       <LineView
         testID={`play-line-view-${id}`}
         highlighted={activeLine.id === id}
       >
-        {lineRows.map((lineRow, i) => (
-          <LineRow key={`${id}-${i}`} italic={!player} {...lineRow} />
+        {lineRows.map(lineRow => (
+          <LineRow
+            key={`${id}-${lineRow.text}`}
+            italic={!player}
+            {...lineRow}
+          />
         ))}
       </LineView>
     </TouchableHighlight>
   );
 };
+
+// don't rerender on prop changes to optimise lists
+export default memo(Line);

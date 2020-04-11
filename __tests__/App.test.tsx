@@ -13,20 +13,34 @@ import {
 import App from "../App";
 import play from "../src/data/plays/shakespeare/AComedyOfErrors";
 
-jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
+jest.mock("../src/helpers/storage.ts", () => ({
+  getStoredSettings: jest.fn().mockResolvedValue({}),
+  setStoredSettings: jest.fn().mockResolvedValue(undefined)
+}));
 
 describe("App", () => {
   let queryByTestId: QueryByAPI["queryByTestId"];
+  let queryByText: QueryByAPI["queryByText"];
   let getByTestId: GetByAPI["getByTestId"];
   let getByText: GetByAPI["getByText"];
   let getAllByText: GetByAPI["getAllByText"];
   beforeEach(() => {
-    ({ queryByTestId, getByTestId, getByText, getAllByText } = render(<App />));
+    ({
+      queryByTestId,
+      queryByText,
+      getByTestId,
+      getByText,
+      getAllByText
+    } = render(<App />));
   });
   afterEach(cleanup);
 
   it("renders Home", () => {
     expect(queryByTestId("play-list")).not.toBeNull();
+  });
+
+  it("renders header", () => {
+    expect(queryByText("ActOne")).not.toBeNull();
   });
 
   it("navigates to Play on play list item press", async () => {
@@ -44,6 +58,13 @@ describe("App", () => {
       await waitForElement(() => getByTestId("play-scene-header"));
     });
 
+    it("navigates back to home screen on back button press", async () => {
+      const backButton = getByTestId("header-left-button");
+      fireEvent.press(backButton);
+
+      await waitForElement(() => getByTestId("play-list"));
+    });
+
     it("navigates to SceneSelectModal on scene select button press", async () => {
       const sceneSelectButton = getByTestId("scene-select-button");
       fireEvent.press(sceneSelectButton);
@@ -51,11 +72,34 @@ describe("App", () => {
       await waitForElement(() => getByTestId("scene-select"));
     });
 
+    it("navigates to PlaySettingsModal on right header button press", async () => {
+      const playSettingsButton = getByTestId("header-right-button");
+      fireEvent.press(playSettingsButton);
+
+      await waitForElement(() => getByTestId("play-settings"));
+    });
+
     it("navigates to next scene on next scene button press", async () => {
       const nextSceneButton = getByTestId("next-scene-button");
       fireEvent.press(nextSceneButton);
 
       await waitForElement(() => getByText(`ACT 1 - SCENE 2`));
+    });
+
+    describe("PlaySettingsModal navigation", () => {
+      beforeEach(async () => {
+        const playSettingsButton = getByTestId("header-right-button");
+        fireEvent.press(playSettingsButton);
+
+        await waitForElement(() => getByTestId("play-settings"));
+      });
+
+      it("navigates back to play on cancel button press", async () => {
+        const headerCancelButtons = getAllByText("Cancel");
+        fireEvent.press(headerCancelButtons[0]);
+
+        await waitForElement(() => getByTestId("play-scene-header"));
+      });
     });
 
     describe("SceneSelectModal navigation", () => {
@@ -75,8 +119,8 @@ describe("App", () => {
       });
 
       it("navigates back to current scene on close button press", async () => {
-        const headerCloseButton = getByText("Cancel");
-        fireEvent.press(headerCloseButton);
+        const headerCloseButtons = getAllByText("Cancel");
+        fireEvent.press(headerCloseButtons[0]);
 
         await waitForElement(() => getByText("ACT 1 - SCENE 1"));
       });

@@ -10,7 +10,7 @@ import Home from "../HomeScreen";
 
 jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
 
-describe("PlayScreen", () => {
+describe("HomeScreen", () => {
   let queryByText: QueryByAPI["queryByText"];
 
   beforeEach(() => {

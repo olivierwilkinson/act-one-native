@@ -8,6 +8,10 @@ export const mediumSizeFont = css`
   font-size: 16px;
 `;
 
+export const smallSizeFont = css`
+  font-size: 14px;
+`;
+
 export const titleFont = css`
   font-weight: bold;
 `;

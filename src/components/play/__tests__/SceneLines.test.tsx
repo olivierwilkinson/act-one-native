@@ -9,7 +9,6 @@ import {
 
 import SceneLines from "../SceneLines";
 import PlayPositionContext from "../../../contexts/PlayPosition";
-import { createColourByPlayer } from "../../../helpers/play";
 
 import play from "../../../data/plays/shakespeare/AComedyOfErrors";
 import { Line } from "../../../types/play-types";
@@ -20,8 +19,7 @@ const line = scene.lines.find(({ player }) => player) as Line;
 const {
   lineRows: [lineRow]
 } = line;
-
-const colourByPlayer = createColourByPlayer(play);
+const { colourByPlayer } = play;
 
 describe("SceneLines", () => {
   let queryByText: QueryByAPI["queryByText"];
@@ -32,7 +30,7 @@ describe("SceneLines", () => {
         value={{
           activeLine: line,
           activeScene: scene,
-          setActiveLineById: () => null
+          setActiveLine: () => null
         }}
       >
         <SceneLines {...scene} colourByPlayer={colourByPlayer} />

@@ -4,7 +4,7 @@ import { render, cleanup, QueryByAPI } from "react-native-testing-library";
 
 import Error from "../Error";
 
-describe("Header", () => {
+describe("Error", () => {
   let message: string;
   let queryByText: QueryByAPI["queryByText"];
   beforeEach(() => {

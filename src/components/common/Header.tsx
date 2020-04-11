@@ -1,6 +1,7 @@
 import React from "react";
-import { View, TouchableHighlight, StatusBar } from "react-native";
+import { TouchableHighlight, StatusBar } from "react-native";
 import styled from "styled-components/native";
+import { css } from "styled-components";
 
 import { primaryColour } from "../../styles/colours";
 import { titleFont, bigSizeFont } from "../../styles/typography";
@@ -20,11 +21,22 @@ const TitleView = styled.View`
   align-items: center;
 `;
 
-const SideView = styled.View`
+const SideView = css`
   display: flex;
-  justify-content: center;
+  flex-direction: row;
   align-items: center;
   width: 70px;
+  margin: 0 14px;
+`;
+
+const LeftView = styled.View`
+  ${SideView}
+  justify-content: flex-start;
+`;
+
+const RightView = styled.View`
+  ${SideView}
+  justify-content: flex-end;
 `;
 
 const WhiteTitle = styled.Text`
@@ -33,47 +45,54 @@ const WhiteTitle = styled.Text`
   color: white;
 `;
 
-const ActionText = styled.Text`
-  ${bigSizeFont}
-  color: white;
-`;
+type HeaderAction = {
+  onPress: () => void;
+  view: JSX.Element;
+  disabled?: boolean;
+};
 
-type Props = {
+export type Props = {
   title?: string;
-  onBack?: () => void;
-  onCancel?: () => void;
+  left?: HeaderAction;
+  right?: HeaderAction;
 };
 
 const defaultProps = {
   title: "ActOne"
 };
 
-const Header = ({ title, onBack, onCancel }: Props) => (
+const Header = ({ title, left, right }: Props) => (
   <PrimaryHeader>
     <StatusBar barStyle="light-content" />
-    <SideView>
-      {onBack && (
-        <TouchableHighlight onPress={onBack} underlayColor={primaryColour}>
-          <View>
-            <ActionText>Back</ActionText>
-          </View>
+    <LeftView>
+      {left && (
+        <TouchableHighlight
+          testID="header-left-button"
+          onPress={left.onPress}
+          underlayColor={primaryColour}
+          disabled={left.disabled}
+        >
+          {left.view}
         </TouchableHighlight>
       )}
-    </SideView>
+    </LeftView>
 
     <TitleView>
       <WhiteTitle>{title}</WhiteTitle>
     </TitleView>
 
-    <SideView>
-      {onCancel && (
-        <TouchableHighlight onPress={onCancel} underlayColor={primaryColour}>
-          <View>
-            <ActionText>Cancel</ActionText>
-          </View>
+    <RightView>
+      {right && (
+        <TouchableHighlight
+          testID="header-right-button"
+          onPress={right.onPress}
+          underlayColor={primaryColour}
+          disabled={right.disabled}
+        >
+          {right.view}
         </TouchableHighlight>
       )}
-    </SideView>
+    </RightView>
   </PrimaryHeader>
 );
 

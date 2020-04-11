@@ -14,7 +14,7 @@ describe("SceneSelect", () => {
     onScenePress = jest.fn();
 
     ({ queryByText, queryByTestId } = render(
-      <SceneSelect {...play} onScenePress={onScenePress} />
+      <SceneSelect play={play} settings={{}} onScenePress={onScenePress} />
     ));
   });
   afterEach(cleanup);

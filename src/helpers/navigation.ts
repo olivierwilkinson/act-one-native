@@ -2,20 +2,26 @@ import { NavigationStackProp } from "react-navigation-stack";
 import { NavigationActions } from "react-navigation";
 
 import { Play } from "../types/play-types";
+import { PlaySettings } from "../contexts/PlaySettings";
 
 export const playScreenKey = "play-screen";
 
 // Screen Navigation
-export const navigateToPlay = (navigation: NavigationStackProp, play: Play) =>
+export const navigateToPlay = (
+  navigation: NavigationStackProp,
+  play: Play,
+  settings?: PlaySettings
+) =>
   navigation.navigate({
     routeName: "Play",
-    params: { play },
+    params: { play, settings },
     key: playScreenKey
   });
 
 export const goToScene = (
   navigation: NavigationStackProp,
   play: Play,
+  settings: PlaySettings,
   newSceneIndex: number
 ) => {
   const { scenes } = play;
@@ -25,17 +31,27 @@ export const goToScene = (
   }
 
   setParams(navigation, playScreenKey, {
-    play: {
-      ...play,
-      currentAct: scene.act,
-      currentScene: scene.scene
+    play,
+    settings: {
+      ...settings,
+      act: scene.act,
+      scene: scene.scene
     }
   });
 };
 
 // Modal Navigation
-export const openSceneSelect = (navigation: NavigationStackProp, play: Play) =>
-  navigation.navigate("SceneSelect", { play });
+export const openSceneSelect = (
+  navigation: NavigationStackProp,
+  play: Play,
+  settings: PlaySettings
+) => navigation.navigate("SceneSelect", { play, settings });
+
+export const openPlaySettings = (
+  navigation: NavigationStackProp,
+  play: Play,
+  settings: PlaySettings
+) => navigation.navigate("PlaySettings", { play, settings });
 
 // Misc
 export const setParams = (

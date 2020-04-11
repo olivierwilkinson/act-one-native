@@ -10,7 +10,6 @@ import {
 
 import Scene from "../Scene";
 import PlayPositionContext from "../../../contexts/PlayPosition";
-import { createColourByPlayer } from "../../../helpers/play";
 import PlayNavigationContext from "../../../contexts/PlayNavigation";
 
 import play from "../../../data/plays/shakespeare/AComedyOfErrors";
@@ -20,8 +19,7 @@ const {
 const {
   lines: [line]
 } = scene;
-
-const colourByPlayer = createColourByPlayer(play);
+const { colourByPlayer } = play;
 
 describe("Scene", () => {
   let scrollToLocation: jest.Mock;
@@ -34,7 +32,7 @@ describe("Scene", () => {
         value={{
           activeLine: line,
           activeScene: scene,
-          setActiveLineById: () => null
+          setActiveLine: () => null
         }}
       >
         <PlayNavigationContext.Provider value={{ openSceneSelect: () => null }}>
@@ -73,7 +71,7 @@ describe("Scene", () => {
           value={{
             activeLine: line,
             activeScene: newScene,
-            setActiveLineById: () => null
+            setActiveLine: () => null
           }}
         >
           <PlayNavigationContext.Provider
@@ -102,7 +100,7 @@ describe("Scene", () => {
           value={{
             activeLine: line,
             activeScene: newScene,
-            setActiveLineById: () => null
+            setActiveLine: () => null
           }}
         >
           <PlayNavigationContext.Provider
