@@ -73,10 +73,8 @@
     "collectCoverageFrom": [
       "App.tsx",
       "src/**/*.{js,jsx,ts,tsx}",
-      "!src/**/*.d.ts",
-      "!src/**/*.test.js",
-      "!src/**/*.test.integration.js",
-      "!src/**/*.test.e2e.js"
+      "!src/contexts/*.ts",
+      "!src/**/*.d.ts"
     ],
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$",
