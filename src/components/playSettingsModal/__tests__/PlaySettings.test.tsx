@@ -76,9 +76,19 @@ describe("PlaySettings", () => {
     });
 
     describe("when new character is selected", () => {
-      it.skip("sets character setting value to selected character on done", () => {
+      beforeEach(() => {
+        fireEvent(
+          getByTestId("action-sheet-picker"),
+          "onValueChange",
+          "AEGEON"
+        );
+      });
+
+      it("sets character setting value to selected character on done", () => {
+        fireEvent.press(getByText("Done"));
+
         expect(defaultProps.onSettingsUpdate).toHaveBeenCalledWith({
-          selectedPlayer: "new player"
+          selectedPlayer: "AEGEON"
         });
       });
     });

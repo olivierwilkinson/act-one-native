@@ -98,7 +98,10 @@ export default ({ visible, children, onDone, onCancel }: Props) => {
               </CustomContentContainerView>
 
               {onDone && (
-                <TouchableAction onPress={onDone}>
+                <TouchableAction
+                  testID="custom-action-sheet-done-button"
+                  onPress={onDone}
+                >
                   <DoneText>Done</DoneText>
                 </TouchableAction>
               )}
