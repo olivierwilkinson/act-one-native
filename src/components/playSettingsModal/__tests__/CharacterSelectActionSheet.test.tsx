@@ -28,8 +28,8 @@ describe("CharacterSelectActionSheet", () => {
   beforeEach(() => {
     defaultProps = {
       visible: true,
-      players: ["test character one", "test character two"],
-      currentPlayer: "test character two",
+      players: ["test-character-one", "test-character-two"],
+      currentPlayer: "test-character-two",
       onCancel: jest.fn(),
       onDone: jest.fn()
     };
@@ -51,11 +51,26 @@ describe("CharacterSelectActionSheet", () => {
     expect(defaultProps.onCancel).toHaveBeenCalled();
   });
 
-  it("calls onDone with selected character when done button pressed", () => {
-    fireEvent.press(getByText("Done"));
+  describe("when character selection changes", () => {
+    beforeEach(() => {
+      fireEvent(
+        getByTestId("character-select-picker"),
+        "onValueChange",
+        "test-character-one"
+      );
+    });
 
-    expect(defaultProps.onDone).toHaveBeenCalledWith(
-      defaultProps.currentPlayer
-    );
+    it("resets resets selected character when cancel button pressed", () => {
+      fireEvent.press(getByText("Cancel"));
+
+      const picker = getByTestId("character-select-picker");
+      expect(picker.props.selectedValue).toEqual("test-character-two");
+    });
+
+    it("calls onDone with selected character when done button pressed", () => {
+      fireEvent.press(getByText("Done"));
+
+      expect(defaultProps.onDone).toHaveBeenCalledWith("test-character-one");
+    });
   });
 });

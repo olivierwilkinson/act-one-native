@@ -24,7 +24,10 @@ export default ({
   return (
     <CustomActionSheet
       visible={visible}
-      onCancel={onCancel}
+      onCancel={() => {
+        setSelectedPlayer(currentPlayer);
+        onCancel();
+      }}
       onDone={() => onDone(selectedPlayer)}
     >
       <Picker
