@@ -8,9 +8,7 @@ import {
   shallow
 } from "react-native-testing-library";
 
-import CharacterSelectActionSheet, {
-  Props
-} from "../CharacterSelectActionSheet";
+import PickerActionSheet, { Props } from "../PickerActionSheet";
 
 jest.mock("react-gateway", () => {
   const React = require("React");
@@ -21,27 +19,27 @@ jest.mock("react-gateway", () => {
   };
 });
 
-describe("CharacterSelectActionSheet", () => {
+describe("PickerActionSheet", () => {
   let defaultProps: Props;
   let getByText: GetByAPI["getByText"];
   let getByTestId: GetByAPI["getByTestId"];
   beforeEach(() => {
     defaultProps = {
       visible: true,
-      players: ["test-character-one", "test-character-two"],
-      currentPlayer: "test-character-two",
+      options: ["option-one", "option-two"],
+      initialValue: "option-two",
       onCancel: jest.fn(),
       onDone: jest.fn()
     };
 
     ({ getByText, getByTestId } = render(
-      <CharacterSelectActionSheet {...defaultProps} />
+      <PickerActionSheet {...defaultProps} />
     ));
   });
   afterEach(cleanup);
 
   it("renders picker correctly", () => {
-    const { output } = shallow(getByTestId("character-select-picker"));
+    const { output } = shallow(getByTestId("action-sheet-picker"));
     expect(output).toMatchSnapshot();
   });
 
@@ -54,23 +52,23 @@ describe("CharacterSelectActionSheet", () => {
   describe("when character selection changes", () => {
     beforeEach(() => {
       fireEvent(
-        getByTestId("character-select-picker"),
+        getByTestId("action-sheet-picker"),
         "onValueChange",
-        "test-character-one"
+        "option-one"
       );
     });
 
-    it("resets resets selected character when cancel button pressed", () => {
+    it("resets selected character when cancel button pressed", () => {
       fireEvent.press(getByText("Cancel"));
 
-      const picker = getByTestId("character-select-picker");
-      expect(picker.props.selectedValue).toEqual("test-character-two");
+      const picker = getByTestId("action-sheet-picker");
+      expect(picker.props.selectedValue).toEqual("option-two");
     });
 
     it("calls onDone with selected character when done button pressed", () => {
       fireEvent.press(getByText("Done"));
 
-      expect(defaultProps.onDone).toHaveBeenCalledWith("test-character-one");
+      expect(defaultProps.onDone).toHaveBeenCalledWith("option-one");
     });
   });
 });

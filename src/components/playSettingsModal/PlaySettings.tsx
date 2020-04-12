@@ -3,7 +3,7 @@ import { View } from "react-native";
 import styled from "styled-components/native";
 
 import SettingsRow from "../common/SettingsRow";
-import CharacterSelectActionSheet from "./CharacterSelectActionSheet";
+import PickerActionSheet from "../common/PickerActionSheet";
 import { findPlayers } from "../../helpers/play";
 import { titleFont, bigSizeFont } from "../../styles/typography";
 import { lightPrimaryColour } from "../../styles/colours";
@@ -61,9 +61,9 @@ export default ({ scenes, onSettingsUpdate, settings }: Props) => {
         </SettingsView>
       </View>
 
-      <CharacterSelectActionSheet
-        currentPlayer={selectedPlayer}
-        players={findPlayers(scenes)}
+      <PickerActionSheet
+        initialValue={selectedPlayer}
+        options={findPlayers(scenes)}
         visible={playerSelectActive}
         onCancel={() => setPlayerSelectActive(false)}
         onDone={player => {

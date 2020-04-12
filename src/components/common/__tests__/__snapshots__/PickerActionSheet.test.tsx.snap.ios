@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PickerActionSheet renders picker correctly 1`] = `
+<PickerIOS
+  mode="dialog"
+  onValueChange={[Function]}
+  selectedValue="option-two"
+  testID="action-sheet-picker"
+>
+  <PickerItem
+    label="option-one"
+    value="option-one"
+  />
+  <PickerItem
+    color="rgb(1, 187, 211)"
+    label="option-two"
+    value="option-two"
+  />
+</PickerIOS>
+`;
