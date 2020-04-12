@@ -18,6 +18,19 @@ if (__DEV__ && process.env.NODE_ENV !== "test") {
   });
 }
 
+let sharedStackOptions = {};
+
+if (process.env.NODE_ENV === "test") {
+  sharedStackOptions = {
+    ...sharedStackOptions,
+    transitionConfig: () => ({
+      transitionSpec: {
+        duration: 0
+      }
+    })
+  };
+}
+
 const MainStack = createStackNavigator(
   {
     Home: {
@@ -28,6 +41,7 @@ const MainStack = createStackNavigator(
     }
   },
   {
+    ...sharedStackOptions,
     initialRouteName: "Home",
     defaultNavigationOptions: {
       header: () => <Header />
@@ -36,17 +50,23 @@ const MainStack = createStackNavigator(
 );
 
 // wrap SceneSelectModal in it's own stack to enable header
-const SceneSelectModalStack = createStackNavigator({
-  Main: {
-    screen: SceneSelectModal
-  }
-});
+const SceneSelectModalStack = createStackNavigator(
+  {
+    Main: {
+      screen: SceneSelectModal
+    }
+  },
+  sharedStackOptions
+);
 
-const PlaySettingsModalStack = createStackNavigator({
-  Main: {
-    screen: PlaySettingsModal
-  }
-});
+const PlaySettingsModalStack = createStackNavigator(
+  {
+    Main: {
+      screen: PlaySettingsModal
+    }
+  },
+  sharedStackOptions
+);
 
 const RootStack = createStackNavigator(
   {
@@ -61,6 +81,7 @@ const RootStack = createStackNavigator(
     }
   },
   {
+    ...sharedStackOptions,
     mode: "modal",
     headerMode: "none"
   }
