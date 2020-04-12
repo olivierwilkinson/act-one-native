@@ -7,11 +7,13 @@ import {
   waitForElement,
   cleanup,
   GetByAPI,
-  QueryByAPI
+  QueryByAPI,
+  flushMicrotasksQueue
 } from "react-native-testing-library";
 
 import App from "../App";
 import play from "../src/data/plays/shakespeare/AComedyOfErrors";
+import wait from "../tests/helpers/wait";
 
 jest.mock("../src/helpers/storage.ts", () => ({
   getStoredSettings: jest.fn().mockResolvedValue({}),
@@ -94,11 +96,12 @@ describe("App", () => {
         await waitForElement(() => getByTestId("play-settings"));
       });
 
-      it("navigates back to play on cancel button press", async () => {
-        const headerCancelButtons = getAllByText("Cancel");
-        fireEvent.press(headerCancelButtons[0]);
+      it("closes settings on close button press", async () => {
+        fireEvent.press(getByText("Close"));
+        await flushMicrotasksQueue();
+        await wait();
 
-        await waitForElement(() => getByTestId("play-scene-header"));
+        expect(queryByTestId("play-settings")).toBeNull();
       });
     });
 
@@ -119,7 +122,7 @@ describe("App", () => {
       });
 
       it("navigates back to current scene on close button press", async () => {
-        const headerCloseButtons = getAllByText("Cancel");
+        const headerCloseButtons = getAllByText("Close");
         fireEvent.press(headerCloseButtons[0]);
 
         await waitForElement(() => getByText("ACT 1 - SCENE 1"));

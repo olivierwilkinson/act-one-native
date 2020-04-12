@@ -36,7 +36,6 @@ const mockedSetParams = setParams as jest.Mock;
 describe("PlaySettingsModal", () => {
   let getByTestId: GetByAPI["getByTestId"];
   let queryByText: QueryByAPI["queryByText"];
-  let queryByTestId: QueryByAPI["queryByTestId"];
   let settings: PlaySettings;
 
   beforeEach(() => {
@@ -54,17 +53,15 @@ describe("PlaySettingsModal", () => {
       )
     );
 
-    ({ getByTestId, queryByText, queryByTestId } = render(
-      <PlaySettingsModalContainer />
-    ));
+    ({ getByTestId, queryByText } = render(<PlaySettingsModalContainer />));
   });
   afterEach(() => {
     mockedSetParams.mockRestore();
     cleanup();
   });
 
-  it("renders done button on header", () => {
-    expect(queryByTestId("header-right-button")).not.toBeNull();
+  it("renders close button on header", () => {
+    expect(queryByText("Close")).not.toBeNull();
   });
 
   it("renders correct header title", () => {

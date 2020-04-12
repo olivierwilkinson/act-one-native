@@ -36,7 +36,7 @@ export default class PlaySettingsModal extends React.Component<
         title={navigation.state.params?.play?.play}
         right={{
           onPress: () => navigation.pop(),
-          view: <HeaderText>Done</HeaderText>
+          view: <HeaderText>Close</HeaderText>
         }}
       />
     )

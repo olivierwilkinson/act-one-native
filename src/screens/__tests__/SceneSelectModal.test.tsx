@@ -31,7 +31,7 @@ describe("SceneSelectModal", () => {
   afterEach(cleanup);
 
   it("renders cancel button on header", () => {
-    expect(queryByText("Cancel")).not.toBeNull();
+    expect(queryByText("Close")).not.toBeNull();
   });
 
   it("renders correct header title", () => {
