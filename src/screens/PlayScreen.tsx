@@ -1,115 +1,81 @@
-import React from "react";
+import React, { useState, useLayoutEffect } from "react";
 import styled from "styled-components/native";
-import {
-  NavigationStackScreenProps,
-  NavigationStackProp
-} from "react-navigation-stack";
 import { Ionicons } from "@expo/vector-icons";
 
-import { Play as PlayType } from "../types/play-types";
+import PlaySettingsProvider from "../components/play/PlaySettingsProvider";
 import PlayPositionProvider from "../components/play/PlayPositionProvider";
-import Play from "../components/play/Play";
-import Header, { Props as HeaderProps } from "../components/common/Header";
-import Error from "../components/common/Error";
-import PageLoading from "../components/common/PageLoading";
-import { bigSizeFont } from "../styles/typography";
-import { openPlaySettings } from "../helpers/navigation";
-import { getStoredSettings, setStoredSettings } from "../helpers/storage";
-import PlaySettingsContext, { PlaySettings } from "../contexts/PlaySettings";
 import PlayNavigationProvider from "../components/play/PlayNavigationProvider";
 import AudioProvider from "../components/play/AudioProvider";
+import Play from "../components/play/Play";
+import Header from "../components/common/Header";
+import Error from "../components/common/Error";
+import PlaySettingsModal from "../components/play/PlaySettingsModal";
+import SceneSelectModal from "../components/play/SceneSelectModal";
+import { bigSizeFont } from "../styles/typography";
+import { PlayNavigationProp, PlayRouteProp } from "../types/navigation-types";
+
+export type Props = {
+  navigation: PlayNavigationProp;
+  route: PlayRouteProp;
+};
 
 const HeaderText = styled.Text`
   ${bigSizeFont}
   color: white;
 `;
 
-export type Params = { play: PlayType; settings?: PlaySettings };
-export type Props = NavigationStackScreenProps<Params>;
+export default ({ navigation, route }: Props) => {
+  const [settingsActive, setSettingsActive] = useState(false);
+  const [sceneSelectActive, setSceneSelectActive] = useState(false);
+  const play = route.params?.play;
 
-export default class PlayScreen extends React.Component<Props> {
-  static navigationOptions = ({
-    navigation
-  }: {
-    navigation: NavigationStackProp;
-  }) => ({
-    header: () => {
-      const params = navigation.state.params || {};
-      const { play, settings } = params;
-      let props: HeaderProps = {
-        left: {
-          view: <HeaderText>Back</HeaderText>,
-          onPress: () => navigation.pop()
-        }
-      };
-
-      if (play || settings) {
-        props = {
-          ...props,
-          title: play.play,
-          right: {
-            onPress: () => openPlaySettings(navigation, play, settings),
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      header: () => (
+        <Header
+          title={play.play}
+          left={{
+            view: <HeaderText>Back</HeaderText>,
+            onPress: () => navigation.pop()
+          }}
+          right={{
+            onPress: () => setSettingsActive(true),
             view: <Ionicons name="ios-settings" color="white" size={28} />
-          }
-        };
-      }
+          }}
+        />
+      )
+    });
+  }, [navigation, setSettingsActive]);
 
-      return <Header {...props} />;
-    }
-  });
-
-  componentDidMount() {
-    const { navigation } = this.props;
-    const play = navigation.state.params?.play;
-
-    if (play) {
-      this.syncSettings(play);
-    }
+  if (!play) {
+    return <Error message="Play could not be loaded" />;
   }
 
-  componentDidUpdate() {
-    const { navigation } = this.props;
-    const play = navigation.state.params?.play;
-    const settings = navigation.state.params?.settings;
+  return (
+    <PlaySettingsProvider play={play} onSettingsChange={() => {
+      setSceneSelectActive(false);
+    }}>
+      <PlayPositionProvider play={play}>
+        <PlayNavigationProvider play={play}>
+          <AudioProvider>
+            <Play
+              play={play}
+              openSceneSelect={() => setSceneSelectActive(true)}
+            />
 
-    if (play && settings) {
-      setStoredSettings(play, settings);
-    }
-  }
-
-  syncSettings = async (play: PlayType) => {
-    const settings = await getStoredSettings(play);
-
-    this.props.navigation.setParams({ settings: settings || {} });
-  };
-
-  render() {
-    const { navigation } = this.props;
-    const play = navigation.state.params?.play;
-    const settings = navigation.state.params?.settings;
-
-    if (!play) {
-      return <Error message="Play could not be loaded" />;
-    }
-
-    if (!settings) {
-      return <PageLoading message={`Loading ${play.play}...`} />;
-    }
-
-    return (
-      <PlaySettingsContext.Provider value={settings}>
-        <PlayPositionProvider play={play} settings={settings}>
-          <PlayNavigationProvider
-            navigation={navigation}
-            play={play}
-            settings={settings}
-          >
-            <AudioProvider>
-              <Play play={play} />
-            </AudioProvider>
-          </PlayNavigationProvider>
-        </PlayPositionProvider>
-      </PlaySettingsContext.Provider>
-    );
-  }
-}
+            <PlaySettingsModal
+              play={play}
+              visible={settingsActive}
+              onClose={() => setSettingsActive(false)}
+            />
+            <SceneSelectModal
+              play={play}
+              visible={sceneSelectActive}
+              onClose={() => setSceneSelectActive(false)}
+            />
+          </AudioProvider>
+        </PlayNavigationProvider>
+      </PlayPositionProvider>
+    </PlaySettingsProvider>
+  );
+};

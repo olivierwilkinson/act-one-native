@@ -11,15 +11,6 @@ import {
 
 import CustomActionSheet, { Props } from "../CustomActionSheet";
 
-jest.mock("react-gateway", () => {
-  const React = require("React");
-  return {
-    Gateway: ({ children, ...props }: { children: JSX.Element }) =>
-      React.createElement("View", props, children),
-    GatwayDest: () => "View"
-  };
-});
-
 describe("CustomActionSheet", () => {
   let queryByText: QueryByAPI["queryByText"];
   let getByTestId: GetByAPI["getByTestId"];

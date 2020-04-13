@@ -1,8 +1,8 @@
 import "react-native";
 import React from "react";
 import { render, cleanup, QueryByAPI } from "react-native-testing-library";
-import { createAppContainer } from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import "react-native-reanimated";
 
 import play from "../../data/plays/shakespeare/AComedyOfErrors";
@@ -14,13 +14,19 @@ describe("HomeScreen", () => {
   let queryByText: QueryByAPI["queryByText"];
 
   beforeEach(() => {
-    const HomeContainer = createAppContainer(
-      createStackNavigator({
-        Home: { screen: Home }
-      })
-    );
+    const Stack = createStackNavigator();
 
-    ({ queryByText } = render(<HomeContainer />));
+    ({ queryByText } = render(
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={Home.navigationOptions}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    ));
   });
   afterEach(cleanup);
 

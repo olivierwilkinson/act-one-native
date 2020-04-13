@@ -79,7 +79,10 @@ describe("LineHeader", () => {
       ({ queryByTestId } = render(
         <PlaySettingsContext.Provider
           value={{
-            selectedPlayer: line.player
+            settings: {
+              selectedPlayer: line.player
+            },
+            setSettings: jest.fn()
           }}
         >
           <LineHeader {...line} colour={colourByPlayer[line.player]} />

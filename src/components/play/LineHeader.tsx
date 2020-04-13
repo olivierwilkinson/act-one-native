@@ -26,7 +26,7 @@ type Props = Line & {
 
 const LineHeader = ({ colour, ...line }: Props) => {
   const { activeLine, setActiveLine } = useContext(PlayPositionContext);
-  const { selectedPlayer } = useContext(PlaySettingsContext);
+  const { settings: { selectedPlayer } } = useContext(PlaySettingsContext);
   const { setPlaybackState } = useContext(AudioContext);
   const { player, id } = line;
   const isCurrentLine = activeLine.id === id;

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Modal, Animated } from "react-native";
-import { Gateway } from "react-gateway";
 import styled from "styled-components/native";
 import { css } from "styled-components";
 
@@ -79,7 +78,6 @@ export default ({ visible, children, onDone, onCancel }: Props) => {
   }, [visible]);
 
   return (
-    <Gateway into="overlay">
       <FadeInView pointerEvents="box-none" style={{ opacity }}>
         <Modal
           animationType="slide"
@@ -113,6 +111,5 @@ export default ({ visible, children, onDone, onCancel }: Props) => {
           </TouchableModalBackground>
         </Modal>
       </FadeInView>
-    </Gateway>
   );
 };

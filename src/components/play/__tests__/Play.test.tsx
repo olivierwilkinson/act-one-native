@@ -9,7 +9,7 @@ import {
   act
 } from "react-native-testing-library";
 import { speak, pause, resume, stop } from "expo-speech";
-import "react-navigation";
+import "@react-navigation/native";
 import "react-native-reanimated";
 
 jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
@@ -19,9 +19,12 @@ jest.mock("expo-speech", () => ({
   resume: jest.fn(),
   stop: jest.fn()
 }));
-jest.mock("react-navigation", () => ({
-  NavigationEvents: jest.fn().mockImplementation(() => null)
-}));
+jest.mock("@react-navigation/native", () => {
+  const navigation = require("../../../../tests/mocks/navigation").default;
+  return {
+    useNavigation: jest.fn().mockImplementation(() => navigation)
+  };
+});
 
 import Play from "../Play";
 import { getLineText } from "../../../helpers/play";

@@ -1,30 +1,29 @@
-import { NavigationStackProp } from "react-navigation-stack";
-
 import { Play } from "../types/play-types";
 import { findActiveScene } from "../helpers/play";
-import { goToScene, openSceneSelect } from "../helpers/navigation";
-import { PlaySettings } from '../contexts/PlaySettings';
+import { PlaySettings } from "../contexts/PlaySettings";
 
 export const createPlayNavigation = (
-  navigation: NavigationStackProp,
   play: Play,
   settings: PlaySettings,
+  setSettings: (settings: PlaySettings) => void
 ) => {
   const { scenes } = play;
   const activeScene = findActiveScene(play, settings);
   const sceneIndex = scenes.indexOf(activeScene);
 
+  const nextScene = scenes[sceneIndex + 1];
+  const previousScene = scenes[sceneIndex - 1];
+
   const goToNextScene =
-    scenes[sceneIndex + 1] &&
-    (() => goToScene(navigation, play, settings, sceneIndex + 1));
+    nextScene &&
+    (() => setSettings({ act: nextScene.act, scene: nextScene.scene }));
 
   const goToPreviousScene =
-    scenes[sceneIndex - 1] &&
-    (() => goToScene(navigation, play, settings, sceneIndex - 1));
+    previousScene &&
+    (() => setSettings({ act: previousScene.act, scene: previousScene.scene }));
 
   return {
     goToNextScene,
     goToPreviousScene,
-    openSceneSelect: () => openSceneSelect(navigation, play, settings),
   };
 };

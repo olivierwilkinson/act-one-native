@@ -77,12 +77,11 @@ const generateSections: (scenes: Scene[]) => ListSection[] = scenes =>
 
 type Props = {
   scenes: Scene[];
-  currentAct?: number;
-  currentScene?: number;
+  activeScene: Scene;
   onScenePress: (scene: Scene) => void;
 };
 
-export default ({ currentAct, currentScene, scenes, onScenePress }: Props) => {
+export default ({ scenes, activeScene, onScenePress }: Props) => {
   const [sections, setSections] = useState(generateSections(scenes));
 
   useEffect(() => setSections(generateSections(scenes)), [scenes]);
@@ -104,9 +103,7 @@ export default ({ currentAct, currentScene, scenes, onScenePress }: Props) => {
             <SceneInfoView>
               <CurrentSceneIndicator
                 testID={`current-scene-indicator-${scene.act}-${scene.scene}`}
-                visible={
-                  scene.scene === currentScene && scene.act === currentAct
-                }
+                visible={scene === activeScene}
               />
               <SceneText>{`SCENE ${scene.scene}`}</SceneText>
             </SceneInfoView>

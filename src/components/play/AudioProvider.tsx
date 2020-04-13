@@ -1,6 +1,6 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, ReactNode } from "react";
 import * as Speech from "expo-speech";
-import { NavigationEvents } from "react-navigation";
+import { useNavigation } from "@react-navigation/native";
 
 import AudioContext, { PlaybackState } from "../../contexts/Audio";
 import PlayPositionContext from "../../contexts/PlayPosition";
@@ -9,7 +9,7 @@ import usePrevious from "../../hooks/usePrevious";
 import { Line } from "../../types/play-types";
 
 type Props = {
-  children: JSX.Element;
+  children: ReactNode;
 };
 
 const AudioProvider = ({ children }: Props) => {
@@ -18,25 +18,18 @@ const AudioProvider = ({ children }: Props) => {
     setActiveLine,
     activeLine
   } = useContext(PlayPositionContext);
+  const navigation = useNavigation();
 
   const [playbackState, setPlaybackState] = useState(PlaybackState.Stopped);
   const previousPlaybackState = usePrevious(playbackState);
 
-  const beginPlayback = (line: Line) => {
-    Speech.speak(getLineText(line), {
-      voice: "com.apple.ttsbundle.Daniel-compact",
-      onDone: () => {
-        const lineIndex = lines.findIndex(({ id }) => line.id === id);
-        const nextLine = lines[lineIndex + 1];
-        if (!nextLine) {
-          return setPlaybackState(PlaybackState.Stopped);
-        }
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener("blur", () =>
+      setPlaybackState(PlaybackState.Stopped)
+    );
 
-        setActiveLine(nextLine);
-        beginPlayback(nextLine);
-      }
-    });
-  };
+    return unsubscribe;
+  }, [navigation]);
 
   useEffect(() => {
     if (!previousPlaybackState) {
@@ -65,21 +58,31 @@ const AudioProvider = ({ children }: Props) => {
     }
   }, [playbackState, previousPlaybackState]);
 
-  return (
-    <>
-      <AudioContext.Provider
-        value={{
-          playbackState,
-          setPlaybackState
-        }}
-      >
-        {children}
-      </AudioContext.Provider>
+  const beginPlayback = (line: Line) => {
+    Speech.speak(getLineText(line), {
+      voice: "com.apple.ttsbundle.Daniel-compact",
+      onDone: () => {
+        const lineIndex = lines.findIndex(({ id }) => line.id === id);
+        const nextLine = lines[lineIndex + 1];
+        if (!nextLine) {
+          return setPlaybackState(PlaybackState.Stopped);
+        }
 
-      <NavigationEvents
-        onWillBlur={() => setPlaybackState(PlaybackState.Stopped)}
-      />
-    </>
+        setActiveLine(nextLine);
+        beginPlayback(nextLine);
+      }
+    });
+  };
+
+  return (
+    <AudioContext.Provider
+      value={{
+        playbackState,
+        setPlaybackState
+      }}
+    >
+      {children}
+    </AudioContext.Provider>
   );
 };
 
