@@ -3,7 +3,7 @@ import React from "react";
 import { render, cleanup, QueryByAPI } from "react-native-testing-library";
 import "jest-styled-components/native";
 
-import SceneSelect from "../SceneSelect";
+import SceneSelect from "../SceneSelectModal";
 import play from "../../../data/plays/shakespeare/AComedyOfErrors";
 
 describe("SceneSelect", () => {

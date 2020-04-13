@@ -56,12 +56,14 @@ const SceneSelectView = styled.View`
   top: 3px;
 `;
 
-export default ({ act, scene }: Scene) => {
-  const {
-    goToNextScene,
-    goToPreviousScene,
-    openSceneSelect
-  }: PlayNavigation = useContext(PlayNavigationContext);
+export type Props = Scene & {
+  openSceneSelect: () => void;
+};
+
+export default ({ act, scene, openSceneSelect }: Props) => {
+  const { goToNextScene, goToPreviousScene } = useContext(
+    PlayNavigationContext
+  );
 
   return (
     <SceneHeaderView testID="play-scene-header">

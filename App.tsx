@@ -1,99 +1,36 @@
 import React from "react";
-import { createAppContainer } from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
-import { GatewayProvider, GatewayDest } from "react-gateway";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
 import HomeScreen from "./src/screens/HomeScreen";
 import PlayScreen from "./src/screens/PlayScreen";
-import SceneSelectModal from "./src/screens/SceneSelectModal";
-import PlaySettingsModal from "./src/screens/PlaySettingsModal";
-import Header from "./src/components/common/Header";
-import Overlay from "./src/components/common/Overlay";
+import { MainStackParamList } from "./src/types/navigation-types";
 import "./disableWarnings";
 
 if (__DEV__ && process.env.NODE_ENV !== "test") {
   const whyDidYouRender = require("@welldone-software/why-did-you-render");
-  whyDidYouRender(React, {
-    trackAllPureComponents: true
-  });
+  whyDidYouRender(React);
 }
 
-let sharedStackOptions = {};
-
+let screenOptions = {};
 if (process.env.NODE_ENV === "test") {
-  sharedStackOptions = {
-    ...sharedStackOptions,
-    transitionConfig: () => ({
-      transitionSpec: {
-        duration: 0
-      }
-    })
+  screenOptions = {
+    ...screenOptions,
+    animationEnabled: false
   };
 }
 
-const MainStack = createStackNavigator(
-  {
-    Home: {
-      screen: HomeScreen
-    },
-    Play: {
-      screen: PlayScreen
-    }
-  },
-  {
-    ...sharedStackOptions,
-    initialRouteName: "Home",
-    defaultNavigationOptions: {
-      header: () => <Header />
-    }
-  }
-);
-
-// wrap SceneSelectModal in it's own stack to enable header
-const SceneSelectModalStack = createStackNavigator(
-  {
-    Main: {
-      screen: SceneSelectModal
-    }
-  },
-  sharedStackOptions
-);
-
-const PlaySettingsModalStack = createStackNavigator(
-  {
-    Main: {
-      screen: PlaySettingsModal
-    }
-  },
-  sharedStackOptions
-);
-
-const RootStack = createStackNavigator(
-  {
-    Main: {
-      screen: MainStack
-    },
-    SceneSelect: {
-      screen: SceneSelectModalStack
-    },
-    PlaySettings: {
-      screen: PlaySettingsModalStack
-    }
-  },
-  {
-    ...sharedStackOptions,
-    mode: "modal",
-    headerMode: "none"
-  }
-);
-
-const AppContainer = createAppContainer(RootStack);
+const Stack = createStackNavigator<MainStackParamList>();
 
 export default () => (
-  <GatewayProvider>
-    <>
-      <AppContainer />
-      <GatewayDest name="overlay" component={Overlay} />
-    </>
-  </GatewayProvider>
+  <NavigationContainer>
+    <Stack.Navigator initialRouteName="Home">
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={HomeScreen.navigationOptions}
+      />
+      <Stack.Screen name="Play" component={PlayScreen} />
+    </Stack.Navigator>
+  </NavigationContainer>
 );

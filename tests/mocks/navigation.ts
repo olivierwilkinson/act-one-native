@@ -1,9 +1,10 @@
-import { NavigationStackProp } from "react-navigation-stack";
 
 export type NavigationMock = {
-  state: NavigationStackProp["state"];
+  setOptions: jest.Mock,
+  dangerouslyGetState: jest.Mock,
   dispatch: jest.Mock;
   goBack: jest.Mock;
+  canGoBack: jest.Mock;
   dismiss: jest.Mock;
   navigate: jest.Mock;
   openDrawer: jest.Mock;
@@ -12,6 +13,7 @@ export type NavigationMock = {
   getParam: jest.Mock;
   setParams: jest.Mock;
   addListener: jest.Mock;
+  removeListener: jest.Mock;
   push: jest.Mock;
   replace: jest.Mock;
   reset: jest.Mock;
@@ -25,16 +27,11 @@ export type NavigationMock = {
 };
 
 const navigationMock: NavigationMock = {
-  state: {
-    params: {},
-    key: "",
-    index: -1,
-    routeName: "",
-    routes: [],
-    isTransitioning: false
-  },
+  setOptions: jest.fn(),
+  dangerouslyGetState: jest.fn(),
   dispatch: jest.fn(),
   goBack: jest.fn(),
+  canGoBack: jest.fn(),
   dismiss: jest.fn(),
   navigate: jest.fn(),
   openDrawer: jest.fn(),
@@ -43,6 +40,7 @@ const navigationMock: NavigationMock = {
   getParam: jest.fn(),
   setParams: jest.fn(),
   addListener: jest.fn(),
+  removeListener: jest.fn(),
   push: jest.fn(),
   replace: jest.fn(),
   reset: jest.fn(),
@@ -53,8 +51,11 @@ const navigationMock: NavigationMock = {
   isFirstRouteInParent: jest.fn(),
   dangerouslyGetParent: jest.fn(),
   mockRestore: () => {
+    navigationMock.setOptions.mockRestore();
+    navigationMock.dangerouslyGetState.mockRestore();
     navigationMock.dispatch.mockRestore();
     navigationMock.goBack.mockRestore();
+    navigationMock.canGoBack.mockRestore();
     navigationMock.dismiss.mockRestore();
     navigationMock.navigate.mockRestore();
     navigationMock.openDrawer.mockRestore();
@@ -63,6 +64,7 @@ const navigationMock: NavigationMock = {
     navigationMock.getParam.mockRestore();
     navigationMock.setParams.mockRestore();
     navigationMock.addListener.mockRestore();
+    navigationMock.removeListener.mockRestore();
     navigationMock.push.mockRestore();
     navigationMock.replace.mockRestore();
     navigationMock.reset.mockRestore();

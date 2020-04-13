@@ -10,14 +10,6 @@ import {
 
 import PickerActionSheet, { Props } from "../PickerActionSheet";
 
-jest.mock("react-gateway", () => {
-  const React = require("React");
-  return {
-    Gateway: ({ children, ...props }: { children: JSX.Element }) =>
-      React.createElement("View", props, children),
-    GatwayDest: () => "View"
-  };
-});
 
 describe("PickerActionSheet", () => {
   let defaultProps: Props;

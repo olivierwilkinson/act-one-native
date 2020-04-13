@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { View } from "react-native";
+import React, { useState, useEffect, useContext } from "react";
+import { View, Modal } from "react-native";
 import styled from "styled-components/native";
 
 import SettingsRow from "../common/SettingsRow";
 import PickerActionSheet from "../common/PickerActionSheet";
+import Header from '../common/Header';
 import { findPlayers } from "../../helpers/play";
 import { titleFont, bigSizeFont } from "../../styles/typography";
 import { lightPrimaryColour } from "../../styles/colours";
-import { Scene } from "../../types/play-types";
-import { PlaySettings } from "../../contexts/PlaySettings";
+import { Play } from "../../types/play-types";
+import PlaySettingsContext from "../../contexts/PlaySettings";
 
 const TitleView = styled.View`
   display: flex;
@@ -28,25 +29,45 @@ const SettingsView = styled.View`
   padding: 0px;
 `;
 
+const HeaderText = styled.Text`
+  ${bigSizeFont}
+  color: white;
+`;
+
 export type Props = {
-  scenes: Scene[];
-  settings: PlaySettings;
-  onSettingsUpdate: (settings: PlaySettings) => void;
+  play: Play;
+  visible: boolean;
+  onClose: () => void;
 };
 
-export default ({ scenes, onSettingsUpdate, settings }: Props) => {
+export default ({ visible, onClose, play }: Props) => {
+  const {
+    settings,
+    setSettings
+  } = useContext(PlaySettingsContext);
   const [selectedPlayer, setSelectedPlayer] = useState(settings.selectedPlayer);
   const [playerSelectActive, setPlayerSelectActive] = useState(false);
 
   useEffect(() => {
     if (selectedPlayer !== settings.selectedPlayer) {
-      onSettingsUpdate({ selectedPlayer });
+      setSettings({ selectedPlayer });
     }
   }, [selectedPlayer]);
 
   return (
-    <>
+    <Modal
+      visible={visible}
+      animationType="slide"
+    >
       <View testID="play-settings">
+        <Header
+          title={play.play}
+          right={{
+            onPress: onClose,
+            view: <HeaderText>Close</HeaderText>
+          }}
+        />
+
         <TitleView>
           <TitleText>Play Settings</TitleText>
         </TitleView>
@@ -63,7 +84,7 @@ export default ({ scenes, onSettingsUpdate, settings }: Props) => {
 
       <PickerActionSheet
         initialValue={selectedPlayer}
-        options={findPlayers(scenes)}
+        options={findPlayers(play.scenes)}
         visible={playerSelectActive}
         onCancel={() => setPlayerSelectActive(false)}
         onDone={player => {
@@ -71,6 +92,6 @@ export default ({ scenes, onSettingsUpdate, settings }: Props) => {
           setPlayerSelectActive(false);
         }}
       />
-    </>
+    </Modal>
   );
 };

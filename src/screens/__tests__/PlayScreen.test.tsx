@@ -6,18 +6,15 @@ import {
   QueryByAPI,
   flushMicrotasksQueue
 } from "react-native-testing-library";
-import {
-  createAppContainer,
-  NavigationContainerComponent
-} from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
-import { NavigationActions } from "react-navigation";
+import { NavigationContainer, CommonActions } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import "react-native-reanimated";
 
 import { getStoredSettings, setStoredSettings } from "../../helpers/storage";
 import play from "../../data/plays/shakespeare/AComedyOfErrors";
-import PlayScreen, { Params } from "../PlayScreen";
+import PlayScreen from "../PlayScreen";
 import { PlaySettings } from "../../contexts/PlaySettings";
+import { PlayStackParamList } from "../../types/navigation-types";
 
 jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
 jest.mock("../../helpers/storage.ts", () => ({
@@ -28,27 +25,12 @@ jest.mock("../../helpers/storage.ts", () => ({
 const getStoredSettingsMock = getStoredSettings as jest.Mock;
 const setStoredSettingsMock = setStoredSettings as jest.Mock;
 
-const createPlayContainer = (params?: Params) =>
-  createAppContainer(
-    createStackNavigator(
-      {
-        Play: { screen: PlayScreen }
-      },
-      {
-        initialRouteName: "Play",
-        initialRouteKey: "play-screen",
-        initialRouteParams: params
-      }
-    )
-  );
+let navigator: any;
 
-// NavigationService.js
-let navigator: NavigationContainerComponent;
-
-function setParams(params: Params) {
+function setParams(params: PlayStackParamList["Play"]) {
   navigator.dispatch(
-    NavigationActions.navigate({
-      routeName: "Play",
+    CommonActions.navigate({
+      name: "Play",
       key: "play-screen",
       params
     })
@@ -66,15 +48,23 @@ describe("PlayScreen", () => {
 
   describe("when mounted without params", () => {
     beforeEach(async () => {
-      const PlayContainer = createPlayContainer();
+
       ({ queryByText } = render(
-        <PlayContainer
-          ref={nav => {
+        <NavigationContainer
+          ref={(nav: any) => {
             if (nav) {
-              navigator = nav;
+              navigator = nav.current;
             }
           }}
-        />
+        >
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Play"
+              component={PlayScreen}
+              options={PlayScreen.navigationOptions}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
       ));
     });
 
@@ -93,15 +83,24 @@ describe("PlayScreen", () => {
 
   describe("when mounted with play", () => {
     beforeEach(() => {
-      const PlayContainer = createPlayContainer({ play });
+      const Stack = createStackNavigator();
+
       ({ queryByText } = render(
-        <PlayContainer
-          ref={nav => {
+        <NavigationContainer
+          ref={(nav: any) => {
             if (nav) {
-              navigator = nav;
+              navigator = nav.current;
             }
           }}
-        />
+        >
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Play"
+              component={PlayScreen}
+              initialParams={{ play }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
       ));
     });
 
