@@ -8,12 +8,12 @@ import {
   cleanup,
   GetByAPI,
   QueryByAPI,
-  flushMicrotasksQueue
+  flushMicrotasksQueue,
+  act
 } from "react-native-testing-library";
 
 import App from "../App";
 import play from "../src/data/plays/shakespeare/AComedyOfErrors";
-import wait from "../tests/helpers/wait";
 
 jest.mock("../src/helpers/storage.ts", () => ({
   getStoredSettings: jest.fn().mockResolvedValue({}),
@@ -25,15 +25,8 @@ describe("App", () => {
   let queryByText: QueryByAPI["queryByText"];
   let getByTestId: GetByAPI["getByTestId"];
   let getByText: GetByAPI["getByText"];
-  let getAllByText: GetByAPI["getAllByText"];
-  beforeEach(() => {
-    ({
-      queryByTestId,
-      queryByText,
-      getByTestId,
-      getByText,
-      getAllByText
-    } = render(<App />));
+  beforeEach(async () => {
+    ({ queryByTestId, queryByText, getByTestId, getByText } = render(<App />));
   });
   afterEach(cleanup);
 
@@ -48,85 +41,34 @@ describe("App", () => {
   it("navigates to Play on play list item press", async () => {
     const playListItem = getByText(play.play);
     fireEvent.press(playListItem);
+    await act(flushMicrotasksQueue);
 
-    await waitForElement(() => getByTestId("play-scene-header"));
+    expect(queryByTestId("play-scene-header")).not.toBeNull();
   });
 
   describe("Play screen navigation", () => {
     beforeEach(async () => {
       const playListItem = getByText(play.play);
       fireEvent.press(playListItem);
-
-      await waitForElement(() => getByTestId("play-scene-header"));
+      await act(flushMicrotasksQueue);
     });
 
     it("navigates back to home screen on back button press", async () => {
       const backButton = getByTestId("header-left-button");
-      fireEvent.press(backButton);
+      await act(async () => {
+        fireEvent.press(backButton);
+        await flushMicrotasksQueue();
+      });
 
-      await waitForElement(() => getByTestId("play-list"));
-    });
-
-    it("navigates to SceneSelectModal on scene select button press", async () => {
-      const sceneSelectButton = getByTestId("scene-select-button");
-      fireEvent.press(sceneSelectButton);
-
-      await waitForElement(() => getByTestId("scene-select"));
-    });
-
-    it("navigates to PlaySettingsModal on right header button press", async () => {
-      const playSettingsButton = getByTestId("header-right-button");
-      fireEvent.press(playSettingsButton);
-
-      await waitForElement(() => getByTestId("play-settings"));
+      expect(queryByTestId("play-list")).not.toBeNull();
     });
 
     it("navigates to next scene on next scene button press", async () => {
       const nextSceneButton = getByTestId("next-scene-button");
       fireEvent.press(nextSceneButton);
+      await act(flushMicrotasksQueue);
 
       await waitForElement(() => getByText(`ACT 1 - SCENE 2`));
-    });
-
-    describe("PlaySettingsModal navigation", () => {
-      beforeEach(async () => {
-        const playSettingsButton = getByTestId("header-right-button");
-        fireEvent.press(playSettingsButton);
-
-        await waitForElement(() => getByTestId("play-settings"));
-      });
-
-      it("closes settings on close button press", async () => {
-        fireEvent.press(getByText("Close"));
-        await flushMicrotasksQueue();
-        await wait();
-
-        expect(queryByTestId("play-settings")).toBeNull();
-      });
-    });
-
-    describe("SceneSelectModal navigation", () => {
-      beforeEach(async () => {
-        const sceneSelectButton = getByTestId("scene-select-button");
-        fireEvent.press(sceneSelectButton);
-
-        await waitForElement(() => getByTestId("scene-select"));
-      });
-
-      it("navigates to correct scene on scene list item press", async () => {
-        const sceneListItems = getAllByText("SCENE 2");
-        expect(sceneListItems.length).toBeGreaterThan(0);
-        fireEvent.press(sceneListItems[0]);
-
-        await waitForElement(() => getByText("ACT 1 - SCENE 2"));
-      });
-
-      it("navigates back to current scene on close button press", async () => {
-        const headerCloseButtons = getAllByText("Close");
-        fireEvent.press(headerCloseButtons[0]);
-
-        await waitForElement(() => getByText("ACT 1 - SCENE 1"));
-      });
     });
 
     describe("When in second scene", () => {

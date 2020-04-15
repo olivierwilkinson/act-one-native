@@ -29,10 +29,12 @@ jest.mock("@react-navigation/native", () => {
 import Play from "../Play";
 import { getLineText } from "../../../helpers/play";
 import AComedyOfErrors from "../../../data/plays/shakespeare/AComedyOfErrors";
-import navigation from "../../../../tests/mocks/navigation";
 import PlayPositionProvider from "../PlayPositionProvider";
 import PlayNavigationProvider from "../PlayNavigationProvider";
 import AudioProvider from "../AudioProvider";
+import PlaySettingsContext, {
+  PlaySettingsContextValue
+} from "../../../contexts/PlaySettings";
 
 // setup play to only have two lines to make testing final line edge cases easier
 const play = {
@@ -64,20 +66,26 @@ describe("Play", () => {
   let queryByTestId: QueryByAPI["queryByTestId"];
   let getByTestId: GetByAPI["getByTestId"];
   let getByText: GetByAPI["getByText"];
+  let settingsContext: PlaySettingsContextValue;
+  let openSceneSelect: jest.Mock;
 
   beforeEach(async () => {
+    settingsContext = {
+      settings: { act: 1, scene: 1 },
+      setSettings: jest.fn()
+    };
+    openSceneSelect = jest.fn();
+
     ({ queryByTestId, getByTestId, getByText } = render(
-      <PlayPositionProvider play={play} settings={{ act: 1, scene: 1 }}>
-        <PlayNavigationProvider
-          navigation={navigation}
-          play={play}
-          settings={{ act: 1, scene: 1 }}
-        >
-          <AudioProvider>
-            <Play play={play} />
-          </AudioProvider>
-        </PlayNavigationProvider>
-      </PlayPositionProvider>
+      <PlaySettingsContext.Provider value={settingsContext}>
+        <PlayPositionProvider play={play}>
+          <PlayNavigationProvider play={play}>
+            <AudioProvider>
+              <Play play={play} openSceneSelect={openSceneSelect} />
+            </AudioProvider>
+          </PlayNavigationProvider>
+        </PlayPositionProvider>
+      </PlaySettingsContext.Provider>
     ));
   });
   afterEach(() => {

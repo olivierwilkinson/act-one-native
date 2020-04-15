@@ -6,12 +6,12 @@ export type PlaySettings = {
   scene?: number;
 };
 
-export type PlaySettingsContext = {
+export type PlaySettingsContextValue = {
   settings: PlaySettings;
   setSettings: (settings: PlaySettings) => void;
-}
+};
 
-export default React.createContext<PlaySettingsContext>({
+export default React.createContext<PlaySettingsContextValue>({
   settings: {},
-  setSettings: () => null,
+  setSettings: () => null
 });

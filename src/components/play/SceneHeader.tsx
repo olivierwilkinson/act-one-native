@@ -3,9 +3,7 @@ import { TouchableHighlight } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import styled, { css } from "styled-components/native";
 
-import PlayNavigationContext, {
-  PlayNavigation
-} from "../../contexts/PlayNavigation";
+import PlayNavigationContext from "../../contexts/PlayNavigation";
 import { Scene } from "../../types/play-types";
 import { titleFont, mediumSizeFont } from "../../styles/typography";
 import { lightPrimaryColour, primaryColour } from "../../styles/colours";

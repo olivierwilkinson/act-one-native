@@ -33,7 +33,7 @@ export default ({ navigation, route }: Props) => {
     navigation.setOptions({
       header: () => (
         <Header
-          title={play.play}
+          title={play?.play}
           left={{
             view: <HeaderText>Back</HeaderText>,
             onPress: () => navigation.pop()
@@ -52,9 +52,12 @@ export default ({ navigation, route }: Props) => {
   }
 
   return (
-    <PlaySettingsProvider play={play} onSettingsChange={() => {
-      setSceneSelectActive(false);
-    }}>
+    <PlaySettingsProvider
+      play={play}
+      onSettingsChange={() => {
+        setSceneSelectActive(false);
+      }}
+    >
       <PlayPositionProvider play={play}>
         <PlayNavigationProvider play={play}>
           <AudioProvider>

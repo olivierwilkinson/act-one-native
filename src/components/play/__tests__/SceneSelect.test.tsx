@@ -3,18 +3,22 @@ import React from "react";
 import { render, cleanup, QueryByAPI } from "react-native-testing-library";
 import "jest-styled-components/native";
 
-import SceneSelect from "../SceneSelectModal";
+import SceneSelectModal, { Props } from "../SceneSelectModal";
 import play from "../../../data/plays/shakespeare/AComedyOfErrors";
 
 describe("SceneSelect", () => {
-  let onScenePress: jest.Mock;
+  let defaultProps: Props;
   let queryByText: QueryByAPI["queryByText"];
   let queryByTestId: QueryByAPI["queryByTestId"];
   beforeEach(async () => {
-    onScenePress = jest.fn();
+    defaultProps = {
+      play,
+      visible: false,
+      onClose: jest.fn()
+    };
 
     ({ queryByText, queryByTestId } = render(
-      <SceneSelect play={play} settings={{}} onScenePress={onScenePress} />
+      <SceneSelectModal {...defaultProps} />
     ));
   });
   afterEach(cleanup);

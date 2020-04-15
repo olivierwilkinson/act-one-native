@@ -7,36 +7,45 @@ import {
   QueryByAPI
 } from "react-native-testing-library";
 
-import PlaySettings, { Props } from "../PlaySettingsModal";
+import PlaySettingsModal, { Props } from "../PlaySettingsModal";
+import PlaySettingsContext, {
+  PlaySettingsContextValue
+} from "../../../contexts/PlaySettings";
 
 import play from "../../../data/plays/shakespeare/AComedyOfErrors";
 
-jest.mock("react-gateway", () => {
-  const React = require("React");
-  return {
-    Gateway: ({ children, ...props }: { children: JSX.Element }) =>
-      React.createElement("View", props, children),
-    GatwayDest: () => "View"
-  };
-});
-
 describe("PlaySettings", () => {
   let defaultProps: Props;
+  let settingsContext: PlaySettingsContextValue;
   let getByText: GetByAPI["getByText"];
   let getByTestId: GetByAPI["getByTestId"];
   let queryByText: QueryByAPI["queryByText"];
   beforeEach(() => {
     defaultProps = {
-      scenes: play.scenes,
+      play,
+      visible: false,
+      onClose: jest.fn()
+    };
+    settingsContext = {
       settings: { selectedPlayer: "captain hindsight" },
-      onSettingsUpdate: jest.fn()
+      setSettings: jest.fn()
     };
 
     ({ getByText, getByTestId, queryByText } = render(
-      <PlaySettings {...defaultProps} />
+      <PlaySettingsContext.Provider value={settingsContext}>
+        <PlaySettingsModal {...defaultProps} />
+      </PlaySettingsContext.Provider>
     ));
   });
   afterEach(cleanup);
+
+  it("renders close button on header", () => {
+    expect(queryByText("Close")).not.toBeNull();
+  });
+
+  it("renders correct header title", () => {
+    expect(queryByText(play.play)).not.toBeNull();
+  });
 
   it("renders title", () => {
     expect(queryByText("Play Settings")).not.toBeNull();
@@ -47,7 +56,9 @@ describe("PlaySettings", () => {
   });
 
   it("renders selected character in settings value", () => {
-    expect(queryByText(defaultProps.settings.selectedPlayer!)).not.toBeNull();
+    expect(
+      queryByText(settingsContext.settings.selectedPlayer!)
+    ).not.toBeNull();
   });
 
   it("does not render character select action sheet by default", () => {
@@ -67,7 +78,7 @@ describe("PlaySettings", () => {
       expect(modal.props.visible).toEqual(true);
     });
 
-    it("closes character setting correctly", () => {
+    it("closes character setting correctly on background press", () => {
       const background = getByTestId("custom-action-sheet-background");
       fireEvent.press(background);
 
@@ -84,215 +95,12 @@ describe("PlaySettings", () => {
         );
       });
 
-      it("sets character setting value to selected character on done", () => {
+      it("calls setSettings with selected player", () => {
         fireEvent.press(getByText("Done"));
 
-        expect(defaultProps.onSettingsUpdate).toHaveBeenCalledWith({
+        expect(settingsContext.setSettings).toHaveBeenCalledWith({
           selectedPlayer: "AEGEON"
         });
-      });
-    });
-  });
-});
-
-import "react-native";
-import React from "react";
-import {
-  render,
-  cleanup,
-  QueryByAPI,
-  GetByAPI,
-  fireEvent
-} from "react-native-testing-library";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import "react-native-reanimated";
-import "react-gateway";
-
-import play from "../../data/plays/shakespeare/AComedyOfErrors";
-import PlaySettingsModal from "../PlaySettingsModal";
-import { setParams, playScreenKey } from "../../helpers/navigation";
-import { PlaySettings } from "../../contexts/PlaySettings";
-
-jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
-jest.mock("react-gateway", () => {
-  const React = require("React");
-  return {
-    Gateway: ({ children, ...props }: { children: JSX.Element }) =>
-      React.createElement("View", props, children),
-    GatwayDest: () => "View"
-  };
-});
-jest.mock("../../helpers/navigation", () => ({
-  setParams: jest.fn(),
-  playScreenKey: "play-screen-key"
-}));
-
-const mockedSetParams = setParams as jest.Mock;
-
-describe("PlaySettingsModal", () => {
-  let getByTestId: GetByAPI["getByTestId"];
-  let queryByText: QueryByAPI["queryByText"];
-  let settings: PlaySettings;
-
-  beforeEach(() => {
-    settings = { selectedPlayer: "AEGEON" };
-
-    const Stack = createStackNavigator();
-
-    ({ getByTestId, queryByText } = render(
-      <NavigationContainer
-        ref={(nav: any) => {
-          if (nav) {
-            navigator = nav.current;
-          }
-        }}
-      >
-        <Stack.Navigator>
-          <Stack.Screen name="PlaySettings" component={PlaySettingsModal} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    ));
-  });
-  afterEach(() => {
-    mockedSetParams.mockRestore();
-    cleanup();
-  });
-
-  it("renders close button on header", () => {
-    expect(queryByText("Close")).not.toBeNull();
-  });
-
-  it("renders correct header title", () => {
-    expect(queryByText(play.play)).not.toBeNull();
-  });
-
-  it("renders play settings", () => {
-    expect(queryByText("Play Settings")).not.toBeNull();
-  });
-
-  it("renders selected player correctly", () => {
-    expect(queryByText("AEGEON")).not.toBeNull();
-  });
-
-  describe("when new player selected", () => {
-    beforeEach(() => {
-      fireEvent(getByTestId("action-sheet-picker"), "onValueChange", "Gaoler");
-
-      fireEvent.press(getByTestId("custom-action-sheet-done-button"));
-    });
-
-    it("calls setParams correctly on settings update", () => {
-      expect(mockedSetParams).toHaveBeenCalledTimes(1);
-      expect(mockedSetParams.mock.calls[0][1]).toEqual(playScreenKey);
-      expect(mockedSetParams.mock.calls[0][2]).toEqual({
-        play,
-        settings: {
-          ...settings,
-          selectedPlayer: "Gaoler"
-        }
-      });
-    });
-  });
-});
-
-
-import "react-native";
-import React from "react";
-import {
-  render,
-  cleanup,
-  QueryByAPI,
-  GetByAPI,
-  fireEvent
-} from "react-native-testing-library";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import "react-native-reanimated";
-import "react-gateway";
-
-import play from "../../data/plays/shakespeare/AComedyOfErrors";
-import PlaySettingsModal from "../PlaySettingsModal";
-import { setParams, playScreenKey } from "../../helpers/navigation";
-import { PlaySettings } from "../../contexts/PlaySettings";
-
-jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
-jest.mock("react-gateway", () => {
-  const React = require("React");
-  return {
-    Gateway: ({ children, ...props }: { children: JSX.Element }) =>
-      React.createElement("View", props, children),
-    GatwayDest: () => "View"
-  };
-});
-jest.mock("../../helpers/navigation", () => ({
-  setParams: jest.fn(),
-  playScreenKey: "play-screen-key"
-}));
-
-const mockedSetParams = setParams as jest.Mock;
-
-describe("PlaySettingsModal", () => {
-  let getByTestId: GetByAPI["getByTestId"];
-  let queryByText: QueryByAPI["queryByText"];
-  let settings: PlaySettings;
-
-  beforeEach(() => {
-    settings = { selectedPlayer: "AEGEON" };
-
-    const Stack = createStackNavigator();
-
-    ({ getByTestId, queryByText } = render(
-      <NavigationContainer
-        ref={(nav: any) => {
-          if (nav) {
-            navigator = nav.current;
-          }
-        }}
-      >
-        <Stack.Navigator>
-          <Stack.Screen name="PlaySettings" component={PlaySettingsModal} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    ));
-  });
-  afterEach(() => {
-    mockedSetParams.mockRestore();
-    cleanup();
-  });
-
-  it("renders close button on header", () => {
-    expect(queryByText("Close")).not.toBeNull();
-  });
-
-  it("renders correct header title", () => {
-    expect(queryByText(play.play)).not.toBeNull();
-  });
-
-  it("renders play settings", () => {
-    expect(queryByText("Play Settings")).not.toBeNull();
-  });
-
-  it("renders selected player correctly", () => {
-    expect(queryByText("AEGEON")).not.toBeNull();
-  });
-
-  describe("when new player selected", () => {
-    beforeEach(() => {
-      fireEvent(getByTestId("action-sheet-picker"), "onValueChange", "Gaoler");
-
-      fireEvent.press(getByTestId("custom-action-sheet-done-button"));
-    });
-
-    it("calls setParams correctly on settings update", () => {
-      expect(mockedSetParams).toHaveBeenCalledTimes(1);
-      expect(mockedSetParams.mock.calls[0][1]).toEqual(playScreenKey);
-      expect(mockedSetParams.mock.calls[0][2]).toEqual({
-        play,
-        settings: {
-          ...settings,
-          selectedPlayer: "Gaoler"
-        }
       });
     });
   });
