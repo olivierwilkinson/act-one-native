@@ -3,16 +3,7 @@ import play from "../../data/plays/shakespeare/AComedyOfErrors";
 import { createPlayNavigation } from "../contexts";
 import navigation from "../../../tests/mocks/navigation";
 import { PlayNavigation } from "../../contexts/PlayNavigation";
-import { goToScene, openSceneSelect } from "../../helpers/navigation";
 import { PlaySettings } from "../../contexts/PlaySettings";
-
-jest.mock("../../helpers/navigation.ts", () => ({
-  goToScene: jest.fn(),
-  openSceneSelect: jest.fn()
-}));
-
-const mockedGoToScene = goToScene as jest.Mock;
-const mockedOpenSceneSelect = openSceneSelect as jest.Mock;
 
 describe("contexts helpers", () => {
   beforeEach(() => {
@@ -21,56 +12,40 @@ describe("contexts helpers", () => {
 
   describe("#createPlayNavigation", () => {
     let settings: PlaySettings;
+    let setSettings: jest.Mock;
     let playNavigation: PlayNavigation;
     beforeEach(() => {
       settings = { act: 1, scene: 2 };
+      setSettings = jest.fn();
 
-      playNavigation = createPlayNavigation(navigation, play, settings);
-    });
-    afterEach(() => {
-      mockedGoToScene.mockRestore();
-      mockedOpenSceneSelect.mockRestore();
+      playNavigation = createPlayNavigation(play, settings, setSettings);
     });
 
     it("creates goToNextScene correctly", () => {
       expect(playNavigation.goToNextScene).toBeDefined();
       playNavigation.goToNextScene!();
 
-      expect(mockedGoToScene).toHaveBeenLastCalledWith(
-        navigation,
-        play,
-        settings,
-        2
-      );
+      expect(setSettings).toHaveBeenLastCalledWith({
+        scene: 1,
+        act: 2
+      });
     });
 
     it("creates goToPreviousScene correctly", () => {
       expect(playNavigation.goToPreviousScene).toBeDefined();
       playNavigation.goToPreviousScene!();
 
-      expect(mockedGoToScene).toHaveBeenLastCalledWith(
-        navigation,
-        play,
-        settings,
-        0
-      );
-    });
-
-    it("creates openSceneSelect correctly", () => {
-      playNavigation.openSceneSelect();
-
-      expect(mockedOpenSceneSelect).toHaveBeenCalledWith(
-        navigation,
-        play,
-        settings
-      );
+      expect(setSettings).toHaveBeenLastCalledWith({
+        scene: 1,
+        act: 1
+      });
     });
 
     describe("when there is no previous scene", () => {
       beforeEach(() => {
         settings = { act: 1, scene: 1 };
 
-        playNavigation = createPlayNavigation(navigation, play, settings);
+        playNavigation = createPlayNavigation(play, settings, setSettings);
       });
 
       it("does not create goToPreviousScene", () => {
@@ -86,7 +61,7 @@ describe("contexts helpers", () => {
           scene: finalScene!.scene
         };
 
-        playNavigation = createPlayNavigation(navigation, play, settings);
+        playNavigation = createPlayNavigation(play, settings, setSettings);
       });
 
       it("does not create goToNextScene", () => {

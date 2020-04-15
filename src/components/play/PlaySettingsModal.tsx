@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { View, Modal } from "react-native";
 import styled from "styled-components/native";
 
 import SettingsRow from "../common/SettingsRow";
 import PickerActionSheet from "../common/PickerActionSheet";
-import Header from '../common/Header';
+import Header from "../common/Header";
 import { findPlayers } from "../../helpers/play";
 import { titleFont, bigSizeFont } from "../../styles/typography";
 import { lightPrimaryColour } from "../../styles/colours";
@@ -41,24 +41,11 @@ export type Props = {
 };
 
 export default ({ visible, onClose, play }: Props) => {
-  const {
-    settings,
-    setSettings
-  } = useContext(PlaySettingsContext);
-  const [selectedPlayer, setSelectedPlayer] = useState(settings.selectedPlayer);
+  const { settings, setSettings } = useContext(PlaySettingsContext);
   const [playerSelectActive, setPlayerSelectActive] = useState(false);
 
-  useEffect(() => {
-    if (selectedPlayer !== settings.selectedPlayer) {
-      setSettings({ selectedPlayer });
-    }
-  }, [selectedPlayer]);
-
   return (
-    <Modal
-      visible={visible}
-      animationType="slide"
-    >
+    <Modal visible={visible} animationType="slide">
       <View testID="play-settings">
         <Header
           title={play.play}
@@ -75,7 +62,7 @@ export default ({ visible, onClose, play }: Props) => {
         <SettingsView>
           <SettingsRow
             label="Character"
-            value={selectedPlayer}
+            value={settings.selectedPlayer}
             leftIconName="ios-person"
             onPress={() => setPlayerSelectActive(true)}
           />
@@ -83,12 +70,15 @@ export default ({ visible, onClose, play }: Props) => {
       </View>
 
       <PickerActionSheet
-        initialValue={selectedPlayer}
+        initialValue={settings.selectedPlayer}
         options={findPlayers(play.scenes)}
         visible={playerSelectActive}
         onCancel={() => setPlayerSelectActive(false)}
-        onDone={player => {
-          setSelectedPlayer(player);
+        onDone={selectedPlayer => {
+          if (selectedPlayer !== settings.selectedPlayer) {
+            setSettings({ selectedPlayer });
+          }
+
           setPlayerSelectActive(false);
         }}
       />

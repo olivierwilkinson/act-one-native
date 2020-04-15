@@ -28,7 +28,7 @@ const HeaderText = styled.Text`
   color: white;
 `;
 
-type Props = {
+export type Props = {
   play: Play;
   visible: boolean;
   onClose: () => void;

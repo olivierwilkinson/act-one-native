@@ -10,7 +10,6 @@ import {
 
 import Scene from "../Scene";
 import PlayPositionContext from "../../../contexts/PlayPosition";
-import PlayNavigationContext from "../../../contexts/PlayNavigation";
 
 import play from "../../../data/plays/shakespeare/AComedyOfErrors";
 const {
@@ -22,11 +21,14 @@ const {
 const { colourByPlayer } = play;
 
 describe("Scene", () => {
-  let scrollToLocation: jest.Mock;
   let queryByTestId: QueryByAPI["queryByTestId"];
   let getByTestId: GetByAPI["getByTestId"];
   let rerender: RenderAPI["rerender"];
+  let scrollToLocation: jest.Mock;
+  let openSceneSelect: jest.Mock;
   beforeEach(() => {
+    openSceneSelect = jest.fn();
+
     ({ queryByTestId, getByTestId, rerender } = render(
       <PlayPositionContext.Provider
         value={{
@@ -35,9 +37,11 @@ describe("Scene", () => {
           setActiveLine: () => null
         }}
       >
-        <PlayNavigationContext.Provider value={{ openSceneSelect: () => null }}>
-          <Scene {...scene} colourByPlayer={colourByPlayer} />
-        </PlayNavigationContext.Provider>
+        <Scene
+          {...scene}
+          openSceneSelect={openSceneSelect}
+          colourByPlayer={colourByPlayer}
+        />
       </PlayPositionContext.Provider>
     ));
 
@@ -74,11 +78,11 @@ describe("Scene", () => {
             setActiveLine: () => null
           }}
         >
-          <PlayNavigationContext.Provider
-            value={{ openSceneSelect: () => null }}
-          >
-            <Scene {...newScene} colourByPlayer={colourByPlayer} />
-          </PlayNavigationContext.Provider>
+          <Scene
+            {...newScene}
+            openSceneSelect={openSceneSelect}
+            colourByPlayer={colourByPlayer}
+          />
         </PlayPositionContext.Provider>
       );
     });
@@ -103,11 +107,11 @@ describe("Scene", () => {
             setActiveLine: () => null
           }}
         >
-          <PlayNavigationContext.Provider
-            value={{ openSceneSelect: () => null }}
-          >
-            <Scene {...newScene} colourByPlayer={colourByPlayer} />
-          </PlayNavigationContext.Provider>
+          <Scene
+            {...newScene}
+            openSceneSelect={openSceneSelect}
+            colourByPlayer={colourByPlayer}
+          />
         </PlayPositionContext.Provider>
       );
     });

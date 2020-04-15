@@ -26,8 +26,7 @@ describe("SceneList", () => {
     ({ queryByText, queryByTestId, getByTestId, rerender } = render(
       <SceneList
         {...play}
-        currentScene={1}
-        currentAct={1}
+        activeScene={play.scenes[0]}
         onScenePress={onScenePress}
       />
     ));
@@ -51,9 +50,7 @@ describe("SceneList", () => {
   });
 
   it("sets indicator visible when on current scene", () => {
-    const indicator = getByTestId(
-      `current-scene-indicator-1-1`
-    );
+    const indicator = getByTestId(`current-scene-indicator-1-1`);
     expect(indicator.props.visible).toEqual(true);
   });
 
@@ -82,7 +79,12 @@ describe("SceneList", () => {
       unusedScene = secondScene;
 
       rerender(
-        <SceneList {...play} scenes={scenes} onScenePress={onScenePress} />
+        <SceneList
+          {...play}
+          activeScene={firstScene}
+          scenes={scenes}
+          onScenePress={onScenePress}
+        />
       );
     });
 
