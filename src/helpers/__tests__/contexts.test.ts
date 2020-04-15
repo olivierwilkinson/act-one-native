@@ -1,7 +1,7 @@
 import play from "../../data/plays/shakespeare/AComedyOfErrors";
 
 import { createPlayNavigation } from "../contexts";
-import navigation from "../../../tests/mocks/navigation";
+import navigation from "../../../test/mocks/navigation";
 import { PlayNavigation } from "../../contexts/PlayNavigation";
 import { PlaySettings } from "../../contexts/PlaySettings";
 

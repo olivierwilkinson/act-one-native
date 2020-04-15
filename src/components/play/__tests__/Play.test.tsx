@@ -20,7 +20,7 @@ jest.mock("expo-speech", () => ({
   stop: jest.fn()
 }));
 jest.mock("@react-navigation/native", () => {
-  const navigation = require("../../../../tests/mocks/navigation").default;
+  const navigation = require("../../../../test/mocks/navigation").default;
   return {
     useNavigation: jest.fn().mockImplementation(() => navigation)
   };

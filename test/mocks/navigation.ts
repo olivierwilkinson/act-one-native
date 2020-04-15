@@ -1,7 +1,6 @@
-
 export type NavigationMock = {
-  setOptions: jest.Mock,
-  dangerouslyGetState: jest.Mock,
+  setOptions: jest.Mock;
+  dangerouslyGetState: jest.Mock;
   dispatch: jest.Mock;
   goBack: jest.Mock;
   canGoBack: jest.Mock;
