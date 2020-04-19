@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useLayoutEffect, useCallback } from "react";
 import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -27,6 +27,12 @@ const HeaderText = styled.Text`
 export default ({ navigation, route }: Props) => {
   const [settingsActive, setSettingsActive] = useState(false);
   const [sceneSelectActive, setSceneSelectActive] = useState(false);
+  const openSceneSelect = useCallback(() => setSceneSelectActive(true), [
+    setSceneSelectActive
+  ]);
+  const closeSceneSelect = useCallback(() => setSceneSelectActive(false), [
+    setSceneSelectActive
+  ]);
   const play = route.params?.play;
 
   useLayoutEffect(() => {
@@ -55,16 +61,15 @@ export default ({ navigation, route }: Props) => {
     <PlaySettingsProvider
       play={play}
       onSettingsChange={() => {
-        setSceneSelectActive(false);
+        if (sceneSelectActive) {
+          closeSceneSelect();
+        }
       }}
     >
       <PlayPositionProvider play={play}>
         <PlayNavigationProvider play={play}>
           <AudioProvider>
-            <Play
-              play={play}
-              openSceneSelect={() => setSceneSelectActive(true)}
-            />
+            <Play play={play} openSceneSelect={openSceneSelect} />
 
             <PlaySettingsModal
               play={play}
@@ -74,7 +79,7 @@ export default ({ navigation, route }: Props) => {
             <SceneSelectModal
               play={play}
               visible={sceneSelectActive}
-              onClose={() => setSceneSelectActive(false)}
+              onClose={closeSceneSelect}
             />
           </AudioProvider>
         </PlayNavigationProvider>
