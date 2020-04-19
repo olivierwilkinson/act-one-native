@@ -1,15 +1,22 @@
 import React, { useState, useContext } from "react";
-import { View, Modal } from "react-native";
 import styled from "styled-components/native";
+import Modal from "react-native-modal";
 
 import SettingsRow from "../common/SettingsRow";
 import PickerActionSheet from "../common/PickerActionSheet";
-import Header from "../common/Header";
 import { findPlayers } from "../../helpers/play";
 import { titleFont, bigSizeFont } from "../../styles/typography";
-import { lightPrimaryColour } from "../../styles/colours";
+import { lightPrimaryColour, primaryColour } from "../../styles/colours";
 import { Play } from "../../types/play-types";
 import PlaySettingsContext from "../../contexts/PlaySettings";
+
+const ContentView = styled.View`
+  height: 100%;
+  width: 100%;
+  background: white;
+  border-radius: 40px;
+  margin-top: 100px;
+`;
 
 const TitleView = styled.View`
   display: flex;
@@ -17,6 +24,9 @@ const TitleView = styled.View`
   justify-content: center;
   padding: 10px;
   background: ${lightPrimaryColour};
+  border-top-right-radius: 30px;
+  border-top-left-radius: 30px;
+  height: 55px;
 `;
 
 const TitleText = styled.Text`
@@ -34,6 +44,11 @@ const HeaderText = styled.Text`
   color: white;
 `;
 
+const CloseTouchableHighlight = styled.TouchableHighlight`
+  position: absolute;
+  right: 14px;
+`;
+
 export type Props = {
   play: Play;
   visible: boolean;
@@ -45,18 +60,24 @@ export default ({ visible, onClose, play }: Props) => {
   const [playerSelectActive, setPlayerSelectActive] = useState(false);
 
   return (
-    <Modal visible={visible} animationType="slide">
-      <View testID="play-settings">
-        <Header
-          title={play.play}
-          right={{
-            onPress: onClose,
-            view: <HeaderText>Close</HeaderText>
-          }}
-        />
-
+    <Modal
+      isVisible={visible}
+      presentationStyle="overFullScreen"
+      swipeDirection="down"
+      onSwipeComplete={onClose}
+      style={{ margin: 0 }}
+    >
+      <ContentView testID="play-settings">
         <TitleView>
           <TitleText>Play Settings</TitleText>
+
+          <CloseTouchableHighlight
+            testID="settings-close-button"
+            onPress={onClose}
+            underlayColor={primaryColour}
+          >
+            <HeaderText>Close</HeaderText>
+          </CloseTouchableHighlight>
         </TitleView>
 
         <SettingsView>
@@ -67,7 +88,7 @@ export default ({ visible, onClose, play }: Props) => {
             onPress={() => setPlayerSelectActive(true)}
           />
         </SettingsView>
-      </View>
+      </ContentView>
 
       <PickerActionSheet
         initialValue={settings.selectedPlayer}

@@ -43,10 +43,6 @@ describe("PlaySettings", () => {
     expect(queryByText("Close")).not.toBeNull();
   });
 
-  it("renders correct header title", () => {
-    expect(queryByText(play.play)).not.toBeNull();
-  });
-
   it("renders title", () => {
     expect(queryByText("Play Settings")).not.toBeNull();
   });

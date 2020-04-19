@@ -37,7 +37,6 @@ const Stack = createStackNavigator();
 
 describe("PlayScreen", () => {
   let queryByText: QueryByAPI["queryByText"];
-  let queryAllByText: QueryByAPI["queryAllByText"];
 
   afterEach(() => {
     resetStorageMocks();
@@ -91,7 +90,7 @@ describe("PlayScreen", () => {
 
     describe("when finished loading", () => {
       beforeEach(async () => {
-        ({ queryByText, queryAllByText } = render(
+        ({ queryByText } = render(
           <NavigationContainer>
             <Stack.Navigator>
               <Stack.Screen
@@ -106,9 +105,8 @@ describe("PlayScreen", () => {
         await act(flushMicrotasksQueue);
       });
 
-      it("renders correct header titles", () => {
-        // expect every modal in play screen to have play as title
-        expect(queryAllByText(play.play)).toHaveLength(3);
+      it("renders correct header title", () => {
+        expect(queryByText(play.play)).not.toBeNull();
       });
 
       it("calls getStoredSettings on mount", () => {
