@@ -5,7 +5,6 @@
     "name": "ActOne",
     "slug": "actone",
     "privacy": "unlisted",
-    "sdkVersion": "36.0.0",
     "version": "1.1.0",
     "entryPoint": "node_modules/expo/AppEntry.js",
     "platforms": ["ios", "android"],
