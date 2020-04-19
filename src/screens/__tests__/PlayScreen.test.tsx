@@ -33,6 +33,8 @@ const resetStorageMocks = () => {
 
 const Stack = createStackNavigator();
 
+// TODO:- add tests for opening and closing modals
+
 describe("PlayScreen", () => {
   let queryByText: QueryByAPI["queryByText"];
   let queryAllByText: QueryByAPI["queryAllByText"];
