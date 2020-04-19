@@ -33,7 +33,7 @@ export default ({
       <Picker
         testID="action-sheet-picker"
         selectedValue={value}
-        onValueChange={setValue}
+        onValueChange={itemValue => setValue(itemValue)}
       >
         {options.map(option => (
           <Picker.Item
