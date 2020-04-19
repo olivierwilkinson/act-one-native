@@ -1,20 +1,32 @@
 import React, { useContext } from "react";
-import { View, Modal } from "react-native";
 import styled from "styled-components/native";
+import Modal from "react-native-modal";
 
 import SceneList from "./SceneList";
-import Header from "../common/Header";
 import { Play } from "../../types/play-types";
 import { titleFont, bigSizeFont } from "../../styles/typography";
-import { lightPrimaryColour } from "../../styles/colours";
+import { lightPrimaryColour, primaryColour } from "../../styles/colours";
 import PlaySettingsContext from "../../contexts/PlaySettings";
 import PlayPositionContext from "../../contexts/PlayPosition";
+
+const ContentView = styled.View`
+  height: 100%;
+  width: 100%;
+  background: white;
+  border-radius: 40px;
+  background: white;
+  margin-top: 100px;
+`;
 
 const TitleView = styled.View`
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 10px;
+  border-top-right-radius: 30px;
+  border-top-left-radius: 30px;
+  height: 55px;
+  background: ${lightPrimaryColour};
 `;
 
 const TitleText = styled.Text`
@@ -28,6 +40,11 @@ const HeaderText = styled.Text`
   color: white;
 `;
 
+const CloseTouchableHighlight = styled.TouchableHighlight`
+  position: absolute;
+  right: 14px;
+`;
+
 export type Props = {
   play: Play;
   visible: boolean;
@@ -39,21 +56,24 @@ export default ({ play, visible, onClose }: Props) => {
   const { activeScene } = useContext(PlayPositionContext);
 
   return (
-    <Modal visible={visible} animationType="slide">
-      <View
-        testID="scene-select"
-        style={{ backgroundColor: lightPrimaryColour }}
-      >
-        <Header
-          title={play.play}
-          right={{
-            onPress: onClose,
-            view: <HeaderText>Close</HeaderText>
-          }}
-        />
-
+    <Modal
+      isVisible={visible}
+      presentationStyle="overFullScreen"
+      swipeDirection="down"
+      onSwipeComplete={onClose}
+      style={{ margin: 0 }}
+    >
+      <ContentView testID="scene-select">
         <TitleView>
           <TitleText>Scene Select</TitleText>
+
+          <CloseTouchableHighlight
+            testID="settings-close-button"
+            onPress={onClose}
+            underlayColor={primaryColour}
+          >
+            <HeaderText>Close</HeaderText>
+          </CloseTouchableHighlight>
         </TitleView>
 
         <SceneList
@@ -66,7 +86,7 @@ export default ({ play, visible, onClose }: Props) => {
             })
           }
         />
-      </View>
+      </ContentView>
     </Modal>
   );
 };
