@@ -7,6 +7,12 @@ import {
   GetByAPI,
   RenderAPI
 } from "react-native-testing-library";
+jest.mock("react-native-reanimated", () =>
+  require("react-native-reanimated/mock")
+);
+jest.mock("react-native-reanimation", () => ({
+  useTiming: () => [1, () => null]
+}));
 
 import PlaybackControls from "../PlaybackControls";
 import AudioContext, { PlaybackState } from "../../../contexts/Audio";
@@ -33,7 +39,7 @@ describe("PlaybackControls", () => {
   afterEach(cleanup);
 
   it("sets playbackState to Playing when play/pause button is pressed", () => {
-    const playPauseButton = getByTestId("play-pause-button");
+    const playPauseButton = getByTestId("play-action");
     fireEvent.press(playPauseButton);
 
     expect(setPlaybackState).toHaveBeenCalledWith(PlaybackState.Playing);
@@ -54,7 +60,7 @@ describe("PlaybackControls", () => {
     });
 
     it("sets playbackState to Paused when play/pause button is pressed", () => {
-      const playPauseButton = getByTestId("play-pause-button");
+      const playPauseButton = getByTestId("play-action");
       fireEvent.press(playPauseButton);
 
       expect(setPlaybackState).toHaveBeenCalledWith(PlaybackState.Paused);
@@ -76,7 +82,7 @@ describe("PlaybackControls", () => {
     });
 
     it("sets playbackState to Playing when play/pause button is pressed", () => {
-      const playPauseButton = getByTestId("play-pause-button");
+      const playPauseButton = getByTestId("play-action");
       fireEvent.press(playPauseButton);
 
       expect(setPlaybackState).toHaveBeenCalledWith(PlaybackState.Playing);

@@ -11,6 +11,13 @@ import {
 import Scene from "../Scene";
 import PlayPositionContext from "../../../contexts/PlayPosition";
 
+jest.mock("react-native-reanimated", () =>
+  require("react-native-reanimated/mock")
+);
+jest.mock("react-native-reanimation", () => ({
+  useTiming: () => [1, () => null]
+}));
+
 import play from "../../../data/plays/shakespeare/AComedyOfErrors";
 const {
   scenes: [scene]

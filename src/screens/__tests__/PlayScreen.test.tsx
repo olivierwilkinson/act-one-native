@@ -20,6 +20,12 @@ jest.mock("../../helpers/storage.ts", () => ({
   getStoredSettings: jest.fn().mockResolvedValue(null),
   setStoredSettings: jest.fn().mockResolvedValue(null)
 }));
+jest.mock("react-native-reanimated", () =>
+  require("react-native-reanimated/mock")
+);
+jest.mock("react-native-reanimation", () => ({
+  useTiming: () => [1, () => null]
+}));
 
 const getStoredSettingsMock = getStoredSettings as jest.Mock;
 const setStoredSettingsMock = setStoredSettings as jest.Mock;

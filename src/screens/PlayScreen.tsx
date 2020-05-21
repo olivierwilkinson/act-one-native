@@ -13,6 +13,7 @@ import PlaySettingsModal from "../components/play/PlaySettingsModal";
 import SceneSelectModal from "../components/play/SceneSelectModal";
 import { bigSizeFont } from "../styles/typography";
 import { PlayNavigationProp, PlayRouteProp } from "../types/navigation-types";
+import PlaybackModeProvider from "../components/play/PlaybackModeProvider";
 
 export type Props = {
   navigation: PlayNavigationProp;
@@ -69,18 +70,20 @@ export default ({ navigation, route }: Props) => {
       <PlayPositionProvider play={play}>
         <PlayNavigationProvider play={play}>
           <AudioProvider>
-            <Play play={play} openSceneSelect={openSceneSelect} />
+            <PlaybackModeProvider>
+              <Play play={play} openSceneSelect={openSceneSelect} />
 
-            <PlaySettingsModal
-              play={play}
-              visible={settingsActive}
-              onClose={() => setSettingsActive(false)}
-            />
-            <SceneSelectModal
-              play={play}
-              visible={sceneSelectActive}
-              onClose={closeSceneSelect}
-            />
+              <PlaySettingsModal
+                play={play}
+                visible={settingsActive}
+                onClose={() => setSettingsActive(false)}
+              />
+              <SceneSelectModal
+                play={play}
+                visible={sceneSelectActive}
+                onClose={closeSceneSelect}
+              />
+            </PlaybackModeProvider>
           </AudioProvider>
         </PlayNavigationProvider>
       </PlayPositionProvider>

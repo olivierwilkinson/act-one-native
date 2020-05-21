@@ -15,6 +15,13 @@ import {
 import App from "../App";
 import play from "../src/data/plays/shakespeare/AComedyOfErrors";
 
+jest.mock("react-native-reanimated", () =>
+  require("react-native-reanimated/mock")
+);
+jest.mock("react-native-reanimation", () => ({
+  useTiming: () => [1, () => null]
+}));
+
 jest.mock("../src/helpers/storage.ts", () => ({
   getStoredSettings: jest.fn().mockResolvedValue({}),
   setStoredSettings: jest.fn().mockResolvedValue(undefined)

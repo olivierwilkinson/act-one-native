@@ -10,7 +10,6 @@ import {
 } from "react-native-testing-library";
 import { speak, pause, resume, stop } from "expo-speech";
 import "@react-navigation/native";
-import "react-native-reanimated";
 
 jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
 jest.mock("expo-speech", () => ({
@@ -26,6 +25,13 @@ jest.mock("@react-navigation/native", () => {
   };
 });
 
+jest.mock("react-native-reanimated", () =>
+  require("react-native-reanimated/mock")
+);
+jest.mock("react-native-reanimation", () => ({
+  useTiming: () => [1, () => null]
+}));
+
 import Play from "../Play";
 import { getLineText } from "../../../helpers/play";
 import AComedyOfErrors from "../../../data/plays/shakespeare/AComedyOfErrors";
@@ -35,6 +41,7 @@ import AudioProvider from "../AudioProvider";
 import PlaySettingsContext, {
   PlaySettingsContextValue
 } from "../../../contexts/PlaySettings";
+import PlaybackModeProvider from "../PlaybackModeProvider";
 
 // setup play to only have two lines to make testing final line edge cases easier
 const play = {
@@ -81,7 +88,9 @@ describe("Play", () => {
         <PlayPositionProvider play={play}>
           <PlayNavigationProvider play={play}>
             <AudioProvider>
-              <Play play={play} openSceneSelect={openSceneSelect} />
+              <PlaybackModeProvider>
+                <Play play={play} openSceneSelect={openSceneSelect} />
+              </PlaybackModeProvider>
             </AudioProvider>
           </PlayNavigationProvider>
         </PlayPositionProvider>
@@ -110,7 +119,7 @@ describe("Play", () => {
   });
 
   it("starts speaking when play/pause button pressed", async () => {
-    const playPauseButton = getByTestId("play-pause-button");
+    const playPauseButton = getByTestId("play-action");
     fireEvent.press(playPauseButton);
 
     const {
@@ -129,12 +138,12 @@ describe("Play", () => {
 
   describe("when speaking", () => {
     beforeEach(() => {
-      const playPauseButton = getByTestId("play-pause-button");
+      const playPauseButton = getByTestId("play-action");
       fireEvent.press(playPauseButton);
     });
 
     it("pauses speaking when play/pause button pressed", async () => {
-      const playPauseButton = getByTestId("play-pause-button");
+      const playPauseButton = getByTestId("play-action");
       fireEvent.press(playPauseButton);
 
       expect(mockedPause).toHaveBeenCalledTimes(1);
@@ -204,13 +213,13 @@ describe("Play", () => {
 
   describe("when paused", () => {
     beforeEach(() => {
-      const playPauseButton = getByTestId("play-pause-button");
+      const playPauseButton = getByTestId("play-action");
       fireEvent.press(playPauseButton);
       fireEvent.press(playPauseButton);
     });
 
     it("resumes speaking when play/pause button pressed", () => {
-      const playPauseButton = getByTestId("play-pause-button");
+      const playPauseButton = getByTestId("play-action");
       fireEvent.press(playPauseButton);
 
       expect(mockedResume).toHaveBeenCalledTimes(1);
@@ -229,7 +238,7 @@ describe("Play", () => {
 
     describe("when finished speaking last line", () => {
       beforeEach(async () => {
-        const playPauseButton = getByTestId("play-pause-button");
+        const playPauseButton = getByTestId("play-action");
         fireEvent.press(playPauseButton);
 
         const {
