@@ -38,7 +38,7 @@ exports[`SettingsRow renders correctly 1`] = `
         Array [
           Object {
             "alignItems": "center",
-            "borderBottomColor": "rgb(240,240,240)",
+            "borderBottomColor": "rgb(240, 240, 240)",
             "borderBottomWidth": 1,
             "display": "flex",
             "flexBasis": 0,

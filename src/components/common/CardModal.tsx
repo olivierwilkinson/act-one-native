@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 import Modal from "react-native-modal";
 
 import { titleFont, bigSizeFont } from "../../styles/typography";
-import { lightPrimaryColour, primaryColour } from "../../styles/colours";
+import { primaryColour, playBackgroundColour } from "../../styles/colours";
 
 const ContentView = styled.View`
   height: 100%;
@@ -11,6 +11,7 @@ const ContentView = styled.View`
   background: white;
   border-radius: 40px;
   margin-top: 100px;
+  background-color: ${playBackgroundColour};
 `;
 
 const TitleView = styled.View`
@@ -18,10 +19,9 @@ const TitleView = styled.View`
   align-items: center;
   justify-content: center;
   padding: 10px;
-  background: ${lightPrimaryColour};
-  border-top-right-radius: 30px;
-  border-top-left-radius: 30px;
-  height: 55px;
+  background: ${primaryColour};
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
 `;
 
 const TitleText = styled.Text`

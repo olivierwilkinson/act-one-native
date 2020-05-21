@@ -5,15 +5,17 @@ import styled, { css } from "styled-components/native";
 
 import PlayNavigationContext from "../../contexts/PlayNavigation";
 import { Scene } from "../../types/play-types";
-import { titleFont, mediumSizeFont } from "../../styles/typography";
-import { lightPrimaryColour, primaryColour } from "../../styles/colours";
+import { mediumSizeFont } from "../../styles/typography";
+import { mediumLightGray, mediumGray, lightGray } from "../../styles/colours";
 
 const SceneHeaderView = styled.View`
   display: flex;
   flex-direction: row;
   justify-content: center;
   padding: 10px 0;
-  background-color: ${lightPrimaryColour};
+  background-color: ${lightGray};
+  border-bottom-width: 1px;
+  border-bottom-color: ${mediumLightGray};
 `;
 
 const IconView = styled.View`
@@ -43,9 +45,8 @@ const RightArrowView = styled.View`
 `;
 
 const SceneText = styled.Text`
-  ${titleFont}
   ${mediumSizeFont}
-  color: white;
+  color: rgb(120, 120, 120);
 `;
 
 const SceneSelectView = styled.View`
@@ -69,11 +70,11 @@ export default ({ act, scene, openSceneSelect }: Props) => {
         <LeftArrowView>
           <TouchableHighlight
             testID="previous-scene-button"
-            underlayColor={primaryColour}
+            underlayColor={mediumLightGray}
             onPress={goToPreviousScene}
           >
             <IconView>
-              <Ionicons name="ios-arrow-back" size={18} color="white" />
+              <Ionicons name="ios-arrow-back" size={18} color={mediumGray} />
             </IconView>
           </TouchableHighlight>
         </LeftArrowView>
@@ -85,11 +86,11 @@ export default ({ act, scene, openSceneSelect }: Props) => {
         <RightArrowView>
           <TouchableHighlight
             testID="next-scene-button"
-            underlayColor={primaryColour}
+            underlayColor={mediumLightGray}
             onPress={goToNextScene}
           >
             <IconView>
-              <Ionicons name="ios-arrow-forward" size={18} color="white" />
+              <Ionicons name="ios-arrow-forward" size={18} color={mediumGray} />
             </IconView>
           </TouchableHighlight>
         </RightArrowView>
@@ -98,11 +99,11 @@ export default ({ act, scene, openSceneSelect }: Props) => {
       <SceneSelectView>
         <TouchableHighlight
           testID="scene-select-button"
-          underlayColor={lightPrimaryColour}
+          underlayColor={mediumLightGray}
           onPress={openSceneSelect}
         >
           <IconView>
-            <Ionicons name="ios-list" size={32} color="white" />
+            <Ionicons name="ios-list" size={32} color={mediumGray} />
           </IconView>
         </TouchableHighlight>
       </SceneSelectView>

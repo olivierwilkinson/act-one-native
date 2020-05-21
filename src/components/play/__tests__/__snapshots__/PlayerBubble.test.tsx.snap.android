@@ -10,7 +10,7 @@ exports[`PlayerBubble renders correctly 1`] = `
     Array [
       Object {
         "alignItems": "center",
-        "backgroundColor": "whitesmoke",
+        "backgroundColor": "rgb(280, 280, 280)",
         "borderColor": "rgb(255,255,255)",
         "borderRadius": 18,
         "borderWidth": 1,
@@ -38,7 +38,7 @@ exports[`PlayerBubble renders correctly 1`] = `
       Array [
         Object {
           "color": "rgb(255,255,255)",
-          "fontWeight": "bold",
+          "fontWeight": "400",
           "overflow": "hidden",
           "paddingBottom": 5,
           "paddingLeft": 10,
@@ -91,7 +91,7 @@ exports[`PlayerBubble when highlighted is true renders correctly 1`] = `
       Array [
         Object {
           "color": "white",
-          "fontWeight": "bold",
+          "fontWeight": "400",
           "overflow": "hidden",
           "paddingBottom": 5,
           "paddingLeft": 10,
@@ -116,7 +116,7 @@ exports[`PlayerBubble when isSelected is true renders correctly 1`] = `
     Array [
       Object {
         "alignItems": "center",
-        "backgroundColor": "whitesmoke",
+        "backgroundColor": "rgb(280, 280, 280)",
         "borderColor": "rgb(255,255,255)",
         "borderRadius": 18,
         "borderWidth": 1,
@@ -173,7 +173,7 @@ exports[`PlayerBubble when isSelected is true renders correctly 1`] = `
       Array [
         Object {
           "color": "rgb(255,255,255)",
-          "fontWeight": "bold",
+          "fontWeight": "400",
           "overflow": "hidden",
           "paddingBottom": 5,
           "paddingLeft": 10,
@@ -255,7 +255,7 @@ exports[`PlayerBubble when isSelected is true when highlighted is true renders c
       Array [
         Object {
           "color": "white",
-          "fontWeight": "bold",
+          "fontWeight": "400",
           "overflow": "hidden",
           "paddingBottom": 5,
           "paddingLeft": 10,
