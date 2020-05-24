@@ -5911,12 +5911,10 @@ react-native-reanimated@~1.7.0:
   dependencies:
     fbjs "^1.0.0"
 
-react-native-reanimation@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/react-native-reanimation/-/react-native-reanimation-0.0.3.tgz#672fb94098017ae0b5f53e00951e300486551398"
-  integrity sha512-Y5czytiztEpgQWRb8dC++s74H7kJ6rwH4zUBwxxk+VAcuyq9fJw6CSYz9WuRw2X4Tplf+0+URxTZ9sFsvQjNiw==
-  dependencies:
-    lodash "^4.17.15"
+react-native-reanimation@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/react-native-reanimation/-/react-native-reanimation-0.0.6.tgz#1729f7d663892d754b4397695bedfb4d0964614f"
+  integrity sha512-iUIzaiXlPocmeqrUmJIwfKA397f6NG7MGJBRxq9HHk0Pi9M8BFk8nuVqaHkv2y4YatctaXuXyS29uU9qjdUQXA==
 
 react-native-safe-area-context@0.7.3:
   version "0.7.3"

@@ -29,7 +29,7 @@ jest.mock("react-native-reanimated", () =>
   require("react-native-reanimated/mock")
 );
 jest.mock("react-native-reanimation", () => ({
-  useTiming: () => [1, () => null]
+  useTiming: () => [1, () => null, { toValue: { setValue: () => null } }]
 }));
 
 import Play from "../Play";

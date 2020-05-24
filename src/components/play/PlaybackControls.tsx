@@ -7,7 +7,7 @@ import {
   Directions,
   State
 } from "react-native-gesture-handler";
-import Animated, { Value } from "react-native-reanimated";
+import Animated from "react-native-reanimated";
 import { useTiming } from "react-native-reanimation";
 
 import AudioContext, {
@@ -96,19 +96,15 @@ export default () => {
   const isPlaying = playbackState === PlaybackState.Playing;
 
   const [expanded, setExpanded] = useState(true);
-  const [position, setPosition] = useTiming({
-    state: { position: new Value(-1) },
-    config: {
-      duration: 150,
-      toValue: -1
-    }
+  const [position, , { toValue: positionTo }] = useTiming({
+    position: -1,
+    toValue: -1,
+    duration: 150
   });
-  const [scale, setScale] = useTiming({
-    state: { position: new Value(1) },
-    config: {
-      duration: 150,
-      toValue: 1
-    }
+  const [scale, , { toValue: scaleTo }] = useTiming({
+    position: 1,
+    toValue: 1,
+    duration: 150
   });
 
   const activateMode = (mode: PlaybackMode) => {
@@ -118,10 +114,7 @@ export default () => {
 
     setPlaybackState(PlaybackState.Stopped);
     setMode(mode);
-    setPosition({
-      config: { toValue: mode === PlaybackMode.Play ? -1 : 1 },
-      state: { position: new Value(mode === PlaybackMode.Play ? 1 : -1) }
-    });
+    positionTo.setValue(mode === PlaybackMode.Play ? -1 : 1);
   };
 
   const expandControls = (shouldExpand: boolean) => {
@@ -130,10 +123,7 @@ export default () => {
     }
 
     setExpanded(shouldExpand);
-    setScale({
-      config: { toValue: shouldExpand ? 1 : 0 },
-      state: { position: new Value(shouldExpand ? 0 : 1) }
-    });
+    scaleTo.setValue(shouldExpand ? 1 : 0);
   };
 
   return (
