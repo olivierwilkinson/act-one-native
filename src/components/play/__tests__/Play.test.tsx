@@ -11,6 +11,17 @@ import {
 import { speak, pause, resume, stop } from "expo-speech";
 import "@react-navigation/native";
 
+import Play from "../Play";
+import { getLineText } from "../../../helpers/play";
+import AComedyOfErrors from "../../../data/plays/shakespeare/AComedyOfErrors";
+import PlayPositionProvider from "../PlayPositionProvider";
+import PlayNavigationProvider from "../PlayNavigationProvider";
+import AudioProvider from "../AudioProvider";
+import PlaySettingsContext, {
+  PlaySettingsContextValue
+} from "../../../contexts/PlaySettings";
+import PlaybackModeProvider from "../PlaybackModeProvider";
+
 jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
 jest.mock("expo-speech", () => ({
   speak: jest.fn(),
@@ -27,17 +38,6 @@ jest.mock("@react-navigation/native", () => {
 jest.mock("react-native-reanimated", () =>
   jest.requireActual("react-native-reanimated/mock")
 );
-
-import Play from "../Play";
-import { getLineText } from "../../../helpers/play";
-import AComedyOfErrors from "../../../data/plays/shakespeare/AComedyOfErrors";
-import PlayPositionProvider from "../PlayPositionProvider";
-import PlayNavigationProvider from "../PlayNavigationProvider";
-import AudioProvider from "../AudioProvider";
-import PlaySettingsContext, {
-  PlaySettingsContextValue
-} from "../../../contexts/PlaySettings";
-import PlaybackModeProvider from "../PlaybackModeProvider";
 
 // setup play to only have two lines to make testing final line edge cases easier
 const play = {
