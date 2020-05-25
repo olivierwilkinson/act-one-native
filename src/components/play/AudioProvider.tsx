@@ -4,7 +4,7 @@ import * as Speech from "expo-speech";
 import { useNavigation } from "@react-navigation/native";
 import { AUDIO_RECORDING } from "expo-permissions";
 
-import AudioContext, { PlaybackState } from "../../contexts/Audio";
+import AudioContext, { AudioState } from "../../contexts/Audio";
 import PlayPositionContext from "../../contexts/PlayPosition";
 import PermissionsContext from "../../contexts/Permissions";
 import { getLineText } from "../../helpers/play";
@@ -24,46 +24,46 @@ const AudioProvider = ({ children }: Props) => {
   const navigation = useNavigation();
   const { permissions } = useContext(PermissionsContext);
 
-  const [playbackState, setPlaybackState] = useState(PlaybackState.Stopped);
-  const previousPlaybackState = usePrevious(playbackState);
+  const [audioState, setAudioState] = useState(AudioState.Stopped);
+  const previousAudioState = usePrevious(audioState);
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener("blur", () =>
-      setPlaybackState(PlaybackState.Stopped)
+      setAudioState(AudioState.Stopped)
     );
 
     return unsubscribe;
   }, [navigation]);
 
   useEffect(() => {
-    if (!previousPlaybackState) {
+    if (!previousAudioState) {
       return;
     }
 
-    switch (playbackState) {
-      case PlaybackState.Stopped:
+    switch (audioState) {
+      case AudioState.Stopped:
         Speech.stop();
         break;
 
-      case PlaybackState.Paused:
+      case AudioState.Paused:
         Speech.pause();
         break;
 
-      case PlaybackState.Playing:
-        if (previousPlaybackState === PlaybackState.Paused) {
+      case AudioState.Playing:
+        if (previousAudioState === AudioState.Paused) {
           Speech.resume();
           break;
         }
 
         if (
-          previousPlaybackState === PlaybackState.Stopped ||
-          previousPlaybackState === PlaybackState.Recording
+          previousAudioState === AudioState.Stopped ||
+          previousAudioState === AudioState.Recording
         ) {
           beginPlayback(activeLine);
           break;
         }
 
-      case PlaybackState.Recording:
+      case AudioState.Recording:
         if (!permissions[AUDIO_RECORDING]?.granted) {
           Alert.alert(
             "Unable to record",
@@ -80,14 +80,14 @@ const AudioProvider = ({ children }: Props) => {
             ]
           );
 
-          setPlaybackState(PlaybackState.Stopped);
+          setAudioState(AudioState.Stopped);
           break;
         }
 
         beginPlayback(activeLine);
         break;
     }
-  }, [playbackState, previousPlaybackState]);
+  }, [audioState, previousAudioState]);
 
   const beginPlayback = (line: Line) => {
     Speech.speak(getLineText(line), {
@@ -96,7 +96,7 @@ const AudioProvider = ({ children }: Props) => {
         const lineIndex = lines.findIndex(({ id }) => line.id === id);
         const nextLine = lines[lineIndex + 1];
         if (!nextLine) {
-          return setPlaybackState(PlaybackState.Stopped);
+          return setAudioState(AudioState.Stopped);
         }
 
         setActiveLine(nextLine);
@@ -108,8 +108,8 @@ const AudioProvider = ({ children }: Props) => {
   return (
     <AudioContext.Provider
       value={{
-        playbackState,
-        setPlaybackState
+        audioState,
+        setAudioState
       }}
     >
       {children}

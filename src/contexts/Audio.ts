@@ -1,6 +1,6 @@
 import React from "react";
 
-export enum PlaybackState {
+export enum AudioState {
   Playing = "PLAYING",
   Paused = "PAUSED",
   Stopped = "STOPPED",
@@ -8,11 +8,11 @@ export enum PlaybackState {
 }
 
 export interface AudioContextValue {
-  playbackState: PlaybackState;
-  setPlaybackState: (playbackState: PlaybackState) => void;
+  audioState: AudioState;
+  setAudioState: (audioState: AudioState) => void;
 }
 
 export default React.createContext<AudioContextValue>({
-  playbackState: PlaybackState.Stopped,
-  setPlaybackState: () => null
+  audioState: AudioState.Stopped,
+  setAudioState: () => null
 });

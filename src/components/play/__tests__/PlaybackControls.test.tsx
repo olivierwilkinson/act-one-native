@@ -10,7 +10,7 @@ import {
 } from "react-native-testing-library";
 
 import PlaybackControls from "../PlaybackControls";
-import AudioContext, { PlaybackState } from "../../../contexts/Audio";
+import AudioContext, { AudioState } from "../../../contexts/Audio";
 import PlaybackModeContext from "../../../contexts/PlaybackMode";
 import { PlaybackMode } from "../../../types/playback-types";
 
@@ -19,7 +19,7 @@ jest.mock("react-native-reanimated", () =>
 );
 
 describe("PlaybackControls", () => {
-  let setPlaybackState: jest.Mock;
+  let setAudioState: jest.Mock;
   let setMode: jest.Mock;
   let getByTestId: GetByAPI["getByTestId"];
   let getByText: GetByAPI["getByText"];
@@ -28,7 +28,7 @@ describe("PlaybackControls", () => {
   let rerender: RenderAPI["rerender"];
 
   beforeEach(() => {
-    setPlaybackState = jest.fn();
+    setAudioState = jest.fn();
     setMode = jest.fn();
   });
   afterEach(cleanup);
@@ -44,8 +44,8 @@ describe("PlaybackControls", () => {
       } = render(
         <AudioContext.Provider
           value={{
-            playbackState: PlaybackState.Stopped,
-            setPlaybackState
+            audioState: AudioState.Stopped,
+            setAudioState
           }}
         >
           <PlaybackModeContext.Provider
@@ -72,11 +72,11 @@ describe("PlaybackControls", () => {
       expect(queryByText("RECORD")).not.toBeNull();
     });
 
-    it("sets playbackState to Playing when play button is pressed", () => {
+    it("sets audioState to Playing when play button is pressed", () => {
       const playPauseButton = getByTestId("play-action");
       fireEvent.press(playPauseButton);
 
-      expect(setPlaybackState).toHaveBeenCalledWith(PlaybackState.Playing);
+      expect(setAudioState).toHaveBeenCalledWith(AudioState.Playing);
     });
 
     it("sets mode to Record when record header is pressed", () => {
@@ -107,13 +107,13 @@ describe("PlaybackControls", () => {
     it.todo("animates header correctly");
     it.todo("animates buttons correctly");
 
-    describe("when playbackState changes to Playing", () => {
+    describe("when audioState changes to Playing", () => {
       beforeEach(() => {
         rerender(
           <AudioContext.Provider
             value={{
-              playbackState: PlaybackState.Playing,
-              setPlaybackState
+              audioState: AudioState.Playing,
+              setAudioState
             }}
           >
             <PlaybackModeContext.Provider
@@ -128,28 +128,28 @@ describe("PlaybackControls", () => {
         );
       });
 
-      it("sets playbackState to Paused when play button is pressed", () => {
+      it("sets audioState to Paused when play button is pressed", () => {
         const playPauseButton = getByTestId("play-action");
         fireEvent.press(playPauseButton);
 
-        expect(setPlaybackState).toHaveBeenCalledWith(PlaybackState.Paused);
+        expect(setAudioState).toHaveBeenCalledWith(AudioState.Paused);
       });
 
-      it("sets playbackState to Stopped when record header is pressed", () => {
+      it("sets audioState to Stopped when record header is pressed", () => {
         const recordHeader = getByText("RECORD");
         fireEvent.press(recordHeader);
 
-        expect(setPlaybackState).toHaveBeenCalledWith(PlaybackState.Stopped);
+        expect(setAudioState).toHaveBeenCalledWith(AudioState.Stopped);
       });
     });
 
-    describe("when playbackState changes to Paused", () => {
+    describe("when audioState changes to Paused", () => {
       beforeEach(() => {
         rerender(
           <AudioContext.Provider
             value={{
-              playbackState: PlaybackState.Paused,
-              setPlaybackState
+              audioState: AudioState.Paused,
+              setAudioState
             }}
           >
             <PlaybackModeContext.Provider
@@ -164,11 +164,11 @@ describe("PlaybackControls", () => {
         );
       });
 
-      it("sets playbackState to Playing when play button is pressed", () => {
+      it("sets audioState to Playing when play button is pressed", () => {
         const playPauseButton = getByTestId("play-action");
         fireEvent.press(playPauseButton);
 
-        expect(setPlaybackState).toHaveBeenCalledWith(PlaybackState.Playing);
+        expect(setAudioState).toHaveBeenCalledWith(AudioState.Playing);
       });
     });
   });
@@ -184,8 +184,8 @@ describe("PlaybackControls", () => {
       } = render(
         <AudioContext.Provider
           value={{
-            playbackState: PlaybackState.Stopped,
-            setPlaybackState
+            audioState: AudioState.Stopped,
+            setAudioState
           }}
         >
           <PlaybackModeContext.Provider
@@ -212,11 +212,11 @@ describe("PlaybackControls", () => {
       expect(queryByText("RECORD")).not.toBeNull();
     });
 
-    it("sets playbackState to Recording when record button is pressed", () => {
+    it("sets audioState to Recording when record button is pressed", () => {
       const recordButton = getByTestId("record-action");
       fireEvent.press(recordButton);
 
-      expect(setPlaybackState).toHaveBeenCalledWith(PlaybackState.Recording);
+      expect(setAudioState).toHaveBeenCalledWith(AudioState.Recording);
     });
 
     it("sets mode to Play when play header is pressed", () => {
@@ -247,13 +247,13 @@ describe("PlaybackControls", () => {
     it.todo("animates header correctly");
     it.todo("animates buttons correctly");
 
-    describe("when playbackState changes to Recording", () => {
+    describe("when audioState changes to Recording", () => {
       beforeEach(() => {
         rerender(
           <AudioContext.Provider
             value={{
-              playbackState: PlaybackState.Recording,
-              setPlaybackState
+              audioState: AudioState.Recording,
+              setAudioState
             }}
           >
             <PlaybackModeContext.Provider
@@ -268,18 +268,18 @@ describe("PlaybackControls", () => {
         );
       });
 
-      it("sets playbackState to Stopped when record button is pressed", () => {
+      it("sets audioState to Stopped when record button is pressed", () => {
         const recordButton = getByTestId("record-action");
         fireEvent.press(recordButton);
 
-        expect(setPlaybackState).toHaveBeenCalledWith(PlaybackState.Stopped);
+        expect(setAudioState).toHaveBeenCalledWith(AudioState.Stopped);
       });
 
-      it("sets playbackState to Stopped when play header is pressed", () => {
+      it("sets audioState to Stopped when play header is pressed", () => {
         const playHeader = getByText("PLAY");
         fireEvent.press(playHeader);
 
-        expect(setPlaybackState).toHaveBeenCalledWith(PlaybackState.Stopped);
+        expect(setAudioState).toHaveBeenCalledWith(AudioState.Stopped);
       });
     });
   });

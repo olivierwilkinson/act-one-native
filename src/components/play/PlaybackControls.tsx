@@ -12,7 +12,7 @@ import { useTiming } from "react-native-reanimation";
 
 import AudioContext, {
   AudioContextValue,
-  PlaybackState
+  AudioState
 } from "../../contexts/Audio";
 import PlaybackModeContext from "../../contexts/PlaybackMode";
 import { PlaybackMode } from "../../types/playback-types";
@@ -64,10 +64,9 @@ const ButtonView = styled(Animated.View)`
 export default () => {
   const audio: AudioContextValue = useContext(AudioContext);
   const { mode: activeMode, setMode } = useContext(PlaybackModeContext);
-  const { playbackState, setPlaybackState } = audio;
+  const { audioState, setAudioState } = audio;
   const isPlaying =
-    playbackState === PlaybackState.Playing ||
-    playbackState === PlaybackState.Recording;
+    audioState === AudioState.Playing || audioState === AudioState.Recording;
 
   const [expanded, setExpanded] = useState(true);
   const [position, , { toValue: positionTo }] = useTiming({
@@ -86,7 +85,7 @@ export default () => {
       return;
     }
 
-    setPlaybackState(PlaybackState.Stopped);
+    setAudioState(AudioState.Stopped);
     setMode(mode);
     positionTo.setValue(mode === PlaybackMode.Play ? -1 : 1);
   };
@@ -178,8 +177,8 @@ export default () => {
                     testID="play-action"
                     disabled={PlaybackMode.Play !== activeMode}
                     onPress={() =>
-                      setPlaybackState(
-                        isPlaying ? PlaybackState.Paused : PlaybackState.Playing
+                      setAudioState(
+                        isPlaying ? AudioState.Paused : AudioState.Playing
                       )
                     }
                   >
@@ -230,10 +229,8 @@ export default () => {
                     testID="record-action"
                     disabled={PlaybackMode.Record !== activeMode}
                     onPress={() =>
-                      setPlaybackState(
-                        isPlaying
-                          ? PlaybackState.Stopped
-                          : PlaybackState.Recording
+                      setAudioState(
+                        isPlaying ? AudioState.Stopped : AudioState.Recording
                       )
                     }
                   >
