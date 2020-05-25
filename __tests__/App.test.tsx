@@ -30,6 +30,7 @@ describe("App", () => {
   let getByText: GetByAPI["getByText"];
   beforeEach(async () => {
     ({ queryByTestId, queryByText, getByTestId, getByText } = render(<App />));
+    await act(flushMicrotasksQueue);
   });
   afterEach(cleanup);
 
