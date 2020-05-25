@@ -24,13 +24,9 @@ jest.mock("@react-navigation/native", () => {
     useNavigation: jest.fn().mockImplementation(() => navigation)
   };
 });
-
 jest.mock("react-native-reanimated", () =>
-  require("react-native-reanimated/mock")
+  jest.requireActual("react-native-reanimated/mock")
 );
-jest.mock("react-native-reanimation", () => ({
-  useTiming: () => [1, () => null, { toValue: { setValue: () => null } }]
-}));
 
 import Play from "../Play";
 import { getLineText } from "../../../helpers/play";

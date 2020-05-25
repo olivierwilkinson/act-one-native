@@ -3,7 +3,6 @@ import React from "react";
 import { render, cleanup, QueryByAPI } from "react-native-testing-library";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import "react-native-reanimated";
 
 import play from "../../data/plays/shakespeare/AComedyOfErrors";
 import Home from "../HomeScreen";
