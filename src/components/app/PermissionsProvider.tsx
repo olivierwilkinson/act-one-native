@@ -9,11 +9,10 @@ import {
 
 import PermissionsContext from "../../contexts/Permissions";
 
-type PermissionsRequest = (
-  ...types: PermissionType[]
-) => Promise<PermissionResponse>;
-
 export type Permissions = PermissionType[];
+type PermissionsRequest = (
+  ...types: Permissions
+) => Promise<PermissionResponse>;
 
 const appPermissions: Permissions = [AUDIO_RECORDING];
 
