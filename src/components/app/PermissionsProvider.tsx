@@ -2,6 +2,7 @@ import React, { useState, ReactNode, useEffect, useCallback } from "react";
 import {
   PermissionType,
   PermissionResponse,
+  AUDIO_RECORDING,
   getAsync,
   askAsync
 } from "expo-permissions";
@@ -14,7 +15,7 @@ type PermissionsRequest = (
 
 export type Permissions = PermissionType[];
 
-const appPermissions: Permissions = [];
+const appPermissions: Permissions = [AUDIO_RECORDING];
 
 type Props = {
   children: ReactNode;
