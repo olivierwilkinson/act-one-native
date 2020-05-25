@@ -93,7 +93,9 @@ export default () => {
   const audio: AudioContextValue = useContext(AudioContext);
   const { mode: activeMode, setMode } = useContext(PlaybackModeContext);
   const { playbackState, setPlaybackState } = audio;
-  const isPlaying = playbackState === PlaybackState.Playing;
+  const isPlaying =
+    playbackState === PlaybackState.Playing ||
+    playbackState === PlaybackState.Recording;
 
   const [expanded, setExpanded] = useState(true);
   const [position, , { toValue: positionTo }] = useTiming({
@@ -209,9 +211,13 @@ export default () => {
                       disabled={mode !== activeMode}
                       onPress={() =>
                         setPlaybackState(
-                          isPlaying
-                            ? PlaybackState.Paused
-                            : PlaybackState.Playing
+                          mode === PlaybackMode.Play
+                            ? isPlaying
+                              ? PlaybackState.Paused
+                              : PlaybackState.Playing
+                            : isPlaying
+                            ? PlaybackState.Stopped
+                            : PlaybackState.Recording
                         )
                       }
                     >
