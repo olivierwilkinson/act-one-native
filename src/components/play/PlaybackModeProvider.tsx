@@ -1,6 +1,8 @@
-import React, { useState, ReactNode } from "react";
+import React, { useState, ReactNode, useEffect, useContext } from "react";
+import { AUDIO_RECORDING } from "expo-permissions";
 
 import PlaybackModeContext from "../../contexts/PlaybackMode";
+import PermissionsContext from "../../contexts/Permissions";
 import { PlaybackMode } from "../../types/playback-types";
 
 type Props = {
@@ -9,6 +11,20 @@ type Props = {
 
 const PlaybackModeProvider = ({ children }: Props) => {
   const [mode, setMode] = useState(PlaybackMode.Play);
+  const { permissions, requesting, ask } = useContext(PermissionsContext);
+
+  useEffect(() => {
+    const grantedRecording = !!permissions[AUDIO_RECORDING]?.granted;
+    const deniedRecording = permissions[AUDIO_RECORDING]?.status === "denied";
+    const requestingRecording = requesting.includes(AUDIO_RECORDING);
+
+    if (
+      mode === PlaybackMode.Record &&
+      !(grantedRecording || deniedRecording || requestingRecording)
+    ) {
+      ask(AUDIO_RECORDING);
+    }
+  }, [mode]);
 
   return (
     <PlaybackModeContext.Provider
