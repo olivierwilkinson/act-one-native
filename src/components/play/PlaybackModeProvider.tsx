@@ -1,9 +1,8 @@
 import React, { useState, ReactNode, useEffect, useContext } from "react";
 import { AUDIO_RECORDING } from "expo-permissions";
 
-import PlaybackModeContext from "../../contexts/PlaybackMode";
+import PlaybackModeContext, { PlaybackMode } from "../../contexts/PlaybackMode";
 import PermissionsContext from "../../contexts/Permissions";
-import { PlaybackMode } from "../../types/playback-types";
 
 type Props = {
   children: ReactNode;

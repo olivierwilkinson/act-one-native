@@ -1,5 +1,9 @@
 import React from "react";
-import { PlaybackMode } from "../types/playback-types";
+
+export enum PlaybackMode {
+  Play = "PLAY",
+  Record = "RECORD"
+}
 
 export interface PlaybackModeContextValue {
   mode: PlaybackMode;

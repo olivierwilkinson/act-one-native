@@ -11,8 +11,9 @@ import {
 
 import PlaybackControls from "../PlaybackControls";
 import AudioContext, { AudioState } from "../../../contexts/Audio";
-import PlaybackModeContext from "../../../contexts/PlaybackMode";
-import { PlaybackMode } from "../../../types/playback-types";
+import PlaybackModeContext, {
+  PlaybackMode
+} from "../../../contexts/PlaybackMode";
 
 jest.mock("react-native-reanimated", () =>
   jest.requireActual("react-native-reanimated/mock")

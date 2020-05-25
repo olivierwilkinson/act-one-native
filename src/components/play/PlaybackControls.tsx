@@ -14,8 +14,7 @@ import AudioContext, {
   AudioContextValue,
   AudioState
 } from "../../contexts/Audio";
-import PlaybackModeContext from "../../contexts/PlaybackMode";
-import { PlaybackMode } from "../../types/playback-types";
+import PlaybackModeContext, { PlaybackMode } from "../../contexts/PlaybackMode";
 import { lightGray, mediumGray, mediumLightGray } from "../../styles/colours";
 import { subFont } from "../../styles/typography";
 
