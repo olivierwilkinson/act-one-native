@@ -129,45 +129,45 @@ export default () => {
   };
 
   return (
-    <ControlsView testID="playback-controls">
+    <FlingGestureHandler
+      direction={Directions.RIGHT}
+      onHandlerStateChange={({ nativeEvent }) => {
+        if (nativeEvent.state === State.ACTIVE) {
+          const modeIndex = modes.indexOf(activeMode);
+          if (modeIndex > 0) {
+            activateMode(modes[modeIndex - 1]);
+          }
+        }
+      }}
+    >
       <FlingGestureHandler
-        direction={Directions.RIGHT}
+        direction={Directions.LEFT}
         onHandlerStateChange={({ nativeEvent }) => {
           if (nativeEvent.state === State.ACTIVE) {
             const modeIndex = modes.indexOf(activeMode);
-            if (modeIndex > 0) {
-              activateMode(modes[modeIndex - 1]);
+            if (modeIndex < modes.length - 1) {
+              activateMode(modes[modeIndex + 1]);
             }
           }
         }}
       >
         <FlingGestureHandler
-          direction={Directions.LEFT}
+          direction={Directions.UP}
           onHandlerStateChange={({ nativeEvent }) => {
             if (nativeEvent.state === State.ACTIVE) {
-              const modeIndex = modes.indexOf(activeMode);
-              if (modeIndex < modes.length - 1) {
-                activateMode(modes[modeIndex + 1]);
-              }
+              expandControls(true);
             }
           }}
         >
           <FlingGestureHandler
-            direction={Directions.UP}
+            direction={Directions.DOWN}
             onHandlerStateChange={({ nativeEvent }) => {
               if (nativeEvent.state === State.ACTIVE) {
-                expandControls(true);
+                expandControls(false);
               }
             }}
           >
-            <FlingGestureHandler
-              direction={Directions.DOWN}
-              onHandlerStateChange={({ nativeEvent }) => {
-                if (nativeEvent.state === State.ACTIVE) {
-                  expandControls(false);
-                }
-              }}
-            >
+            <ControlsView testID="playback-controls">
               <ModeBar
                 style={{
                   transform: [
@@ -244,10 +244,10 @@ export default () => {
                   </ModeView>
                 ))}
               </ModeBar>
-            </FlingGestureHandler>
+            </ControlsView>
           </FlingGestureHandler>
         </FlingGestureHandler>
       </FlingGestureHandler>
-    </ControlsView>
+    </FlingGestureHandler>
   );
 };

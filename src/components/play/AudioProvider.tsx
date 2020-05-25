@@ -55,7 +55,10 @@ const AudioProvider = ({ children }: Props) => {
           break;
         }
 
-        if (previousPlaybackState === PlaybackState.Stopped) {
+        if (
+          previousPlaybackState === PlaybackState.Stopped ||
+          previousPlaybackState === PlaybackState.Recording
+        ) {
           beginPlayback(activeLine);
           break;
         }
