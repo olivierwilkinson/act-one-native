@@ -7,7 +7,7 @@ import {
   Directions,
   State
 } from "react-native-gesture-handler";
-import Animated from "react-native-reanimated";
+import Animated, { interpolate } from "react-native-reanimated";
 import { useTiming } from "react-native-reanimation";
 
 import AudioContext, {
@@ -60,34 +60,6 @@ const ButtonView = styled(Animated.View)`
   width: 40px;
   height: 40px;
 `;
-
-const ModeAction = ({
-  mode,
-  isPlaying
-}: {
-  mode: PlaybackMode;
-  isPlaying: boolean;
-}) => {
-  switch (mode) {
-    case PlaybackMode.Play:
-      return (
-        <Ionicons
-          name={isPlaying ? "ios-pause" : "ios-play"}
-          size={40}
-          color="rgb(80, 80, 80)"
-        />
-      );
-
-    case PlaybackMode.Record:
-      return (
-        <Ionicons
-          name={isPlaying ? "ios-radio-button-on" : "ios-radio-button-off"}
-          size={40}
-          color="rgb(80, 80, 80)"
-        />
-      );
-  }
-};
 
 export default () => {
   const audio: AudioContextValue = useContext(AudioContext);
@@ -172,77 +144,127 @@ export default () => {
                 style={{
                   transform: [
                     {
-                      translateX: Animated.interpolate(position, {
+                      translateX: interpolate(position, {
                         inputRange: [-1, 1],
                         outputRange: [40, -40]
                       })
                     }
                   ],
-                  height: Animated.interpolate(scale, {
+                  height: interpolate(scale, {
                     inputRange: [0, 1],
                     outputRange: [40, 80]
                   })
                 }}
               >
-                {modes.map(mode => (
-                  <ModeView key={mode}>
-                    <TouchableWithoutFeedback
-                      testID={`${mode.toLowerCase()}-bar-button`}
-                      key={mode.toLowerCase()}
-                      onPress={() => {
-                        activateMode(mode);
+                <ModeView>
+                  <TouchableWithoutFeedback
+                    testID="play-bar-button"
+                    onPress={() => activateMode(PlaybackMode.Play)}
+                  >
+                    <Animated.View
+                      style={{
+                        opacity: scale,
+                        height: interpolate(scale, {
+                          inputRange: [0, 1],
+                          outputRange: [4, 34]
+                        })
                       }}
                     >
-                      <Animated.View
-                        style={{
-                          opacity: scale,
-                          height: Animated.interpolate(scale, {
-                            inputRange: [0, 1],
-                            outputRange: [4, 34]
-                          })
-                        }}
-                      >
-                        <ModeText>{mode}</ModeText>
-                      </Animated.View>
-                    </TouchableWithoutFeedback>
+                      <ModeText>{PlaybackMode.Play}</ModeText>
+                    </Animated.View>
+                  </TouchableWithoutFeedback>
 
-                    <TouchableWithoutFeedback
-                      testID={`${mode.toLowerCase()}-action`}
-                      disabled={mode !== activeMode}
-                      onPress={() =>
-                        setPlaybackState(
-                          mode === PlaybackMode.Play
-                            ? isPlaying
-                              ? PlaybackState.Paused
-                              : PlaybackState.Playing
-                            : isPlaying
-                            ? PlaybackState.Stopped
-                            : PlaybackState.Recording
-                        )
-                      }
+                  <TouchableWithoutFeedback
+                    testID="play-action"
+                    disabled={PlaybackMode.Play !== activeMode}
+                    onPress={() =>
+                      setPlaybackState(
+                        isPlaying ? PlaybackState.Paused : PlaybackState.Playing
+                      )
+                    }
+                  >
+                    <ButtonView
+                      style={{
+                        transform: [
+                          {
+                            scale: interpolate(scale, {
+                              inputRange: [0, 1],
+                              outputRange: [0.8, 1]
+                            })
+                          }
+                        ],
+                        opacity: interpolate(position, {
+                          inputRange: [-1, 1],
+                          outputRange: [1, 0]
+                        })
+                      }}
                     >
-                      <ButtonView
-                        style={{
-                          transform: [
-                            {
-                              scale: Animated.interpolate(scale, {
-                                inputRange: [0, 1],
-                                outputRange: [0.8, 1]
-                              })
-                            }
-                          ],
-                          opacity: Animated.interpolate(position, {
-                            inputRange: [-1, 1],
-                            outputRange:
-                              mode === PlaybackMode.Play ? [1, 0] : [0, 1]
-                          })
-                        }}
-                      >
-                        <ModeAction mode={mode} isPlaying={isPlaying} />
-                      </ButtonView>
-                    </TouchableWithoutFeedback>
-                  </ModeView>
-                ))}
+                      <Ionicons
+                        name={isPlaying ? "ios-pause" : "ios-play"}
+                        size={40}
+                        color="rgb(80, 80, 80)"
+                      />
+                    </ButtonView>
+                  </TouchableWithoutFeedback>
+                </ModeView>
+
+                <ModeView>
+                  <TouchableWithoutFeedback
+                    testID="record-bar-button"
+                    onPress={() => activateMode(PlaybackMode.Record)}
+                  >
+                    <Animated.View
+                      style={{
+                        opacity: scale,
+                        height: interpolate(scale, {
+                          inputRange: [0, 1],
+                          outputRange: [4, 34]
+                        })
+                      }}
+                    >
+                      <ModeText>{PlaybackMode.Record}</ModeText>
+                    </Animated.View>
+                  </TouchableWithoutFeedback>
+
+                  <TouchableWithoutFeedback
+                    testID="record-action"
+                    disabled={PlaybackMode.Record !== activeMode}
+                    onPress={() =>
+                      setPlaybackState(
+                        isPlaying
+                          ? PlaybackState.Stopped
+                          : PlaybackState.Recording
+                      )
+                    }
+                  >
+                    <ButtonView
+                      style={{
+                        transform: [
+                          {
+                            scale: interpolate(scale, {
+                              inputRange: [0, 1],
+                              outputRange: [0.8, 1]
+                            })
+                          }
+                        ],
+                        opacity: interpolate(position, {
+                          inputRange: [-1, 1],
+                          outputRange: [0, 1]
+                        })
+                      }}
+                    >
+                      <Ionicons
+                        name={
+                          isPlaying
+                            ? "ios-radio-button-on"
+                            : "ios-radio-button-off"
+                        }
+                        size={40}
+                        color="rgb(80, 80, 80)"
+                      />
+                    </ButtonView>
+                  </TouchableWithoutFeedback>
+                </ModeView>
               </ModeBar>
             </ControlsView>
           </FlingGestureHandler>
