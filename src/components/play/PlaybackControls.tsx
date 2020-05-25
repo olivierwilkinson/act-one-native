@@ -5,18 +5,20 @@ import { Ionicons } from "@expo/vector-icons";
 import {
   FlingGestureHandler,
   Directions,
-  State
+  State,
 } from "react-native-gesture-handler";
 import Animated, { interpolate } from "react-native-reanimated";
 import { useTiming } from "react-native-reanimation";
 
 import AudioContext, {
   AudioContextValue,
-  AudioState
+  AudioState,
 } from "../../contexts/Audio";
 import PlaybackModeContext, { PlaybackMode } from "../../contexts/PlaybackMode";
 import { lightGray, mediumGray, mediumLightGray } from "../../styles/colours";
 import { subFont } from "../../styles/typography";
+import PlayPosition from "../../contexts/PlayPosition";
+import PlaySettings from "../../contexts/PlaySettings";
 
 const modes = [PlaybackMode.Play, PlaybackMode.Record];
 
@@ -63,20 +65,24 @@ const ButtonView = styled(Animated.View)`
 export default () => {
   const audio: AudioContextValue = useContext(AudioContext);
   const { mode: activeMode, setMode } = useContext(PlaybackModeContext);
+  const { activeLine } = useContext(PlayPosition);
+  const {
+    settings: { selectedPlayer },
+  } = useContext(PlaySettings);
   const { audioState, setAudioState } = audio;
-  const isPlaying =
-    audioState === AudioState.Playing || audioState === AudioState.Recording;
+  const isPlaying = audioState === AudioState.Playing;
+  const isRecording = audioState === AudioState.Recording;
 
   const [expanded, setExpanded] = useState(true);
   const [position, , { toValue: positionTo }] = useTiming({
     position: -1,
     toValue: -1,
-    duration: 150
+    duration: 150,
   });
   const [scale, , { toValue: scaleTo }] = useTiming({
     position: 1,
     toValue: 1,
-    duration: 150
+    duration: 150,
   });
 
   const activateMode = (mode: PlaybackMode) => {
@@ -144,14 +150,14 @@ export default () => {
                     {
                       translateX: interpolate(position, {
                         inputRange: [-1, 1],
-                        outputRange: [40, -40]
-                      })
-                    }
+                        outputRange: [40, -40],
+                      }),
+                    },
                   ],
                   height: interpolate(scale, {
                     inputRange: [0, 1],
-                    outputRange: [40, 80]
-                  })
+                    outputRange: [40, 80],
+                  }),
                 }}
               >
                 <ModeView>
@@ -164,8 +170,8 @@ export default () => {
                         opacity: scale,
                         height: interpolate(scale, {
                           inputRange: [0, 1],
-                          outputRange: [4, 34]
-                        })
+                          outputRange: [4, 34],
+                        }),
                       }}
                     >
                       <ModeText>{PlaybackMode.Play}</ModeText>
@@ -187,14 +193,14 @@ export default () => {
                           {
                             scale: interpolate(scale, {
                               inputRange: [0, 1],
-                              outputRange: [0.8, 1]
-                            })
-                          }
+                              outputRange: [0.8, 1],
+                            }),
+                          },
                         ],
                         opacity: interpolate(position, {
                           inputRange: [-1, 1],
-                          outputRange: [1, 0]
-                        })
+                          outputRange: [1, 0],
+                        }),
                       }}
                     >
                       <Ionicons
@@ -216,8 +222,8 @@ export default () => {
                         opacity: scale,
                         height: interpolate(scale, {
                           inputRange: [0, 1],
-                          outputRange: [4, 34]
-                        })
+                          outputRange: [4, 34],
+                        }),
                       }}
                     >
                       <ModeText>{PlaybackMode.Record}</ModeText>
@@ -227,11 +233,15 @@ export default () => {
                   <TouchableWithoutFeedback
                     testID="record-action"
                     disabled={PlaybackMode.Record !== activeMode}
-                    onPress={() =>
+                    onPress={() => {
+                      if (activeLine.player === selectedPlayer) {
+                        return setAudioState(AudioState.Stopped);
+                      }
+
                       setAudioState(
-                        isPlaying ? AudioState.Stopped : AudioState.Recording
-                      )
-                    }
+                        isPlaying ? AudioState.Paused : AudioState.Playing
+                      );
+                    }}
                   >
                     <ButtonView
                       style={{
@@ -239,14 +249,14 @@ export default () => {
                           {
                             scale: interpolate(scale, {
                               inputRange: [0, 1],
-                              outputRange: [0.8, 1]
-                            })
-                          }
+                              outputRange: [0.8, 1],
+                            }),
+                          },
                         ],
                         opacity: interpolate(position, {
                           inputRange: [-1, 1],
-                          outputRange: [0, 1]
-                        })
+                          outputRange: [0, 1],
+                        }),
                       }}
                     >
                       <Ionicons

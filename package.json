@@ -19,6 +19,7 @@
     "@welldone-software/why-did-you-render": "^4.0.5",
     "color-convert": "^2.0.1",
     "expo": "^37.0.0",
+    "expo-av": "^8.1.0",
     "expo-font": "~8.1.0",
     "expo-speech": "~8.1.0",
     "google-palette": "1.1.0",
