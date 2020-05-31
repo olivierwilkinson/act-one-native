@@ -18,41 +18,24 @@ const AudioProvider = ({ children }: Props) => {
   const [audioState, setAudioState] = useState(AudioState.Stopped);
 
   const stop = async () => {
-    setAudioState(AudioState.Stopped);
-
     switch (audioState) {
       case AudioState.Recording:
         await stopRecording();
-        return Audio.setAudioModeAsync({
-          allowsRecordingIOS: false,
-          interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
-          playsInSilentModeIOS: true,
-          shouldDuckAndroid: true,
-          interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-          playThroughEarpieceAndroid: false,
-          staysActiveInBackground: true,
-        });
+        break;
 
       case AudioState.Speaking:
-        return Speech.stop();
+        await Speech.stop();
+        break;
 
       case AudioState.Playing:
-        return undefined;
+        break;
     }
+
+    setAudioState(AudioState.Stopped);
   };
 
   const record = async (line: Line) => {
     await stop();
-
-    await Audio.setAudioModeAsync({
-      allowsRecordingIOS: true,
-      interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
-      playsInSilentModeIOS: true,
-      shouldDuckAndroid: true,
-      interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-      playThroughEarpieceAndroid: false,
-      staysActiveInBackground: true,
-    });
 
     try {
       await beginRecording(`line:${line.id}`);
@@ -63,9 +46,8 @@ const AudioProvider = ({ children }: Props) => {
   };
 
   const speak = async (line: Line, options?: Speech.SpeechOptions) => {
-    setAudioState(AudioState.Speaking);
-
-    if (audioState === AudioState.Paused) {
+    if (await Speech.isSpeakingAsync()) {
+      setAudioState(AudioState.Speaking);
       return Speech.resume();
     }
 
@@ -73,6 +55,9 @@ const AudioProvider = ({ children }: Props) => {
       Speech.speak(getLineText(line), {
         voice: "com.apple.ttsbundle.Daniel-compact",
         ...options,
+        onStart: () => {
+          setAudioState(AudioState.Speaking);
+        },
         onDone: () => {
           setAudioState(AudioState.Stopped);
           res();
@@ -106,8 +91,16 @@ const AudioProvider = ({ children }: Props) => {
   };
 
   useEffect(() => {
-    console.log(audioState);
-  }, [audioState]);
+    Audio.setAudioModeAsync({
+      allowsRecordingIOS: true,
+      interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+      playsInSilentModeIOS: true,
+      shouldDuckAndroid: true,
+      interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+      playThroughEarpieceAndroid: false,
+      staysActiveInBackground: true,
+    });
+  }, []);
 
   return (
     <AudioContext.Provider
