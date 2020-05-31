@@ -11,7 +11,7 @@ import {
 
 import PlaybackControls from "../PlaybackControls";
 import AudioContext, { AudioState } from "../../../contexts/Audio";
-import PlaybackModeContext, { PlaybackMode } from "../../../contexts/PlaybackMode";
+import Playback, { PlaybackMode } from "../../../contexts/Playback";
 
 jest.mock("react-native-reanimated", () =>
   jest.requireActual("react-native-reanimated/mock")
@@ -47,14 +47,14 @@ describe("PlaybackControls", () => {
             setAudioState
           }}
         >
-          <PlaybackModeContext.Provider
+          <Playback.Provider
             value={{
               mode: PlaybackMode.Play,
               setMode
             }}
           >
             <PlaybackControls />
-          </PlaybackModeContext.Provider>
+          </Playback.Provider>
         </AudioContext.Provider>
       ));
     });
@@ -115,14 +115,14 @@ describe("PlaybackControls", () => {
               setAudioState
             }}
           >
-            <PlaybackModeContext.Provider
+            <Playback.Provider
               value={{
                 mode: PlaybackMode.Play,
                 setMode
               }}
             >
               <PlaybackControls />
-            </PlaybackModeContext.Provider>
+            </Playback.Provider>
           </AudioContext.Provider>
         );
       });
@@ -151,14 +151,14 @@ describe("PlaybackControls", () => {
               setAudioState
             }}
           >
-            <PlaybackModeContext.Provider
+            <Playback.Provider
               value={{
                 mode: PlaybackMode.Play,
                 setMode
               }}
             >
               <PlaybackControls />
-            </PlaybackModeContext.Provider>
+            </Playback.Provider>
           </AudioContext.Provider>
         );
       });
@@ -187,14 +187,14 @@ describe("PlaybackControls", () => {
             setAudioState
           }}
         >
-          <PlaybackModeContext.Provider
+          <Playback.Provider
             value={{
               mode: PlaybackMode.Record,
               setMode
             }}
           >
             <PlaybackControls />
-          </PlaybackModeContext.Provider>
+          </Playback.Provider>
         </AudioContext.Provider>
       ));
     });
@@ -255,14 +255,14 @@ describe("PlaybackControls", () => {
               setAudioState
             }}
           >
-            <PlaybackModeContext.Provider
+            <Playback.Provider
               value={{
                 mode: PlaybackMode.Record,
                 setMode
               }}
             >
               <PlaybackControls />
-            </PlaybackModeContext.Provider>
+            </Playback.Provider>
           </AudioContext.Provider>
         );
       });

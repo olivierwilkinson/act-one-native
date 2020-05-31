@@ -20,7 +20,7 @@ import AudioProvider from "../AudioProvider";
 import PlaySettingsContext, {
   PlaySettingsContextValue
 } from "../../../contexts/PlaySettings";
-import PlaybackModeProvider from "../PlaybackModeProvider";
+import PlaybackProvider from "../PlaybackProvider";
 
 jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
 jest.mock("expo-speech", () => ({
@@ -84,9 +84,9 @@ describe("Play", () => {
         <PlayPositionProvider play={play}>
           <PlayNavigationProvider play={play}>
             <AudioProvider>
-              <PlaybackModeProvider>
+              <PlaybackProvider>
                 <Play play={play} openSceneSelect={openSceneSelect} />
-              </PlaybackModeProvider>
+              </PlaybackProvider>
             </AudioProvider>
           </PlayNavigationProvider>
         </PlayPositionProvider>

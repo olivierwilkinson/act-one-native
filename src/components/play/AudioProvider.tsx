@@ -8,7 +8,7 @@ import { Audio } from "expo-av";
 import AudioContext, { AudioState } from "../../contexts/Audio";
 import PlayPositionContext from "../../contexts/PlayPosition";
 import PermissionsContext from "../../contexts/Permissions";
-import PlaybackModeContext, { PlaybackMode } from "../../contexts/PlaybackMode";
+import PlaybackModeContext, { PlaybackMode } from "../../contexts/Playback";
 import { getLineText } from "../../helpers/play";
 import usePrevious from "../../hooks/usePrevious";
 import { Line } from "../../types/play-types";

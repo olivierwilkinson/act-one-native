@@ -14,12 +14,11 @@ import AudioContext, {
   AudioContextValue,
   AudioState,
 } from "../../contexts/Audio";
-import PlaybackModeContext, { PlaybackMode } from "../../contexts/PlaybackMode";
+import Playback, { PlaybackMode } from "../../contexts/Playback";
 import { lightGray, mediumGray, mediumLightGray } from "../../styles/colours";
 import { subFont } from "../../styles/typography";
 import PlayPosition from "../../contexts/PlayPosition";
 import PlaySettings from "../../contexts/PlaySettings";
-
 const modes = [PlaybackMode.Play, PlaybackMode.Record];
 
 const ControlsView = styled.SafeAreaView`
@@ -63,8 +62,8 @@ const ButtonView = styled(Animated.View)`
 `;
 
 export default () => {
+  const { mode: activeMode, setMode } = useContext(Playback);
   const audio: AudioContextValue = useContext(AudioContext);
-  const { mode: activeMode, setMode } = useContext(PlaybackModeContext);
   const { activeLine } = useContext(PlayPosition);
   const {
     settings: { selectedPlayer },

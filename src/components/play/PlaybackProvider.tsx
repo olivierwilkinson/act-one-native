@@ -1,14 +1,14 @@
 import React, { useState, ReactNode, useEffect, useContext } from "react";
 import { AUDIO_RECORDING } from "expo-permissions";
 
-import PlaybackModeContext, { PlaybackMode } from "../../contexts/PlaybackMode";
+import Playback, { PlaybackMode } from "../../contexts/Playback";
 import PermissionsContext from "../../contexts/Permissions";
 
 type Props = {
   children: ReactNode;
 };
 
-const PlaybackModeProvider = ({ children }: Props) => {
+const PlaybackProvider = ({ children }: Props) => {
   const [mode, setMode] = useState(PlaybackMode.Play);
   const { permissions, requesting, ask } = useContext(PermissionsContext);
 
@@ -23,18 +23,18 @@ const PlaybackModeProvider = ({ children }: Props) => {
     ) {
       ask(AUDIO_RECORDING);
     }
-  }, [mode]);
+  }, [mode, permissions, requesting, ask]);
 
   return (
-    <PlaybackModeContext.Provider
+    <Playback.Provider
       value={{
         mode,
         setMode
       }}
     >
       {children}
-    </PlaybackModeContext.Provider>
+    </Playback.Provider>
   );
 };
 
-export default PlaybackModeProvider;
+export default PlaybackProvider;

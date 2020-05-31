@@ -5,12 +5,12 @@ export enum PlaybackMode {
   Record = "RECORD"
 }
 
-export interface PlaybackModeContextValue {
+export interface PlaybackContextValue {
   mode: PlaybackMode;
   setMode: (mode: PlaybackMode) => void;
 }
 
-export default React.createContext<PlaybackModeContextValue>({
+export default React.createContext<PlaybackContextValue>({
   mode: PlaybackMode.Play,
   setMode: () => null
 });
