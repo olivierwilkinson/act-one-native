@@ -36,7 +36,14 @@ const PlayPositionProvider = ({ play, children }: Props) => {
       value={{
         activeScene,
         activeLine,
-        setActiveLine
+        setActiveLine,
+        getNextLine: (current = activeLine) => {
+          const { lines } = activeScene;
+          const currentLineIndex = lines.findIndex(
+            (line) => line.id === current.id
+          );
+          return lines[currentLineIndex + 1];
+        },
       }}
     >
       {children}

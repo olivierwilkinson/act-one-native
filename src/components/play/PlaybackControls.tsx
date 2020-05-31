@@ -9,6 +9,7 @@ import {
 } from "react-native-gesture-handler";
 import Animated, { interpolate } from "react-native-reanimated";
 import { useTiming } from "react-native-reanimation";
+import RecordButton from "./RecordButton";
 
 import AudioContext, {
   AudioContextValue,
@@ -64,13 +65,12 @@ const ButtonView = styled(Animated.View)`
 export default () => {
   const { mode: activeMode, setMode } = useContext(Playback);
   const audio: AudioContextValue = useContext(AudioContext);
+  const { settings: { selectedPlayer}} = useContext(PlaySettings);
   const { activeLine } = useContext(PlayPosition);
-  const {
-    settings: { selectedPlayer },
-  } = useContext(PlaySettings);
-  const { audioState, setAudioState } = audio;
-  const isPlaying = audioState === AudioState.Playing;
-  const isRecording = audioState === AudioState.Recording;
+  const isPlaying =
+    audio.audioState === AudioState.Playing ||
+    audio.audioState === AudioState.Speaking;
+  const isRecording = audio.audioState === AudioState.Recording;
 
   const [expanded, setExpanded] = useState(true);
   const [position, , { toValue: positionTo }] = useTiming({
@@ -89,7 +89,7 @@ export default () => {
       return;
     }
 
-    setAudioState(AudioState.Stopped);
+    audio.stop();
     setMode(mode);
     positionTo.setValue(mode === PlaybackMode.Play ? -1 : 1);
   };
@@ -180,11 +180,18 @@ export default () => {
                   <TouchableWithoutFeedback
                     testID="play-action"
                     disabled={PlaybackMode.Play !== activeMode}
-                    onPress={() =>
-                      setAudioState(
-                        isPlaying ? AudioState.Paused : AudioState.Playing
-                      )
-                    }
+                    onPress={async () => {
+                      try {
+                        if (isPlaying) {
+                          await audio.pause();
+                          return;
+                        }
+
+                        await audio.speak(activeLine);
+                      } catch (e) {
+                        console.error(e);
+                      }
+                    }}
                   >
                     <ButtonView
                       style={{
@@ -229,46 +236,49 @@ export default () => {
                     </Animated.View>
                   </TouchableWithoutFeedback>
 
-                  <TouchableWithoutFeedback
-                    testID="record-action"
-                    disabled={PlaybackMode.Record !== activeMode}
-                    onPress={() => {
-                      if (activeLine.player === selectedPlayer) {
-                        return setAudioState(AudioState.Stopped);
-                      }
-
-                      setAudioState(
-                        isPlaying ? AudioState.Paused : AudioState.Playing
-                      );
+                  <ButtonView
+                    style={{
+                      transform: [
+                        {
+                          scale: interpolate(scale, {
+                            inputRange: [0, 1],
+                            outputRange: [0.8, 1],
+                          }),
+                        },
+                      ],
+                      opacity: interpolate(position, {
+                        inputRange: [-1, 1],
+                        outputRange: [0, 1],
+                      }),
                     }}
                   >
-                    <ButtonView
-                      style={{
-                        transform: [
-                          {
-                            scale: interpolate(scale, {
-                              inputRange: [0, 1],
-                              outputRange: [0.8, 1],
-                            }),
-                          },
-                        ],
-                        opacity: interpolate(position, {
-                          inputRange: [-1, 1],
-                          outputRange: [0, 1],
-                        }),
-                      }}
-                    >
-                      <Ionicons
-                        name={
-                          isPlaying
-                            ? "ios-radio-button-on"
-                            : "ios-radio-button-off"
+                    <RecordButton
+                      audioState={audio.audioState}
+                      disabled={PlaybackMode.Record !== activeMode}
+                      onPress={async () => {
+                        try {
+                          if (isPlaying) {
+                            await audio.pause();
+                            return;
+                          }
+
+                          if (isRecording) {
+                            await audio.stop();
+                            return;
+                          }
+
+                          if (activeLine.player === selectedPlayer) {
+                            await audio.record(activeLine);
+                            return;
+                          }
+
+                          await audio.speak(activeLine);
+                        } catch (e) {
+                          console.error(e);
                         }
-                        size={40}
-                        color="rgb(80, 80, 80)"
-                      />
-                    </ButtonView>
-                  </TouchableWithoutFeedback>
+                      }}
+                    />
+                  </ButtonView>
                 </ModeView>
               </ModeBar>
             </ControlsView>

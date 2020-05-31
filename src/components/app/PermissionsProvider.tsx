@@ -4,7 +4,7 @@ import {
   PermissionResponse,
   AUDIO_RECORDING,
   getAsync,
-  askAsync
+  askAsync,
 } from "expo-permissions";
 
 import PermissionsContext from "../../contexts/Permissions";
@@ -29,12 +29,12 @@ const PermissionsProvider = ({ children }: Props) => {
       setRequesting(types);
 
       fn(...types)
-        .then(res => {
+        .then((res) => {
           setPermissions(res.permissions);
-          setRequesting(requesting.filter(type => types.includes(type)));
+          setRequesting(requesting.filter((type) => types.includes(type)));
         })
         .catch(() =>
-          setRequesting(requesting.filter(type => types.includes(type)))
+          setRequesting(requesting.filter((type) => types.includes(type)))
         );
     },
     [setPermissions, setRequesting]
@@ -60,7 +60,7 @@ const PermissionsProvider = ({ children }: Props) => {
         permissions,
         requesting,
         ask,
-        get
+        get,
       }}
     >
       {children}

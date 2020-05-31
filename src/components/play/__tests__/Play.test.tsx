@@ -16,7 +16,6 @@ import { getLineText } from "../../../helpers/play";
 import AComedyOfErrors from "../../../data/plays/shakespeare/AComedyOfErrors";
 import PlayPositionProvider from "../PlayPositionProvider";
 import PlayNavigationProvider from "../PlayNavigationProvider";
-import AudioProvider from "../AudioProvider";
 import PlaySettingsContext, {
   PlaySettingsContextValue
 } from "../../../contexts/PlaySettings";

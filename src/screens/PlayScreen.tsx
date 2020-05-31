@@ -1,11 +1,10 @@
-import React, { useState, useLayoutEffect, useCallback } from "react";
+import React, { useState, useLayoutEffect, useCallback, useContext } from "react";
 import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
 
 import PlaySettingsProvider from "../components/play/PlaySettingsProvider";
 import PlayPositionProvider from "../components/play/PlayPositionProvider";
 import PlayNavigationProvider from "../components/play/PlayNavigationProvider";
-import AudioProvider from "../components/play/AudioProvider";
 import Play from "../components/play/Play";
 import Header from "../components/common/Header";
 import Error from "../components/common/Error";
@@ -14,6 +13,7 @@ import SceneSelectModal from "../components/play/SceneSelectModal";
 import { bigSizeFont } from "../styles/typography";
 import { PlayNavigationProp, PlayRouteProp } from "../types/navigation-types";
 import PlaybackProvider from "../components/play/PlaybackProvider";
+import Audio from '../contexts/Audio';
 
 export type Props = {
   navigation: PlayNavigationProp;
@@ -26,13 +26,14 @@ const HeaderText = styled.Text`
 `;
 
 export default ({ navigation, route }: Props) => {
+  const { stop } = useContext(Audio);
   const [settingsActive, setSettingsActive] = useState(false);
   const [sceneSelectActive, setSceneSelectActive] = useState(false);
   const openSceneSelect = useCallback(() => setSceneSelectActive(true), [
-    setSceneSelectActive
+    setSceneSelectActive,
   ]);
   const closeSceneSelect = useCallback(() => setSceneSelectActive(false), [
-    setSceneSelectActive
+    setSceneSelectActive,
   ]);
   const play = route.params?.play;
 
@@ -43,16 +44,19 @@ export default ({ navigation, route }: Props) => {
           title={play?.play}
           left={{
             view: <HeaderText>Back</HeaderText>,
-            onPress: () => navigation.pop()
+            onPress: () => navigation.pop(),
           }}
           right={{
-            onPress: () => setSettingsActive(true),
-            view: <Ionicons name="ios-settings" color="white" size={28} />
+            onPress: () => {
+              stop();
+              setSettingsActive(true);
+            },
+            view: <Ionicons name="ios-settings" color="white" size={28} />,
           }}
         />
-      )
+      ),
     });
-  }, [navigation, setSettingsActive]);
+  }, [navigation, setSettingsActive, stop]);
 
   if (!play) {
     return <Error message="Play could not be loaded" />;
@@ -69,22 +73,20 @@ export default ({ navigation, route }: Props) => {
     >
       <PlayPositionProvider play={play}>
         <PlayNavigationProvider play={play}>
-          <AudioProvider>
-            <PlaybackProvider>
-              <Play play={play} openSceneSelect={openSceneSelect} />
+          <PlaybackProvider>
+            <Play play={play} openSceneSelect={openSceneSelect} />
 
-              <PlaySettingsModal
-                play={play}
-                visible={settingsActive}
-                onClose={() => setSettingsActive(false)}
-              />
-              <SceneSelectModal
-                play={play}
-                visible={sceneSelectActive}
-                onClose={closeSceneSelect}
-              />
-            </PlaybackProvider>
-          </AudioProvider>
+            <PlaySettingsModal
+              play={play}
+              visible={settingsActive}
+              onClose={() => setSettingsActive(false)}
+            />
+            <SceneSelectModal
+              play={play}
+              visible={sceneSelectActive}
+              onClose={closeSceneSelect}
+            />
+          </PlaybackProvider>
         </PlayNavigationProvider>
       </PlayPositionProvider>
     </PlaySettingsProvider>

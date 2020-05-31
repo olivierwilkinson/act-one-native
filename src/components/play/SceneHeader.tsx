@@ -4,6 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import styled, { css } from "styled-components/native";
 
 import PlayNavigationContext from "../../contexts/PlayNavigation";
+import Audio from "../../contexts/Audio";
 import { Scene } from "../../types/play-types";
 import { mediumSizeFont } from "../../styles/typography";
 import { mediumLightGray, mediumGray, lightGray } from "../../styles/colours";
@@ -63,6 +64,7 @@ export default ({ act, scene, openSceneSelect }: Props) => {
   const { goToNextScene, goToPreviousScene } = useContext(
     PlayNavigationContext
   );
+  const { stop } = useContext(Audio);
 
   return (
     <SceneHeaderView testID="play-scene-header">
@@ -71,7 +73,10 @@ export default ({ act, scene, openSceneSelect }: Props) => {
           <TouchableHighlight
             testID="previous-scene-button"
             underlayColor={mediumLightGray}
-            onPress={goToPreviousScene}
+            onPress={() => {
+              stop();
+              goToPreviousScene();
+            }}
           >
             <IconView>
               <Ionicons name="ios-arrow-back" size={18} color={mediumGray} />
@@ -87,7 +92,10 @@ export default ({ act, scene, openSceneSelect }: Props) => {
           <TouchableHighlight
             testID="next-scene-button"
             underlayColor={mediumLightGray}
-            onPress={goToNextScene}
+            onPress={() => {
+              stop();
+              goToNextScene();
+            }}
           >
             <IconView>
               <Ionicons name="ios-arrow-forward" size={18} color={mediumGray} />
@@ -100,7 +108,10 @@ export default ({ act, scene, openSceneSelect }: Props) => {
         <TouchableHighlight
           testID="scene-select-button"
           underlayColor={mediumLightGray}
-          onPress={openSceneSelect}
+          onPress={() => {
+            stop();
+            openSceneSelect();
+          }}
         >
           <IconView>
             <Ionicons name="ios-list" size={32} color={mediumGray} />

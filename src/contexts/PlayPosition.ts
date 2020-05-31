@@ -5,6 +5,7 @@ import { Scene, Line } from "../types/play-types";
 export interface PlayPosition {
   activeScene: Scene;
   activeLine: Line;
+  getNextLine: (current?: Line) => Line | undefined;
   setActiveLine: (line: Line) => void;
 }
 
@@ -23,5 +24,6 @@ const activeScene: Scene = {
 export default React.createContext<PlayPosition>({
   activeScene,
   activeLine,
-  setActiveLine: () => null
+  setActiveLine: () => null,
+  getNextLine: () => undefined,
 });
