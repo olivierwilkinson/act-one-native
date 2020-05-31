@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import styled from "styled-components/native";
-import { TouchableWithoutFeedback } from "react-native";
+import { TouchableWithoutFeedback, AsyncStorage } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import {
   FlingGestureHandler,
@@ -187,7 +187,12 @@ export default () => {
                           return;
                         }
 
-                        await audio.speak(activeLine);
+                        const uri = await AsyncStorage.getItem(`line:${activeLine.id}`);
+                        if (uri) {
+                          await audio.play(uri);
+                        } else {
+                          await audio.speak(activeLine);
+                        }
                       } catch (e) {
                         console.error(e);
                       }

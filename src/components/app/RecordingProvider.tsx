@@ -81,21 +81,23 @@ const RecordingProvider = ({ children }: Props) => {
         record: async (key: string) => {
           await stopRecording(recording);
           checkCanRecord(permissions);
-          setRecording(
-            await record((status) => {
-              if (!status.isDoneRecording) {
-                return;
-              }
 
-              const uri = recording?.getURI();
-              if (!uri) {
-                return;
-              }
+          const newRecording = await record((status) => {
+            if (!status.isDoneRecording) {
+              return;
+            }
 
-              AsyncStorage.setItem(key, uri)
-                .catch(console.error);
-            })
-          );
+            const uri = newRecording.getURI();
+            if (!uri) {
+              return;
+            }
+
+            AsyncStorage.removeItem(key)
+              .then(() => AsyncStorage.setItem(key, uri))
+              .catch(console.error)
+          })
+
+          setRecording(newRecording);
         },
       }}
     >

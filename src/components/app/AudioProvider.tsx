@@ -16,6 +16,7 @@ const AudioProvider = ({ children }: Props) => {
     Recording
   );
   const [audioState, setAudioState] = useState(AudioState.Stopped);
+  const [sound, setSound] = useState<Audio.Sound>();
 
   const stop = async () => {
     switch (audioState) {
@@ -28,13 +29,30 @@ const AudioProvider = ({ children }: Props) => {
         break;
 
       case AudioState.Playing:
+        await sound?.stopAsync();
+        setSound(undefined);
         break;
     }
 
     setAudioState(AudioState.Stopped);
   };
 
+  const play = async (uri: string) => {
+    await stop();
+    const newSound = new Audio.Sound();
+    await newSound.loadAsync({ uri });
+    await newSound.playAsync();
+    newSound.setOnPlaybackStatusUpdate((status) => {
+      // @ts-ignore
+      if (status.didJustFinish) {
+        stop();
+      }
+    })
+    setAudioState(AudioState.Playing);
+  };
+
   const record = async (line: Line) => {
+    // this should be key still
     await stop();
 
     try {
@@ -46,6 +64,7 @@ const AudioProvider = ({ children }: Props) => {
   };
 
   const speak = async (line: Line, options?: Speech.SpeechOptions) => {
+    // this should accept text not line
     if (await Speech.isSpeakingAsync()) {
       setAudioState(AudioState.Speaking);
       return Speech.resume();
@@ -71,8 +90,6 @@ const AudioProvider = ({ children }: Props) => {
   };
 
   const pause = async () => {
-    setAudioState(AudioState.Paused);
-
     switch (audioState) {
       case AudioState.Recording:
         await recording?.pauseAsync();
@@ -83,11 +100,14 @@ const AudioProvider = ({ children }: Props) => {
         break;
 
       case AudioState.Playing:
+        await sound?.pauseAsync();
         break;
 
       default:
         break;
     }
+
+    setAudioState(AudioState.Paused);
   };
 
   useEffect(() => {
@@ -106,6 +126,7 @@ const AudioProvider = ({ children }: Props) => {
     <AudioContext.Provider
       value={{
         audioState,
+        play,
         record,
         speak,
         pause,

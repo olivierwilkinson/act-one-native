@@ -12,6 +12,7 @@ export enum AudioState {
 
 export interface AudioContextValue {
   audioState: AudioState;
+  play: (uri: string) => Promise<void>;
   record: (line: Line) => Promise<void>;
   speak: (line: Line, options?: Speech.SpeechOptions) => Promise<void>;
   pause: () => Promise<void>;
@@ -20,6 +21,7 @@ export interface AudioContextValue {
 
 export default React.createContext<AudioContextValue>({
   audioState: AudioState.Stopped,
+  play: async () => {},
   record: async () => {},
   speak: async () => {},
   pause: async () => {},
