@@ -51,27 +51,26 @@ const AudioProvider = ({ children }: Props) => {
     setAudioState(AudioState.Playing);
   };
 
-  const record = async (line: Line) => {
-    // this should be key still
+  const record = async (key: string) => {
     await stop();
 
     try {
-      await beginRecording(`line:${line.id}`);
       setAudioState(AudioState.Recording);
+      await beginRecording(key);
     } catch (_) {
+      setAudioState(AudioState.Stopped)
       // catch case where permission not granted
     }
   };
 
-  const speak = async (line: Line, options?: Speech.SpeechOptions) => {
-    // this should accept text not line
+  const speak = async (text: string, options?: Speech.SpeechOptions) => {
     if (await Speech.isSpeakingAsync()) {
       setAudioState(AudioState.Speaking);
       return Speech.resume();
     }
 
     return new Promise<void>((res, rej) =>
-      Speech.speak(getLineText(line), {
+      Speech.speak(text, {
         voice: "com.apple.ttsbundle.Daniel-compact",
         ...options,
         onStart: () => {

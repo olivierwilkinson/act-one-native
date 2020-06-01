@@ -20,6 +20,7 @@ import { lightGray, mediumGray, mediumLightGray } from "../../styles/colours";
 import { subFont } from "../../styles/typography";
 import PlayPosition from "../../contexts/PlayPosition";
 import PlaySettings from "../../contexts/PlaySettings";
+import { getLineText } from "../../helpers/play";
 const modes = [PlaybackMode.Play, PlaybackMode.Record];
 
 const ControlsView = styled.SafeAreaView`
@@ -191,7 +192,7 @@ export default () => {
                         if (uri) {
                           await audio.play(uri);
                         } else {
-                          await audio.speak(activeLine);
+                          await audio.speak(getLineText(activeLine));
                         }
                       } catch (e) {
                         console.error(e);
@@ -273,11 +274,11 @@ export default () => {
                           }
 
                           if (activeLine.player === selectedPlayer) {
-                            await audio.record(activeLine);
+                            await audio.record(`line:${activeLine.id}`);
                             return;
                           }
 
-                          await audio.speak(activeLine);
+                          await audio.speak(getLineText(activeLine));
                         } catch (e) {
                           console.error(e);
                         }
