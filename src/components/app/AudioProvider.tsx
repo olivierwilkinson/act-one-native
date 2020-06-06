@@ -3,8 +3,6 @@ import * as Speech from "expo-speech";
 import { Audio } from "expo-av";
 
 import AudioContext, { AudioState } from "../../contexts/Audio";
-import { getLineText } from "../../helpers/play";
-import { Line } from "../../types/play-types";
 import Recording from "../../contexts/Recording";
 
 type Props = {
@@ -75,6 +73,9 @@ const AudioProvider = ({ children }: Props) => {
         ...options,
         onStart: () => {
           setAudioState(AudioState.Speaking);
+          if (options?.onStart) {
+            options.onStart();
+          }
         },
         onDone: () => {
           setAudioState(AudioState.Stopped);
