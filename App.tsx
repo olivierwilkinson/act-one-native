@@ -1,9 +1,11 @@
 import React from "react";
+import { AsyncStorage} from 'react-native';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import PermissionsProvider from "./src/components/app/PermissionsProvider";
 import RecordingProvider from "./src/components/app/RecordingProvider";
+import SoundProvider from "./src/components/app/SoundProvider";
 import AudioProvider from "./src/components/app/AudioProvider";
 import HomeScreen from "./src/screens/HomeScreen";
 import PlayScreen from "./src/screens/PlayScreen";
@@ -23,23 +25,27 @@ if (process.env.NODE_ENV === "test") {
   };
 }
 
+AsyncStorage.clear();
+
 const Stack = createStackNavigator<MainStackParamList>();
 
 export default () => (
   <PermissionsProvider>
     <RecordingProvider>
-      <AudioProvider>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="Home">
-            <Stack.Screen
-              name="Home"
-              component={HomeScreen}
-              options={HomeScreen.navigationOptions}
-            />
-            <Stack.Screen name="Play" component={PlayScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </AudioProvider>
+      <SoundProvider>
+        <AudioProvider>
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName="Home">
+              <Stack.Screen
+                name="Home"
+                component={HomeScreen}
+                options={HomeScreen.navigationOptions}
+              />
+              <Stack.Screen name="Play" component={PlayScreen} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </AudioProvider>
+      </SoundProvider>
     </RecordingProvider>
   </PermissionsProvider>
 );

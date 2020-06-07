@@ -19,8 +19,7 @@ import Playback, { PlaybackMode } from "../../contexts/Playback";
 import { lightGray, mediumGray, mediumLightGray } from "../../styles/colours";
 import { subFont } from "../../styles/typography";
 import PlayPosition from "../../contexts/PlayPosition";
-import PlaySettings from "../../contexts/PlaySettings";
-import { getLineText } from "../../helpers/play";
+
 const modes = [PlaybackMode.Play, PlaybackMode.Record];
 
 const ControlsView = styled.SafeAreaView`
@@ -64,13 +63,13 @@ const ButtonView = styled(Animated.View)`
 `;
 
 export default () => {
-  const { mode: activeMode, setMode } = useContext(Playback);
+  const { mode: activeMode, setMode, start } = useContext(Playback);
   const audio: AudioContextValue = useContext(AudioContext);
-  const { settings: { selectedPlayer}} = useContext(PlaySettings);
   const { activeLine } = useContext(PlayPosition);
-  const isPlaying =
-    audio.audioState === AudioState.Playing ||
-    audio.audioState === AudioState.Speaking;
+  const isPlaying = audio.audioState === AudioState.Playing;
+  const isSpeaking = audio.audioState === AudioState.Speaking;
+  const isPaused = audio.audioState === AudioState.Paused;
+  const isStopped = audio.audioState === AudioState.Stopped;
   const isRecording = audio.audioState === AudioState.Recording;
 
   const [expanded, setExpanded] = useState(true);
@@ -183,17 +182,17 @@ export default () => {
                     disabled={PlaybackMode.Play !== activeMode}
                     onPress={async () => {
                       try {
-                        if (isPlaying) {
+                        if (isPlaying || isSpeaking) {
                           await audio.pause();
                           return;
                         }
 
-                        const uri = await AsyncStorage.getItem(`line:${activeLine.id}`);
-                        if (uri) {
-                          await audio.play(uri);
-                        } else {
-                          await audio.speak(getLineText(activeLine));
+                        if (isPaused) {
+                          await audio.resume();
+                          return;
                         }
+
+                        await start(activeLine);
                       } catch (e) {
                         console.error(e);
                       }
@@ -216,7 +215,7 @@ export default () => {
                       }}
                     >
                       <Ionicons
-                        name={isPlaying ? "ios-pause" : "ios-play"}
+                        name={(isStopped || isPaused) ? "ios-play" : "ios-pause"}
                         size={40}
                         color="rgb(80, 80, 80)"
                       />
@@ -263,22 +262,22 @@ export default () => {
                       disabled={PlaybackMode.Record !== activeMode}
                       onPress={async () => {
                         try {
-                          if (isPlaying) {
+                          if (isPlaying || isSpeaking) {
                             await audio.pause();
                             return;
                           }
 
+                          if (isPaused) {
+                            await audio.resume();
+                            return;
+                          }
+
                           if (isRecording) {
-                            await audio.stop();
+                            await audio.finish();
                             return;
                           }
 
-                          if (activeLine.player === selectedPlayer) {
-                            await audio.record(`line:${activeLine.id}`);
-                            return;
-                          }
-
-                          await audio.speak(getLineText(activeLine));
+                          await start(activeLine);
                         } catch (e) {
                           console.error(e);
                         }

@@ -1,59 +1,33 @@
 import React, { useState, useEffect, ReactNode, useContext } from "react";
 import { Audio } from "expo-av";
-import { Alert, Linking, AsyncStorage } from "react-native";
+import { AsyncStorage } from "react-native";
 import { AUDIO_RECORDING, PermissionMap } from "expo-permissions";
 
 import Recording from "../../contexts/Recording";
-import Permissions from "../../contexts/Permissions";
+import Permissions, { PermissionError } from "../../contexts/Permissions";
 
 type Props = {
   children: ReactNode;
 };
 
-const record = async (
-  onStatusUpdate: (status: Audio.RecordingStatus) => void
-) => {
-  const recording = new Audio.Recording();
-  recording.setOnRecordingStatusUpdate(onStatusUpdate);
-  await recording.prepareToRecordAsync();
-  await recording.startAsync();
-  return recording;
-};
-
-const stopRecording = async (recording?: Audio.Recording) => {
-  if (!recording) {
-    return;
-  }
-
-  const status = await recording.getStatusAsync();
-  if (status.isRecording) {
-    await recording.stopAndUnloadAsync();
-  }
-};
+const waitForRecording = async (recording: Audio.Recording) =>
+  new Promise((res) => {
+    recording.setOnRecordingStatusUpdate((status) => {
+      if (status.isDoneRecording) {
+        res();
+      }
+    });
+  });
 
 const checkCanRecord = (permissions: PermissionMap) => {
   if (permissions[AUDIO_RECORDING]?.granted) {
     return;
   }
 
-  Alert.alert(
-    "Unable to record",
-    "We can't access your microphone, please update your permissions in the Settings app...",
-    [
-      {
-        text: "Cancel",
-        style: "cancel",
-      },
-      {
-        text: "Settings",
-        onPress: () => Linking.openURL("app-settings:"),
-      },
-    ]
+  throw new PermissionError(
+    "We are unable to access your microphone, please update your permissions in the Settings app..."
   );
-
-  throw new Error("Permission not granted to access microphone");
-}
-
+};
 
 const RecordingProvider = ({ children }: Props) => {
   const { permissions } = useContext(Permissions);
@@ -74,30 +48,29 @@ const RecordingProvider = ({ children }: Props) => {
   return (
     <Recording.Provider
       value={{
-        stop: async () => {
-          await stopRecording(recording);
-          setRecording(undefined);
-        },
+        recording,
         record: async (key: string) => {
-          await stopRecording(recording);
           checkCanRecord(permissions);
-
-          const newRecording = await record((status) => {
-            if (!status.isDoneRecording) {
-              return;
+          if (recording) {
+            const status = await recording.getStatusAsync();
+            if (status.isRecording) {
+              await recording.stopAndUnloadAsync();
             }
+          }
 
-            const uri = newRecording.getURI();
-            if (!uri) {
-              return;
-            }
+          const rec = new Audio.Recording();
+          setRecording(rec);
 
-            AsyncStorage.removeItem(key)
-              .then(() => AsyncStorage.setItem(key, uri))
-              .catch(console.error)
-          })
+          await rec.prepareToRecordAsync();
+          await rec.startAsync();
+          await waitForRecording(rec);
+          setRecording(undefined);
 
-          setRecording(newRecording);
+          const uri = rec.getURI();
+          if (!uri) return;
+
+          await AsyncStorage.removeItem(key);
+          await AsyncStorage.setItem(key, uri);
         },
       }}
     >

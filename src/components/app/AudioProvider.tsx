@@ -1,113 +1,26 @@
 import React, { useState, ReactNode, useContext, useEffect } from "react";
 import * as Speech from "expo-speech";
 import { Audio } from "expo-av";
+import { Alert, Linking } from "react-native";
 
 import AudioContext, { AudioState } from "../../contexts/Audio";
 import Recording from "../../contexts/Recording";
+import Sound from "../../contexts/Sound";
+import { PermissionError } from "../../contexts/Permissions";
 
 type Props = {
   children: ReactNode;
 };
 
 const AudioProvider = ({ children }: Props) => {
-  const { recording, record: beginRecording, stop: stopRecording } = useContext(
-    Recording
-  );
+  const { recording, record } = useContext(Recording);
+  const { sound, play } = useContext(Sound);
   const [audioState, setAudioState] = useState(AudioState.Stopped);
-  const [sound, setSound] = useState<Audio.Sound>();
 
-  const stop = async () => {
-    switch (audioState) {
-      case AudioState.Recording:
-        await stopRecording();
-        break;
-
-      case AudioState.Speaking:
-        await Speech.stop();
-        break;
-
-      case AudioState.Playing:
-        await sound?.stopAsync();
-        setSound(undefined);
-        break;
-    }
-
-    setAudioState(AudioState.Stopped);
-  };
-
-  const play = async (uri: string) => {
-    await stop();
-    const newSound = new Audio.Sound();
-    await newSound.loadAsync({ uri });
-    await newSound.playAsync();
-    newSound.setOnPlaybackStatusUpdate((status) => {
-      // @ts-ignore
-      if (status.didJustFinish) {
-        stop();
-      }
-    })
-    setAudioState(AudioState.Playing);
-  };
-
-  const record = async (key: string) => {
-    await stop();
-
-    try {
-      setAudioState(AudioState.Recording);
-      await beginRecording(key);
-    } catch (_) {
-      setAudioState(AudioState.Stopped)
-      // catch case where permission not granted
-    }
-  };
-
-  const speak = async (text: string, options?: Speech.SpeechOptions) => {
-    if (await Speech.isSpeakingAsync()) {
-      setAudioState(AudioState.Speaking);
-      return Speech.resume();
-    }
-
-    return new Promise<void>((res, rej) =>
-      Speech.speak(text, {
-        voice: "com.apple.ttsbundle.Daniel-compact",
-        ...options,
-        onStart: () => {
-          setAudioState(AudioState.Speaking);
-          if (options?.onStart) {
-            options.onStart();
-          }
-        },
-        onDone: () => {
-          setAudioState(AudioState.Stopped);
-          res();
-        },
-        onError: (e) => {
-          setAudioState(AudioState.Stopped);
-          rej(e);
-        },
-      })
-    );
-  };
-
-  const pause = async () => {
-    switch (audioState) {
-      case AudioState.Recording:
-        await recording?.pauseAsync();
-        break;
-
-      case AudioState.Speaking:
-        await Speech.pause();
-        break;
-
-      case AudioState.Playing:
-        await sound?.pauseAsync();
-        break;
-
-      default:
-        break;
-    }
-
-    setAudioState(AudioState.Paused);
+  const stopAudio = async () => {
+    await recording?.stopAndUnloadAsync();
+    await Speech.stop();
+    await sound?.stopAsync();
   };
 
   useEffect(() => {
@@ -126,11 +39,109 @@ const AudioProvider = ({ children }: Props) => {
     <AudioContext.Provider
       value={{
         audioState,
-        play,
-        record,
-        speak,
-        pause,
-        stop,
+        stop: async () => {
+          await stopAudio();
+
+          setAudioState(AudioState.Stopped);
+        },
+        finish: async () => {
+          await stopAudio();
+
+          setAudioState(AudioState.Finished);
+        },
+        play: async (uri: string) => {
+          await stopAudio();
+
+          setAudioState(AudioState.Playing);
+          await play(uri);
+
+          setAudioState(AudioState.Finished);
+        },
+        record: async (key: string) => {
+          await stopAudio();
+
+          try {
+            setAudioState(AudioState.Recording);
+            await record(key);
+          } catch (e) {
+            if (e instanceof PermissionError) {
+              Alert.alert("Unable to record", e.message, [
+                {
+                  text: "Cancel",
+                  style: "cancel",
+                },
+                {
+                  text: "Settings",
+                  onPress: () => Linking.openURL("app-settings:"),
+                },
+              ]);
+            }
+          }
+
+          setAudioState(AudioState.Finished);
+        },
+        speak: async (text: string, options?: Speech.SpeechOptions) => {
+          await stopAudio();
+
+          return new Promise<void>((res, rej) =>
+            Speech.speak(text, {
+              voice: "com.apple.ttsbundle.Daniel-compact",
+              ...options,
+              onStart: () => {
+                setAudioState(AudioState.Speaking);
+                if (options?.onStart) {
+                  options.onStart();
+                }
+              },
+              onDone: () => {
+                setAudioState(AudioState.Finished);
+                res();
+              },
+              onError: (e) => {
+                setAudioState(AudioState.Stopped);
+                rej(e);
+              },
+            })
+          );
+        },
+        pause: async () => {
+          switch (audioState) {
+            case AudioState.Recording:
+              await recording?.pauseAsync();
+              break;
+
+            case AudioState.Speaking:
+              await Speech.pause();
+              break;
+
+            case AudioState.Playing:
+              await sound?.pauseAsync();
+              break;
+
+            default:
+              break;
+          }
+
+          setAudioState(AudioState.Paused);
+        },
+        resume: async () => {
+          if (sound) {
+            setAudioState(AudioState.Playing);
+            await sound.playAsync();
+            return;
+          }
+
+          if (recording) {
+            setAudioState(AudioState.Recording);
+            await recording.startAsync();
+            return;
+          }
+
+          if (await Speech.isSpeakingAsync()) {
+            setAudioState(AudioState.Speaking);
+            await Speech.resume();
+          }
+        },
       }}
     >
       {children}

@@ -2,11 +2,12 @@ import React from "react";
 import * as Speech from 'expo-speech';
 
 export enum AudioState {
+  Stopped = "STOPPED",
   Speaking = "SPEAKING",
   Playing = "PLAYING",
-  Paused = "PAUSED",
-  Stopped = "STOPPED",
   Recording = "RECORDING",
+  Paused = "PAUSED",
+  Finished = "FINISHED"
 }
 
 export interface AudioContextValue {
@@ -15,7 +16,9 @@ export interface AudioContextValue {
   record: (key: string) => Promise<void>;
   speak: (text: string, options?: Speech.SpeechOptions) => Promise<void>;
   pause: () => Promise<void>;
+  resume: () => Promise<void>;
   stop: () => Promise<void>;
+  finish: () => Promise<void>;
 }
 
 export default React.createContext<AudioContextValue>({
@@ -24,5 +27,7 @@ export default React.createContext<AudioContextValue>({
   record: async () => {},
   speak: async () => {},
   pause: async () => {},
+  resume: async () => {},
   stop: async () => {},
+  finish: async () => {},
 });
