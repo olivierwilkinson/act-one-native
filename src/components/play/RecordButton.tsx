@@ -32,13 +32,14 @@ export type Props = TouchableWithoutFeedbackProps & {
 };
 
 export default ({ audioState, ...touchableProps }: Props) => {
-  const [borderRadius, , { toValue: borderRadiusTo, duration: borderRadiusDuration }] = useTiming({
+  const [borderRadius, , { toValue: borderRadiusTo }] = useTiming({
     toValue: 20,
     position: 20,
     duration: 200,
   });
-  const [scale, , { toValue: scaleTo, duration: scaleDuration }] = useTiming({
+  const [scale, , { toValue: scaleTo }] = useTiming({
     toValue: 0,
+    duration: 200,
   });
 
   useEffect(() => {
@@ -46,20 +47,18 @@ export default ({ audioState, ...touchableProps }: Props) => {
       case AudioState.Recording:
         borderRadiusTo.setValue(5);
         scaleTo.setValue(0.8);
-        scaleDuration.setValue(200);
-        borderRadiusDuration.setValue(150);
         break;
 
       case AudioState.Playing:
       case AudioState.Speaking:
+      case AudioState.Finished:
+        borderRadiusTo.setValue(20);
         scaleTo.setValue(1);
-        scaleDuration.setValue(50);
         break;
 
       default:
         borderRadiusTo.setValue(20);
         scaleTo.setValue(0);
-        scaleDuration.setValue(50);
         break;
     }
   }, [audioState]);

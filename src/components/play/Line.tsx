@@ -4,7 +4,7 @@ import styled from "styled-components/native";
 
 import { Line as LineType } from "../../types/play-types";
 import PlayPositionContext from "../../contexts/PlayPosition";
-import AudioContext from "../../contexts/Audio";
+import PlaybackContext from "../../contexts/Playback";
 import { lightPrimaryColour, playBackgroundColour } from "../../styles/colours";
 
 import LineRow from "./LineRow";
@@ -20,7 +20,7 @@ const LineView = styled.View`
 const Line = (line: LineType) => {
   const { id, lineRows, player } = line;
   const { activeLine, setActiveLine } = useContext(PlayPositionContext);
-  const { stop } = useContext(AudioContext);
+  const { stop } = useContext(PlaybackContext);
 
   return (
     <TouchableHighlight

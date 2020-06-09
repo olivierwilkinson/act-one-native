@@ -49,7 +49,7 @@ const RecordingProvider = ({ children }: Props) => {
     <Recording.Provider
       value={{
         recording,
-        record: async (key: string) => {
+        record: async (key: string, onStart: () => void) => {
           checkCanRecord(permissions);
           if (recording) {
             const status = await recording.getStatusAsync();
@@ -63,6 +63,8 @@ const RecordingProvider = ({ children }: Props) => {
 
           await rec.prepareToRecordAsync();
           await rec.startAsync();
+          onStart();
+
           await waitForRecording(rec);
           setRecording(undefined);
 

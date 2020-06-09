@@ -1,6 +1,5 @@
-import React, { useState, ReactNode, useContext, useEffect } from "react";
+import React, { useState, ReactNode, useContext } from "react";
 import * as Speech from "expo-speech";
-import { Audio } from "expo-av";
 import { Alert, Linking } from "react-native";
 
 import AudioContext, { AudioState } from "../../contexts/Audio";
@@ -18,22 +17,16 @@ const AudioProvider = ({ children }: Props) => {
   const [audioState, setAudioState] = useState(AudioState.Stopped);
 
   const stopAudio = async () => {
-    await recording?.stopAndUnloadAsync();
-    await Speech.stop();
-    await sound?.stopAsync();
-  };
+    if (recording) {
+      const status = await recording.getStatusAsync();
+      if (status.isRecording) {
+        await recording?.stopAndUnloadAsync();
+      }
+    }
 
-  useEffect(() => {
-    Audio.setAudioModeAsync({
-      allowsRecordingIOS: true,
-      interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
-      playsInSilentModeIOS: true,
-      shouldDuckAndroid: true,
-      interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-      playThroughEarpieceAndroid: false,
-      staysActiveInBackground: true,
-    });
-  }, []);
+    await sound?.stopAsync();
+    await Speech.stop();
+  };
 
   return (
     <AudioContext.Provider
@@ -52,8 +45,9 @@ const AudioProvider = ({ children }: Props) => {
         play: async (uri: string) => {
           await stopAudio();
 
-          setAudioState(AudioState.Playing);
-          await play(uri);
+          await play(uri, () => {
+            setAudioState(AudioState.Playing);
+          });
 
           setAudioState(AudioState.Finished);
         },
@@ -61,8 +55,9 @@ const AudioProvider = ({ children }: Props) => {
           await stopAudio();
 
           try {
-            setAudioState(AudioState.Recording);
-            await record(key);
+            await record(key, () => {
+              setAudioState(AudioState.Recording);
+            });
           } catch (e) {
             if (e instanceof PermissionError) {
               Alert.alert("Unable to record", e.message, [
@@ -76,9 +71,8 @@ const AudioProvider = ({ children }: Props) => {
                 },
               ]);
             }
+            throw e;
           }
-
-          setAudioState(AudioState.Finished);
         },
         speak: async (text: string, options?: Speech.SpeechOptions) => {
           await stopAudio();

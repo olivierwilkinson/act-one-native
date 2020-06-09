@@ -6,7 +6,7 @@ import { playBackgroundColour, lightPrimaryColour } from "../../styles/colours";
 import { RGBColour } from "../../types/colour-types";
 import { Line } from "../../types/play-types";
 import PlayPositionContext from "../../contexts/PlayPosition";
-import AudioContext from "../../contexts/Audio";
+import PlaybackContext from "../../contexts/Playback";
 import PlayerBubble from "./PlayerBubble";
 import PlaySettingsContext from "../../contexts/PlaySettings";
 
@@ -29,7 +29,7 @@ const LineHeader = ({ colour, ...line }: Props) => {
   const {
     settings: { selectedPlayer }
   } = useContext(PlaySettingsContext);
-  const { stop } = useContext(AudioContext);
+  const { stop } = useContext(PlaybackContext);
   const { player, id } = line;
   const isCurrentLine = activeLine.id === id;
 

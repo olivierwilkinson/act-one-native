@@ -1,4 +1,10 @@
-import React, { useState, ReactNode, useEffect, useContext } from "react";
+import React, {
+  useState,
+  ReactNode,
+  useEffect,
+  useContext,
+  useRef,
+} from "react";
 import { AUDIO_RECORDING } from "expo-permissions";
 
 import Playback, { PlaybackMode } from "../../contexts/Playback";
@@ -17,44 +23,53 @@ type Props = {
 const PlaybackProvider = ({ children }: Props) => {
   const { permissions, requesting, ask } = useContext(PermissionsContext);
   const { play, record, speak, stop } = useContext(Audio);
-  const { activeScene, setActiveLine } = useContext(PlayPosition);
+
+  const { activeScene, activeLine, setActiveLine } = useContext(PlayPosition);
   const {
     settings: { selectedPlayer },
   } = useContext(PlaySettings);
+
   const [mode, setMode] = useState(PlaybackMode.Play);
+  const stoppedFlag = useRef(false);
 
-  const start = async (line: Line) => {
-    switch (mode) {
-      case PlaybackMode.Play:
-        console.log(`line:${line.id}`);
-        const recordingUri = await AsyncStorage.getItem(`line:${line.id}`);
-        if (recordingUri) {
-          await play(recordingUri);
+  const run: (line: Line) => Promise<void> = async (line: Line) => {
+    try {
+      switch (mode) {
+        case PlaybackMode.Play:
+          const recordingUri = await AsyncStorage.getItem(`line:${line.id}`);
+          if (recordingUri) {
+            await play(recordingUri);
+            break;
+          }
+
+          await speak(getLineText(line));
           break;
-        }
 
-        await speak(getLineText(line));
-        break;
+        case PlaybackMode.Record:
+          if (line.player === selectedPlayer) {
+            await record(`line:${line.id}`);
+            break;
+          }
 
-      case PlaybackMode.Record:
-        if (line.player === selectedPlayer) {
-          await record(`line:${line.id}`);
+          await speak(getLineText(line));
           break;
-        }
+      }
+    } catch (_) {
+      return stop();
+    }
 
-        await speak(getLineText(line));
-        break;
+    if (stoppedFlag.current) {
+      return stop();
     }
 
     const lineIndex = activeScene.lines.findIndex(({ id }) => id === line.id);
     const nextLine = activeScene.lines[lineIndex + 1];
     if (!nextLine) {
-      await stop();
-      return;
+      return stop();
     }
 
     setActiveLine(nextLine);
-    await start(nextLine);
+    return run(nextLine);
   };
 
   useEffect(() => {
@@ -74,8 +89,19 @@ const PlaybackProvider = ({ children }: Props) => {
     <Playback.Provider
       value={{
         mode,
-        setMode,
-        start,
+        setMode: (mode: PlaybackMode) => {
+          setMode(mode);
+          stoppedFlag.current = true;
+          return stop();
+        },
+        start: () => {
+          stoppedFlag.current = false;
+          return run(activeLine);
+        },
+        stop: () => {
+          stoppedFlag.current = true;
+          return stop();
+        },
       }}
     >
       {children}

@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import styled, { css } from "styled-components/native";
 
 import PlayNavigationContext from "../../contexts/PlayNavigation";
-import Audio from "../../contexts/Audio";
+import Playback from "../../contexts/Playback";
 import { Scene } from "../../types/play-types";
 import { mediumSizeFont } from "../../styles/typography";
 import { mediumLightGray, mediumGray, lightGray } from "../../styles/colours";
@@ -64,7 +64,7 @@ export default ({ act, scene, openSceneSelect }: Props) => {
   const { goToNextScene, goToPreviousScene } = useContext(
     PlayNavigationContext
   );
-  const { stop } = useContext(Audio);
+  const { stop } = useContext(Playback);
 
   return (
     <SceneHeaderView testID="play-scene-header">

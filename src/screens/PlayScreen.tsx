@@ -13,7 +13,7 @@ import SceneSelectModal from "../components/play/SceneSelectModal";
 import { bigSizeFont } from "../styles/typography";
 import { PlayNavigationProp, PlayRouteProp } from "../types/navigation-types";
 import PlaybackProvider from "../components/play/PlaybackProvider";
-import Audio from '../contexts/Audio';
+import Playback from '../contexts/Playback';
 
 export type Props = {
   navigation: PlayNavigationProp;
@@ -26,7 +26,7 @@ const HeaderText = styled.Text`
 `;
 
 export default ({ navigation, route }: Props) => {
-  const { stop } = useContext(Audio);
+  const { stop } = useContext(Playback);
   const [settingsActive, setSettingsActive] = useState(false);
   const [sceneSelectActive, setSceneSelectActive] = useState(false);
   const openSceneSelect = useCallback(() => setSceneSelectActive(true), [

@@ -24,7 +24,7 @@ const SoundProvider = ({ children }: Props) => {
     <Sound.Provider
       value={{
         sound,
-        play: async (uri: string) => {
+        play: async (uri: string, onStart: () => void) => {
           if (sound) {
             const status = await sound.getStatusAsync();
             if (status.isLoaded) {
@@ -37,6 +37,8 @@ const SoundProvider = ({ children }: Props) => {
 
           await newSound.loadAsync({ uri });
           await newSound.playAsync();
+
+          onStart();
           await waitForSound(newSound);
 
           setSound(undefined);

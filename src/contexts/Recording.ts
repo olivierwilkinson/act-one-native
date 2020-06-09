@@ -3,7 +3,7 @@ import { Audio } from 'expo-av';
 
 export interface RecordingContextValue {
   recording?: Audio.Recording;
-  record: (key: string) => Promise<void>;
+  record: (key: string, onStart: () => void) => Promise<void>;
 }
 
 export default React.createContext<RecordingContextValue>({
