@@ -1,5 +1,4 @@
 import React from "react";
-import { AsyncStorage} from 'react-native';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -24,8 +23,6 @@ if (process.env.NODE_ENV === "test") {
     animationEnabled: false,
   };
 }
-
-AsyncStorage.clear();
 
 const Stack = createStackNavigator<MainStackParamList>();
 
