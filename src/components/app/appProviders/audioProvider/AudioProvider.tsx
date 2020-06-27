@@ -2,10 +2,10 @@ import React, { useState, ReactNode, useContext } from "react";
 import * as Speech from "expo-speech";
 import { Alert, Linking } from "react-native";
 
-import AudioContext, { AudioState } from "../../contexts/Audio";
-import Recording from "../../contexts/Recording";
-import Sound from "../../contexts/Sound";
-import { PermissionError } from "../../contexts/Permissions";
+import AudioContext, { AudioState } from "../../../../contexts/Audio";
+import Recording from "../../../../contexts/Recording";
+import Sound from "../../../../contexts/Sound";
+import { PermissionError } from "../../../../contexts/Permissions";
 
 type Props = {
   children: ReactNode;

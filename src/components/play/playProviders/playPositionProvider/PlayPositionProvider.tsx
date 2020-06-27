@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 
-import { Play as PlayType } from "../../types/play-types";
-import PlayPositionContext from "../../contexts/PlayPosition";
-import PlaySettingsContext from "../../contexts/PlaySettings";
-import { findActiveScene } from "../../helpers/play";
+import { Play as PlayType } from "../../../../types/play-types";
+import PlayPositionContext from "../../../../contexts/PlayPosition";
+import PlaySettingsContext from "../../../../contexts/PlaySettings";
+import { findActiveScene } from "../../../../helpers/play";
 
 type Props = {
   play: PlayType;
@@ -37,13 +37,6 @@ const PlayPositionProvider = ({ play, children }: Props) => {
         activeScene,
         activeLine,
         setActiveLine,
-        getNextLine: (current = activeLine) => {
-          const { lines } = activeScene;
-          const currentLineIndex = lines.findIndex(
-            (line) => line.id === current.id
-          );
-          return lines[currentLineIndex + 1];
-        },
       }}
     >
       {children}

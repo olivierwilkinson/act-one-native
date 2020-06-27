@@ -7,13 +7,13 @@ import React, {
 } from "react";
 import { AUDIO_RECORDING } from "expo-permissions";
 
-import Playback, { PlaybackMode } from "../../contexts/Playback";
-import Audio from "../../contexts/Audio";
-import PermissionsContext from "../../contexts/Permissions";
-import { Line } from "../../types/play-types";
-import PlayPosition from "../../contexts/PlayPosition";
-import PlaySettings from "../../contexts/PlaySettings";
-import { getLineText } from "../../helpers/play";
+import Playback, { PlaybackMode } from "../../../../contexts/Playback";
+import Audio from "../../../../contexts/Audio";
+import PermissionsContext from "../../../../contexts/Permissions";
+import { Line } from "../../../../types/play-types";
+import PlayPosition from "../../../../contexts/PlayPosition";
+import PlaySettings from "../../../../contexts/PlaySettings";
+import { getLineText } from "../../../../helpers/play";
 import { AsyncStorage } from "react-native";
 
 type Props = {

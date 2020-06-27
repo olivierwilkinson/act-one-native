@@ -25,7 +25,9 @@ describe("SceneHeader", () => {
     openSceneSelect = jest.fn();
 
     ({ queryByText, queryByTestId, getByTestId } = render(
-      <SceneHeader {...scene} openSceneSelect={openSceneSelect} />
+      <PlayNavigationContext.Provider value={{ openSceneSelect }}>
+        <SceneHeader {...scene} />
+      </PlayNavigationContext.Provider>
     ));
   });
   afterEach(cleanup);
@@ -57,8 +59,8 @@ describe("SceneHeader", () => {
       goToPreviousScene = jest.fn();
 
       ({ queryByTestId, getByTestId } = render(
-        <PlayNavigationContext.Provider value={{ goToPreviousScene }}>
-          <SceneHeader {...scene} openSceneSelect={openSceneSelect} />
+        <PlayNavigationContext.Provider value={{ goToPreviousScene, openSceneSelect }}>
+          <SceneHeader {...scene} />
         </PlayNavigationContext.Provider>
       ));
     });
@@ -85,8 +87,8 @@ describe("SceneHeader", () => {
       goToNextScene = jest.fn();
 
       ({ queryByTestId, getByTestId } = render(
-        <PlayNavigationContext.Provider value={{ goToNextScene }}>
-          <SceneHeader {...scene} openSceneSelect={openSceneSelect} />
+        <PlayNavigationContext.Provider value={{ goToNextScene, openSceneSelect }}>
+          <SceneHeader {...scene} />
         </PlayNavigationContext.Provider>
       ));
     });

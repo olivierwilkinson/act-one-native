@@ -3,8 +3,8 @@ import { Audio } from "expo-av";
 import { AsyncStorage } from "react-native";
 import { AUDIO_RECORDING, PermissionMap } from "expo-permissions";
 
-import Recording from "../../contexts/Recording";
-import Permissions, { PermissionError } from "../../contexts/Permissions";
+import Recording from "../../../../contexts/Recording";
+import Permissions, { PermissionError } from "../../../../contexts/Permissions";
 
 type Props = {
   children: ReactNode;

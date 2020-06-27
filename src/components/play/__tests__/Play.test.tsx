@@ -6,7 +6,7 @@ import {
   GetByAPI,
   fireEvent,
   QueryByAPI,
-  act
+  act,
 } from "react-native-testing-library";
 import { speak, pause, resume, stop } from "expo-speech";
 import "@react-navigation/native";
@@ -14,24 +14,29 @@ import "@react-navigation/native";
 import Play from "../Play";
 import { getLineText } from "../../../helpers/play";
 import AComedyOfErrors from "../../../data/plays/shakespeare/AComedyOfErrors";
-import PlayPositionProvider from "../PlayPositionProvider";
-import PlayNavigationProvider from "../PlayNavigationProvider";
+import PlayPositionProvider from "../playProviders/playPositionProvider/PlayPositionProvider";
+import PlayNavigationProvider from "../playProviders/playNavigationProvider/PlayNavigationProvider";
 import PlaySettingsContext, {
-  PlaySettingsContextValue
+  PlaySettingsContextValue,
 } from "../../../contexts/PlaySettings";
-import PlaybackProvider from "../PlaybackProvider";
+import PlaybackProvider from "../playProviders/playbackProvider/PlaybackProvider";
+import AudioProvider from "../../app/appProviders/audioProvider/AudioProvider";
+import RecordingProvider from "../../app/appProviders/recordingProvider/RecordingProvider";
+import SoundProvider from "../../app/appProviders/soundProvider/SoundProvider";
+import PermissionsProvider from "../../app/appProviders/permissionsProvider/PermissionsProvider";
+import wait from "../../../../test/helpers/wait";
 
 jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
 jest.mock("expo-speech", () => ({
   speak: jest.fn(),
   pause: jest.fn(),
   resume: jest.fn(),
-  stop: jest.fn()
+  stop: jest.fn(),
 }));
 jest.mock("@react-navigation/native", () => {
   const navigation = require("../../../../test/mocks/navigation").default;
   return {
-    useNavigation: jest.fn().mockImplementation(() => navigation)
+    useNavigation: jest.fn().mockImplementation(() => navigation),
   };
 });
 jest.mock("react-native-reanimated", () =>
@@ -46,17 +51,17 @@ const play = {
       ...AComedyOfErrors.scenes[0],
       lines: [
         AComedyOfErrors.scenes[0].lines[0],
-        AComedyOfErrors.scenes[0].lines[1]
-      ]
-    }
-  ]
+        AComedyOfErrors.scenes[0].lines[1],
+      ],
+    },
+  ],
 };
 const {
   scenes: [
     {
-      lines: [firstLine, secondLine]
-    }
-  ]
+      lines: [firstLine, secondLine],
+    },
+  ],
 } = play;
 
 const mockedSpeak = speak as jest.Mock;
@@ -74,23 +79,33 @@ describe("Play", () => {
   beforeEach(async () => {
     settingsContext = {
       settings: { act: 1, scene: 1 },
-      setSettings: jest.fn()
+      setSettings: jest.fn(),
     };
     openSceneSelect = jest.fn();
 
     ({ queryByTestId, getByTestId, getByText } = render(
-      <PlaySettingsContext.Provider value={settingsContext}>
-        <PlayPositionProvider play={play}>
-          <PlayNavigationProvider play={play}>
+      <PermissionsProvider>
+        <RecordingProvider>
+          <SoundProvider>
             <AudioProvider>
-              <PlaybackProvider>
-                <Play play={play} openSceneSelect={openSceneSelect} />
-              </PlaybackProvider>
+              <PlaySettingsContext.Provider value={settingsContext}>
+                <PlayPositionProvider play={play}>
+                  <PlayNavigationProvider play={play}>
+                    <PlaybackProvider>
+                      <Play play={play} />
+                    </PlaybackProvider>
+                  </PlayNavigationProvider>
+                </PlayPositionProvider>
+              </PlaySettingsContext.Provider>
             </AudioProvider>
-          </PlayNavigationProvider>
-        </PlayPositionProvider>
-      </PlaySettingsContext.Provider>
+          </SoundProvider>
+        </RecordingProvider>
+      </PermissionsProvider>
     ));
+
+    await act(async () => {
+      await wait();
+    });
   });
   afterEach(() => {
     cleanup();

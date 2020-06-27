@@ -7,7 +7,7 @@ import {
   askAsync,
 } from "expo-permissions";
 
-import PermissionsContext from "../../contexts/Permissions";
+import PermissionsContext from "../../../../contexts/Permissions";
 
 export type Permissions = PermissionType[];
 type PermissionsRequest = (

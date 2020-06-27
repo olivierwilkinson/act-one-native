@@ -1,7 +1,7 @@
 import React, { useState, ReactNode } from "react";
 import { Audio } from "expo-av";
 
-import Sound from "../../contexts/Sound";
+import Sound from "../../../../contexts/Sound";
 
 type Props = {
   children: ReactNode;
