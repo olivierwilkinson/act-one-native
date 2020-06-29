@@ -8,7 +8,7 @@ import { Line } from "../../../../types/play-types";
 import PlayPosition from "../../../../contexts/PlayPosition";
 import PlaySettings from "../../../../contexts/PlaySettings";
 import { getLineText } from "../../../../helpers/play";
-import { AsyncStorage } from "react-native";
+import AsyncStorage from "@react-native-community/async-storage";
 
 type Props = {
   children: ReactNode;

@@ -1,13 +1,12 @@
-import { AsyncStorage } from "react-native";
+import AsyncStorage from "@react-native-community/async-storage";
 
 import { getStoredSettings, setStoredSettings } from "../storage";
 import { PlaySettings } from "../../contexts/PlaySettings";
 import play from "../../data/plays/shakespeare/AComedyOfErrors";
 
-jest.mock("react-native", () => {
+jest.mock("@react-native-community/async-storage", () => {
   const MockAsyncStorage = require("mock-async-storage").default;
-
-  return { AsyncStorage: new MockAsyncStorage() };
+  return new MockAsyncStorage();
 });
 
 const settings: PlaySettings = {

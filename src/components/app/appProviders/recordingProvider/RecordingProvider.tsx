@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ReactNode, useContext } from "react";
 import { Audio } from "expo-av";
-import { AsyncStorage } from "react-native";
 import { AUDIO_RECORDING, PermissionMap } from "expo-permissions";
+import AsyncStorage from "@react-native-community/async-storage";
 
 import Recording from "../../../../contexts/Recording";
 import Permissions, { PermissionError } from "../../../../contexts/Permissions";
@@ -11,8 +11,8 @@ type Props = {
 };
 
 const waitForRecording = async (recording: Audio.Recording) =>
-  new Promise((res) => {
-    recording.setOnRecordingStatusUpdate((status) => {
+  new Promise(res => {
+    recording.setOnRecordingStatusUpdate(status => {
       if (status.isDoneRecording) {
         res();
       }
@@ -41,7 +41,7 @@ const RecordingProvider = ({ children }: Props) => {
       shouldDuckAndroid: true,
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
       playThroughEarpieceAndroid: false,
-      staysActiveInBackground: true,
+      staysActiveInBackground: true
     });
   }, []);
 
@@ -73,7 +73,7 @@ const RecordingProvider = ({ children }: Props) => {
 
           await AsyncStorage.removeItem(key);
           await AsyncStorage.setItem(key, uri);
-        },
+        }
       }}
     >
       {children}
