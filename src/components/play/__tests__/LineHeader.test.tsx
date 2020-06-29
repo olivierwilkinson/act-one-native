@@ -82,6 +82,7 @@ describe("LineHeader", () => {
             settings: {
               selectedPlayer: line.player
             },
+            openSettings: jest.fn(),
             setSettings: jest.fn()
           }}
         >

@@ -29,10 +29,7 @@ describe("Scene", () => {
   let getByTestId: GetByAPI["getByTestId"];
   let rerender: RenderAPI["rerender"];
   let scrollToLocation: jest.Mock;
-  let openSceneSelect: jest.Mock;
   beforeEach(() => {
-    openSceneSelect = jest.fn();
-
     ({ queryByTestId, getByTestId, rerender } = render(
       <PlayPositionContext.Provider
         value={{
@@ -41,11 +38,7 @@ describe("Scene", () => {
           setActiveLine: () => null
         }}
       >
-        <Scene
-          {...scene}
-          openSceneSelect={openSceneSelect}
-          colourByPlayer={colourByPlayer}
-        />
+        <Scene {...scene} colourByPlayer={colourByPlayer} />
       </PlayPositionContext.Provider>
     ));
 
@@ -82,11 +75,7 @@ describe("Scene", () => {
             setActiveLine: () => null
           }}
         >
-          <Scene
-            {...newScene}
-            openSceneSelect={openSceneSelect}
-            colourByPlayer={colourByPlayer}
-          />
+          <Scene {...newScene} colourByPlayer={colourByPlayer} />
         </PlayPositionContext.Provider>
       );
     });
@@ -111,11 +100,7 @@ describe("Scene", () => {
             setActiveLine: () => null
           }}
         >
-          <Scene
-            {...newScene}
-            openSceneSelect={openSceneSelect}
-            colourByPlayer={colourByPlayer}
-          />
+          <Scene {...newScene} colourByPlayer={colourByPlayer} />
         </PlayPositionContext.Provider>
       );
     });

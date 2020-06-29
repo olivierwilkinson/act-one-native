@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import {
   FlingGestureHandler,
   Directions,
-  State,
+  State
 } from "react-native-gesture-handler";
 import Animated, { interpolate } from "react-native-reanimated";
 import { useTiming } from "react-native-reanimation";
@@ -13,7 +13,7 @@ import RecordButton from "./RecordButton";
 
 import AudioContext, {
   AudioContextValue,
-  AudioState,
+  AudioState
 } from "../../contexts/Audio";
 import Playback, { PlaybackMode } from "../../contexts/Playback";
 import { lightGray, mediumGray, mediumLightGray } from "../../styles/colours";
@@ -76,12 +76,12 @@ export default () => {
   const [position, , { toValue: positionTo }] = useTiming({
     position: -1,
     toValue: -1,
-    duration: 150,
+    duration: 150
   });
   const [scale, , { toValue: scaleTo }] = useTiming({
     position: 1,
     toValue: 1,
-    duration: 150,
+    duration: 150
   });
 
   const activateMode = (mode: PlaybackMode) => {
@@ -149,14 +149,14 @@ export default () => {
                     {
                       translateX: interpolate(position, {
                         inputRange: [-1, 1],
-                        outputRange: [40, -40],
-                      }),
-                    },
+                        outputRange: [40, -40]
+                      })
+                    }
                   ],
                   height: interpolate(scale, {
                     inputRange: [0, 1],
-                    outputRange: [40, 80],
-                  }),
+                    outputRange: [40, 80]
+                  })
                 }}
               >
                 <ModeView>
@@ -169,8 +169,8 @@ export default () => {
                         opacity: scale,
                         height: interpolate(scale, {
                           inputRange: [0, 1],
-                          outputRange: [4, 34],
-                        }),
+                          outputRange: [4, 34]
+                        })
                       }}
                     >
                       <ModeText>{PlaybackMode.Play}</ModeText>
@@ -178,7 +178,7 @@ export default () => {
                   </TouchableWithoutFeedback>
 
                   <TouchableWithoutFeedback
-                    testID="play-action"
+                    testID="play-button"
                     disabled={PlaybackMode.Play !== activeMode}
                     onPress={async () => {
                       try {
@@ -204,18 +204,21 @@ export default () => {
                           {
                             scale: interpolate(scale, {
                               inputRange: [0, 1],
-                              outputRange: [0.8, 1],
-                            }),
-                          },
+                              outputRange: [0.8, 1]
+                            })
+                          }
                         ],
                         opacity: interpolate(position, {
                           inputRange: [-1, 1],
-                          outputRange: [1, 0],
-                        }),
+                          outputRange: [1, 0]
+                        })
                       }}
                     >
                       <Ionicons
-                        name={(isStopped || isPaused) ? "ios-play" : "ios-pause"}
+                        testID={
+                          isStopped || isPaused ? "play-icon" : "pause-icon"
+                        }
+                        name={isStopped || isPaused ? "ios-play" : "ios-pause"}
                         size={40}
                         color="rgb(80, 80, 80)"
                       />
@@ -233,8 +236,8 @@ export default () => {
                         opacity: scale,
                         height: interpolate(scale, {
                           inputRange: [0, 1],
-                          outputRange: [4, 34],
-                        }),
+                          outputRange: [4, 34]
+                        })
                       }}
                     >
                       <ModeText>{PlaybackMode.Record}</ModeText>
@@ -247,14 +250,14 @@ export default () => {
                         {
                           scale: interpolate(scale, {
                             inputRange: [0, 1],
-                            outputRange: [0.8, 1],
-                          }),
-                        },
+                            outputRange: [0.8, 1]
+                          })
+                        }
                       ],
                       opacity: interpolate(position, {
                         inputRange: [-1, 1],
-                        outputRange: [0, 1],
-                      }),
+                        outputRange: [0, 1]
+                      })
                     }}
                   >
                     <RecordButton

@@ -1,42 +1,27 @@
 import "react-native";
 import React from "react";
-import {
-  render,
-  cleanup,
-  GetByAPI,
-  fireEvent,
-  QueryByAPI,
-  act,
-} from "react-native-testing-library";
-import { speak, pause, resume, stop } from "expo-speech";
+import { render, cleanup, fireEvent, act } from "react-native-testing-library";
+import Speech from "expo-speech";
 import "@react-navigation/native";
 
 import Play from "../Play";
 import { getLineText } from "../../../helpers/play";
 import AComedyOfErrors from "../../../data/plays/shakespeare/AComedyOfErrors";
-import PlayPositionProvider from "../playProviders/playPositionProvider/PlayPositionProvider";
-import PlayNavigationProvider from "../playProviders/playNavigationProvider/PlayNavigationProvider";
-import PlaySettingsContext, {
-  PlaySettingsContextValue,
-} from "../../../contexts/PlaySettings";
-import PlaybackProvider from "../playProviders/playbackProvider/PlaybackProvider";
-import AudioProvider from "../../app/appProviders/audioProvider/AudioProvider";
-import RecordingProvider from "../../app/appProviders/recordingProvider/RecordingProvider";
-import SoundProvider from "../../app/appProviders/soundProvider/SoundProvider";
-import PermissionsProvider from "../../app/appProviders/permissionsProvider/PermissionsProvider";
 import wait from "../../../../test/helpers/wait";
+import AppProviders from "../../app/appProviders/AppProviders";
+import PlayProviders from "../playProviders/PlayProviders";
+import { SpeechMock } from "../../../../test/mocks/speech";
+import pressById from "../../../../test/actions/pressById";
 
 jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
-jest.mock("expo-speech", () => ({
-  speak: jest.fn(),
-  pause: jest.fn(),
-  resume: jest.fn(),
-  stop: jest.fn(),
-}));
+jest.mock(
+  "expo-speech",
+  () => jest.requireActual("../../../../test/mocks/speech").default
+);
 jest.mock("@react-navigation/native", () => {
   const navigation = require("../../../../test/mocks/navigation").default;
   return {
-    useNavigation: jest.fn().mockImplementation(() => navigation),
+    useNavigation: jest.fn().mockImplementation(() => navigation)
   };
 });
 jest.mock("react-native-reanimated", () =>
@@ -51,223 +36,187 @@ const play = {
       ...AComedyOfErrors.scenes[0],
       lines: [
         AComedyOfErrors.scenes[0].lines[0],
-        AComedyOfErrors.scenes[0].lines[1],
-      ],
-    },
-  ],
+        AComedyOfErrors.scenes[0].lines[1]
+      ]
+    }
+  ]
 };
 const {
   scenes: [
     {
-      lines: [firstLine, secondLine],
-    },
-  ],
+      lines: [firstLine, secondLine]
+    }
+  ]
 } = play;
 
-const mockedSpeak = speak as jest.Mock;
-const mockedPause = pause as jest.Mock;
-const mockedResume = resume as jest.Mock;
-const mockedStop = stop as jest.Mock;
+const MockedSpeech = (Speech as unknown) as SpeechMock;
+
+const mount = () => {
+  const result = render(
+    <AppProviders>
+      <PlayProviders play={play}>
+        <Play play={play} />
+      </PlayProviders>
+    </AppProviders>
+  );
+
+  return {
+    ...result,
+    pressPlayButton: () => pressById(result, "play-button"),
+    pressRecordButton: () => pressById(result, "record-button")
+  };
+};
 
 describe("Play", () => {
-  let queryByTestId: QueryByAPI["queryByTestId"];
-  let getByTestId: GetByAPI["getByTestId"];
-  let getByText: GetByAPI["getByText"];
-  let settingsContext: PlaySettingsContextValue;
-  let openSceneSelect: jest.Mock;
-
-  beforeEach(async () => {
-    settingsContext = {
-      settings: { act: 1, scene: 1 },
-      setSettings: jest.fn(),
-    };
-    openSceneSelect = jest.fn();
-
-    ({ queryByTestId, getByTestId, getByText } = render(
-      <PermissionsProvider>
-        <RecordingProvider>
-          <SoundProvider>
-            <AudioProvider>
-              <PlaySettingsContext.Provider value={settingsContext}>
-                <PlayPositionProvider play={play}>
-                  <PlayNavigationProvider play={play}>
-                    <PlaybackProvider>
-                      <Play play={play} />
-                    </PlaybackProvider>
-                  </PlayNavigationProvider>
-                </PlayPositionProvider>
-              </PlaySettingsContext.Provider>
-            </AudioProvider>
-          </SoundProvider>
-        </RecordingProvider>
-      </PermissionsProvider>
-    ));
-
-    await act(async () => {
-      await wait();
-    });
-  });
   afterEach(() => {
     cleanup();
-
-    mockedSpeak.mockRestore();
-    mockedPause.mockRestore();
-    mockedResume.mockRestore();
-    mockedStop.mockRestore();
   });
 
-  it("renders play scene header", () => {
+  it("renders play scene header", async () => {
+    const { queryByTestId } = mount();
+    await act(wait);
+
     expect(queryByTestId("play-scene-header")).not.toBeNull();
   });
 
-  it("renders play scene lines", () => {
+  it("renders play scene lines", async () => {
+    const { queryByTestId } = mount();
+    await act(wait);
+
     expect(queryByTestId("play-scene-lines")).not.toBeNull();
   });
 
-  it("renders play scene controls", () => {
+  it("renders play scene controls", async () => {
+    const { queryByTestId } = mount();
+    await act(wait);
+
     expect(queryByTestId("playback-controls")).not.toBeNull();
   });
 
-  it("starts speaking when play/pause button pressed", async () => {
-    const playPauseButton = getByTestId("play-action");
-    fireEvent.press(playPauseButton);
+  it("starts speaking when play button pressed", async () => {
+    const { pressPlayButton } = mount();
+    await act(wait);
+
+    await pressPlayButton();
+    await act(async () => {
+      MockedSpeech.startSpeaking();
+      await wait();
+    });
 
     const {
       mock: { calls }
-    } = mockedSpeak;
+    } = MockedSpeech.speak;
     expect(calls.length).toEqual(1);
 
     const [args] = calls;
     expect(args.length).toEqual(2);
 
-    const [text, { onDone, voice }] = args;
+    const [text] = args;
     expect(text).toEqual(getLineText(firstLine));
+  });
+
+  it("can pause speech", async () => {
+    const { pressPlayButton } = mount();
+    await act(wait);
+
+    // start speech
+    await pressPlayButton();
+    await act(async () => {
+      MockedSpeech.startSpeaking();
+      await wait();
+    });
+
+    // pause speech
+    await pressPlayButton();
+
+    expect(MockedSpeech.pause).toHaveBeenCalledTimes(1);
+  });
+
+  it("can resume speech", async () => {
+    const { pressPlayButton } = mount();
+    await act(wait);
+
+    // start speech
+    await pressPlayButton();
+    await act(async () => {
+      MockedSpeech.startSpeaking();
+      await wait();
+    });
+
+    // pause speech
+    await pressPlayButton();
+
+    // resume speech
+    await pressPlayButton();
+
+    expect(MockedSpeech.resume).toHaveBeenCalledTimes(1);
+  });
+
+  it("stops speaking when new line is selected", async () => {
+    const { getByTestId } = mount();
+
+    await act(async () => {
+      await wait();
+
+      fireEvent.press(getByTestId("play-button"));
+      MockedSpeech.startSpeaking();
+      await wait();
+
+      MockedSpeech.mockClear();
+      fireEvent.press(getByTestId(`play-line-view-${secondLine.id}`));
+      await wait();
+    });
+
+    expect(MockedSpeech.stop).toHaveBeenCalledTimes(1);
+  });
+
+  it("selects next line when speaking finishes", async () => {
+    const { getByTestId } = mount();
+
+    await act(async () => {
+      await wait();
+
+      fireEvent.press(getByTestId("play-button"));
+      MockedSpeech.startSpeaking();
+      await wait();
+
+      MockedSpeech.finishSpeaking();
+      await wait();
+    });
+
+    const originalLine = getByTestId(`play-line-view-${firstLine.id}`);
+    const nextLine = getByTestId(`play-line-view-${secondLine.id}`);
+
+    expect(originalLine.props.highlighted).toEqual(false);
+    expect(nextLine.props.highlighted).toEqual(true);
+  });
+
+  it("speaks next line when speaking finishes", async () => {
+    const { getByTestId } = mount();
+
+    await act(async () => {
+      await wait();
+
+      fireEvent.press(getByTestId("play-button"));
+      MockedSpeech.startSpeaking();
+      await wait();
+
+      MockedSpeech.mockClear();
+      MockedSpeech.finishSpeaking();
+      await wait();
+    });
+
+    const {
+      mock: { calls }
+    } = MockedSpeech.speak;
+    expect(calls.length).toEqual(1);
+
+    const args = calls[0];
+    expect(args.length).toEqual(2);
+
+    const [text, { onDone, voice }] = args;
+    expect(text).toEqual(getLineText(secondLine));
     expect(onDone).toBeTruthy();
     expect(voice).toEqual("com.apple.ttsbundle.Daniel-compact");
-  });
-
-  describe("when speaking", () => {
-    beforeEach(() => {
-      const playPauseButton = getByTestId("play-action");
-      fireEvent.press(playPauseButton);
-    });
-
-    it("pauses speaking when play/pause button pressed", async () => {
-      const playPauseButton = getByTestId("play-action");
-      fireEvent.press(playPauseButton);
-
-      expect(mockedPause).toHaveBeenCalledTimes(1);
-    });
-
-    describe("when new line is selected", () => {
-      beforeEach(() => {
-        const {
-          lineRows: [{ text }]
-        } = secondLine;
-        const newLine = getByText(text);
-
-        fireEvent.press(newLine);
-      });
-
-      it("stops speaking", () => {
-        expect(mockedStop).toHaveBeenCalledTimes(1);
-      });
-    });
-
-    describe("when finished speaking", () => {
-      beforeEach(async () => {
-        const {
-          mock: { calls }
-        } = mockedSpeak;
-        expect(calls.length).toEqual(1);
-
-        const args = calls[0];
-        expect(args.length).toEqual(2);
-
-        const { onDone } = args[1];
-        act(() => {
-          onDone();
-        });
-      });
-
-      it("deselects original line", () => {
-        const { id } = firstLine;
-        const originalLine = getByTestId(`play-line-view-${id}`);
-
-        expect(originalLine.props.highlighted).toEqual(false);
-      });
-
-      it("selects next line", () => {
-        const { id } = secondLine;
-        const nextLine = getByTestId(`play-line-view-${id}`);
-
-        expect(nextLine.props.highlighted).toEqual(true);
-      });
-
-      it("starts speaking next line", () => {
-        const {
-          mock: { calls }
-        } = mockedSpeak;
-        expect(calls.length).toEqual(2);
-
-        const args = calls[1];
-        expect(args.length).toEqual(2);
-
-        const [text, { onDone, voice }] = args;
-        expect(text).toEqual(getLineText(secondLine));
-        expect(onDone).toBeTruthy();
-        expect(voice).toEqual("com.apple.ttsbundle.Daniel-compact");
-      });
-    });
-  });
-
-  describe("when paused", () => {
-    beforeEach(() => {
-      const playPauseButton = getByTestId("play-action");
-      fireEvent.press(playPauseButton);
-      fireEvent.press(playPauseButton);
-    });
-
-    it("resumes speaking when play/pause button pressed", () => {
-      const playPauseButton = getByTestId("play-action");
-      fireEvent.press(playPauseButton);
-
-      expect(mockedResume).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe("when on last line", () => {
-    beforeEach(() => {
-      const { id } = secondLine;
-      const lastLine = getByTestId(`play-line-${id}`);
-      fireEvent.press(lastLine);
-
-      // restore stop mock due to it being called on line press
-      mockedStop.mockRestore();
-    });
-
-    describe("when finished speaking last line", () => {
-      beforeEach(async () => {
-        const playPauseButton = getByTestId("play-action");
-        fireEvent.press(playPauseButton);
-
-        const {
-          mock: { calls }
-        } = mockedSpeak;
-        expect(calls.length).toEqual(1);
-
-        const args = calls[0];
-        expect(args.length).toEqual(2);
-
-        const { onDone } = args[1];
-        act(() => {
-          onDone();
-        });
-      });
-
-      it("stops speaking", () => {
-        expect(mockedStop).toHaveBeenCalledTimes(1);
-      });
-    });
   });
 });

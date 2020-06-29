@@ -59,7 +59,9 @@ describe("SceneHeader", () => {
       goToPreviousScene = jest.fn();
 
       ({ queryByTestId, getByTestId } = render(
-        <PlayNavigationContext.Provider value={{ goToPreviousScene, openSceneSelect }}>
+        <PlayNavigationContext.Provider
+          value={{ goToPreviousScene, openSceneSelect }}
+        >
           <SceneHeader {...scene} />
         </PlayNavigationContext.Provider>
       ));
@@ -87,7 +89,9 @@ describe("SceneHeader", () => {
       goToNextScene = jest.fn();
 
       ({ queryByTestId, getByTestId } = render(
-        <PlayNavigationContext.Provider value={{ goToNextScene, openSceneSelect }}>
+        <PlayNavigationContext.Provider
+          value={{ goToNextScene, openSceneSelect }}
+        >
           <SceneHeader {...scene} />
         </PlayNavigationContext.Provider>
       ));

@@ -14,11 +14,18 @@ describe("contexts helpers", () => {
     let settings: PlaySettings;
     let setSettings: jest.Mock;
     let playNavigation: PlayNavigation;
+    let setSceneSelectModalOpen: () => void;
     beforeEach(() => {
       settings = { act: 1, scene: 2 };
       setSettings = jest.fn();
+      setSceneSelectModalOpen = jest.fn();
 
-      playNavigation = createPlayNavigation(play, settings, setSettings);
+      playNavigation = createPlayNavigation(
+        play,
+        settings,
+        setSettings,
+        setSceneSelectModalOpen
+      );
     });
 
     it("creates goToNextScene correctly", () => {
@@ -45,7 +52,12 @@ describe("contexts helpers", () => {
       beforeEach(() => {
         settings = { act: 1, scene: 1 };
 
-        playNavigation = createPlayNavigation(play, settings, setSettings);
+        playNavigation = createPlayNavigation(
+          play,
+          settings,
+          setSettings,
+          setSceneSelectModalOpen
+        );
       });
 
       it("does not create goToPreviousScene", () => {
@@ -61,7 +73,12 @@ describe("contexts helpers", () => {
           scene: finalScene!.scene
         };
 
-        playNavigation = createPlayNavigation(play, settings, setSettings);
+        playNavigation = createPlayNavigation(
+          play,
+          settings,
+          setSettings,
+          setSceneSelectModalOpen
+        );
       });
 
       it("does not create goToNextScene", () => {

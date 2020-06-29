@@ -63,12 +63,12 @@ const AudioProvider = ({ children }: Props) => {
               Alert.alert("Unable to record", e.message, [
                 {
                   text: "Cancel",
-                  style: "cancel",
+                  style: "cancel"
                 },
                 {
                   text: "Settings",
-                  onPress: () => Linking.openURL("app-settings:"),
-                },
+                  onPress: () => Linking.openURL("app-settings:")
+                }
               ]);
             }
             throw e;
@@ -91,10 +91,10 @@ const AudioProvider = ({ children }: Props) => {
                 setAudioState(AudioState.Finished);
                 res();
               },
-              onError: (e) => {
+              onError: e => {
                 setAudioState(AudioState.Stopped);
                 rej(e);
-              },
+              }
             })
           );
         },
@@ -135,7 +135,7 @@ const AudioProvider = ({ children }: Props) => {
             setAudioState(AudioState.Speaking);
             await Speech.resume();
           }
-        },
+        }
       }}
     >
       {children}
