@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  ReactNode,
-  useEffect,
-  useContext,
-  useRef,
-} from "react";
+import React, { useState, ReactNode, useContext, useRef } from "react";
 import { AUDIO_RECORDING } from "expo-permissions";
 
 import Playback, { PlaybackMode } from "../../../../contexts/Playback";
@@ -26,7 +20,7 @@ const PlaybackProvider = ({ children }: Props) => {
 
   const { activeScene, activeLine, setActiveLine } = useContext(PlayPosition);
   const {
-    settings: { selectedPlayer },
+    settings: { selectedPlayer }
   } = useContext(PlaySettings);
 
   const [mode, setMode] = useState(PlaybackMode.Play);
@@ -72,25 +66,22 @@ const PlaybackProvider = ({ children }: Props) => {
     return run(nextLine);
   };
 
-  useEffect(() => {
-    const grantedRecording = !!permissions[AUDIO_RECORDING]?.granted;
-    const deniedRecording = permissions[AUDIO_RECORDING]?.status === "denied";
-    const requestingRecording = requesting.includes(AUDIO_RECORDING);
-
-    if (
-      mode === PlaybackMode.Record &&
-      !(grantedRecording || deniedRecording || requestingRecording)
-    ) {
-      ask(AUDIO_RECORDING);
-    }
-  }, [mode, permissions, requesting, ask]);
+  const canRecord =
+    !!permissions[AUDIO_RECORDING]?.granted &&
+    permissions[AUDIO_RECORDING]?.status !== "denied" &&
+    !requesting.includes(AUDIO_RECORDING);
 
   return (
     <Playback.Provider
       value={{
         mode,
         setMode: (mode: PlaybackMode) => {
-          setMode(mode);
+          if (mode === PlaybackMode.Record && !canRecord) {
+            ask(AUDIO_RECORDING);
+          } else {
+            setMode(mode);
+          }
+
           stoppedFlag.current = true;
           return stop();
         },
@@ -101,7 +92,7 @@ const PlaybackProvider = ({ children }: Props) => {
         stop: () => {
           stoppedFlag.current = true;
           return stop();
-        },
+        }
       }}
     >
       {children}
