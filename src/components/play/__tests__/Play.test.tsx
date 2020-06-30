@@ -28,6 +28,8 @@ jest.mock("react-native-reanimated", () =>
   jest.requireActual("react-native-reanimated/mock")
 );
 
+const MockedSpeech = (Speech as unknown) as SpeechMock;
+
 // setup play to only have two lines to make testing final line edge cases easier
 const play = {
   ...AComedyOfErrors,
@@ -48,8 +50,6 @@ const {
     }
   ]
 } = play;
-
-const MockedSpeech = (Speech as unknown) as SpeechMock;
 
 const mount = () => {
   const result = render(

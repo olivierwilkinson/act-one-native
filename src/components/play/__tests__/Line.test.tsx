@@ -1,77 +1,60 @@
 import "react-native";
 import React from "react";
-import {
-  render,
-  fireEvent,
-  cleanup,
-  GetByAPI
-} from "react-native-testing-library";
+import { render, fireEvent, cleanup, act } from "react-native-testing-library";
+import Speech from "expo-speech";
 
 import Line from "../Line";
-import PlayPositionContext from "../../../contexts/PlayPosition";
 
 import play from "../../../data/plays/shakespeare/AComedyOfErrors";
-const {
-  scenes: [scene]
-} = play;
-const {
-  lines: [activeLine, otherLine]
-} = scene;
+import AppProviders from "../../app/appProviders/AppProviders";
+import PlayProviders from "../playProviders/PlayProviders";
+import wait from "../../../../test/helpers/wait";
+import { SpeechMock } from "../../../../test/mocks/speech";
+
+jest.mock(
+  "expo-speech",
+  () => jest.requireActual("../../../../test/mocks/speech").default
+);
+
+const MockedSpeech = (Speech as unknown) as SpeechMock;
+
+// use second line because first is active by default
+const line = play.scenes[0].lines[1];
+const lineId = `play-line-${line.id}`;
+
+const mount = () =>
+  render(
+    <AppProviders>
+      <PlayProviders play={play}>
+        <Line {...line} />
+      </PlayProviders>
+    </AppProviders>
+  );
 
 describe("Line", () => {
-  let getByTestId: GetByAPI["getByTestId"];
-  let setActiveLine: jest.Mock;
-  beforeEach(() => {
-    setActiveLine = jest.fn();
-
-    ({ getByTestId } = render(
-      <PlayPositionContext.Provider
-        value={{
-          activeLine,
-          activeScene: scene,
-          setActiveLine
-        }}
-      >
-        <Line {...activeLine} />
-      </PlayPositionContext.Provider>
-    ));
-  });
   afterEach(cleanup);
 
-  it("sets active line on press", () => {
-    const playLine = getByTestId(`play-line-${activeLine.id}`);
-    fireEvent.press(playLine);
+  it("sets active line on press", async () => {
+    const { getByTestId } = mount();
+    await act(wait);
 
-    expect(setActiveLine).toHaveBeenCalledWith(activeLine);
-  });
+    fireEvent.press(getByTestId(lineId));
+    await act(wait);
 
-  it("sets highlighted style when line is active", () => {
     const {
       props: { highlighted }
-    } = getByTestId(`play-line-view-${activeLine.id}`);
+    } = getByTestId(`play-line-view-${line.id}`);
     expect(highlighted).toEqual(true);
   });
 
-  describe("when line is not the active line", () => {
-    beforeEach(() => {
-      ({ getByTestId } = render(
-        <PlayPositionContext.Provider
-          value={{
-            activeLine,
-            activeScene: scene,
-            setActiveLine
-          }}
-        >
-          <Line {...otherLine} />
-        </PlayPositionContext.Provider>
-      ));
-    });
+  it("stops audio on press", async () => {
+    const { getByTestId } = mount();
+    await act(wait);
 
-    it("sets highlighted style when line is active", () => {
-      const {
-        props: { highlighted }
-      } = getByTestId(`play-line-view-${otherLine.id}`);
-      expect(highlighted).toEqual(false);
-    });
+    MockedSpeech.mockClear();
+    fireEvent.press(getByTestId(lineId));
+    await act(wait);
+
+    expect(MockedSpeech.stop).toHaveBeenCalledTimes(1);
   });
 });
