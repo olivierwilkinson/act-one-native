@@ -35,14 +35,13 @@ const LineHeader = ({ colour, ...line }: Props) => {
 
   return (
     <TouchableHighlight
-      testID="play-line-header"
       onPress={() => {
         stop();
         setActiveLine(line);
       }}
       underlayColor="transparent"
     >
-      <LineHeaderView highlighted={isCurrentLine}>
+      <LineHeaderView testID="play-line-header" highlighted={isCurrentLine}>
         {!!player && (
           <PlayerBubble
             colour={colour}
