@@ -15,6 +15,9 @@ import {
 import App from "../App";
 import play from "../src/data/plays/shakespeare/AComedyOfErrors";
 
+jest.mock("react-native-reanimated", () =>
+  jest.requireActual("react-native-reanimated/mock")
+);
 jest.mock("../src/helpers/storage.ts", () => ({
   getStoredSettings: jest.fn().mockResolvedValue({}),
   setStoredSettings: jest.fn().mockResolvedValue(undefined)
@@ -27,6 +30,7 @@ describe("App", () => {
   let getByText: GetByAPI["getByText"];
   beforeEach(async () => {
     ({ queryByTestId, queryByText, getByTestId, getByText } = render(<App />));
+    await act(flushMicrotasksQueue);
   });
   afterEach(cleanup);
 

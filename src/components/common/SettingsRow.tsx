@@ -8,7 +8,7 @@ import {
   mediumSizeFont,
   subFont
 } from "../../styles/typography";
-import { lightGray, darkGray } from "../../styles/colours";
+import { mediumLightGray, darkGray } from "../../styles/colours";
 
 const SettingLeftIcon = styled(Ionicons)`
   margin: 0 20px;
@@ -34,7 +34,7 @@ const SettingContentView = styled.View`
   padding-right: 10px;
 
   border-bottom-width: 1px;
-  border-bottom-color: ${lightGray};
+  border-bottom-color: ${mediumLightGray};
 `;
 
 const SettingRightView = styled.View`

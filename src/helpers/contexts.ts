@@ -5,7 +5,8 @@ import { PlaySettings } from "../contexts/PlaySettings";
 export const createPlayNavigation = (
   play: Play,
   settings: PlaySettings,
-  setSettings: (settings: PlaySettings) => void
+  setSettings: (settings: PlaySettings) => void,
+  setSceneSelectModalActive: (active: boolean) => void,
 ) => {
   const { scenes } = play;
   const activeScene = findActiveScene(play, settings);
@@ -25,5 +26,6 @@ export const createPlayNavigation = (
   return {
     goToNextScene,
     goToPreviousScene,
+    openSceneSelect: () => setSceneSelectModalActive(true),
   };
 };

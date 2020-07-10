@@ -13,11 +13,19 @@ export const smallSizeFont = css`
 `;
 
 export const titleFont = css`
-  font-weight: bold;
+  font-weight: 600;
+`;
+
+export const subTitleFont = css`
+  font-weight: 500;
 `;
 
 export const italicFont = css`
   font-style: italic;
+`;
+
+export const normalFont = css`
+  font-weight: 400;
 `;
 
 export const subFont = css`

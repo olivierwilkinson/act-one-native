@@ -1,48 +1,51 @@
 import "react-native";
 import React from "react";
-import { render, cleanup, QueryByAPI } from "react-native-testing-library";
+import { render, cleanup, act } from "react-native-testing-library";
 
 import LineRow from "../LineRow";
 
 import play from "../../../data/plays/shakespeare/AComedyOfErrors";
-import { Line } from "../../../types/play-types";
+import AppProviders from "../../app/appProviders/AppProviders";
+import PlayProviders from "../playProviders/PlayProviders";
+import { LineRow as LineRowType } from "../../../types/play-types";
+import wait from "../../../../test/helpers/wait";
 const {
   scenes: [scene]
 } = play;
 const {
-  lineRows: [lineRow]
-} = scene.lines.find(({ player }) => player) as Line;
+  lineRows: [lineRow, , fifthLineRow]
+} = scene.lines[2];
+
+const mount = (lineRow: LineRowType) =>
+  render(
+    <AppProviders>
+      <PlayProviders play={play}>
+        <LineRow {...lineRow} italic />
+      </PlayProviders>
+    </AppProviders>
+  );
 
 describe("LineRow", () => {
-  let queryByText: QueryByAPI["queryByText"];
-  beforeEach(() => {
-    ({ queryByText } = render(<LineRow {...lineRow} italic={false} />));
-  });
   afterEach(cleanup);
 
-  it("renders text", () => {
+  it("renders text", async () => {
+    const { queryByText } = mount(lineRow);
+    await act(wait);
+
     expect(queryByText(lineRow.text)).not.toBeNull();
   });
 
-  it("does not render number", () => {
-    expect.assertions(1);
-    if (!lineRow.number) {
-      return;
-    }
+  it("does not render number", async () => {
+    const { queryByText } = mount(lineRow);
+    await act(wait);
 
-    expect(queryByText(lineRow.number.toString())).toBeNull();
+    expect(queryByText(lineRow.number!.toString())).toBeNull();
   });
 
-  describe("when number is divisible by 5", () => {
-    const number = 5;
-    beforeEach(() => {
-      ({ queryByText } = render(
-        <LineRow {...lineRow} italic={false} number={number} />
-      ));
-    });
+  it("renders number if divisible by 5", async () => {
+    const { queryByText } = mount(fifthLineRow);
+    await act(wait);
 
-    it("renders number", () => {
-      expect(queryByText(number.toString())).not.toBeNull();
-    });
+    expect(queryByText("5")).not.toBeNull();
   });
 });

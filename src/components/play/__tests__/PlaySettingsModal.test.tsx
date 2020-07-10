@@ -28,7 +28,8 @@ describe("PlaySettings", () => {
     };
     settingsContext = {
       settings: { selectedPlayer: "captain hindsight" },
-      setSettings: jest.fn()
+      setSettings: jest.fn(),
+      openSettings: jest.fn()
     };
 
     ({ getByText, getByTestId, queryByText } = render(

@@ -8,10 +8,9 @@ import { ColourByPlayer } from "../../types/colour-types";
 
 type Props = SceneType & {
   colourByPlayer: ColourByPlayer;
-  openSceneSelect: () => void;
 };
 
-const Scene = ({ colourByPlayer, openSceneSelect, ...scene }: Props) => {
+const Scene = ({ colourByPlayer, ...scene }: Props) => {
   const { act: actNumber, scene: sceneNumber } = scene;
   const sceneElement = useRef<any>(null);
 
@@ -27,7 +26,7 @@ const Scene = ({ colourByPlayer, openSceneSelect, ...scene }: Props) => {
 
   return (
     <>
-      <SceneHeader openSceneSelect={openSceneSelect} {...scene} />
+      <SceneHeader {...scene} />
       <SceneLines
         ref={sceneElement}
         {...scene}

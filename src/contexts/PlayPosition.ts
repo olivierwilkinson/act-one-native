@@ -23,5 +23,5 @@ const activeScene: Scene = {
 export default React.createContext<PlayPosition>({
   activeScene,
   activeLine,
-  setActiveLine: () => null
+  setActiveLine: () => null,
 });

@@ -12,13 +12,13 @@ const PrimaryHeader = styled.SafeAreaView`
   flex-direction: row;
   justify-content: space-between;
   border-bottom-width: 0px;
-  height: 80px;
 `;
 
 const TitleView = styled.View`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 10px 0;
 `;
 
 const SideView = css`

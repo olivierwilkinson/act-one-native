@@ -1,6 +1,6 @@
 import "react-native";
 
-import { AsyncStorage } from "react-native";
+import AsyncStorage from "@react-native-community/async-storage";
 
 import { Play } from "../types/play-types";
 import { PlaySettings } from "../contexts/PlaySettings";

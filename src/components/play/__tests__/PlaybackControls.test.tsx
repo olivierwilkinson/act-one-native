@@ -1,85 +1,192 @@
 import "react-native";
 import React from "react";
-import {
-  render,
-  fireEvent,
-  cleanup,
-  GetByAPI,
-  RenderAPI
-} from "react-native-testing-library";
+import { render, cleanup, act } from "react-native-testing-library";
+import { getAsync, askAsync, AUDIO_RECORDING } from "expo-permissions";
+import Speech from "expo-speech";
 
 import PlaybackControls from "../PlaybackControls";
-import AudioContext, { PlaybackState } from "../../../contexts/Audio";
+import AppProviders from "../../app/appProviders/AppProviders";
+import PlayProviders from "../playProviders/PlayProviders";
+
+import play from "../../../data/plays/shakespeare/AComedyOfErrors";
+import wait from "../../../../test/helpers/wait";
+import SpeechMock from "../../../../test/mocks/speech";
+import { PlaybackMode } from "../../../contexts/Playback";
+import pressByText from "../../../../test/actions/pressByText";
+import pressById from "../../../../test/actions/pressById";
+
+jest.mock("react-native-reanimated", () =>
+  jest.requireActual("react-native-reanimated/mock")
+);
+
+jest.mock(
+  "expo-speech",
+  () => jest.requireActual("../../../../test/mocks/speech").default
+);
+
+jest.mock("expo-permissions", () => ({
+  ...jest.requireActual("expo-permissions"),
+  getAsync: jest.fn().mockResolvedValue({ permissions: {} }),
+  askAsync: jest.fn().mockResolvedValue({ permissions: {} })
+}));
+
+const MockedSpeech = (Speech as unknown) as typeof SpeechMock;
+const getAsyncMock = getAsync as jest.Mock;
+const askAsyncMock = askAsync as jest.Mock;
+
+const mount = () => {
+  const result = render(
+    <AppProviders>
+      <PlayProviders play={play}>
+        <PlaybackControls />
+      </PlayProviders>
+    </AppProviders>
+  );
+
+  return {
+    ...result,
+    pressPlayButton: () => pressById(result, "play-button"),
+    pressRecordButton: () => pressById(result, "record-button"),
+    pressPlayHeader: () => pressByText(result, PlaybackMode.Play),
+    pressRecordHeader: () => pressByText(result, PlaybackMode.Record)
+  };
+};
 
 describe("PlaybackControls", () => {
-  let setPlaybackState: jest.Mock;
-  let getByTestId: GetByAPI["getByTestId"];
-  let rerender: RenderAPI["rerender"];
-
-  beforeEach(() => {
-    setPlaybackState = jest.fn();
-
-    ({ getByTestId, rerender } = render(
-      <AudioContext.Provider
-        value={{
-          playbackState: PlaybackState.Stopped,
-          setPlaybackState
-        }}
-      >
-        <PlaybackControls />
-      </AudioContext.Provider>
-    ));
+  beforeEach(async () => {
+    await act(wait);
   });
-  afterEach(cleanup);
-
-  it("sets playbackState to Playing when play/pause button is pressed", () => {
-    const playPauseButton = getByTestId("play-pause-button");
-    fireEvent.press(playPauseButton);
-
-    expect(setPlaybackState).toHaveBeenCalledWith(PlaybackState.Playing);
+  afterEach(() => {
+    cleanup();
   });
 
-  describe("when playbackState changes to Playing", () => {
+  it("renders play header", async () => {
+    const { queryByText } = mount();
+    await act(wait);
+
+    expect(queryByText(PlaybackMode.Play)).not.toBeNull();
+  });
+
+  it("renders play button", async () => {
+    const { queryByTestId } = mount();
+    await act(wait);
+
+    expect(queryByTestId("play-button")).not.toBeNull();
+  });
+
+  it("play button shows play icon when stopped", async () => {
+    const { queryByTestId } = mount();
+    await act(wait);
+
+    expect(queryByTestId("play-icon")).not.toBeNull();
+  });
+
+  it("play button shows pause icon when playing", async () => {
+    const { pressPlayButton, queryByTestId } = mount();
+    await act(wait);
+
+    await pressPlayButton();
+    act(MockedSpeech.startSpeaking);
+
+    expect(queryByTestId("pause-icon")).not.toBeNull();
+  });
+
+  it("play button shows play icon when paused", async () => {
+    const { pressPlayButton, queryByTestId } = mount();
+    await act(wait);
+
+    // start speech
+    await pressPlayButton();
+    act(MockedSpeech.startSpeaking);
+
+    // pause speech
+    await pressPlayButton();
+
+    expect(queryByTestId("play-icon")).not.toBeNull();
+  });
+
+  it("play button shows pause button after resuming", async () => {
+    const { pressPlayButton, queryByTestId } = mount();
+    await act(wait);
+
+    // start speech
+    await pressPlayButton();
+    act(MockedSpeech.startSpeaking);
+
+    // pause speech
+    await pressPlayButton();
+
+    // resume speech
+    await pressPlayButton();
+
+    expect(queryByTestId("pause-icon")).not.toBeNull();
+  });
+
+  it("renders record header", async () => {
+    const { queryByText } = mount();
+    await act(wait);
+
+    expect(queryByText(PlaybackMode.Record)).not.toBeNull();
+  });
+
+  it("renders record button", async () => {
+    const { queryByTestId } = mount();
+    await act(wait);
+
+    expect(queryByTestId("record-button")).not.toBeNull();
+  });
+
+  it("disables record button", async () => {
+    const { queryByTestId } = mount();
+    await act(wait);
+
+    expect(queryByTestId("record-button").props.disabled).toEqual(true);
+  });
+
+  it("asks for permission to record when record header pressed", async () => {
+    const { pressRecordHeader } = mount();
+    await act(wait);
+    await pressRecordHeader();
+
+    expect(askAsyncMock).toHaveBeenCalled();
+  });
+
+  describe("with permission to record", () => {
     beforeEach(() => {
-      rerender(
-        <AudioContext.Provider
-          value={{
-            playbackState: PlaybackState.Playing,
-            setPlaybackState
-          }}
-        >
-          <PlaybackControls />
-        </AudioContext.Provider>
-      );
+      getAsyncMock.mockResolvedValue({
+        permissions: {
+          [AUDIO_RECORDING]: {
+            granted: true
+          }
+        }
+      });
     });
 
-    it("sets playbackState to Paused when play/pause button is pressed", () => {
-      const playPauseButton = getByTestId("play-pause-button");
-      fireEvent.press(playPauseButton);
+    it("enables record mode when record header pressed", async () => {
+      const { pressRecordHeader, getByTestId } = mount();
+      await act(wait);
+      await pressRecordHeader();
 
-      expect(setPlaybackState).toHaveBeenCalledWith(PlaybackState.Paused);
-    });
-  });
-
-  describe("when playbackState changes to Paused", () => {
-    beforeEach(() => {
-      rerender(
-        <AudioContext.Provider
-          value={{
-            playbackState: PlaybackState.Paused,
-            setPlaybackState
-          }}
-        >
-          <PlaybackControls />
-        </AudioContext.Provider>
-      );
+      expect(getByTestId("record-button").props.disabled).toEqual(false);
     });
 
-    it("sets playbackState to Playing when play/pause button is pressed", () => {
-      const playPauseButton = getByTestId("play-pause-button");
-      fireEvent.press(playPauseButton);
+    describe("when in record mode", () => {
+      it("disables play button", async () => {
+        const { pressRecordHeader, getByTestId } = mount();
+        await act(wait);
+        await pressRecordHeader();
 
-      expect(setPlaybackState).toHaveBeenCalledWith(PlaybackState.Playing);
+        expect(getByTestId("play-button").props.disabled).toEqual(true);
+      });
+
+      it("enables play mode when play header pressed", async () => {
+        const { pressRecordHeader, pressPlayHeader, getByTestId } = mount();
+        await act(wait);
+        await pressRecordHeader();
+        await pressPlayHeader();
+
+        expect(getByTestId("play-button").props.disabled).toEqual(false);
+      });
     });
   });
 });

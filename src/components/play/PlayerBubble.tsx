@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 import { StyleProp, ViewStyle } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-import { titleFont } from "../../styles/typography";
+import { titleFont, normalFont } from "../../styles/typography";
 import { playBackgroundColour } from "../../styles/colours";
 import { RGBColour } from "../../types/colour-types";
 
@@ -49,6 +49,7 @@ const PlayerText = styled.Text`
     ${titleFont};
   overflow: hidden;
   padding: 5px 10px;
+  ${normalFont}
 `;
 
 export type Props = {

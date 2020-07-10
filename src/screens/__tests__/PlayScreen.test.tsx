@@ -9,7 +9,6 @@ import {
 } from "react-native-testing-library";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import "react-native-reanimated";
 
 import { getStoredSettings, setStoredSettings } from "../../helpers/storage";
 import play from "../../data/plays/shakespeare/AComedyOfErrors";
@@ -20,6 +19,9 @@ jest.mock("../../helpers/storage.ts", () => ({
   getStoredSettings: jest.fn().mockResolvedValue(null),
   setStoredSettings: jest.fn().mockResolvedValue(null)
 }));
+jest.mock("react-native-reanimated", () =>
+  jest.requireActual("react-native-reanimated/mock")
+);
 
 const getStoredSettingsMock = getStoredSettings as jest.Mock;
 const setStoredSettingsMock = setStoredSettings as jest.Mock;

@@ -3,6 +3,7 @@ import styled from "styled-components/native";
 
 import { LineRow } from "../../types/play-types";
 import { italicFont, subFont, thinFont } from "../../styles/typography";
+import { mediumDarkGray } from "../../styles/colours";
 
 const LineRowView = styled.View`
   display: flex;
@@ -21,6 +22,7 @@ const LineRowTextView = styled.View`
 const LineRowText = styled.Text`
   ${({ italic }: { italic: boolean }) => italic && italicFont}
   ${subFont}
+  color: ${mediumDarkGray}
   flex-wrap: wrap;
 `;
 
