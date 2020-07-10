@@ -74,28 +74,28 @@ describe("Play", () => {
 
   it("renders play scene header", async () => {
     const { queryByTestId } = mount();
-    await act(wait);
+    await wait();
 
     expect(queryByTestId("play-scene-header")).not.toBeNull();
   });
 
   it("renders play scene lines", async () => {
     const { queryByTestId } = mount();
-    await act(wait);
+    await wait();
 
     expect(queryByTestId("play-scene-lines")).not.toBeNull();
   });
 
   it("renders play scene controls", async () => {
     const { queryByTestId } = mount();
-    await act(wait);
+    await wait();
 
     expect(queryByTestId("playback-controls")).not.toBeNull();
   });
 
   it("starts speaking when play button pressed", async () => {
     const { pressPlayButton } = mount();
-    await act(wait);
+    await wait();
 
     await pressPlayButton();
     await act(async () => {
@@ -117,7 +117,7 @@ describe("Play", () => {
 
   it("can pause speech", async () => {
     const { pressPlayButton } = mount();
-    await act(wait);
+    await wait();
 
     // start speech
     await pressPlayButton();
@@ -134,7 +134,7 @@ describe("Play", () => {
 
   it("can resume speech", async () => {
     const { pressPlayButton } = mount();
-    await act(wait);
+    await wait();
 
     // start speech
     await pressPlayButton();
