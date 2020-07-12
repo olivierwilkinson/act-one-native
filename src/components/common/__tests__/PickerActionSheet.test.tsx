@@ -4,17 +4,16 @@ import {
   render,
   cleanup,
   fireEvent,
-  GetByAPI,
-  shallow
+  GetByAPI
 } from "react-native-testing-library";
 
 import PickerActionSheet, { Props } from "../PickerActionSheet";
-
+import { Picker } from "react-native";
 
 describe("PickerActionSheet", () => {
   let defaultProps: Props;
   let getByText: GetByAPI["getByText"];
-  let getByTestId: GetByAPI["getByTestId"];
+  let getByType: GetByAPI["UNSAFE_getByType"];
   beforeEach(() => {
     defaultProps = {
       visible: true,
@@ -24,16 +23,11 @@ describe("PickerActionSheet", () => {
       onDone: jest.fn()
     };
 
-    ({ getByText, getByTestId } = render(
+    ({ getByText, UNSAFE_getByType: getByType } = render(
       <PickerActionSheet {...defaultProps} />
     ));
   });
   afterEach(cleanup);
-
-  it("renders picker correctly", () => {
-    const { output } = shallow(getByTestId("action-sheet-picker"));
-    expect(output).toMatchSnapshot();
-  });
 
   it("calls onCancel when cancel button pressed", () => {
     fireEvent.press(getByText("Cancel"));
@@ -43,17 +37,13 @@ describe("PickerActionSheet", () => {
 
   describe("when character selection changes", () => {
     beforeEach(() => {
-      fireEvent(
-        getByTestId("action-sheet-picker"),
-        "onValueChange",
-        "option-one"
-      );
+      fireEvent(getByType(Picker), "onValueChange", "option-one");
     });
 
     it("resets selected character when cancel button pressed", () => {
       fireEvent.press(getByText("Cancel"));
 
-      const picker = getByTestId("action-sheet-picker");
+      const picker = getByType(Picker);
       expect(picker.props.selectedValue).toEqual("option-two");
     });
 

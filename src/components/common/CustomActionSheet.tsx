@@ -78,38 +78,35 @@ export default ({ visible, children, onDone, onCancel }: Props) => {
   }, [visible]);
 
   return (
-      <FadeInView pointerEvents="box-none" style={{ opacity }}>
-        <Modal
-          animationType="slide"
-          visible={visible}
-          onRequestClose={onCancel}
-          transparent
+    <FadeInView pointerEvents="box-none" style={{ opacity }}>
+      <Modal
+        animationType="slide"
+        visible={visible}
+        onRequestClose={onCancel}
+        transparent
+      >
+        <TouchableModalBackground
+          underlayColor="transparent"
+          onPress={onCancel}
         >
-          <TouchableModalBackground
-            testID="custom-action-sheet-background"
-            underlayColor="transparent"
-            onPress={onCancel}
-          >
-            <ModalContentView>
-              <CustomContentContainerView>
-                {children}
-              </CustomContentContainerView>
+          <ModalContentView>
+            <CustomContentContainerView>{children}</CustomContentContainerView>
 
-              {onDone && (
-                <TouchableAction
-                  testID="custom-action-sheet-done-button"
-                  onPress={onDone}
-                >
-                  <DoneText>Done</DoneText>
-                </TouchableAction>
-              )}
-
-              <TouchableAction onPress={onCancel}>
-                <CancelText>Cancel</CancelText>
+            {onDone && (
+              <TouchableAction
+                testID="custom-action-sheet-done-button"
+                onPress={onDone}
+              >
+                <DoneText>Done</DoneText>
               </TouchableAction>
-            </ModalContentView>
-          </TouchableModalBackground>
-        </Modal>
-      </FadeInView>
+            )}
+
+            <TouchableAction onPress={onCancel}>
+              <CancelText>Cancel</CancelText>
+            </TouchableAction>
+          </ModalContentView>
+        </TouchableModalBackground>
+      </Modal>
+    </FadeInView>
   );
 };

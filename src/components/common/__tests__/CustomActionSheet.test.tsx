@@ -1,4 +1,4 @@
-import { Text } from "react-native";
+import { Text, Modal } from "react-native";
 import React from "react";
 import {
   render,
@@ -13,9 +13,9 @@ import CustomActionSheet, { Props } from "../CustomActionSheet";
 
 describe("CustomActionSheet", () => {
   let queryByText: QueryByAPI["queryByText"];
-  let getByTestId: GetByAPI["getByTestId"];
   let getByText: GetByAPI["getByText"];
   let rerender: RenderAPI["rerender"];
+  let getByType: RenderAPI["UNSAFE_getByType"];
   let defaultProps: Props;
 
   beforeEach(() => {
@@ -25,15 +25,14 @@ describe("CustomActionSheet", () => {
       onCancel: jest.fn()
     };
 
-    ({ queryByText, getByTestId, getByText, rerender } = render(
+    ({ queryByText, getByText, UNSAFE_getByType: getByType, rerender } = render(
       <CustomActionSheet {...defaultProps} />
     ));
   });
   afterEach(cleanup);
 
-  it("is not visible", () => {
-    const background = getByTestId("custom-action-sheet-background");
-    const modal = background.parent;
+  it("renders correctly when is visible is false", () => {
+    const modal = getByType(Modal);
     expect(modal.props.visible).toEqual(false);
   });
 
@@ -47,21 +46,13 @@ describe("CustomActionSheet", () => {
       rerender(<CustomActionSheet {...defaultProps} />);
     });
 
-    it("is visible", () => {
-      const background = getByTestId("custom-action-sheet-background");
-      const modal = background.parent;
+    it("renders correctly", () => {
+      const modal = getByType(Modal);
       expect(modal.props.visible).toEqual(true);
     });
 
     it("renders children", () => {
       expect(queryByText("Custom Content")).not.toBeNull();
-    });
-
-    it("calls onCancel when background pressed", () => {
-      const background = getByTestId("custom-action-sheet-background");
-      fireEvent.press(background);
-
-      expect(defaultProps.onCancel).toHaveBeenCalled();
     });
 
     it("renders cancel button", () => {
@@ -82,7 +73,7 @@ describe("CustomActionSheet", () => {
           onDone: jest.fn()
         };
 
-        ({ queryByText, getByTestId, getByText } = render(
+        ({ queryByText, getByText } = render(
           <CustomActionSheet {...defaultProps} />
         ));
       });

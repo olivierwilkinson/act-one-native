@@ -243,7 +243,26 @@ exports[`PlayerBubble when isSelected is true when highlighted is true renders c
     }
     testID="player-user-icon"
   >
-    <Text />
+    <Text
+      allowFontScaling={false}
+      style={
+        Array [
+          Object {
+            "color": "white",
+            "fontSize": 20,
+          },
+          undefined,
+          Object {
+            "fontFamily": "ionicons",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          },
+          Object {},
+        ]
+      }
+    >
+      
+    </Text>
   </View>
   <Text
     blue={255}

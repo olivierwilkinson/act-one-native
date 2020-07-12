@@ -12,12 +12,14 @@ import PageLoading, { Props } from "../PageLoading";
 describe("PageLoading", () => {
   let defaultProps: Props;
   let queryByText: QueryByAPI["queryByText"];
-  let queryByType: QueryByAPI["queryByType"];
+  let queryByType: QueryByAPI["UNSAFE_queryByType"];
   let rerender: RenderAPI["rerender"];
   beforeEach(() => {
     defaultProps = {};
 
-    ({ queryByText, queryByType, rerender } = render(<PageLoading />));
+    ({ queryByText, UNSAFE_queryByType: queryByType, rerender } = render(
+      <PageLoading />
+    ));
   });
   afterEach(cleanup);
 

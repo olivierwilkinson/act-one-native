@@ -13,12 +13,13 @@ import PlaySettingsContext, {
 } from "../../../contexts/PlaySettings";
 
 import play from "../../../data/plays/shakespeare/AComedyOfErrors";
+import { Picker } from "react-native";
 
 describe("PlaySettings", () => {
   let defaultProps: Props;
   let settingsContext: PlaySettingsContextValue;
   let getByText: GetByAPI["getByText"];
-  let getByTestId: GetByAPI["getByTestId"];
+  let getByType: GetByAPI["UNSAFE_getByType"];
   let queryByText: QueryByAPI["queryByText"];
   beforeEach(() => {
     defaultProps = {
@@ -32,7 +33,7 @@ describe("PlaySettings", () => {
       openSettings: jest.fn()
     };
 
-    ({ getByText, getByTestId, queryByText } = render(
+    ({ getByText, UNSAFE_getByType: getByType, queryByText } = render(
       <PlaySettingsContext.Provider value={settingsContext}>
         <PlaySettingsModal {...defaultProps} />
       </PlaySettingsContext.Provider>
@@ -58,38 +59,14 @@ describe("PlaySettings", () => {
     ).not.toBeNull();
   });
 
-  it("does not render character select action sheet by default", () => {
-    const background = getByTestId("custom-action-sheet-background");
-    const modal = background.parent;
-    expect(modal.props.visible).toEqual(false);
-  });
-
   describe("on character setting press", () => {
     beforeEach(() => {
       fireEvent.press(getByText("Character"));
     });
 
-    it("opens character select action sheet on character setting press", () => {
-      const background = getByTestId("custom-action-sheet-background");
-      const modal = background.parent;
-      expect(modal.props.visible).toEqual(true);
-    });
-
-    it("closes character setting correctly on background press", () => {
-      const background = getByTestId("custom-action-sheet-background");
-      fireEvent.press(background);
-
-      const modal = background.parent;
-      expect(modal.props.visible).toEqual(false);
-    });
-
     describe("when new character is selected", () => {
       beforeEach(() => {
-        fireEvent(
-          getByTestId("action-sheet-picker"),
-          "onValueChange",
-          "AEGEON"
-        );
+        fireEvent(getByType(Picker), "onValueChange", "AEGEON");
       });
 
       it("calls setSettings with selected player", () => {
