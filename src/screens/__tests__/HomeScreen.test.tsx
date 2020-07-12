@@ -4,7 +4,7 @@ import { render, QueryByAPI } from "react-native-testing-library";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import play from "../../data/plays/shakespeare/AComedyOfErrors";
+import plays from "../../data/plays";
 import Home from "../HomeScreen";
 
 jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
@@ -32,7 +32,13 @@ describe("HomeScreen", () => {
     expect(queryByText("ActOne")).not.toBeNull();
   });
 
-  it("renders play list", () => {
-    expect(queryByText(play.play)).not.toBeNull();
+  plays.forEach(play => {
+    it(`renders ${play.play} list item`, () => {
+      expect(queryByText(play.play)).not.toBeNull();
+    });
+
+    it(`renders ${play.play} description`, () => {
+      expect(queryByText(play.description)).not.toBeNull();
+    });
   });
 });
