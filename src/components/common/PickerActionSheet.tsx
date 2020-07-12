@@ -31,7 +31,6 @@ export default ({
       onDone={() => onDone(value)}
     >
       <Picker
-        testID="action-sheet-picker"
         selectedValue={value}
         onValueChange={itemValue => setValue(itemValue)}
       >

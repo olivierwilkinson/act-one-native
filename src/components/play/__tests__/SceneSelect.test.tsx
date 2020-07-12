@@ -1,6 +1,6 @@
 import "react-native";
 import React from "react";
-import { render, cleanup, QueryByAPI } from "react-native-testing-library";
+import { render, QueryByAPI } from "react-native-testing-library";
 import "jest-styled-components/native";
 
 import SceneSelectModal, { Props } from "../SceneSelectModal";
@@ -21,7 +21,6 @@ describe("SceneSelect", () => {
       <SceneSelectModal {...defaultProps} />
     ));
   });
-  afterEach(cleanup);
 
   it("renders title", () => {
     expect(queryByText("Scene Select")).not.toBeNull();

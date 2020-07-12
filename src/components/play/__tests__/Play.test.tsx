@@ -1,6 +1,6 @@
 import "react-native";
 import React from "react";
-import { render, cleanup, fireEvent, act } from "react-native-testing-library";
+import { render, fireEvent, act, waitFor } from "react-native-testing-library";
 import Speech from "expo-speech";
 import "@react-navigation/native";
 
@@ -68,10 +68,6 @@ const mount = () => {
 };
 
 describe("Play", () => {
-  afterEach(() => {
-    cleanup();
-  });
-
   it("renders play scene header", async () => {
     const { queryByTestId } = mount();
     await wait();
@@ -80,10 +76,18 @@ describe("Play", () => {
   });
 
   it("renders play scene lines", async () => {
-    const { queryByTestId } = mount();
-    await wait();
+    const { getByText } = mount();
+    const {
+      scenes: [scene]
+    } = play;
+    const {
+      lines: [line]
+    } = scene;
+    const {
+      lineRows: [{ text }]
+    } = line;
 
-    expect(queryByTestId("play-scene-lines")).not.toBeNull();
+    await waitFor(() => getByText(text));
   });
 
   it("renders play scene controls", async () => {

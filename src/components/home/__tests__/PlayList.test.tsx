@@ -2,7 +2,6 @@ import "react-native";
 import React from "react";
 import {
   render,
-  cleanup,
   fireEvent,
   QueryByAPI,
   GetByAPI
@@ -22,7 +21,6 @@ describe("PlayList", () => {
       <PlayList plays={[play]} goToPlay={goToPlay} />
     ));
   });
-  afterEach(cleanup);
 
   it("renders play list item", () => {
     expect(queryByText(play.play)).not.toBeNull();

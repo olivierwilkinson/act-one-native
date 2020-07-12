@@ -2,7 +2,6 @@ import { Text } from "react-native";
 import React from "react";
 import {
   render,
-  cleanup,
   fireEvent,
   QueryByAPI,
   GetByAPI,
@@ -15,16 +14,14 @@ describe("Header", () => {
   let defaultProps: Props;
   let queryByText: QueryByAPI["queryByText"];
   let getByText: GetByAPI["getByText"];
-  let getByTestId: GetByAPI["getByTestId"];
   let rerender: RenderAPI["rerender"];
   beforeEach(() => {
     defaultProps = {};
 
-    ({ queryByText, getByText, getByTestId, rerender } = render(
+    ({ queryByText, getByText, rerender } = render(
       <Header {...defaultProps} />
     ));
   });
-  afterEach(cleanup);
 
   it("renders default title", () => {
     expect(queryByText("ActOne")).not.toBeNull();
@@ -68,25 +65,6 @@ describe("Header", () => {
 
       expect(defaultProps.left!.onPress).toHaveBeenCalledTimes(1);
     });
-
-    describe("when left header action is passed disabled", () => {
-      beforeEach(() => {
-        defaultProps = {
-          ...defaultProps,
-          left: {
-            ...defaultProps.left!,
-            disabled: true
-          }
-        };
-
-        rerender(<Header {...defaultProps} />);
-      });
-
-      it("disables left header button", () => {
-        const button = getByTestId("header-left-button");
-        expect(button.props.disabled).toEqual(true);
-      });
-    });
   });
 
   describe("when passed right HeaderAction", () => {
@@ -111,25 +89,6 @@ describe("Header", () => {
       fireEvent.press(backButton);
 
       expect(defaultProps.right!.onPress).toHaveBeenCalledTimes(1);
-    });
-
-    describe("when right header action is passed disabled", () => {
-      beforeEach(() => {
-        defaultProps = {
-          ...defaultProps,
-          right: {
-            ...defaultProps.right!,
-            disabled: true
-          }
-        };
-
-        rerender(<Header {...defaultProps} />);
-      });
-
-      it("disables right header button", () => {
-        const button = getByTestId("header-right-button");
-        expect(button.props.disabled).toEqual(true);
-      });
     });
   });
 });

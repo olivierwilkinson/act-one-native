@@ -2,7 +2,6 @@ import "react-native";
 import React from "react";
 import {
   render,
-  cleanup,
   QueryByAPI,
   GetByAPI,
   RenderAPI,
@@ -31,7 +30,6 @@ describe("SceneList", () => {
       />
     ));
   });
-  afterEach(cleanup);
 
   it("renders act header", () => {
     expect(queryByText("ACT 1")).not.toBeNull();

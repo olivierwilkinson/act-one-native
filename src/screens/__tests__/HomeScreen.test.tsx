@@ -1,6 +1,6 @@
 import "react-native";
 import React from "react";
-import { render, cleanup, QueryByAPI } from "react-native-testing-library";
+import { render, QueryByAPI } from "react-native-testing-library";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -27,7 +27,6 @@ describe("HomeScreen", () => {
       </NavigationContainer>
     ));
   });
-  afterEach(cleanup);
 
   it("renders default title", () => {
     expect(queryByText("ActOne")).not.toBeNull();

@@ -1,11 +1,6 @@
 import "react-native";
 import React from "react";
-import {
-  render,
-  cleanup,
-  QueryByAPI,
-  GetByAPI
-} from "react-native-testing-library";
+import { render, QueryByAPI, GetByAPI } from "react-native-testing-library";
 
 import SceneLines from "../SceneLines";
 import PlayPositionContext from "../../../contexts/PlayPosition";
@@ -37,7 +32,6 @@ describe("SceneLines", () => {
       </PlayPositionContext.Provider>
     ));
   });
-  afterEach(cleanup);
 
   it("renders line", () => {
     expect(queryByText(lineRow.text)).not.toBeNull();

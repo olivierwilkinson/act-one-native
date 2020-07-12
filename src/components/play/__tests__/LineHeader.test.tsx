@@ -1,6 +1,6 @@
 import "react-native";
 import React from "react";
-import { render, fireEvent, cleanup, act } from "react-native-testing-library";
+import { render, fireEvent, act } from "react-native-testing-library";
 import Speech from "expo-speech";
 
 import LineHeader from "../LineHeader";
@@ -48,8 +48,6 @@ const mount = (l: Line) =>
   );
 
 describe("LineHeader", () => {
-  afterEach(cleanup);
-
   it("sets active line on press", async () => {
     const { getByTestId } = mount(inactiveLine);
     await act(wait);

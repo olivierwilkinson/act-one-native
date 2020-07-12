@@ -3,7 +3,6 @@ import React from "react";
 import {
   render,
   fireEvent,
-  cleanup,
   QueryByAPI,
   GetByAPI
 } from "react-native-testing-library";
@@ -30,7 +29,6 @@ describe("SceneHeader", () => {
       </PlayNavigationContext.Provider>
     ));
   });
-  afterEach(cleanup);
 
   it("renders act and scene title", () => {
     expect(

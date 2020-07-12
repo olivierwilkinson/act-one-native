@@ -1,12 +1,6 @@
 import "react-native";
 import React from "react";
-import {
-  render,
-  cleanup,
-  QueryByAPI,
-  RenderAPI,
-  GetByAPI
-} from "react-native-testing-library";
+import { render, RenderAPI, GetByAPI } from "react-native-testing-library";
 
 import Scene from "../Scene";
 import PlayPositionContext from "../../../contexts/PlayPosition";
@@ -16,6 +10,7 @@ jest.mock("react-native-reanimated", () =>
 );
 
 import play from "../../../data/plays/shakespeare/AComedyOfErrors";
+import { SectionList } from "react-native";
 const {
   scenes: [scene]
 } = play;
@@ -25,12 +20,14 @@ const {
 const { colourByPlayer } = play;
 
 describe("Scene", () => {
-  let queryByTestId: QueryByAPI["queryByTestId"];
   let getByTestId: GetByAPI["getByTestId"];
+  let getByText: GetByAPI["getByText"];
+  let getByType: GetByAPI["UNSAFE_getByType"];
   let rerender: RenderAPI["rerender"];
   let scrollToLocation: jest.Mock;
+
   beforeEach(() => {
-    ({ queryByTestId, getByTestId, rerender } = render(
+    ({ getByTestId, getByText, rerender, UNSAFE_getByType: getByType } = render(
       <PlayPositionContext.Provider
         value={{
           activeLine: line,
@@ -42,22 +39,17 @@ describe("Scene", () => {
       </PlayPositionContext.Provider>
     ));
 
-    /*
-      monkey-patch scrollToLocation on the sectionList Scene holds a
-      reference to
-    */
     scrollToLocation = jest.fn();
-    const sceneLines = queryByTestId("play-scene-lines");
+    const sceneLines = getByType(SectionList);
     sceneLines.instance.scrollToLocation = scrollToLocation;
   });
-  afterEach(cleanup);
 
   it("renders play scene header", () => {
-    expect(getByTestId("play-scene-header")).not.toBeNull();
+    expect(getByText("ACT 1 - SCENE 1")).not.toBeNull();
   });
 
   it("renders play scene lines", () => {
-    expect(getByTestId("play-scene-lines")).not.toBeNull();
+    expect(getByText(line.lineRows[0].text)).not.toBeNull();
   });
 
   it("renders playback controls", () => {

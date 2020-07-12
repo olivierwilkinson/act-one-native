@@ -14,7 +14,6 @@ type Props = Scene & {
 export default forwardRef(
   ({ lines, colourByPlayer }: Props, ref?: Ref<any>) => (
     <SectionList
-      testID="play-scene-lines"
       ref={ref}
       style={{ backgroundColor: playBackgroundColour }}
       sections={lines.map(line => ({

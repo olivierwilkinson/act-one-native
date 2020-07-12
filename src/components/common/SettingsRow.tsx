@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableHighlight } from "react-native";
+import { TouchableHighlight, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import styled from "styled-components/native";
 
@@ -74,11 +74,9 @@ export default ({ label, onPress, leftIconName, value }: Props) => {
     <TouchableHighlight onPress={onPress}>
       <SettingView>
         {leftIconName && (
-          <SettingLeftIcon
-            testID="settings-row-left-icon"
-            size={24}
-            name={leftIconName}
-          />
+          <View testID="settings-row-left-icon">
+            <SettingLeftIcon size={24} name={leftIconName} />
+          </View>
         )}
 
         <SettingContentView>
@@ -88,12 +86,13 @@ export default ({ label, onPress, leftIconName, value }: Props) => {
             {!!value && <ValueText numberOfLines={1}>{value}</ValueText>}
 
             {onPress && (
-              <SettingRightArrow
-                testID="settings-row-right-arrow"
-                size={20}
-                name="ios-arrow-forward"
-                color="gray"
-              />
+              <View testID="settings-row-right-arrow">
+                <SettingRightArrow
+                  size={20}
+                  name="ios-arrow-forward"
+                  color="gray"
+                />
+              </View>
             )}
           </SettingRightView>
         </SettingContentView>

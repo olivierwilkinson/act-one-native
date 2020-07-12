@@ -1,6 +1,6 @@
 import "react-native";
 import React from "react";
-import { render, cleanup, act } from "react-native-testing-library";
+import { render, act } from "react-native-testing-library";
 
 import LineRow from "../LineRow";
 
@@ -26,8 +26,6 @@ const mount = (lineRow: LineRowType) =>
   );
 
 describe("LineRow", () => {
-  afterEach(cleanup);
-
   it("renders text", async () => {
     const { queryByText } = mount(lineRow);
     await act(wait);
