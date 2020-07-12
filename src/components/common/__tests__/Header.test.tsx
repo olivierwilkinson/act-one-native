@@ -2,7 +2,6 @@ import { Text } from "react-native";
 import React from "react";
 import {
   render,
-  cleanup,
   fireEvent,
   QueryByAPI,
   GetByAPI,
@@ -23,7 +22,6 @@ describe("Header", () => {
       <Header {...defaultProps} />
     ));
   });
-  afterEach(cleanup);
 
   it("renders default title", () => {
     expect(queryByText("ActOne")).not.toBeNull();

@@ -2,7 +2,6 @@ import "react-native";
 import React from "react";
 import {
   render,
-  cleanup,
   QueryByAPI,
   flushMicrotasksQueue,
   act
@@ -42,7 +41,6 @@ describe("PlayScreen", () => {
 
   afterEach(() => {
     resetStorageMocks();
-    cleanup();
   });
 
   describe("when mounted without params", () => {

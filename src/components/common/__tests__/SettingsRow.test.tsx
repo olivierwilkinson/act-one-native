@@ -2,7 +2,6 @@ import "react-native";
 import React from "react";
 import {
   render,
-  cleanup,
   RenderAPI,
   fireEvent,
   GetByAPI
@@ -25,7 +24,6 @@ describe("SettingsRow", () => {
       <SettingsRow {...defaultProps} />
     ));
   });
-  afterEach(cleanup);
 
   it("renders correctly", () => {
     expect(toJSON()).toMatchSnapshot();

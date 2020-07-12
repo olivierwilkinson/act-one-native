@@ -2,7 +2,6 @@ import { Text, Modal } from "react-native";
 import React from "react";
 import {
   render,
-  cleanup,
   fireEvent,
   QueryByAPI,
   GetByAPI,
@@ -29,7 +28,6 @@ describe("CustomActionSheet", () => {
       <CustomActionSheet {...defaultProps} />
     ));
   });
-  afterEach(cleanup);
 
   it("renders correctly when is visible is false", () => {
     const modal = getByType(Modal);

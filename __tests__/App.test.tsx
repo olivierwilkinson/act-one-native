@@ -4,7 +4,6 @@ import React from "react";
 import {
   render,
   fireEvent,
-  cleanup,
   GetByAPI,
   QueryByAPI,
   waitFor
@@ -30,7 +29,6 @@ describe("App", () => {
     ({ queryByTestId, queryByText, getByTestId, getByText } = render(<App />));
     await waitFor(() => getByText(play.play));
   });
-  afterEach(cleanup);
 
   it("renders Home", () => {
     expect(queryByTestId("play-list")).not.toBeNull();

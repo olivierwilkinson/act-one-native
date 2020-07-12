@@ -1,11 +1,6 @@
 import { ActivityIndicator } from "react-native";
 import React from "react";
-import {
-  render,
-  cleanup,
-  QueryByAPI,
-  RenderAPI
-} from "react-native-testing-library";
+import { render, QueryByAPI, RenderAPI } from "react-native-testing-library";
 
 import PageLoading, { Props } from "../PageLoading";
 
@@ -21,7 +16,6 @@ describe("PageLoading", () => {
       <PageLoading />
     ));
   });
-  afterEach(cleanup);
 
   it("renders activity indicator", () => {
     expect(queryByType(ActivityIndicator)).not.toBeNull();

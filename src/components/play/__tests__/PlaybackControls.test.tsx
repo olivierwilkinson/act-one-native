@@ -1,6 +1,6 @@
 import "react-native";
 import React from "react";
-import { render, cleanup, act } from "react-native-testing-library";
+import { render, act } from "react-native-testing-library";
 import { getAsync, askAsync, AUDIO_RECORDING } from "expo-permissions";
 import Speech from "expo-speech";
 
@@ -55,9 +55,6 @@ const mount = () => {
 describe("PlaybackControls", () => {
   beforeEach(async () => {
     await act(wait);
-  });
-  afterEach(() => {
-    cleanup();
   });
 
   it("renders play header", async () => {

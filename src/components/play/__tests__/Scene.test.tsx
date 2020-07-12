@@ -1,11 +1,6 @@
 import "react-native";
 import React from "react";
-import {
-  render,
-  cleanup,
-  RenderAPI,
-  GetByAPI
-} from "react-native-testing-library";
+import { render, RenderAPI, GetByAPI } from "react-native-testing-library";
 
 import Scene from "../Scene";
 import PlayPositionContext from "../../../contexts/PlayPosition";
@@ -48,7 +43,6 @@ describe("Scene", () => {
     const sceneLines = getByType(SectionList);
     sceneLines.instance.scrollToLocation = scrollToLocation;
   });
-  afterEach(cleanup);
 
   it("renders play scene header", () => {
     expect(getByText("ACT 1 - SCENE 1")).not.toBeNull();

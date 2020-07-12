@@ -1,11 +1,6 @@
 import "react-native";
 import React from "react";
-import {
-  render,
-  cleanup,
-  fireEvent,
-  GetByAPI
-} from "react-native-testing-library";
+import { render, fireEvent, GetByAPI } from "react-native-testing-library";
 
 import PickerActionSheet, { Props } from "../PickerActionSheet";
 import { Picker } from "react-native";
@@ -27,7 +22,6 @@ describe("PickerActionSheet", () => {
       <PickerActionSheet {...defaultProps} />
     ));
   });
-  afterEach(cleanup);
 
   it("calls onCancel when cancel button pressed", () => {
     fireEvent.press(getByText("Cancel"));

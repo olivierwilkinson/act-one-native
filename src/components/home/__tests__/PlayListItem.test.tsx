@@ -1,11 +1,6 @@
 import "react-native";
 import React from "react";
-import {
-  render,
-  fireEvent,
-  cleanup,
-  QueryByAPI
-} from "react-native-testing-library";
+import { render, fireEvent, QueryByAPI } from "react-native-testing-library";
 
 import PlayListItem from "../PlayListItem";
 
@@ -22,7 +17,6 @@ describe("PlayListItem", () => {
       <PlayListItem {...play} onPress={onPress} />
     ));
   });
-  afterEach(cleanup);
 
   it("renders play title", () => {
     expect(queryByText(play.play)).not.toBeNull();

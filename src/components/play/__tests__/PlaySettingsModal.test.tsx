@@ -1,7 +1,6 @@
 import React from "react";
 import {
   render,
-  cleanup,
   fireEvent,
   GetByAPI,
   QueryByAPI
@@ -39,7 +38,6 @@ describe("PlaySettings", () => {
       </PlaySettingsContext.Provider>
     ));
   });
-  afterEach(cleanup);
 
   it("renders close button on header", () => {
     expect(queryByText("Close")).not.toBeNull();
