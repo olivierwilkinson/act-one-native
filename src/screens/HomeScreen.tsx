@@ -1,8 +1,8 @@
 import React from "react";
 
 import plays from "../data/plays";
-import PlayList from "../components/home/PlayList";
-import Header from "../components/common/Header";
+import PlayList from "../components/home/playList/PlayList";
+import Header from "../components/common/header/Header";
 import { HomeNavigationProp } from "../types/navigation-types";
 
 export type Props = {
