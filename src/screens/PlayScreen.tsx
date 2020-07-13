@@ -2,9 +2,9 @@ import React from "react";
 
 import PlayProviders from "../components/play/playProviders/PlayProviders";
 import Play from "../components/play/Play";
-import Error from "../components/common/Error";
+import Error from "../components/common/error/Error";
 import { PlayNavigationProp, PlayRouteProp } from "../types/navigation-types";
-import PlayHeader from "../components/play/PlayHeader";
+import PlayHeader from "../components/play/playHeader/PlayHeader";
 
 export type Props = {
   navigation: PlayNavigationProp;

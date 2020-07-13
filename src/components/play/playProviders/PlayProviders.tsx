@@ -1,9 +1,9 @@
 import React, { ReactNode } from "react";
 
-import PlaybackProvider from "./playbackProvider/PlaybackProvider";
-import PlayNavigationProvider from "./playNavigationProvider/PlayNavigationProvider";
-import PlayPositionProvider from "./playPositionProvider/PlayPositionProvider";
-import PlaySettingsProvider from "./playSettingsProvider/PlaySettingsProvider";
+import PlaybackProvider from "../playbackProvider/PlaybackProvider";
+import PlayNavigationProvider from "../playNavigationProvider/PlayNavigationProvider";
+import PlayPositionProvider from "../playPositionProvider/PlayPositionProvider";
+import PlaySettingsProvider from "../playSettingsProvider/PlaySettingsProvider";
 
 import { Play } from "../../../types/play-types";
 
