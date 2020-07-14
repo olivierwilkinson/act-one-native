@@ -1,9 +1,8 @@
 import "react-native";
 import React from "react";
-import { render, RenderAPI, GetByAPI } from "react-native-testing-library";
+import { render, fireEvent, waitFor } from "react-native-testing-library";
 
 import Scene from "../Scene";
-import PlayPositionContext from "../../../../contexts/PlayPosition";
 
 jest.mock("react-native-reanimated", () =>
   jest.requireActual("react-native-reanimated/mock")
@@ -11,6 +10,8 @@ jest.mock("react-native-reanimated", () =>
 
 import play from "../../../../data/plays/shakespeare/AComedyOfErrors";
 import { SectionList } from "react-native";
+import AppProviders from "../../../app/appProviders/AppProviders";
+import PlayProviders from "../../playProviders/PlayProviders";
 const {
   scenes: [scene]
 } = play;
@@ -19,90 +20,72 @@ const {
 } = scene;
 const { colourByPlayer } = play;
 
+const mount = async () => {
+  const result = render(
+    <AppProviders>
+      <PlayProviders play={play}>
+        <Scene colourByPlayer={colourByPlayer} />
+      </PlayProviders>
+    </AppProviders>
+  );
+
+  const scrollToLocationMock = jest.fn();
+  const [sceneLines] = await waitFor(() =>
+    result.UNSAFE_getAllByType(SectionList)
+  );
+  sceneLines.instance.scrollToLocation = scrollToLocationMock;
+
+  return {
+    ...result,
+    scrollToLocationMock
+  };
+};
+
 describe("Scene", () => {
-  let getByTestId: GetByAPI["getByTestId"];
-  let getByText: GetByAPI["getByText"];
-  let getByType: GetByAPI["UNSAFE_getByType"];
-  let rerender: RenderAPI["rerender"];
-  let scrollToLocation: jest.Mock;
-
-  beforeEach(() => {
-    ({ getByTestId, getByText, rerender, UNSAFE_getByType: getByType } = render(
-      <PlayPositionContext.Provider
-        value={{
-          activeLine: line,
-          activeScene: scene,
-          setActiveLine: () => null
-        }}
-      >
-        <Scene {...scene} colourByPlayer={colourByPlayer} />
-      </PlayPositionContext.Provider>
-    ));
-
-    scrollToLocation = jest.fn();
-    const sceneLines = getByType(SectionList);
-    sceneLines.instance.scrollToLocation = scrollToLocation;
+  it("renders play scene header", async () => {
+    const { findByText } = await mount();
+    await findByText("ACT 1 - SCENE 1");
   });
 
-  it("renders play scene header", () => {
-    expect(getByText("ACT 1 - SCENE 1")).not.toBeNull();
+  it("renders play scene lines", async () => {
+    const { findByText } = await mount();
+    await findByText(line.lineRows[0].text);
   });
 
-  it("renders play scene lines", () => {
-    expect(getByText(line.lineRows[0].text)).not.toBeNull();
+  it("renders playback controls", async () => {
+    const { findByTestId } = await mount();
+    await findByTestId("playback-controls");
   });
 
-  it("renders playback controls", () => {
-    expect(getByTestId("playback-controls")).not.toBeNull();
-  });
+  it("scrolls lines to the top when scene changes", async () => {
+    const { findByTestId, findByText, scrollToLocationMock } = await mount();
+    const nextSceneButton = await findByTestId("next-scene-button");
+    fireEvent.press(nextSceneButton);
 
-  describe("when act number changes", () => {
-    beforeEach(() => {
-      const newScene = { ...scene, act: 2 };
-      rerender(
-        <PlayPositionContext.Provider
-          value={{
-            activeLine: line,
-            activeScene: newScene,
-            setActiveLine: () => null
-          }}
-        >
-          <Scene {...newScene} colourByPlayer={colourByPlayer} />
-        </PlayPositionContext.Provider>
-      );
-    });
+    await findByText("ACT 1 - SCENE 2");
 
-    it("scrolls list to the top", () => {
-      expect(scrollToLocation).toHaveBeenCalledWith({
-        animated: false,
-        sectionIndex: 0,
-        itemIndex: 0
-      });
+    expect(scrollToLocationMock).toHaveBeenCalledWith({
+      animated: false,
+      sectionIndex: 0,
+      itemIndex: 0
     });
   });
 
-  describe("when scene number changes", () => {
-    beforeEach(() => {
-      const newScene = { ...scene, scene: 2 };
-      rerender(
-        <PlayPositionContext.Provider
-          value={{
-            activeLine: line,
-            activeScene: newScene,
-            setActiveLine: () => null
-          }}
-        >
-          <Scene {...newScene} colourByPlayer={colourByPlayer} />
-        </PlayPositionContext.Provider>
-      );
-    });
+  it("scrolls lines to the top when act changes", async () => {
+    const { findByTestId, findByText, scrollToLocationMock } = await mount();
 
-    it("scrolls list to the top", () => {
-      expect(scrollToLocation).toHaveBeenCalledWith({
-        animated: false,
-        sectionIndex: 0,
-        itemIndex: 0
-      });
+    fireEvent.press(await findByTestId("next-scene-button"));
+    await findByText("ACT 1 - SCENE 2");
+
+    scrollToLocationMock.mockRestore();
+
+    fireEvent.press(await findByTestId("next-scene-button"));
+    await findByText("ACT 2 - SCENE 1");
+
+    expect(scrollToLocationMock).toHaveBeenCalledWith({
+      animated: false,
+      sectionIndex: 0,
+      itemIndex: 0
     });
   });
 });

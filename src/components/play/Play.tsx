@@ -1,6 +1,6 @@
 import React from "react";
 
-import SceneContainer from "./scene/SceneContainer";
+import Scene from "./scene/Scene";
 
 import { Play as PlayType } from "../../types/play-types";
 
@@ -9,5 +9,5 @@ type Props = {
 };
 
 export default ({ play: { colourByPlayer } }: Props) => (
-  <SceneContainer colourByPlayer={colourByPlayer} />
+  <Scene colourByPlayer={colourByPlayer} />
 );

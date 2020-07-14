@@ -1,11 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import { TouchableHighlight } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import styled, { css } from "styled-components/native";
 
-import PlayNavigationContext from "../../../contexts/PlayNavigation";
-import Playback from "../../../contexts/Playback";
-import { Scene } from "../../../types/play-types";
 import { mediumSizeFont } from "../../../styles/typography";
 import {
   mediumLightGray,
@@ -60,66 +57,66 @@ const SceneSelectView = styled.View`
   top: 3px;
 `;
 
-export type Props = Scene;
+export type Props = {
+  act: number;
+  scene: number;
+  showNextSceneButton: boolean;
+  showPreviousSceneButton: boolean;
+  onNextScenePress: () => void;
+  onPreviousScenePress: () => void;
+  onSceneSelectPress: () => void;
+};
 
-export default ({ act, scene }: Props) => {
-  const { goToNextScene, goToPreviousScene, openSceneSelect } = useContext(
-    PlayNavigationContext
-  );
-  const { stop } = useContext(Playback);
-
-  return (
-    <SceneHeaderView testID="play-scene-header">
-      {goToPreviousScene && (
-        <LeftArrowView>
-          <TouchableHighlight
-            testID="previous-scene-button"
-            underlayColor={mediumLightGray}
-            onPress={() => {
-              stop();
-              goToPreviousScene();
-            }}
-          >
-            <IconView>
-              <Ionicons name="ios-arrow-back" size={18} color={mediumGray} />
-            </IconView>
-          </TouchableHighlight>
-        </LeftArrowView>
-      )}
-
-      <SceneText>{`ACT ${act} - SCENE ${scene}`}</SceneText>
-
-      {goToNextScene && (
-        <RightArrowView>
-          <TouchableHighlight
-            testID="next-scene-button"
-            underlayColor={mediumLightGray}
-            onPress={() => {
-              stop();
-              goToNextScene();
-            }}
-          >
-            <IconView>
-              <Ionicons name="ios-arrow-forward" size={18} color={mediumGray} />
-            </IconView>
-          </TouchableHighlight>
-        </RightArrowView>
-      )}
-
-      <SceneSelectView>
+export default ({
+  act,
+  scene,
+  showPreviousSceneButton,
+  showNextSceneButton,
+  onPreviousScenePress,
+  onNextScenePress,
+  onSceneSelectPress
+}: Props) => (
+  <SceneHeaderView testID="play-scene-header">
+    {showPreviousSceneButton && (
+      <LeftArrowView>
         <TouchableHighlight
-          testID="scene-select-button"
+          testID="previous-scene-button"
           underlayColor={mediumLightGray}
-          onPress={() => {
-            stop();
-            openSceneSelect();
-          }}
+          onPress={onPreviousScenePress}
         >
           <IconView>
-            <Ionicons name="ios-list" size={32} color={mediumGray} />
+            <Ionicons name="ios-arrow-back" size={18} color={mediumGray} />
           </IconView>
         </TouchableHighlight>
-      </SceneSelectView>
-    </SceneHeaderView>
-  );
-};
+      </LeftArrowView>
+    )}
+
+    <SceneText>{`ACT ${act} - SCENE ${scene}`}</SceneText>
+
+    {showNextSceneButton && (
+      <RightArrowView>
+        <TouchableHighlight
+          testID="next-scene-button"
+          underlayColor={mediumLightGray}
+          onPress={onNextScenePress}
+        >
+          <IconView>
+            <Ionicons name="ios-arrow-forward" size={18} color={mediumGray} />
+          </IconView>
+        </TouchableHighlight>
+      </RightArrowView>
+    )}
+
+    <SceneSelectView>
+      <TouchableHighlight
+        testID="scene-select-button"
+        underlayColor={mediumLightGray}
+        onPress={onSceneSelectPress}
+      >
+        <IconView>
+          <Ionicons name="ios-list" size={32} color={mediumGray} />
+        </IconView>
+      </TouchableHighlight>
+    </SceneSelectView>
+  </SceneHeaderView>
+);

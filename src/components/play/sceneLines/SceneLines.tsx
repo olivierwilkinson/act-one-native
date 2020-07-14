@@ -1,4 +1,4 @@
-import React, { forwardRef, Ref } from "react";
+import React, { useRef, useEffect } from "react";
 import { SectionList } from "react-native";
 
 import Line from "../line/Line";
@@ -7,14 +7,26 @@ import { Scene } from "../../../types/play-types";
 import { ColourByPlayer } from "../../../types/colour-types";
 import { playBackgroundColour } from "../../../styles/colours";
 
-type Props = Scene & {
+type Props = Pick<Scene, "lines" | "act" | "scene"> & {
   colourByPlayer: ColourByPlayer;
 };
 
-export default forwardRef(
-  ({ lines, colourByPlayer }: Props, ref?: Ref<any>) => (
+export default ({ lines, colourByPlayer, act, scene }: Props) => {
+  const sceneElement = useRef<any>(null);
+
+  useEffect(() => {
+    if (sceneElement && sceneElement.current) {
+      sceneElement.current.scrollToLocation({
+        sectionIndex: 0,
+        itemIndex: 0,
+        animated: false
+      });
+    }
+  }, [act, scene]);
+
+  return (
     <SectionList
-      ref={ref}
+      ref={sceneElement}
       style={{ backgroundColor: playBackgroundColour }}
       sections={lines.map(line => ({
         data: [line]
@@ -28,5 +40,5 @@ export default forwardRef(
       keyExtractor={item => item.id.toString()}
       windowSize={7}
     />
-  )
-);
+  );
+};
