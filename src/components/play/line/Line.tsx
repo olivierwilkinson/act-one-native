@@ -1,10 +1,8 @@
-import React, { useContext, memo } from "react";
+import React, { memo } from "react";
 import { TouchableHighlight } from "react-native";
 import styled from "styled-components/native";
 
-import { Line as LineType } from "../../../types/play-types";
-import PlayPositionContext from "../../../contexts/PlayPosition";
-import PlaybackContext from "../../../contexts/Playback";
+import { LineRow as LineRowType } from "../../../types/play-types";
 import {
   lightPrimaryColour,
   playBackgroundColour
@@ -20,35 +18,26 @@ const LineView = styled.View`
   padding: 10px 0;
 `;
 
-const Line = (line: LineType) => {
-  const { id, lineRows, player } = line;
-  const { activeLine, setActiveLine } = useContext(PlayPositionContext);
-  const { stop } = useContext(PlaybackContext);
-
-  return (
-    <TouchableHighlight
-      testID={`play-line-${id}`}
-      onPress={() => {
-        stop();
-        setActiveLine(line);
-      }}
-      underlayColor="transparent"
-    >
-      <LineView
-        testID={`play-line-view-${id}`}
-        highlighted={activeLine.id === id}
-      >
-        {lineRows.map(lineRow => (
-          <LineRow
-            key={`${id}-${lineRow.text}`}
-            italic={!player}
-            {...lineRow}
-          />
-        ))}
-      </LineView>
-    </TouchableHighlight>
-  );
+export type Props = {
+  id: number;
+  italic: boolean;
+  highlighted: boolean;
+  lineRows: LineRowType[];
+  onPress: () => void;
 };
 
-// don't rerender on prop changes to optimise lists
+const Line = ({ id, italic, highlighted, lineRows, onPress }: Props) => (
+  <TouchableHighlight
+    testID={`play-line-${id}`}
+    onPress={onPress}
+    underlayColor="transparent"
+  >
+    <LineView testID={`play-line-view-${id}`} highlighted={highlighted}>
+      {lineRows.map(lineRow => (
+        <LineRow key={`${id}-${lineRow.text}`} italic={italic} {...lineRow} />
+      ))}
+    </LineView>
+  </TouchableHighlight>
+);
+
 export default memo(Line);

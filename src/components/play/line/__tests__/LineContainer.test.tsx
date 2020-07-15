@@ -3,7 +3,7 @@ import React from "react";
 import { render, fireEvent, act } from "react-native-testing-library";
 import Speech from "expo-speech";
 
-import Line from "../Line";
+import LineContainer from "../LineContainer";
 
 import play from "../../../../data/plays/shakespeare/AComedyOfErrors";
 import AppProviders from "../../../app/appProviders/AppProviders";
@@ -26,7 +26,7 @@ const mount = () =>
   render(
     <AppProviders>
       <PlayProviders play={play}>
-        <Line {...line} />
+        <LineContainer {...line} />
       </PlayProviders>
     </AppProviders>
   );
