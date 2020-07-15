@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { SectionList } from "react-native";
 
 import LineContainer from "../line/LineContainer";
-import LineHeader from "../lineHeader/LineHeader";
+import LineHeaderContainer from "../lineHeader/LineHeaderContainer";
 import { Line } from "../../../types/play-types";
 import { ColourByPlayer } from "../../../types/colour-types";
 import { playBackgroundColour } from "../../../styles/colours";
@@ -39,7 +39,9 @@ export default ({ lines, colourByPlayer, act, scene }: Props) => {
         section: {
           data: [line]
         }
-      }) => <LineHeader {...line} colour={colourByPlayer[line.player]} />}
+      }) => (
+        <LineHeaderContainer {...line} colour={colourByPlayer[line.player]} />
+      )}
       keyExtractor={item => item.id.toString()}
       windowSize={7}
     />
