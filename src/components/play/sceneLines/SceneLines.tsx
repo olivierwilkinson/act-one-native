@@ -1,13 +1,16 @@
 import React, { useRef, useEffect } from "react";
 import { SectionList } from "react-native";
 
-import Line from "../line/Line";
+import LineContainer from "../line/LineContainer";
 import LineHeader from "../lineHeader/LineHeader";
-import { Scene } from "../../../types/play-types";
+import { Line } from "../../../types/play-types";
 import { ColourByPlayer } from "../../../types/colour-types";
 import { playBackgroundColour } from "../../../styles/colours";
 
-type Props = Pick<Scene, "lines" | "act" | "scene"> & {
+type Props = {
+  lines: Line[];
+  act: number;
+  scene: number;
   colourByPlayer: ColourByPlayer;
 };
 
@@ -31,7 +34,7 @@ export default ({ lines, colourByPlayer, act, scene }: Props) => {
       sections={lines.map(line => ({
         data: [line]
       }))}
-      renderItem={({ item: line }) => <Line {...line} />}
+      renderItem={({ item: line }) => <LineContainer {...line} />}
       renderSectionHeader={({
         section: {
           data: [line]
