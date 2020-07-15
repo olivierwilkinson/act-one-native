@@ -122,6 +122,12 @@ describe("PlayScreen", () => {
           queryByText(play.scenes[0].lines[0].lineRows[0].text)
         ).not.toBeNull();
       });
+
+      describe("SceneSelect", () => {
+        it.todo("can be opened");
+        it.todo("opens new scene on scene select item press");
+        it.todo("indicates active scene");
+      });
     });
   });
 });

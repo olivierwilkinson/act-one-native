@@ -5,7 +5,7 @@ import PlayNavigationContext from "../../../contexts/PlayNavigation";
 import PlaySettingsContext from "../../../contexts/PlaySettings";
 import { createPlayNavigation } from "../../../helpers/contexts";
 import usePrevious from "../../../hooks/usePrevious";
-import SceneSelectModal from "../sceneSelectModal/SceneSelectModal";
+import SceneSelectModalContainer from "../sceneSelectModal/SceneSelectModalContainer";
 
 type Props = {
   play: PlayType;
@@ -49,8 +49,8 @@ const PlayNavigationProvider = ({ play, children }: Props) => {
         {children}
       </PlayNavigationContext.Provider>
 
-      <SceneSelectModal
-        play={play}
+      <SceneSelectModalContainer
+        scenes={play.scenes}
         visible={sceneSelectActive}
         onClose={() => setSceneSelectActive(false)}
       />
