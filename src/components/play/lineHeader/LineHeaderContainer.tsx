@@ -1,17 +1,16 @@
 import React, { useContext, memo } from "react";
 
-import { RGBColour } from "../../../types/colour-types";
 import { Line } from "../../../types/play-types";
 import PlayPositionContext from "../../../contexts/PlayPosition";
 import PlaybackContext from "../../../contexts/Playback";
 import PlaySettingsContext from "../../../contexts/PlaySettings";
 import LineHeader from "./LineHeader";
+import { usePlay } from "../playProvider/PlayProvider";
 
-type Props = Line & {
-  colour: RGBColour;
-};
+type Props = Line;
 
-const LineHeaderContainer = ({ colour, ...line }: Props) => {
+const LineHeaderContainer = ({ ...line }: Props) => {
+  const { colourByPlayer } = usePlay();
   const { activeLine, setActiveLine } = useContext(PlayPositionContext);
   const {
     settings: { selectedPlayer }
@@ -28,7 +27,7 @@ const LineHeaderContainer = ({ colour, ...line }: Props) => {
       }}
       highlighted={isCurrentLine}
       player={player}
-      colour={colour}
+      colour={colourByPlayer[player]}
       isSelected={selectedPlayer === player}
     />
   );

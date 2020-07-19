@@ -18,13 +18,12 @@ const {
 const {
   lines: [line]
 } = scene;
-const { colourByPlayer } = play;
 
 const mount = async () => {
   const result = render(
     <AppProviders>
       <PlayProviders play={play}>
-        <Scene colourByPlayer={colourByPlayer} />
+        <Scene />
       </PlayProviders>
     </AppProviders>
   );

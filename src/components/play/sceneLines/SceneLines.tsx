@@ -4,17 +4,15 @@ import { SectionList } from "react-native";
 import LineContainer from "../line/LineContainer";
 import LineHeaderContainer from "../lineHeader/LineHeaderContainer";
 import { Line } from "../../../types/play-types";
-import { ColourByPlayer } from "../../../types/colour-types";
 import { playBackgroundColour } from "../../../styles/colours";
 
 type Props = {
   lines: Line[];
   act: number;
   scene: number;
-  colourByPlayer: ColourByPlayer;
 };
 
-export default ({ lines, colourByPlayer, act, scene }: Props) => {
+export default ({ lines, act, scene }: Props) => {
   const sceneElement = useRef<any>(null);
 
   useEffect(() => {
@@ -39,9 +37,7 @@ export default ({ lines, colourByPlayer, act, scene }: Props) => {
         section: {
           data: [line]
         }
-      }) => (
-        <LineHeaderContainer {...line} colour={colourByPlayer[line.player]} />
-      )}
+      }) => <LineHeaderContainer {...line} />}
       keyExtractor={item => item.id.toString()}
       windowSize={7}
     />

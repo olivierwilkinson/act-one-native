@@ -15,13 +15,12 @@ const line = scene.lines.find(({ player }) => player) as Line;
 const {
   lineRows: [lineRow]
 } = line;
-const { colourByPlayer } = play;
 
 const mount = () =>
   render(
     <AppProviders>
       <PlayProviders play={play}>
-        <SceneLinesContainer colourByPlayer={colourByPlayer} />
+        <SceneLinesContainer />
       </PlayProviders>
     </AppProviders>
   );

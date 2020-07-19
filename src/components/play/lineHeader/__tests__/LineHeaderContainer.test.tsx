@@ -29,7 +29,6 @@ const MockedSpeech = (Speech as unknown) as SpeechMock;
 const {
   scenes: [scene]
 } = play;
-const { colourByPlayer } = play;
 
 const [, inactiveLine] = scene.lines;
 const playerLine = scene.lines.find(({ player }) => player) as Line;
@@ -42,7 +41,7 @@ const mount = (l: Line) =>
   render(
     <AppProviders>
       <PlayProviders play={play}>
-        <LineHeaderContainer {...l} colour={colourByPlayer[l.player]} />
+        <LineHeaderContainer {...l} />
       </PlayProviders>
     </AppProviders>
   );
