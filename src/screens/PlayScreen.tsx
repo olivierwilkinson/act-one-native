@@ -25,7 +25,7 @@ export default ({ navigation, route }: Props) => {
   return (
     <PlayProviders play={play}>
       <PlayHeader play={play} navigation={navigation} />
-      <Play play={play} />
+      <Play />
     </PlayProviders>
   );
 };

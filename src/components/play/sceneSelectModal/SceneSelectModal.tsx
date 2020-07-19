@@ -1,33 +1,29 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import CardModal from "../../common/cardModal/CardModal";
 import SceneList from "../sceneList/SceneList";
-import { Play } from "../../../types/play-types";
-import PlaySettingsContext from "../../../contexts/PlaySettings";
-import PlayPositionContext from "../../../contexts/PlayPosition";
+import { Scene } from "../../../types/play-types";
 
 export type Props = {
-  play: Play;
+  activeScene: Scene;
+  scenes: Scene[];
   visible: boolean;
   onClose: () => void;
+  onScenePress: (scene: Scene) => void;
 };
 
-export default ({ play, visible, onClose }: Props) => {
-  const { setSettings } = useContext(PlaySettingsContext);
-  const { activeScene } = useContext(PlayPositionContext);
-
-  return (
-    <CardModal title="Scene Select" visible={visible} onClose={onClose}>
-      <SceneList
-        activeScene={activeScene}
-        scenes={play.scenes}
-        onScenePress={scene =>
-          setSettings({
-            act: scene.act,
-            scene: scene.scene
-          })
-        }
-      />
-    </CardModal>
-  );
-};
+export default ({
+  activeScene,
+  scenes,
+  visible,
+  onClose,
+  onScenePress
+}: Props) => (
+  <CardModal title="Scene Select" visible={visible} onClose={onClose}>
+    <SceneList
+      activeScene={activeScene}
+      scenes={scenes}
+      onScenePress={onScenePress}
+    />
+  </CardModal>
+);

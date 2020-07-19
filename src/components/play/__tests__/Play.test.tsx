@@ -55,7 +55,7 @@ const mount = () => {
   const result = render(
     <AppProviders>
       <PlayProviders play={play}>
-        <Play play={play} />
+        <Play />
       </PlayProviders>
     </AppProviders>
   );

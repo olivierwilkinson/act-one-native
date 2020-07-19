@@ -1,32 +1,45 @@
-import React, { forwardRef, Ref } from "react";
+import React, { useRef, useEffect } from "react";
 import { SectionList } from "react-native";
 
-import Line from "../line/Line";
-import LineHeader from "../lineHeader/LineHeader";
-import { Scene } from "../../../types/play-types";
-import { ColourByPlayer } from "../../../types/colour-types";
+import LineContainer from "../line/LineContainer";
+import LineHeaderContainer from "../lineHeader/LineHeaderContainer";
+import { Line } from "../../../types/play-types";
 import { playBackgroundColour } from "../../../styles/colours";
 
-type Props = Scene & {
-  colourByPlayer: ColourByPlayer;
+type Props = {
+  lines: Line[];
+  act: number;
+  scene: number;
 };
 
-export default forwardRef(
-  ({ lines, colourByPlayer }: Props, ref?: Ref<any>) => (
+export default ({ lines, act, scene }: Props) => {
+  const sceneElement = useRef<any>(null);
+
+  useEffect(() => {
+    if (sceneElement && sceneElement.current) {
+      sceneElement.current.scrollToLocation({
+        sectionIndex: 0,
+        itemIndex: 0,
+        animated: false
+      });
+    }
+  }, [act, scene]);
+
+  return (
     <SectionList
-      ref={ref}
+      ref={sceneElement}
       style={{ backgroundColor: playBackgroundColour }}
       sections={lines.map(line => ({
         data: [line]
       }))}
-      renderItem={({ item: line }) => <Line {...line} />}
+      renderItem={({ item: line }) => <LineContainer {...line} />}
       renderSectionHeader={({
         section: {
           data: [line]
         }
-      }) => <LineHeader {...line} colour={colourByPlayer[line.player]} />}
+      }) => <LineHeaderContainer {...line} />}
       keyExtractor={item => item.id.toString()}
       windowSize={7}
     />
-  )
-);
+  );
+};

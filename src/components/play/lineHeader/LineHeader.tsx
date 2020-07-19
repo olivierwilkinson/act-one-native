@@ -1,4 +1,4 @@
-import React, { useContext, memo } from "react";
+import React, { memo } from "react";
 import styled from "styled-components/native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
@@ -7,11 +7,7 @@ import {
   lightPrimaryColour
 } from "../../../styles/colours";
 import { RGBColour } from "../../../types/colour-types";
-import { Line } from "../../../types/play-types";
-import PlayPositionContext from "../../../contexts/PlayPosition";
-import PlaybackContext from "../../../contexts/Playback";
 import PlayerBubble from "../playerBubble/PlayerBubble";
-import PlaySettingsContext from "../../../contexts/PlaySettings";
 
 const LineHeaderView = styled.View`
   display: flex;
@@ -23,40 +19,34 @@ const LineHeaderView = styled.View`
   border-bottom-width: 0;
 `;
 
-type Props = Line & {
+type Props = {
+  onPress: () => void;
+  highlighted: boolean;
+  player: string;
   colour: RGBColour;
+  isSelected: boolean;
 };
 
-const LineHeader = ({ colour, ...line }: Props) => {
-  const { activeLine, setActiveLine } = useContext(PlayPositionContext);
-  const {
-    settings: { selectedPlayer }
-  } = useContext(PlaySettingsContext);
-  const { stop } = useContext(PlaybackContext);
-  const { player, id } = line;
-  const isCurrentLine = activeLine.id === id;
-
-  return (
-    <TouchableHighlight
-      onPress={() => {
-        stop();
-        setActiveLine(line);
-      }}
-      underlayColor="transparent"
-    >
-      <LineHeaderView testID="play-line-header" highlighted={isCurrentLine}>
-        {!!player && (
-          <PlayerBubble
-            colour={colour}
-            highlighted={isCurrentLine}
-            player={player}
-            isSelected={selectedPlayer === player}
-          />
-        )}
-      </LineHeaderView>
-    </TouchableHighlight>
-  );
-};
+const LineHeader = ({
+  onPress,
+  highlighted,
+  player,
+  colour,
+  isSelected
+}: Props) => (
+  <TouchableHighlight onPress={onPress} underlayColor="transparent">
+    <LineHeaderView testID="play-line-header" highlighted={highlighted}>
+      {!!player && (
+        <PlayerBubble
+          colour={colour}
+          highlighted={highlighted}
+          player={player}
+          isSelected={isSelected}
+        />
+      )}
+    </LineHeaderView>
+  </TouchableHighlight>
+);
 
 // don't rerender on prop changes to optimise lists
 export default memo(LineHeader);

@@ -3,7 +3,7 @@ import React from "react";
 import { render, fireEvent, act } from "react-native-testing-library";
 import Speech from "expo-speech";
 
-import LineHeader from "../LineHeader";
+import LineHeaderContainer from "../LineHeaderContainer";
 import AppProviders from "../../../app/appProviders/AppProviders";
 import PlayProviders from "../../playProviders/PlayProviders";
 
@@ -29,7 +29,6 @@ const MockedSpeech = (Speech as unknown) as SpeechMock;
 const {
   scenes: [scene]
 } = play;
-const { colourByPlayer } = play;
 
 const [, inactiveLine] = scene.lines;
 const playerLine = scene.lines.find(({ player }) => player) as Line;
@@ -42,12 +41,12 @@ const mount = (l: Line) =>
   render(
     <AppProviders>
       <PlayProviders play={play}>
-        <LineHeader {...l} colour={colourByPlayer[l.player]} />
+        <LineHeaderContainer {...l} />
       </PlayProviders>
     </AppProviders>
   );
 
-describe("LineHeader", () => {
+describe("LineHeaderContainer", () => {
   it("sets active line on press", async () => {
     const { getByTestId } = mount(inactiveLine);
     await act(wait);

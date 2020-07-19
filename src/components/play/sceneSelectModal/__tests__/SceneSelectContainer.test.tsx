@@ -3,7 +3,7 @@ import React from "react";
 import { render, QueryByAPI } from "react-native-testing-library";
 import "jest-styled-components/native";
 
-import SceneSelectModal, { Props } from "../SceneSelectModal";
+import SceneSelectModalContainer, { Props } from "../SceneSelectModalContainer";
 import play from "../../../../data/plays/shakespeare/AComedyOfErrors";
 
 describe("SceneSelect", () => {
@@ -12,13 +12,13 @@ describe("SceneSelect", () => {
   let queryByTestId: QueryByAPI["queryByTestId"];
   beforeEach(async () => {
     defaultProps = {
-      play,
+      scenes: play.scenes,
       visible: false,
       onClose: jest.fn()
     };
 
     ({ queryByText, queryByTestId } = render(
-      <SceneSelectModal {...defaultProps} />
+      <SceneSelectModalContainer {...defaultProps} />
     ));
   });
 

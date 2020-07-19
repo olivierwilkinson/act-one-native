@@ -6,6 +6,7 @@ import PlayPositionProvider from "../playPositionProvider/PlayPositionProvider";
 import PlaySettingsProvider from "../playSettingsProvider/PlaySettingsProvider";
 
 import { Play } from "../../../types/play-types";
+import PlayProvider from "../playProvider/PlayProvider";
 
 export type Props = {
   play: Play;
@@ -13,13 +14,15 @@ export type Props = {
 };
 
 const PlayProviders = ({ play, children }: Props) => (
-  <PlaySettingsProvider play={play}>
-    <PlayPositionProvider play={play}>
-      <PlayNavigationProvider play={play}>
-        <PlaybackProvider>{children}</PlaybackProvider>
-      </PlayNavigationProvider>
-    </PlayPositionProvider>
-  </PlaySettingsProvider>
+  <PlayProvider play={play}>
+    <PlaySettingsProvider play={play}>
+      <PlayPositionProvider play={play}>
+        <PlayNavigationProvider play={play}>
+          <PlaybackProvider>{children}</PlaybackProvider>
+        </PlayNavigationProvider>
+      </PlayPositionProvider>
+    </PlaySettingsProvider>
+  </PlayProvider>
 );
 
 export default PlayProviders;
