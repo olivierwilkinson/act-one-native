@@ -14,7 +14,7 @@ if (__DEV__ && process.env.NODE_ENV !== "test") {
 }
 
 let screenOptions = {};
-if (process.env.NODE_ENV === "test") {
+if (process && process.env && process.env.NODE_ENV === "test") {
   screenOptions = {
     ...screenOptions,
     animationEnabled: false,
