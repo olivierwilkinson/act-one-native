@@ -1,9 +1,9 @@
 import "react-native";
 import React from "react";
 import { render, fireEvent, GetByAPI } from "react-native-testing-library";
+import { Picker } from "@react-native-community/picker";
 
 import PickerActionSheet, { Props } from "../PickerActionSheet";
-import { Picker } from "react-native";
 
 describe("PickerActionSheet", () => {
   let defaultProps: Props;

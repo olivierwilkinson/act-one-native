@@ -34,28 +34,26 @@ const PlaySettingsProvider = ({ play, children }: Props) => {
   }
 
   return (
-    <>
-      <PlaySettingsContext.Provider
-        value={{
-          settings,
-          openSettings: () => setSettingsActive(true),
-          setSettings: (newSettings: PlaySettings) => {
-            setSettings({
-              ...settings,
-              ...newSettings
-            });
-          }
-        }}
-      >
-        {children}
-      </PlaySettingsContext.Provider>
+    <PlaySettingsContext.Provider
+      value={{
+        settings,
+        openSettings: () => setSettingsActive(true),
+        setSettings: (newSettings: PlaySettings) => {
+          setSettings({
+            ...settings,
+            ...newSettings
+          });
+        }
+      }}
+    >
+      {children}
 
       <PlaySettingsModal
         play={play}
         visible={settingsActive}
         onClose={() => setSettingsActive(false)}
       />
-    </>
+    </PlaySettingsContext.Provider>
   );
 };
 
