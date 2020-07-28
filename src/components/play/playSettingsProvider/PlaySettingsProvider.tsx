@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import PageLoading from "../../common/pageLoading/PageLoading";
 import PlaySettingsContext, {
-  PlaySettings
+  PlaySettings,
 } from "../../../contexts/PlaySettings";
 import { getStoredSettings, setStoredSettings } from "../../../helpers/storage";
 import PlaySettingsModal from "../playSettingsModal/PlaySettingsModal";
@@ -18,7 +18,7 @@ const PlaySettingsProvider = ({ play, children }: Props) => {
   const [settingsActive, setSettingsActive] = useState(false);
 
   useEffect(() => {
-    getStoredSettings(play).then(storedSettings =>
+    getStoredSettings(play).then((storedSettings) =>
       setSettings(storedSettings || {})
     );
   }, [getStoredSettings, play, setSettings]);
