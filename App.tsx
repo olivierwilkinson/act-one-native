@@ -1,6 +1,8 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import * as Sentry from "sentry-expo";
+import Constants from "expo-constants";
 
 import AppProviders from "./src/components/app/appProviders/AppProviders";
 import HomeScreen from "./src/screens/HomeScreen";
@@ -17,9 +19,15 @@ let screenOptions = {};
 if (process && process.env && process.env.NODE_ENV === "test") {
   screenOptions = {
     ...screenOptions,
-    animationEnabled: false,
+    animationEnabled: false
   };
 }
+
+Sentry.init({
+  dsn: Constants.manifest.extra.sentryDSN || "",
+  enableInExpoDevelopment: true,
+  debug: true
+});
 
 const Stack = createStackNavigator<MainStackParamList>();
 
