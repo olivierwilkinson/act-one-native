@@ -23,7 +23,12 @@ export default ({ visible, onClose, play }: Props) => {
   const [playerSelectActive, setPlayerSelectActive] = useState(false);
 
   return (
-    <CardModal title="Play Settings" visible={visible} onClose={onClose}>
+    <CardModal
+      title="Play Settings"
+      visible={visible}
+      onClose={onClose}
+      swipeToClose={!playerSelectActive}
+    >
       <SettingsView>
         <SettingsRow
           label="Character"

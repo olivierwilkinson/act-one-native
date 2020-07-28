@@ -45,13 +45,20 @@ export type Props = {
   visible: boolean;
   onClose: () => void;
   children: ReactNode;
+  swipeToClose?: boolean;
 };
 
-export default ({ visible, title, onClose, children }: Props) => (
+export default ({
+  visible,
+  title,
+  onClose,
+  children,
+  swipeToClose = true
+}: Props) => (
   <Modal
     isVisible={visible}
     presentationStyle="overFullScreen"
-    swipeDirection="down"
+    swipeDirection={swipeToClose ? "down" : undefined}
     onSwipeComplete={onClose}
     style={{ margin: 0 }}
   >

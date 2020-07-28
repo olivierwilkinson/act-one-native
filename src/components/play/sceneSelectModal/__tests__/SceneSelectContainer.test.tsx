@@ -1,7 +1,6 @@
 import "react-native";
 import React from "react";
 import { render, QueryByAPI } from "react-native-testing-library";
-import "jest-styled-components/native";
 
 import SceneSelectModalContainer, { Props } from "../SceneSelectModalContainer";
 import play from "../../../../data/plays/shakespeare/AComedyOfErrors";

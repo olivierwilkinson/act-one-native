@@ -73,7 +73,8 @@ export default ({ visible, children, onDone, onCancel }: Props) => {
   React.useEffect(() => {
     Animated.timing(opacity, {
       toValue: visible ? 0.2 : 0,
-      duration: 300
+      duration: 300,
+      useNativeDriver: true
     }).start();
   }, [visible]);
 
@@ -89,19 +90,21 @@ export default ({ visible, children, onDone, onCancel }: Props) => {
           underlayColor="transparent"
           onPress={onCancel}
         >
-          <ModalContentView>
+          {/* catch touch events in relevant area */}
+          <ModalContentView onStartShouldSetResponder={() => true}>
             <CustomContentContainerView>{children}</CustomContentContainerView>
 
             {onDone && (
               <TouchableAction
                 testID="custom-action-sheet-done-button"
+                underlayColor="transparent"
                 onPress={onDone}
               >
                 <DoneText>Done</DoneText>
               </TouchableAction>
             )}
 
-            <TouchableAction onPress={onCancel}>
+            <TouchableAction underlayColor="transparent" onPress={onCancel}>
               <CancelText>Cancel</CancelText>
             </TouchableAction>
           </ModalContentView>

@@ -5,6 +5,7 @@ import {
   GetByAPI,
   QueryByAPI
 } from "react-native-testing-library";
+import { Picker } from "@react-native-community/picker";
 
 import PlaySettingsModal, { Props } from "../PlaySettingsModal";
 import PlaySettingsContext, {
@@ -12,7 +13,6 @@ import PlaySettingsContext, {
 } from "../../../../contexts/PlaySettings";
 
 import play from "../../../../data/plays/shakespeare/AComedyOfErrors";
-import { Picker } from "react-native";
 
 describe("PlaySettings", () => {
   let defaultProps: Props;

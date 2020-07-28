@@ -41,9 +41,9 @@ const PlaySettingsProvider = ({ play, children }: Props) => {
         setSettings: (newSettings: PlaySettings) => {
           setSettings({
             ...settings,
-            ...newSettings,
+            ...newSettings
           });
-        },
+        }
       }}
     >
       {children}

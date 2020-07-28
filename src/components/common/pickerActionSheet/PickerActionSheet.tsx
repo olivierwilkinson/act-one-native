@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Picker } from "react-native";
+import { Picker } from "@react-native-community/picker";
 
 import CustomActionSheet from "../customActionSheet/CustomActionSheet";
 import { primaryColour } from "../../../styles/colours";
@@ -32,7 +32,7 @@ export default ({
     >
       <Picker
         selectedValue={value}
-        onValueChange={itemValue => setValue(itemValue)}
+        onValueChange={itemValue => setValue(itemValue.toString())}
       >
         {options.map(option => (
           <Picker.Item
