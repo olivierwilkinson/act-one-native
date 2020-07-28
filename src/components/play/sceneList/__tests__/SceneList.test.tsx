@@ -7,7 +7,6 @@ import {
   RenderAPI,
   fireEvent
 } from "react-native-testing-library";
-import "jest-styled-components/native";
 
 import SceneList from "../SceneList";
 import { Scene } from "../../../../types/play-types";
