@@ -20,7 +20,7 @@
     "@types/react-gateway": "^2.8.3",
     "@welldone-software/why-did-you-render": "^4.0.5",
     "color-convert": "^2.0.1",
-    "expo": "^38.0.0",
+    "expo": "^38.0.8",
     "expo-av": "~8.2.1",
     "expo-font": "~8.2.1",
     "expo-speech": "~8.2.1",
