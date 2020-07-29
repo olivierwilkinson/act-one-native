@@ -19,6 +19,7 @@ jest.mock("../src/helpers/storage.ts", () => ({
   getStoredSettings: jest.fn().mockResolvedValue({}),
   setStoredSettings: jest.fn().mockResolvedValue(undefined)
 }));
+jest.mock("sentry-expo");
 
 describe("App", () => {
   let queryByTestId: QueryByAPI["queryByTestId"];
