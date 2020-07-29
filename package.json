@@ -8,6 +8,7 @@
     "start": "react-native start",
     "dev": "expo start",
     "test": "jest",
+    "pub": "expo publish --target managed",
     "check-types": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
