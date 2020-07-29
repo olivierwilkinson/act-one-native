@@ -24,8 +24,8 @@ if (process && process.env && process.env.NODE_ENV === "test") {
 }
 
 Sentry.init({
-  dsn: Constants.manifest.extra.sentryDSN || "",
-  enableInExpoDevelopment: false,
+  dsn: Constants.manifest?.extra?.sentryDSN || "",
+  enableInExpoDevelopment: false
 });
 
 const Stack = createStackNavigator<MainStackParamList>();

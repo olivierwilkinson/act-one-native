@@ -74,10 +74,16 @@
   "jest": {
     "projects": [
       {
-        "preset": "jest-expo/ios"
+        "preset": "jest-expo/ios",
+        "transformIgnorePatterns": [
+          "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)"
+        ]
       },
       {
-        "preset": "jest-expo/android"
+        "preset": "jest-expo/android",
+        "transformIgnorePatterns": [
+          "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)"
+        ]
       }
     ],
     "collectCoverageFrom": [
@@ -85,10 +91,6 @@
       "src/**/*.{js,jsx,ts,tsx}",
       "!src/contexts/*.ts",
       "!src/**/*.d.ts"
-    ],
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$",
-      "^.+\\.module\\.(css|sass|scss)$"
     ]
   },
   "private": true,
