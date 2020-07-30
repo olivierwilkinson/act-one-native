@@ -1,4 +1,5 @@
 import sentry from "./secret-configs/sentry.json";
+import googleAuth from "./secret-configs/google-auth.json";
 
 export default {
   name: "ActOne",
@@ -21,7 +22,9 @@ export default {
       }
     ]
   },
+  scheme: "actone",
   extra: {
-    sentryDSN: sentry.dsn
+    sentryDSN: sentry.dsn,
+    googleAuth
   }
 };
