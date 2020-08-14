@@ -1,25 +1,19 @@
 import React, { useState } from "react";
 import * as WebBrowser from "expo-web-browser";
-import {
-  makeRedirectUri,
-  ResponseType,
-  useAuthRequest,
-  useAutoDiscovery,
-  Prompt
-} from "expo-auth-session";
+import { startAsync } from "expo-auth-session";
 import { Platform } from "react-native";
 import Constants from "expo-constants";
 import styled from "styled-components/native";
+import AsyncStorage from '@react-native-community/async-storage';
 
-import { Tokens, UserInfo } from "../../app/authProvider/AuthProvider";
+import { UserInfo } from "../../app/authProvider/AuthProvider";
 import Logo from "../googleLogo/GoogleLogo";
 
 WebBrowser.maybeCompleteAuthSession();
-const useProxy = Platform.select({ web: false, default: true });
 
 const getButtonBackground = ({
   depressed,
-  disabled
+  disabled,
 }: {
   depressed: boolean;
   disabled: boolean;
@@ -84,90 +78,58 @@ const getClientId = () => {
   }
 };
 
-async function fetchUserInfo(token: string) {
-  const response = await fetch(
-    "https://www.googleapis.com/oauth2/v2/userinfo",
-    {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json"
-      }
-    }
-  );
-
-  return response.json();
-}
-
-const formatGoogleUserInfo = (gInfo: GoogleUserInfo) => ({
-  familyName: gInfo["family_name"],
-  givenName: gInfo["given_name"],
-  id: gInfo["id"],
-  locale: gInfo["locale"],
-  name: gInfo["name"],
-  picture: gInfo["picture"]
-});
-
-export type GoogleUserInfo = {
-  family_name: string;
-  given_name: string;
-  id: string;
-  locale: string;
-  name: string;
-  picture: string;
-};
-
 export type Props = {
-  onSignIn: (auth: { tokens: Tokens; user: UserInfo }) => void;
+  onSignIn: (user: UserInfo) => void;
 };
 
 export default function GoogleSignInButton({ onSignIn }: Props) {
-  const [fetchingUserInfo, setFetchingUserInfo] = useState(false);
   const [depressed, setDepressed] = useState(false);
   const clientId = getClientId();
+  console.log(clientId);
   if (!clientId) {
     return null;
   }
 
-  const [request, response, promptAsync] = useAuthRequest(
-    {
-      usePKCE: false,
-      responseType: ResponseType.Token,
-      clientId,
-      redirectUri: makeRedirectUri({
-        useProxy
-      }),
-      scopes: ["openid", "profile"],
-      prompt: Prompt.SelectAccount
-    },
-    useAutoDiscovery("https://accounts.google.com")
-  );
+  const { apiBaseUrl } = Constants.manifest.extra;
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const login = async () => {
+    setIsLoggingIn(true);
 
-  React.useEffect(() => {
-    if (response?.type === "success") {
-      const { access_token } = response.params;
+    const result = await startAsync({
+      authUrl: `${apiBaseUrl}/auth/google`,
+    });
 
-      setFetchingUserInfo(true);
-      fetchUserInfo(access_token)
-        .then((userInfo: GoogleUserInfo) =>
-          onSignIn({
-            tokens: { accessToken: access_token },
-            user: formatGoogleUserInfo(userInfo)
-          })
-        )
-        .catch(console.error)
-        .finally(() => setFetchingUserInfo(false));
+    if (result.type === "success") {
+      const { user, cookie } = result.params;
+      // console.log(cookie);
+      await AsyncStorage.setItem(apiBaseUrl, cookie);
+      onSignIn(JSON.parse(user));
     }
-  }, [response]);
 
-  const disabled = !request || fetchingUserInfo;
+    setIsLoggingIn(false);
+  };
+  // const [request, response, promptAsync] = useAuthRequest(
+  //   {
+  //     usePKCE: false,
+  //     responseType: ResponseType.Code,
+  //     clientId,
+  //     redirectUri: makeRedirectUri({
+  //       useProxy: false,
+  //     }),
+  //     scopes: ["openid", "profile"],
+  //     state,
+  //     prompt: Prompt.SelectAccount
+  //   },
+  //   {
+  //     ...useAutoDiscovery("https://accounts.google.com"),
+  //   }
+  // );
 
   return (
     <Button
-      disabled={disabled}
+      disabled={isLoggingIn}
       onPress={() => {
-        promptAsync({ useProxy });
+        login();
       }}
       onPressIn={() => setDepressed(true)}
       onPressOut={() => setDepressed(false)}
@@ -175,7 +137,7 @@ export default function GoogleSignInButton({ onSignIn }: Props) {
       depressed={depressed}
     >
       <ButtonContent>
-        <Logo disabled={disabled} />
+        <Logo disabled={isLoggingIn} />
         <ButtonText>SIGN IN WITH GOOGLE</ButtonText>
       </ButtonContent>
     </Button>

@@ -9,6 +9,7 @@ import { AppLoading } from "expo";
 import AppProviders from "./src/components/app/appProviders/AppProviders";
 import HomeScreen from "./src/screens/HomeScreen";
 import PlayScreen from "./src/screens/PlayScreen";
+import LoginScreen from './src/screens/LoginScreen';
 import { MainStackParamList } from "./src/types/navigation-types";
 import "./disableWarnings";
 
@@ -21,13 +22,13 @@ let screenOptions = {};
 if (process && process.env && process.env.NODE_ENV === "test") {
   screenOptions = {
     ...screenOptions,
-    animationEnabled: false
+    animationEnabled: false,
   };
 }
 
 Sentry.init({
   dsn: Constants.manifest?.extra?.sentryDSN || "",
-  enableInExpoDevelopment: false
+  enableInExpoDevelopment: false,
 });
 
 const Stack = createStackNavigator<MainStackParamList>();
@@ -47,7 +48,7 @@ export default () => {
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen
             name="Home"
-            component={HomeScreen}
+            component={LoginScreen}
             options={HomeScreen.navigationOptions}
           />
           <Stack.Screen name="Play" component={PlayScreen} />

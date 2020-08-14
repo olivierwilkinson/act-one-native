@@ -1,40 +1,52 @@
-import React, { useState, ReactNode, createContext, useContext } from "react";
+import React, {
+  useState,
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+} from "react";
+import Constants from "expo-constants";
+import request from "../../../helpers/request";
 
 type Props = {
   children: ReactNode;
 };
 
 export type UserInfo = {
-  familyName: string;
-  givenName: string;
-  id: string;
-  locale: string;
+  displayName: string;
+  email: string;
+  googleId: string;
+  id: number;
   name: string;
   picture: string;
 };
 
-export type Tokens = {
-  accessToken: string;
-  idToken?: string;
-  refreshToken?: string;
-};
-
 export type AuthContextValue = {
   user?: UserInfo;
-  tokens?: Tokens;
-  setAuth: (auth: { tokens: Tokens; user: UserInfo }) => void;
+  setUser: (user: UserInfo) => void;
 };
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 const AuthProvider = ({ children }: Props) => {
-  const [auth, setAuth] = useState({});
+  const [user, setUser] = useState<UserInfo>();
+
+  useEffect(() => {}, []);
+
+  useEffect(() => {
+    request(`${Constants.manifest.extra.apiBaseUrl}/auth/google/test`)
+      .then((res) =>
+        res.status
+      )
+      .then(console.log)
+      .catch(console.log);
+  }, [user]);
 
   return (
     <AuthContext.Provider
       value={{
-        ...auth,
-        setAuth
+        user,
+        setUser,
       }}
     >
       {children}

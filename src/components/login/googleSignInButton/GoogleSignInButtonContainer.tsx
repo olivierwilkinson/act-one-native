@@ -4,6 +4,6 @@ import GoogleSignInButton from "./GoogleSignInButton";
 import { useAuth } from "../../app/authProvider/AuthProvider";
 
 export default function GoogleSignInButtonContainer() {
-  const { setAuth } = useAuth();
-  return <GoogleSignInButton onSignIn={setAuth} />;
+  const { setUser } = useAuth();
+  return <GoogleSignInButton onSignIn={setUser} />;
 }
