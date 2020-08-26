@@ -30,7 +30,6 @@ const getButtonBackground = ({
 
 const Button = styled.TouchableOpacity`
   height: 40px;
-  margin: auto;
   border-width: 1px;
   border-radius: 5px;
   border-color: ${getButtonBackground};

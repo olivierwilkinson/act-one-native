@@ -1,37 +1,43 @@
 import React, { useState, ReactNode, createContext, useContext } from "react";
 
+import CardModal from "../../common/cardModal/CardModal";
+import Login from "../../../screens/LoginScreen";
+
 type Props = {
   children: ReactNode;
 };
 
-export type UserInfo = {
-  displayName: string;
-  email: string;
-  googleId: string;
-  id: number;
-  name: string;
-  picture: string;
-};
-
 export type AuthContextValue = {
-  user?: UserInfo;
-  setUser: (user: UserInfo) => void;
+  openLoginModal: (message?: string) => void;
 };
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 const AuthProvider = ({ children }: Props) => {
-  const [user, setUser] = useState<UserInfo>();
+  const [isLoginModalActive, setIsLoginModalActive] = useState(false);
+  const [message, setMessage] = useState<string>();
 
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        setUser
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+    <>
+      <AuthContext.Provider
+        value={{
+          openLoginModal: message => {
+            setMessage(message);
+            setIsLoginModalActive(true);
+          }
+        }}
+      >
+        {children}
+      </AuthContext.Provider>
+
+      <CardModal
+        title=""
+        visible={isLoginModalActive}
+        onClose={() => setIsLoginModalActive(false)}
+      >
+        <Login message={message} />
+      </CardModal>
+    </>
   );
 };
 
