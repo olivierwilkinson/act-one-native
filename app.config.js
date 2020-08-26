@@ -20,7 +20,7 @@ export default {
   name: "ActOne",
   slug: "actone",
   privacy: "unlisted",
-  version: "0.2.1",
+  version: "0.3.0",
   entryPoint: "node_modules/expo/AppEntry.js",
   platforms: ["ios", "android"],
   orientation: "portrait",
