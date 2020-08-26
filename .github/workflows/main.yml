@@ -24,13 +24,16 @@ jobs:
     
     - name: Setup Node.js environment
       uses: actions/setup-node@v1.4.2
+
     - run: yarn install
     - run: yarn test
     
     - name: Expo CLI
-    - uses: expo/expo-github-action@3.0.0
+      uses: expo/expo-github-action@3.0.0
       with:
           expo-version: 3.x
           expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
           expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
+          expo-cache: true
+
     - run: expo publish
