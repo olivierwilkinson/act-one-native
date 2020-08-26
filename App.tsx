@@ -1,15 +1,12 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import * as Sentry from "sentry-expo";
 import Constants from "expo-constants";
 import { useFonts, Roboto_500Medium } from "@expo-google-fonts/roboto";
 import { AppLoading } from "expo";
 
 import AppProviders from "./src/components/app/appProviders/AppProviders";
-import HomeScreen from "./src/screens/HomeScreen";
-import PlayScreen from "./src/screens/PlayScreen";
-import { MainStackParamList } from "./src/types/navigation-types";
+import AppStack from "./src/stacks/AppStack";
 import "./disableWarnings";
 
 if (__DEV__ && process.env.NODE_ENV !== "test") {
@@ -30,8 +27,6 @@ Sentry.init({
   enableInExpoDevelopment: false
 });
 
-const Stack = createStackNavigator<MainStackParamList>();
-
 export default () => {
   let [fontsLoaded] = useFonts({
     Roboto_500Medium
@@ -44,14 +39,7 @@ export default () => {
   return (
     <AppProviders>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen
-            name="Home"
-            component={HomeScreen}
-            options={HomeScreen.navigationOptions}
-          />
-          <Stack.Screen name="Play" component={PlayScreen} />
-        </Stack.Navigator>
+        <AppStack />
       </NavigationContainer>
     </AppProviders>
   );
