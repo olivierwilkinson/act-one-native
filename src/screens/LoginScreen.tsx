@@ -2,23 +2,23 @@ import React from "react";
 import { View, Button } from "react-native";
 import Constants from "expo-constants";
 
-import GoogleSignInButtonContainer from "../components/login/googleSignInButton/GoogleSignInButtonContainer";
+import GoogleSignInButton from "../components/login/googleSignInButton/GoogleSignInButton";
 import request from "../helpers/request";
 
-const { apiBaseUrl } = Constants.manifest.extra;
+const { apiBaseUrl } = Constants.manifest.extra || {};
 
 export default function Login() {
   return (
     <View>
-      <GoogleSignInButtonContainer />
+      <GoogleSignInButton />
       <Button
         title="LOGOUT"
         onPress={() => {
           request(`${apiBaseUrl}/auth/logout`, {
             method: "POST",
-            body: "{}",
+            body: "{}"
           })
-            .then((res) => console.log(res.status))
+            .then(res => console.log(res.status))
             .catch(console.log);
         }}
       ></Button>

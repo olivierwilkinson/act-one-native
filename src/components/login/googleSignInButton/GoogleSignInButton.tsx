@@ -4,16 +4,15 @@ import { startAsync } from "expo-auth-session";
 import { Platform } from "react-native";
 import Constants from "expo-constants";
 import styled from "styled-components/native";
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from "@react-native-community/async-storage";
 
-import { UserInfo } from "../../app/authProvider/AuthProvider";
 import Logo from "../googleLogo/GoogleLogo";
 
 WebBrowser.maybeCompleteAuthSession();
 
 const getButtonBackground = ({
   depressed,
-  disabled,
+  disabled
 }: {
   depressed: boolean;
   disabled: boolean;
@@ -78,14 +77,9 @@ const getClientId = () => {
   }
 };
 
-export type Props = {
-  onSignIn: (user: UserInfo) => void;
-};
-
-export default function GoogleSignInButton({ onSignIn }: Props) {
+export default function GoogleSignInButton() {
   const [depressed, setDepressed] = useState(false);
   const clientId = getClientId();
-  console.log(clientId);
   if (!clientId) {
     return null;
   }
@@ -96,34 +90,16 @@ export default function GoogleSignInButton({ onSignIn }: Props) {
     setIsLoggingIn(true);
 
     const result = await startAsync({
-      authUrl: `${apiBaseUrl}/auth/google`,
+      authUrl: `${apiBaseUrl}/auth/google`
     });
 
     if (result.type === "success") {
-      const { user, cookie } = result.params;
-      // console.log(cookie);
+      const { cookie } = result.params;
       await AsyncStorage.setItem(apiBaseUrl, cookie);
-      onSignIn(JSON.parse(user));
     }
 
     setIsLoggingIn(false);
   };
-  // const [request, response, promptAsync] = useAuthRequest(
-  //   {
-  //     usePKCE: false,
-  //     responseType: ResponseType.Code,
-  //     clientId,
-  //     redirectUri: makeRedirectUri({
-  //       useProxy: false,
-  //     }),
-  //     scopes: ["openid", "profile"],
-  //     state,
-  //     prompt: Prompt.SelectAccount
-  //   },
-  //   {
-  //     ...useAutoDiscovery("https://accounts.google.com"),
-  //   }
-  // );
 
   return (
     <Button
