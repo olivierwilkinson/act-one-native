@@ -27,3 +27,12 @@ jobs:
     
     - run: yarn install
     - run: yarn test
+    
+    - name: Expo CLI
+    - uses: expo/expo-github-action@3.0.0
+      with:
+          expo-version: 3.x
+          expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
+          expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
+
+    - run: expo publish
