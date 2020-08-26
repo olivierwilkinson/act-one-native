@@ -1,12 +1,4 @@
-import React, {
-  useState,
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-} from "react";
-import Constants from "expo-constants";
-import request from "../../../helpers/request";
+import React, { useState, ReactNode, createContext, useContext } from "react";
 
 type Props = {
   children: ReactNode;
@@ -31,22 +23,11 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<UserInfo>();
 
-  useEffect(() => {}, []);
-
-  useEffect(() => {
-    request(`${Constants.manifest.extra.apiBaseUrl}/auth/google/test`)
-      .then((res) =>
-        res.status
-      )
-      .then(console.log)
-      .catch(console.log);
-  }, [user]);
-
   return (
     <AuthContext.Provider
       value={{
         user,
-        setUser,
+        setUser
       }}
     >
       {children}

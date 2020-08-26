@@ -1,27 +1,29 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import Constants from "expo-constants";
 
-const { apiBaseUrl } = Constants.manifest.extra;
+const { apiBaseUrl } = Constants.manifest.extra || {
+  apiBaseUrl: "http://localhost"
+};
 
 export default async function request(path: string, params: RequestInit = {}) {
   let headers: RequestInit["headers"] = {
     ...params.headers,
     Accept: "application/json",
-    "Content-Type": "application/json",
+    "Content-Type": "application/json"
   };
 
   const cookie = await AsyncStorage.getItem(apiBaseUrl);
   if (cookie) {
     headers = {
       ...headers,
-      cookie,
+      cookie
     };
   }
 
   const res = await fetch(path, {
     ...params,
     headers,
-    credentials: "omit",
+    credentials: "omit"
   });
 
   return res;
