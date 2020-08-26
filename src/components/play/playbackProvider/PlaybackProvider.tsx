@@ -9,6 +9,7 @@ import PlayPosition from "../../../contexts/PlayPosition";
 import PlaySettings from "../../../contexts/PlaySettings";
 import { getLineText } from "../../../helpers/play";
 import AsyncStorage from "@react-native-community/async-storage";
+import { useAuth } from "../../app/authProvider/AuthProvider";
 
 type Props = {
   children: ReactNode;
@@ -17,6 +18,7 @@ type Props = {
 const PlaybackProvider = ({ children }: Props) => {
   const { permissions, requesting, ask } = useContext(PermissionsContext);
   const { play, record, speak, stop } = useContext(Audio);
+  const { openLoginModal } = useAuth();
 
   const { activeScene, activeLine, setActiveLine } = useContext(PlayPosition);
   const {
@@ -76,14 +78,22 @@ const PlaybackProvider = ({ children }: Props) => {
       value={{
         mode,
         setMode: (mode: PlaybackMode) => {
-          if (mode === PlaybackMode.Record && !canRecord) {
-            ask(AUDIO_RECORDING);
-          } else {
-            setMode(mode);
+          stoppedFlag.current = true;
+          stop();
+
+          if (mode === PlaybackMode.Record) {
+            if (!canRecord) {
+              ask(AUDIO_RECORDING);
+              throw new Error("Unable to record, insufficient permissions");
+            }
+
+            if (false) {
+              openLoginModal("Sign in to begin recording");
+              throw new Error("Unable to record, must be logged in");
+            }
           }
 
-          stoppedFlag.current = true;
-          return stop();
+          setMode(mode);
         },
         start: () => {
           stoppedFlag.current = false;
