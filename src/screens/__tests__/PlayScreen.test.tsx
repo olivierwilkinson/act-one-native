@@ -12,6 +12,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { getStoredSettings, setStoredSettings } from "../../helpers/storage";
 import play from "../../data/plays/shakespeare/AComedyOfErrors";
 import PlayScreen from "../PlayScreen";
+import AppProviders from "../../components/app/appProviders/AppProviders";
 
 jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
 jest.mock("../../helpers/storage.ts", () => ({
@@ -46,11 +47,13 @@ describe("PlayScreen", () => {
   describe("when mounted without params", () => {
     beforeEach(async () => {
       ({ queryByText } = render(
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen name="Play" component={PlayScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <AppProviders>
+          <NavigationContainer>
+            <Stack.Navigator>
+              <Stack.Screen name="Play" component={PlayScreen} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </AppProviders>
       ));
 
       await flushMicrotasksQueue();
@@ -72,15 +75,17 @@ describe("PlayScreen", () => {
   describe("when mounted with play", () => {
     it("renders loading indicator initially", async () => {
       ({ queryByText } = render(
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen
-              name="Play"
-              component={PlayScreen}
-              initialParams={{ play }}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <AppProviders>
+          <NavigationContainer>
+            <Stack.Navigator>
+              <Stack.Screen
+                name="Play"
+                component={PlayScreen}
+                initialParams={{ play }}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </AppProviders>
       ));
 
       expect(queryByText(`Loading ${play.play}...`)).not.toBeNull();
@@ -91,15 +96,17 @@ describe("PlayScreen", () => {
     describe("when finished loading", () => {
       beforeEach(async () => {
         ({ queryByText } = render(
-          <NavigationContainer>
-            <Stack.Navigator>
-              <Stack.Screen
-                name="Play"
-                component={PlayScreen}
-                initialParams={{ play }}
-              />
-            </Stack.Navigator>
-          </NavigationContainer>
+          <AppProviders>
+            <NavigationContainer>
+              <Stack.Navigator>
+                <Stack.Screen
+                  name="Play"
+                  component={PlayScreen}
+                  initialParams={{ play }}
+                />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </AppProviders>
         ));
 
         await act(flushMicrotasksQueue);

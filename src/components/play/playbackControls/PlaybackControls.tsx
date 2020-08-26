@@ -94,8 +94,10 @@ export default () => {
     }
 
     audio.stop();
-    setMode(mode);
-    positionTo.setValue(mode === PlaybackMode.Play ? -1 : 1);
+    try {
+      setMode(mode);
+      positionTo.setValue(mode === PlaybackMode.Play ? -1 : 1);
+    } catch (_) {}
   };
 
   const expandControls = (shouldExpand: boolean) => {
