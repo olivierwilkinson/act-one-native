@@ -8,7 +8,7 @@
     "start": "react-native start",
     "dev": "expo start",
     "test": "jest",
-    "pub": "expo publish --target managed",
+    "publish:test": "API_BASE_URL=https://backend-test.actone.live expo publish --target managed",
     "check-types": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
