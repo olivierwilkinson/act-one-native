@@ -5,9 +5,12 @@ const { apiBaseUrl } = Constants.manifest.extra || {
   apiBaseUrl: "http://localhost"
 };
 
-export default async function request(path: string, params: RequestInit = {}) {
+export default async (
+  input: RequestInfo,
+  init: RequestInit | undefined = {}
+) => {
   let headers: RequestInit["headers"] = {
-    ...params.headers,
+    ...init.headers,
     Accept: "application/json",
     "Content-Type": "application/json"
   };
@@ -20,11 +23,9 @@ export default async function request(path: string, params: RequestInit = {}) {
     };
   }
 
-  const res = await fetch(path, {
-    ...params,
+  return fetch(input, {
+    ...init,
     headers,
     credentials: "omit"
   });
-
-  return res;
-}
+};
