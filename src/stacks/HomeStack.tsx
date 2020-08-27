@@ -1,9 +1,10 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Foundation } from "@expo/vector-icons";
+import { SimpleLineIcons } from "@expo/vector-icons";
 
 import HomeScreen from "../screens/HomeScreen";
-import { darkGray } from "../styles/colours";
+import { darkGray, primaryColour } from "../styles/colours";
+import ProfileScreen from "../screens/ProfileScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -15,8 +16,27 @@ export default function HomeStack() {
         component={HomeScreen}
         options={{
           title: "Home",
-          tabBarIcon: () => (
-            <Foundation name="home" size={32} color={darkGray} />
+          tabBarIcon: ({ focused }) => (
+            <SimpleLineIcons
+              name="home"
+              size={26}
+              color={focused ? primaryColour : darkGray}
+            />
+          )
+        }}
+      />
+
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ focused }) => (
+            <SimpleLineIcons
+              name="user"
+              size={26}
+              color={focused ? primaryColour : darkGray}
+            />
           )
         }}
       />
