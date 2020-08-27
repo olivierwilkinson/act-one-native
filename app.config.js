@@ -24,6 +24,11 @@ export default {
   entryPoint: "node_modules/expo/AppEntry.js",
   platforms: ["ios", "android"],
   orientation: "portrait",
+  packagerOpts: {
+    config: "metro.config.js",
+    // include sourceExts here as well as metro config due to https://github.com/expo/expo-cli/issues/875
+    sourceExts: ["graphql", "gql"]
+  },
   hooks: {
     postPublish: [
       {
