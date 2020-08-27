@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  backend:
+    image: gcr.io/actone/backend:v1.1.1
+    restart: always
+    environment:
+      DATABASE_URL: mysql://root:123@mysql:3305/actone
+      NODE_ENV: development
+    ports:
+      - '8000:8000'
+    expose:
+      - '8000'
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'actone'
+      MYSQL_ROOT_PASSWORD: '123'
+    ports:
+      - '3305:3306'
+    expose:
+      - '3305'
+    volumes:
+      - actone_mysql:/var/lib/mysql
+    logging:
+      driver: none
+
+volumes:
+  actone_mysql:
