@@ -10,7 +10,8 @@
     "dev:test": "API_BASE_URL=https://backend-test.actone.live NODE_ENV=development expo start",
     "test": "rm -rf ./node_modules/.cache/babel-loader && jest",
     "publish:test": "API_BASE_URL=https://backend-test.actone.live expo publish --target managed",
-    "check-types": "tsc -p tsconfig.json --noEmit"
+    "check-types": "tsc -p tsconfig.json --noEmit",
+    "sync-gql": "./scripts/gql/get-gql-schema.sh && ./scripts/gql/update-gql-types.sh"
   },
   "dependencies": {
     "@apollo/client": "^3.1.3",
