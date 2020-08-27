@@ -76,7 +76,11 @@ const getClientId = () => {
   }
 };
 
-export default function GoogleSignInButton() {
+export type Props = {
+  onLogin: () => void;
+};
+
+export default function GoogleSignInButton({ onLogin }: Props) {
   const [depressed, setDepressed] = useState(false);
   const clientId = getClientId();
   if (!clientId) {
@@ -98,6 +102,7 @@ export default function GoogleSignInButton() {
     }
 
     setIsLoggingIn(false);
+    onLogin();
   };
 
   return (

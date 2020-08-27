@@ -50,9 +50,10 @@ const CallToAction = styled.Text`
 
 export type Props = {
   message?: string;
+  onLogin: () => void;
 };
 
-export default function Login({ message }: Props) {
+export default function Login({ message, onLogin }: Props) {
   return (
     <Container>
       <LogoContainer>
@@ -70,7 +71,7 @@ export default function Login({ message }: Props) {
           <CallToAction>{message}</CallToAction>
         </CallToActionContainer>
 
-        <GoogleSignInButton />
+        <GoogleSignInButton onLogin={onLogin} />
       </LoginButtonsWrapper>
     </Container>
   );
