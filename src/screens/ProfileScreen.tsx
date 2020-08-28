@@ -1,7 +1,7 @@
 import React from "react";
 
-import Profile from "../components/profile/profile/ProfileContainer";
 import { useAuth } from "../components/app/authProvider/AuthProvider";
+import Profile from "../components/profile/Profile";
 import { ProfileNavigationProp } from "../types/navigation-types";
 import LoginContainer from "../components/app/login/LoginContainer";
 
@@ -15,5 +15,5 @@ export default function ProfileScreen() {
     return <LoginContainer message="Sign In to access your profile" />;
   }
 
-  return <Profile name={user.name || ""} />;
+  return <Profile name={user.name || ""} picture={user.picture || ""} />;
 }

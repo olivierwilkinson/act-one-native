@@ -23,7 +23,7 @@ describe("HomeScreen", () => {
             name="Home"
             component={Home}
             options={{
-              header: () => <Header />,
+              header: () => <Header />
             }}
           />
         </Stack.Navigator>
