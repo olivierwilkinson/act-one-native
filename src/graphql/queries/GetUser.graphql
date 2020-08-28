@@ -1,4 +1,4 @@
-#import "../../../graphql/fragments/User.graphql"
+#import "../fragments/User.graphql"
 
 query GetUser {
   user {

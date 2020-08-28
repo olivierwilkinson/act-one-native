@@ -4,8 +4,8 @@ import CardModal from "../../common/cardModal/CardModal";
 import Login from "../../../screens/LoginScreen";
 import { useQuery } from "@apollo/client";
 
-import GET_USER from "./GetUser.graphql";
-import { GetUser } from "./types/GetUser";
+import GET_USER from "../../../graphql/queries/GetUser.graphql";
+import { GetUser } from "../../../graphql/queries/types/GetUser";
 
 type Props = {
   children: ReactNode;
