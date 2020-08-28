@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-const script = require("../src/data/plays/shakespeare/unformatted/A Comedy of Errors.json");
+const script = require("../../src/data/plays/shakespeare/unformatted/A Comedy of Errors.json");
 let formattedScript = [];
 
 const removeLines = () => {
