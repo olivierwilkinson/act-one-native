@@ -82,14 +82,14 @@ const PlaybackProvider = ({ children }: Props) => {
           stop();
 
           if (mode === PlaybackMode.Record) {
-            if (!canRecord) {
-              ask(AUDIO_RECORDING);
-              throw new Error("Unable to record, insufficient permissions");
-            }
-
             if (!user) {
               openLoginModal("Sign in to begin recording");
               throw new Error("Unable to record, must be logged in");
+            }
+
+            if (!canRecord) {
+              ask(AUDIO_RECORDING);
+              throw new Error("Unable to record, insufficient permissions");
             }
           }
 
