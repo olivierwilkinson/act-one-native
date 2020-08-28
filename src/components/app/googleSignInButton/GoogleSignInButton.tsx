@@ -1,56 +1,28 @@
 import React, { useState } from "react";
 import * as WebBrowser from "expo-web-browser";
 import { startAsync } from "expo-auth-session";
-import { Platform } from "react-native";
+import { Platform, ActivityIndicator } from "react-native";
 import Constants from "expo-constants";
 import styled from "styled-components/native";
 import AsyncStorage from "@react-native-community/async-storage";
 
 import Logo from "../googleLogo/GoogleLogo";
+import Button from "../../common/button/Button";
+import { buttonFont } from "../../../styles/typography";
+import { mediumGray } from "../../../styles/colours";
 
 WebBrowser.maybeCompleteAuthSession();
 
-const getButtonBackground = ({
-  depressed,
-  disabled
-}: {
-  depressed: boolean;
-  disabled: boolean;
-}) => {
-  if (disabled) {
-    return "rgba(0,0,0,0.08)";
-  }
-
-  if (depressed) {
-    return "#eee";
-  }
-
-  return "#fff";
-};
-
-const Button = styled.TouchableOpacity`
-  height: 40px;
-  border-width: 1px;
-  border-radius: 5px;
-  border-color: ${getButtonBackground};
-  box-shadow: 1px 1px 1px grey;
-  background-color: ${getButtonBackground};
-`;
-
-const ButtonContent = styled.View`
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-
 const ButtonText = styled.Text`
-  color: #000;
-  opacity: 0.54;
-  padding: 0 8px;
-  margin-right: 24px;
-  font-size: 14px;
+  ${buttonFont}
   font-family: "Roboto_500Medium";
+`;
+
+const LoadingWrapper = styled.View`
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 type GoogleAuth = {
@@ -78,10 +50,13 @@ const getClientId = () => {
 
 export type Props = {
   onLogin: () => void;
+  disabled?: boolean;
 };
 
-export default function GoogleSignInButton({ onLogin }: Props) {
-  const [depressed, setDepressed] = useState(false);
+export default function GoogleSignInButton({
+  onLogin,
+  disabled = false
+}: Props) {
   const clientId = getClientId();
   if (!clientId) {
     return null;
@@ -101,25 +76,27 @@ export default function GoogleSignInButton({ onLogin }: Props) {
       await AsyncStorage.setItem(apiBaseUrl, cookie);
     }
 
+    await onLogin();
     setIsLoggingIn(false);
-    onLogin();
   };
+
+  if (isLoggingIn) {
+    return (
+      <LoadingWrapper>
+        <ActivityIndicator size="large" color={mediumGray} />
+      </LoadingWrapper>
+    );
+  }
 
   return (
     <Button
-      disabled={isLoggingIn}
+      disabled={disabled}
       onPress={() => {
         login();
       }}
-      onPressIn={() => setDepressed(true)}
-      onPressOut={() => setDepressed(false)}
-      activeOpacity={1}
-      depressed={depressed}
     >
-      <ButtonContent>
-        <Logo disabled={isLoggingIn} />
-        <ButtonText>SIGN IN WITH GOOGLE</ButtonText>
-      </ButtonContent>
+      <Logo disabled={disabled} />
+      <ButtonText>SIGN IN WITH GOOGLE</ButtonText>
     </Button>
   );
 }

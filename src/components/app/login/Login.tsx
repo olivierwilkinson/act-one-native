@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components/native";
 
-import GoogleSignInButton from "../../login/googleSignInButton/GoogleSignInButton";
+import GoogleSignInButton from "../googleSignInButton/GoogleSignInButton";
 import { mediumDarkGray, lightGray } from "../../../styles/colours";
 import logo from "../../../../assets/images/app-logo-text-640.png";
 
