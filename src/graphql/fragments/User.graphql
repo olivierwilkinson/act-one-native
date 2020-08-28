@@ -3,4 +3,5 @@ fragment UserFragment on User {
   name
   displayName
   googleId
+  picture
 }
