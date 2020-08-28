@@ -16,6 +16,7 @@ const ImageContainer = styled.View`
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 2px;
   border-radius: ${({ size }: { size: number }) => `${size}px`};
 `;
 

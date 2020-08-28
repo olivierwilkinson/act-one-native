@@ -13,10 +13,9 @@ const ProfileInfo = styled.View`
   height: 240px;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   border-bottom-color: rgb(200, 200, 200);
   border-bottom-width: 1px;
-  background: white;
 `;
 
 const ProfilePicture = styled(UnstyledProfilePicture)`
@@ -26,6 +25,7 @@ const ProfilePicture = styled(UnstyledProfilePicture)`
 const Name = styled.Text`
   font-size: 32px;
   font-weight: 200;
+  margin-bottom: 10px;
 `;
 
 export type Props = {
