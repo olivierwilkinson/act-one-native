@@ -1,18 +1,15 @@
 import React from "react";
-import styled from "styled-components/native";
 
 import Profile from "../components/profile/profile/ProfileContainer";
+import { useAuth } from "../components/app/authProvider/AuthProvider";
+import LoginContainer from "../components/app/login/LoginContainer";
 
-const Container = styled.View`
-  display: flex;
-  align-items: center;
-  padding-top: 30px;
-`;
 
 export default function ProfileScreen() {
-  return (
-    <Container>
-      <Profile />
-    </Container>
-  );
+  const { user } = useAuth();
+  if (!user) {
+    return <LoginContainer message="Sign In to access your profile" />;
+  }
+
+  return <Profile name={user.name || ""} />;
 }
