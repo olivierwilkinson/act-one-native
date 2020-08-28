@@ -35,3 +35,11 @@ export const subFont = css`
 export const thinFont = css`
   font-weight: 100;
 `;
+
+export const buttonFont = css`
+  color: #000;
+  opacity: 0.54;
+  padding: 0 8px;
+  margin-right: 24px;
+  font-size: 14px;
+`;

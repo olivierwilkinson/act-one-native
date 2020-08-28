@@ -1,7 +1,11 @@
 import React, { useState, ReactNode, createContext, useContext } from "react";
+import { useQuery } from "@apollo/client";
 
 import CardModal from "../../common/cardModal/CardModal";
-import Login from "../../../screens/LoginScreen";
+import LoginContainer from "../login/LoginContainer";
+
+import GET_USER from "../../../graphql/queries/GetUser.graphql";
+import { GetUser } from "../../../graphql/queries/types/GetUser";
 
 type Props = {
   children: ReactNode;
@@ -9,11 +13,13 @@ type Props = {
 
 export type AuthContextValue = {
   openLoginModal: (message?: string) => void;
+  user: GetUser["user"];
 };
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 const AuthProvider = ({ children }: Props) => {
+  const { data: { user = null } = {} } = useQuery<GetUser>(GET_USER);
   const [isLoginModalActive, setIsLoginModalActive] = useState(false);
   const [message, setMessage] = useState<string>();
 
@@ -21,6 +27,7 @@ const AuthProvider = ({ children }: Props) => {
     <>
       <AuthContext.Provider
         value={{
+          user,
           openLoginModal: message => {
             setMessage(message);
             setIsLoginModalActive(true);
@@ -35,7 +42,12 @@ const AuthProvider = ({ children }: Props) => {
         visible={isLoginModalActive}
         onClose={() => setIsLoginModalActive(false)}
       >
-        <Login message={message} />
+        <LoginContainer
+          message={message}
+          onLogin={() => {
+            setIsLoginModalActive(false);
+          }}
+        />
       </CardModal>
     </>
   );
