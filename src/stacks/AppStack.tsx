@@ -3,8 +3,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import PlayScreen from "../screens/PlayScreen";
 import { MainStackParamList } from "../types/navigation-types";
-import HomeStack from "./HomeStack";
-import HomeScreen from "../screens/HomeScreen";
+import BottomTabStack from "./BottomTabStack";
+import Header from "../components/common/header/Header";
 
 const Stack = createStackNavigator<MainStackParamList>();
 
@@ -12,9 +12,11 @@ export default function AppStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Home"
-        component={HomeStack}
-        options={HomeScreen.navigationOptions}
+        name="Tabs"
+        component={BottomTabStack}
+        options={{
+          header: () => <Header />,
+        }}
       />
       <Stack.Screen name="Play" component={PlayScreen} />
     </Stack.Navigator>

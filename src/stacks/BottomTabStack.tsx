@@ -8,7 +8,7 @@ import ProfileScreen from "../screens/ProfileScreen";
 
 const Tab = createBottomTabNavigator();
 
-export default function HomeStack() {
+export default function BottomTabStack() {
   return (
     <Tab.Navigator tabBarOptions={{ showLabel: false }}>
       <Tab.Screen
@@ -37,7 +37,7 @@ export default function HomeStack() {
               size={26}
               color={focused ? primaryColour : darkGray}
             />
-          )
+          ),
         }}
       />
     </Tab.Navigator>
