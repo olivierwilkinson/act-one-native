@@ -6,6 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import plays from "../../data/plays";
 import Home from "../HomeScreen";
+import Header from "../../components/common/header/Header";
 
 jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
 
@@ -21,7 +22,9 @@ describe("HomeScreen", () => {
           <Stack.Screen
             name="Home"
             component={Home}
-            options={Home.navigationOptions}
+            options={{
+              header: () => <Header />,
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>
