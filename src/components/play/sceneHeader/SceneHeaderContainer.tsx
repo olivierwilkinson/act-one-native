@@ -10,7 +10,7 @@ export type Props = Scene;
 
 export default () => {
   const {
-    activeScene: { act, scene }
+    activeScene: { actNum, sceneNum }
   } = useContext(PlayPosition);
   const { goToNextScene, goToPreviousScene, openSceneSelect } = useContext(
     PlayNavigationContext
@@ -19,8 +19,8 @@ export default () => {
 
   return (
     <SceneHeader
-      act={act}
-      scene={scene}
+      act={actNum}
+      scene={sceneNum}
       showPreviousSceneButton={!!goToPreviousScene}
       showNextSceneButton={!!goToNextScene}
       onPreviousScenePress={() => {

@@ -52,11 +52,13 @@ describe("SceneList", () => {
   });
 
   it("sets indicator invisible when not on current scene", () => {
-    const { act, scene } = play.scenes.find(
-      ({ act, scene }) => act !== 1 || scene !== 1
+    const { actNum, sceneNum } = play.scenes.find(
+      ({ actNum, sceneNum }) => actNum !== 1 || sceneNum !== 1
     ) as Scene;
 
-    const indicator = getByTestId(`current-scene-indicator-${act}-${scene}`);
+    const indicator = getByTestId(
+      `current-scene-indicator-${actNum}-${sceneNum}`
+    );
     expect(indicator.props.visible).toEqual(false);
   });
 
@@ -86,8 +88,8 @@ describe("SceneList", () => {
     });
 
     it("rerenders the list", () => {
-      const { act, scene } = unusedScene;
-      expect(queryByTestId(`scene-row-${act}-${scene}`)).toBeNull();
+      const { actNum, sceneNum } = unusedScene;
+      expect(queryByTestId(`scene-row-${actNum}-${sceneNum}`)).toBeNull();
     });
   });
 });

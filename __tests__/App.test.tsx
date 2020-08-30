@@ -28,7 +28,7 @@ describe("App", () => {
   let getByText: GetByAPI["getByText"];
   beforeEach(async () => {
     ({ queryByTestId, queryByText, getByTestId, getByText } = render(<App />));
-    await waitFor(() => getByText(play.play));
+    await waitFor(() => getByText(play.title));
   });
 
   it("renders Home", () => {
@@ -40,14 +40,14 @@ describe("App", () => {
   });
 
   it("navigates to Play on play list item press", async () => {
-    const playListItem = getByText(play.play);
+    const playListItem = getByText(play.title);
     fireEvent.press(playListItem);
     await waitFor(() => getByText("ACT 1 - SCENE 1"));
   });
 
   describe("Play screen navigation", () => {
     beforeEach(async () => {
-      const playListItem = getByText(play.play);
+      const playListItem = getByText(play.title);
       fireEvent.press(playListItem);
       await waitFor(() => getByText("ACT 1 - SCENE 1"));
     });
@@ -75,11 +75,11 @@ describe("App", () => {
       });
 
       it("navigates to first scene on previous scene button press", async () => {
-        const { act, scene } = play.scenes[0];
+        const { actNum, sceneNum } = play.scenes[0];
         const nextSceneButton = getByTestId("previous-scene-button");
         fireEvent.press(nextSceneButton);
 
-        await waitFor(() => getByText(`ACT ${act} - SCENE ${scene}`));
+        await waitFor(() => getByText(`ACT ${actNum} - SCENE ${sceneNum}`));
       });
     });
   });

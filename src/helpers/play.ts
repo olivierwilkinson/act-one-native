@@ -9,7 +9,8 @@ export const findActiveScene = (play: Play, settings: PlaySettings = {}) => {
   const { scenes } = play;
 
   const activeScene = scenes.find(
-    ({ scene, act }) => act === settings.act && scene === settings.scene
+    ({ sceneNum, actNum }) =>
+      actNum === settings.actNum && sceneNum === settings.sceneNum
   );
 
   return activeScene || scenes[0];

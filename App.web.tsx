@@ -1,7 +1,5 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import * as Sentry from "sentry-expo";
-import Constants from "expo-constants";
 import { useFonts, Roboto_500Medium } from "@expo-google-fonts/roboto";
 import { AppLoading } from "expo";
 
@@ -21,14 +19,6 @@ if (process && process.env && process.env.NODE_ENV === "test") {
     animationEnabled: false
   };
 }
-
-Sentry.init({
-  dsn: Constants.manifest?.extra?.sentryDSN || "",
-  enableInExpoDevelopment: false
-});
-
-import AsyncStorage from "@react-native-community/async-storage";
-AsyncStorage.clear();
 
 export default () => {
   let [fontsLoaded] = useFonts({

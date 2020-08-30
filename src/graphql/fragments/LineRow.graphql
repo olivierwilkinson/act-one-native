@@ -1,0 +1,6 @@
+fragment LineRowFragment on LineRow {
+  id
+  lineId
+  number
+  text
+}

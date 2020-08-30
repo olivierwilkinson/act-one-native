@@ -23,8 +23,8 @@ export default ({ scenes, visible, onClose }: Props) => {
       onClose={onClose}
       onScenePress={scene =>
         setSettings({
-          act: scene.act,
-          scene: scene.scene
+          actNum: scene.actNum,
+          sceneNum: scene.sceneNum
         })
       }
     />

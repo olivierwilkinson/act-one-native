@@ -6,7 +6,7 @@ export const createPlayNavigation = (
   play: Play,
   settings: PlaySettings,
   setSettings: (settings: PlaySettings) => void,
-  setSceneSelectModalActive: (active: boolean) => void,
+  setSceneSelectModalActive: (active: boolean) => void
 ) => {
   const { scenes } = play;
   const activeScene = findActiveScene(play, settings);
@@ -17,15 +17,20 @@ export const createPlayNavigation = (
 
   const goToNextScene =
     nextScene &&
-    (() => setSettings({ act: nextScene.act, scene: nextScene.scene }));
+    (() =>
+      setSettings({ actNum: nextScene.actNum, sceneNum: nextScene.sceneNum }));
 
   const goToPreviousScene =
     previousScene &&
-    (() => setSettings({ act: previousScene.act, scene: previousScene.scene }));
+    (() =>
+      setSettings({
+        actNum: previousScene.actNum,
+        sceneNum: previousScene.sceneNum
+      }));
 
   return {
     goToNextScene,
     goToPreviousScene,
-    openSceneSelect: () => setSceneSelectModalActive(true),
+    openSceneSelect: () => setSceneSelectModalActive(true)
   };
 };

@@ -28,7 +28,7 @@ const mount = () => {
   return {
     ...result,
     waitForSceneTitle: (s: Scene) =>
-      waitFor(() => result.getByText(`ACT ${s.act} - SCENE ${s.scene}`))
+      waitFor(() => result.getByText(`ACT ${s.actNum} - SCENE ${s.sceneNum}`))
   };
 };
 describe("SceneHeaderContainer", () => {

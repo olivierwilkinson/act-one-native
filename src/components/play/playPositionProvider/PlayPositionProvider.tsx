@@ -18,9 +18,9 @@ const PlayPositionProvider = ({ play, children }: Props) => {
   const [activeLine, setActiveLine] = useState(activeScene.lines[0]);
 
   useEffect(() => {
-    const { act: prevAct, scene: prevScene } = activeScene;
-    const { act, scene } = settings || {};
-    if (act === prevAct && scene === prevScene) {
+    const { actNum: prevActNum, sceneNum: prevSceneNum } = activeScene;
+    const { actNum, sceneNum } = settings || {};
+    if (actNum === prevActNum && sceneNum === prevSceneNum) {
       return;
     }
 
@@ -29,7 +29,7 @@ const PlayPositionProvider = ({ play, children }: Props) => {
 
     setActiveScene(newActiveScene);
     setActiveLine(newActiveLine);
-  }, [settings?.act, settings?.scene]);
+  }, [settings?.actNum, settings?.sceneNum]);
 
   return (
     <PlayPositionContext.Provider

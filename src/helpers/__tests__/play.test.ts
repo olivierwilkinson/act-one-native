@@ -16,7 +16,7 @@ describe("play helpers", () => {
     });
 
     it("returns first scene when no active scene is found", () => {
-      expect(findActiveScene(play, { scene: -1, act: -1 })).toEqual(
+      expect(findActiveScene(play, { sceneNum: -1, actNum: -1 })).toEqual(
         play.scenes[0]
       );
     });
@@ -30,7 +30,15 @@ describe("play helpers", () => {
     });
 
     it("returns empty string if line rows is empty", () => {
-      expect(getLineText({ id: -1, player: "", lineRows: [] }));
+      expect(
+        getLineText({
+          __typename: "Line",
+          id: -1,
+          sceneId: -1,
+          player: "",
+          lineRows: []
+        })
+      );
     });
   });
 

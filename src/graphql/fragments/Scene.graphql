@@ -1,0 +1,6 @@
+fragment SceneFragment on Scene {
+  actNum
+  id
+  playId
+  sceneNum
+}

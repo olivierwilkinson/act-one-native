@@ -6,8 +6,9 @@
     "ios": "react-native run-ios",
     "web": "expo start --web",
     "start": "react-native start",
-    "dev": "./scripts/dev.sh",
-    "dev:test": "API_BASE_URL=https://backend-test.actone.live NODE_ENV=development expo start",
+    "dev": "expo start",
+    "dev:local": "./scripts/dev.sh",
+    "dev:test": "API_BASE_URL=https://backend-test.actone.live yarn dev",
     "test": "rm -rf ./node_modules/.cache/babel-loader && jest",
     "publish:test": "API_BASE_URL=https://backend-test.actone.live expo publish --target managed",
     "check-types": "tsc -p tsconfig.json --noEmit",
@@ -36,6 +37,7 @@
     "expo-speech": "~8.2.1",
     "expo-web-browser": "^8.3.1",
     "google-palette": "1.1.0",
+    "graphql": "^15.3.0",
     "react": "16.11.0",
     "react-dom": "16.11.0",
     "react-native": "0.62.2",
@@ -56,7 +58,8 @@
     "set-cookie-parser": "^2.4.6",
     "styled-components": "^5.1.1",
     "subscriptions-transport-ws": "^0.9.18",
-    "use-memo-one": "^1.1.1"
+    "use-memo-one": "^1.1.1",
+    "whatwg-fetch": "^3.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.0",

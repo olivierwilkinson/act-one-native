@@ -5,6 +5,8 @@ import styled from "styled-components/native";
 import { Play } from "../../../types/play-types";
 import { titleFont, subFont } from "../../../styles/typography";
 
+import UnstyledPlayListItemActionsContainer from "../playListItemActions/PlayListItemActionsContainer";
+
 const ListItemCard = styled.View`
   margin: 10px 0;
   shadow-color: black;
@@ -42,29 +44,48 @@ const SubText = styled.Text`
   ${subFont}
 `;
 
+const PlayListItemActionsContainer = styled(
+  UnstyledPlayListItemActionsContainer
+)`
+  margin: auto;
+  margin-right: 5px;
+`;
+
 type Props = Play & {
   onPress: () => void;
 };
 
-const PlayListItem = ({ onPress, image, play, description }: Props) => (
-  <ListItemCard>
-    <TouchableHighlight
-      testID="play-list-item"
-      onPress={onPress}
-      underlayColor="white"
-    >
-      <PlayListItemContent>
-        <ImageView>
-          <PlayImage source={image} />
-        </ImageView>
+const PlayListItem = ({ onPress, ...play }: Props) => {
+  const { title, description, image } = play;
+  const source =
+    typeof image === "number"
+      ? image
+      : {
+          uri: image
+        };
 
-        <PlayInfoView>
-          <TitleText>{play}</TitleText>
-          <SubText>{description}</SubText>
-        </PlayInfoView>
-      </PlayListItemContent>
-    </TouchableHighlight>
-  </ListItemCard>
-);
+  return (
+    <ListItemCard>
+      <TouchableHighlight
+        testID="play-list-item"
+        onPress={onPress}
+        underlayColor="white"
+      >
+        <PlayListItemContent>
+          <ImageView>
+            <PlayImage source={source} />
+          </ImageView>
+
+          <PlayInfoView>
+            <TitleText>{title}</TitleText>
+            <SubText>{description}</SubText>
+          </PlayInfoView>
+
+          <PlayListItemActionsContainer play={play} />
+        </PlayListItemContent>
+      </TouchableHighlight>
+    </ListItemCard>
+  );
+};
 
 export default PlayListItem;
