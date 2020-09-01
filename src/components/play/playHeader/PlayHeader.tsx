@@ -27,7 +27,7 @@ export default ({ play, navigation }: Props) => {
     navigation.setOptions({
       header: () => (
         <Header
-          title={play?.play}
+          title={play?.title}
           left={{
             view: <HeaderText>Back</HeaderText>,
             onPress: () => navigation.pop()

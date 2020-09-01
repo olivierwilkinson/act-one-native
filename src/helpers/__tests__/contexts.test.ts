@@ -16,7 +16,7 @@ describe("contexts helpers", () => {
     let playNavigation: PlayNavigation;
     let setSceneSelectModalOpen: () => void;
     beforeEach(() => {
-      settings = { act: 1, scene: 2 };
+      settings = { actNum: 1, sceneNum: 2 };
       setSettings = jest.fn();
       setSceneSelectModalOpen = jest.fn();
 
@@ -33,8 +33,8 @@ describe("contexts helpers", () => {
       playNavigation.goToNextScene!();
 
       expect(setSettings).toHaveBeenLastCalledWith({
-        scene: 1,
-        act: 2
+        sceneNum: 1,
+        actNum: 2
       });
     });
 
@@ -43,14 +43,14 @@ describe("contexts helpers", () => {
       playNavigation.goToPreviousScene!();
 
       expect(setSettings).toHaveBeenLastCalledWith({
-        scene: 1,
-        act: 1
+        sceneNum: 1,
+        actNum: 1
       });
     });
 
     describe("when there is no previous scene", () => {
       beforeEach(() => {
-        settings = { act: 1, scene: 1 };
+        settings = { actNum: 1, sceneNum: 1 };
 
         playNavigation = createPlayNavigation(
           play,
@@ -69,8 +69,8 @@ describe("contexts helpers", () => {
       beforeEach(() => {
         const finalScene = [...play.scenes].pop();
         settings = {
-          act: finalScene!.act,
-          scene: finalScene!.scene
+          actNum: finalScene!.actNum,
+          sceneNum: finalScene!.sceneNum
         };
 
         playNavigation = createPlayNavigation(

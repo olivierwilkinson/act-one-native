@@ -1,29 +1,15 @@
-import { ImageSourcePropType } from "react-native";
 import { ColourByPlayer } from "./colour-types";
+import {
+  GetPlays_getPlays,
+  GetPlays_getPlays_scenes,
+  GetPlays_getPlays_scenes_lines,
+  GetPlays_getPlays_scenes_lines_lineRows
+} from "../graphql/queries/types/GetPlays";
 
-export interface LineRow {
-  text: string;
-  number: number | null;
-}
-
-export interface Line {
-  id: number;
-  player: string;
-  lineRows: LineRow[];
-}
-
-export interface Scene {
-  act: number;
-  scene: number;
-  lines: Line[];
-}
-
-export interface Play {
-  play: string;
-  description: string;
-  scenes: Scene[];
-  image: ImageSourcePropType;
-  imageLicenseUrl: string;
-  imageLicenseCode: string;
+export type LineRow = GetPlays_getPlays_scenes_lines_lineRows;
+export type Line = GetPlays_getPlays_scenes_lines;
+export type Scene = GetPlays_getPlays_scenes;
+export type Play = GetPlays_getPlays & {
   colourByPlayer: ColourByPlayer;
-}
+  local?: boolean;
+};

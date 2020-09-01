@@ -28,7 +28,7 @@ describe("storage helpers", () => {
     describe("when settings stored", () => {
       beforeEach(() => {
         AsyncStorage.setItem(
-          `@${play.play}-settings`,
+          `@${play.title}-settings`,
           JSON.stringify(settings)
         );
       });
@@ -46,7 +46,7 @@ describe("storage helpers", () => {
       await setStoredSettings(play, settings);
 
       const storedSettings = await AsyncStorage.getItem(
-        `@${play.play}-settings`
+        `@${play.title}-settings`
       );
       expect(JSON.parse(storedSettings!)).toEqual(settings);
     });
@@ -54,7 +54,7 @@ describe("storage helpers", () => {
     describe("when settings stored", () => {
       beforeEach(() => {
         AsyncStorage.setItem(
-          `@${play.play}-settings`,
+          `@${play.title}-settings`,
           JSON.stringify(settings)
         );
       });
@@ -64,7 +64,7 @@ describe("storage helpers", () => {
         await setStoredSettings(play, newSettings);
 
         const storedSettings = await AsyncStorage.getItem(
-          `@${play.play}-settings`
+          `@${play.title}-settings`
         );
         expect(JSON.parse(storedSettings!)).toEqual(newSettings);
       });

@@ -9,6 +9,7 @@ import {
 
 import PlayList from "../PlayList";
 import play from "../../../../data/plays/shakespeare/AComedyOfErrors";
+import AppProviders from "../../../app/appProviders/AppProviders";
 
 describe("PlayList", () => {
   let goToPlay: jest.Mock;
@@ -18,12 +19,14 @@ describe("PlayList", () => {
     goToPlay = jest.fn();
 
     ({ queryByText, getByTestId } = render(
-      <PlayList plays={[play]} goToPlay={goToPlay} />
+      <AppProviders>
+        <PlayList plays={[play]} goToPlay={goToPlay} />
+      </AppProviders>
     ));
   });
 
   it("renders play list item", () => {
-    expect(queryByText(play.play)).not.toBeNull();
+    expect(queryByText(play.title)).not.toBeNull();
   });
 
   it("calls goToPlay with play on list item press", () => {

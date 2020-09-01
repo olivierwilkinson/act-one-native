@@ -1,0 +1,5 @@
+fragment LineFragment on Line {
+  id
+  player
+  sceneId
+}

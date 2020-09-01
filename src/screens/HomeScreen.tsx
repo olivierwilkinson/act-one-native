@@ -1,7 +1,7 @@
 import React from "react";
 
 import plays from "../data/plays";
-import PlayList from "../components/home/playList/PlayList";
+import PlayListContainer from "../components/home/playList/PlayListContainer";
 import { TabsNavigationProp } from "../types/navigation-types";
 
 export type Props = {
@@ -12,7 +12,7 @@ export default class HomeScreen extends React.Component<Props> {
   render() {
     const { navigation } = this.props;
     return (
-      <PlayList
+      <PlayListContainer
         plays={plays}
         goToPlay={play => navigation.navigate("Play", { play })}
       />

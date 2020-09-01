@@ -26,9 +26,9 @@ const PlayNavigationProvider = ({ play, children }: Props) => {
       return;
     }
 
-    const { act: prevAct, scene: prevScene } = previousSettings;
-    const { act, scene } = settings;
-    if (act === prevAct && scene === prevScene) {
+    const { actNum: prevActNum, sceneNum: prevSceneNum } = previousSettings;
+    const { actNum, sceneNum } = settings;
+    if (actNum === prevActNum && sceneNum === prevSceneNum) {
       return;
     }
 

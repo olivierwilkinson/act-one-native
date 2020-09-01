@@ -1,0 +1,6 @@
+mutation DeletePlay($id: Int!) {
+  deletePlay(id: $id) {
+    id
+    title
+  }
+}

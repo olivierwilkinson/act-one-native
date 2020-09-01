@@ -63,7 +63,7 @@ const generateSections: (scenes: Scene[]) => ListSection[] = scenes =>
   scenes.reduce<ListSection[]>(
     (acc, scene) => {
       const latestSection = acc[acc.length - 1];
-      const title = `ACT ${scene.act}`;
+      const title = `ACT ${scene.actNum}`;
 
       if (latestSection.title === title) {
         latestSection.data.push(scene);
@@ -99,22 +99,24 @@ export default ({ scenes, activeScene, onScenePress }: Props) => {
       )}
       renderItem={({ item: scene }: { item: Scene }) => (
         <TouchableHighlight onPress={() => onScenePress(scene)}>
-          <SceneView testID={`scene-row-${scene.act}-${scene.scene}`}>
+          <SceneView testID={`scene-row-${scene.actNum}-${scene.sceneNum}`}>
             <SceneInfoView>
               <CurrentSceneIndicator
-                testID={`current-scene-indicator-${scene.act}-${scene.scene}`}
+                testID={`current-scene-indicator-${scene.actNum}-${scene.sceneNum}`}
                 visible={scene === activeScene}
               />
-              <SceneText>{`SCENE ${scene.scene}`}</SceneText>
+              <SceneText>{`SCENE ${scene.sceneNum}`}</SceneText>
             </SceneInfoView>
 
-            <RightArrowView testID={`right-arrow-${scene.act}-${scene.scene}`}>
+            <RightArrowView
+              testID={`right-arrow-${scene.actNum}-${scene.sceneNum}`}
+            >
               <Ionicons name="ios-arrow-forward" size={18} color="grey" />
             </RightArrowView>
           </SceneView>
         </TouchableHighlight>
       )}
-      keyExtractor={item => `${item.act}-${item.scene}`}
+      keyExtractor={item => `${item.actNum}-${item.sceneNum}`}
       stickySectionHeadersEnabled
     />
   );
