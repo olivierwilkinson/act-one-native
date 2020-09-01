@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import Constants from "expo-constants";
+import crossFetch from "cross-fetch";
 
 const { apiBaseUrl } = Constants.manifest.extra || {
   apiBaseUrl: "http://localhost"
@@ -9,11 +10,7 @@ export default async (
   input: RequestInfo,
   init: RequestInit | undefined = {}
 ) => {
-  let headers: RequestInit["headers"] = {
-    ...init.headers,
-    Accept: "application/json",
-    "Content-Type": "application/json"
-  };
+  let { headers } = init;
 
   const cookie = await AsyncStorage.getItem(apiBaseUrl);
   if (cookie) {
@@ -23,7 +20,7 @@ export default async (
     };
   }
 
-  return fetch(input, {
+  return crossFetch(input, {
     ...init,
     headers,
     credentials: "omit"
