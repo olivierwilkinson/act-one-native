@@ -2,8 +2,8 @@ import React from "react";
 
 export type PlaySettings = {
   selectedPlayer?: string;
-  act?: number;
-  scene?: number;
+  actNum?: number;
+  sceneNum?: number;
 };
 
 export type PlaySettingsContextValue = {
@@ -15,5 +15,5 @@ export type PlaySettingsContextValue = {
 export default React.createContext<PlaySettingsContextValue>({
   settings: {},
   setSettings: () => null,
-  openSettings: () => null,
+  openSettings: () => null
 });

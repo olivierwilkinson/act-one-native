@@ -27,6 +27,9 @@ Sentry.init({
   enableInExpoDevelopment: false
 });
 
+import AsyncStorage from "@react-native-community/async-storage";
+AsyncStorage.clear();
+
 export default () => {
   let [fontsLoaded] = useFonts({
     Roboto_500Medium

@@ -5,8 +5,8 @@ import PlayPosition from "../../../contexts/PlayPosition";
 
 export default () => {
   const {
-    activeScene: { lines, act, scene }
+    activeScene: { lines, actNum, sceneNum }
   } = useContext(PlayPosition);
 
-  return <SceneLines lines={lines} act={act} scene={scene} />;
+  return <SceneLines lines={lines} act={actNum} scene={sceneNum} />;
 };

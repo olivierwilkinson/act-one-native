@@ -1,0 +1,8 @@
+fragment PlayFragment on Play {
+  description
+  id
+  image
+  imageLicenseCode
+  imageLicenseUrl
+  title
+}

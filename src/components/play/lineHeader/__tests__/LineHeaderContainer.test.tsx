@@ -85,7 +85,7 @@ describe("LineHeaderContainer", () => {
   describe("when user has selected player", () => {
     beforeEach(() => {
       AsyncStorage.setItem(
-        `@${play.play}-settings`,
+        `@${play.title}-settings`,
         JSON.stringify({
           selectedPlayer: playerLine.player
         })

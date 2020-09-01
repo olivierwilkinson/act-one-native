@@ -34,6 +34,7 @@ const formatScript = () => {
 
   script.forEach(unformattedLine => {
     const line = {
+      id: Math.round(Math.random() * 1000000000),
       text: unformattedLine.PlayerLine,
       number: null
     };
@@ -53,8 +54,9 @@ const formatScript = () => {
       }
 
       formattedScene = {
-        act: currentAct,
-        scene: currentScene,
+        id: Math.round(Math.random() * 1000000000),
+        actNum: currentAct,
+        sceneNum: currentScene,
         lines: []
       };
       formattedLine = {

@@ -88,7 +88,7 @@ describe("PlayScreen", () => {
         </AppProviders>
       ));
 
-      expect(queryByText(`Loading ${play.play}...`)).not.toBeNull();
+      expect(queryByText(`Loading ${play.title}...`)).not.toBeNull();
 
       await act(flushMicrotasksQueue);
     });
@@ -113,7 +113,7 @@ describe("PlayScreen", () => {
       });
 
       it("renders correct header title", () => {
-        expect(queryByText(play.play)).not.toBeNull();
+        expect(queryByText(play.title)).not.toBeNull();
       });
 
       it("calls getStoredSettings on mount", () => {

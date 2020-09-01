@@ -1,0 +1,6 @@
+mutation CreatePlay($play: PlayData!) {
+  createPlay(play: $play) {
+    id
+    title
+  }
+}
