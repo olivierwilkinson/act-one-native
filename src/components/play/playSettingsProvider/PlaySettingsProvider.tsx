@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import PageLoading from "../../common/pageLoading/PageLoading";
+import Placeholder from "../../common/placeholder/Placeholder";
 import PlaySettingsContext, {
   PlaySettings
 } from "../../../contexts/PlaySettings";
@@ -30,7 +30,7 @@ const PlaySettingsProvider = ({ play, children }: Props) => {
   }, [setStoredSettings, play, settings]);
 
   if (!settings) {
-    return <PageLoading message={`Loading ${play.title}...`} />;
+    return <Placeholder loading message={`Loading ${play.title}...`} />;
   }
 
   return (

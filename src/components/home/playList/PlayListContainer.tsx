@@ -1,5 +1,4 @@
 import React from "react";
-import { Text } from "react-native";
 import { useQuery } from "@apollo/client";
 
 import PlayList from "./PlayList";
@@ -8,24 +7,26 @@ import { createColourByPlayer } from "../../../helpers/play";
 
 import { Play } from "../../../types/play-types";
 import { GetPlays } from "../../../graphql/queries/types/GetPlays";
-import PageLoading from "../../common/pageLoading/PageLoading";
+import Placeholder from "../../common/placeholder/Placeholder";
 
 export type Props = {
-  plays: Play[];
+  plays?: Play[];
   goToPlay: (play: Play) => void;
 };
 
-export default ({ plays: localPlays, goToPlay }: Props) => {
-  const { data: { getPlays: plays } = {}, loading } = useQuery<GetPlays>(
-    GET_PLAYS
-  );
+export default ({ plays: localPlays = [], goToPlay }: Props) => {
+  const { data: { getPlays: plays } = {}, loading, refetch } = useQuery<
+    GetPlays
+  >(GET_PLAYS);
 
-  if (loading) {
-    return <PageLoading />;
-  }
-
-  if (!plays?.length && !localPlays.length) {
-    return <Text>No Plays</Text>;
+  if (loading || !(plays?.length || localPlays.length)) {
+    return (
+      <Placeholder
+        message={loading ? "Loading scripts..." : "No scripts found"}
+        loading={loading}
+        retry={() => refetch()}
+      />
+    );
   }
 
   return (

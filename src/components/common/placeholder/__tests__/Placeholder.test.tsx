@@ -2,9 +2,9 @@ import { ActivityIndicator } from "react-native";
 import React from "react";
 import { render, QueryByAPI, RenderAPI } from "react-native-testing-library";
 
-import PageLoading, { Props } from "../PageLoading";
+import Placeholder, { Props } from "../Placeholder";
 
-describe("PageLoading", () => {
+describe("Placeholder", () => {
   let defaultProps: Props;
   let queryByText: QueryByAPI["queryByText"];
   let queryByType: QueryByAPI["UNSAFE_queryByType"];
@@ -13,12 +13,23 @@ describe("PageLoading", () => {
     defaultProps = {};
 
     ({ queryByText, UNSAFE_queryByType: queryByType, rerender } = render(
-      <PageLoading />
+      <Placeholder />
     ));
   });
 
-  it("renders activity indicator", () => {
-    expect(queryByType(ActivityIndicator)).not.toBeNull();
+  describe("when loading passed", () => {
+    beforeEach(() => {
+      defaultProps = {
+        ...defaultProps,
+        loading: true
+      };
+
+      rerender(<Placeholder {...defaultProps} />);
+    });
+
+    it("renders activity indicator", () => {
+      expect(queryByType(ActivityIndicator)).not.toBeNull();
+    });
   });
 
   describe("when message passed", () => {
@@ -28,7 +39,7 @@ describe("PageLoading", () => {
         message: "Test error message"
       };
 
-      rerender(<PageLoading {...defaultProps} />);
+      rerender(<Placeholder {...defaultProps} />);
     });
 
     it("renders message", () => {
