@@ -13,7 +13,7 @@ const mount = ({ plays, goToPlay }: Props) =>
     </AppProviders>
   );
 
-describe("PlayList", () => {
+describe("PlayListContainer", () => {
   it("renders play list item", async () => {
     const { queryByText } = mount({
       plays: [play],
