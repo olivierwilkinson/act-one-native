@@ -23,6 +23,7 @@ type Props = {
   onCreatePress: () => void;
   onDeletePress: () => void;
   showCreateButton: boolean;
+  showDeleteButton: boolean;
   style: StyleProp<ViewStyle>;
 };
 
@@ -30,15 +31,17 @@ const PlayListItemActions = ({
   onCreatePress,
   onDeletePress,
   showCreateButton,
+  showDeleteButton,
   style
 }: Props) => {
   return (
     <Actions style={style}>
-      {showCreateButton ? (
+      {showCreateButton && (
         <Button onPress={onCreatePress}>
           <ButtonText>Create</ButtonText>
         </Button>
-      ) : (
+      )}
+      {showDeleteButton && (
         <Button onPress={onDeletePress}>
           <ButtonText>Delete</ButtonText>
         </Button>

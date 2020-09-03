@@ -10,6 +10,8 @@ import CREATE_PLAY from "./CreatePlay.graphql";
 import DELETE_PLAY from "./DeletePlay.graphql";
 import { CreatePlay } from "./types/CreatePlay";
 import { DeletePlay } from "./types/DeletePlay";
+import { useAuth } from "../../app/authProvider/AuthProvider";
+import userIsAdmin from "../../../helpers/userIsAdmin";
 
 type Props = {
   play: Play;
@@ -17,6 +19,7 @@ type Props = {
 };
 
 const PlayListItemActionsContainer = ({ play, style }: Props) => {
+  const { user } = useAuth();
   const [createPlay, { loading: creating }] = useMutation<CreatePlay>(
     CREATE_PLAY,
     {
@@ -40,16 +43,15 @@ const PlayListItemActionsContainer = ({ play, style }: Props) => {
 
   return (
     <PlayListItemActions
-      showCreateButton={!!play.local}
+      showCreateButton={!!(play.local && userIsAdmin(user))}
+      showDeleteButton={!!(!play.local && userIsAdmin(user))}
       onCreatePress={async () => {
-        const { data } = await createPlay({
+        await createPlay({
           variables: { play: sanitisePlayData(play) }
         });
-        console.log("Play created:", data?.createPlay?.id);
       }}
       onDeletePress={async () => {
         await deletePlay({ variables: { id: play.id } });
-        console.log("Play deleted:", play.id);
       }}
       style={style}
     />

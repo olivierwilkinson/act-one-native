@@ -14,6 +14,7 @@ export interface GetUser_user {
   displayName: string | null;
   googleId: string | null;
   picture: string | null;
+  email: string | null;
 }
 
 export interface GetUser {

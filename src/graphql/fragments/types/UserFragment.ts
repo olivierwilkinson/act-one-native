@@ -14,4 +14,5 @@ export interface UserFragment {
   displayName: string | null;
   googleId: string | null;
   picture: string | null;
+  email: string | null;
 }
