@@ -48,9 +48,11 @@ export default ({
   <PlaceholderView>
     {loading && <ActivityIndicator size={size} animating />}
     {message && <MessageText>{message}</MessageText>}
-    <RetryButton onPress={retry}>
-      <SimpleLineIcons name="refresh" size={24} color={secondaryColour} />
-      <ButtonText>Retry</ButtonText>
-    </RetryButton>
+    {!loading && (
+      <RetryButton onPress={retry}>
+        <SimpleLineIcons name="refresh" size={24} color={secondaryColour} />
+        <ButtonText>Retry</ButtonText>
+      </RetryButton>
+    )}
   </PlaceholderView>
 );
