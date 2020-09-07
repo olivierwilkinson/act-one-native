@@ -29,6 +29,7 @@ export default {
     // include sourceExts here as well as metro config due to https://github.com/expo/expo-cli/issues/875
     sourceExts: ["graphql", "gql"]
   },
+  assetBundlePatterns: ["assets/**"],
   hooks: {
     postPublish: [
       {
