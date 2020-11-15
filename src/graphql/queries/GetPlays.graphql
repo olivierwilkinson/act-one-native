@@ -4,7 +4,7 @@
 #import "../../graphql/fragments/LineRow.graphql"
 
 query GetPlays {
-  getPlays {
+  plays {
     ...PlayFragment
     scenes {
       ...SceneFragment
