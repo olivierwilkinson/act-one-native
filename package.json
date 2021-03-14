@@ -9,10 +9,12 @@
     "dev": "expo start",
     "dev:local": "./scripts/dev-local.sh",
     "dev:test": "API_BASE_URL=https://backend-test.actone.live yarn dev",
+    "dev:proxy": "API_BASE_URL=https://backend-proxy.actone.live yarn dev",
     "test": "rm -rf ./node_modules/.cache/babel-loader && jest",
     "publish:test": "API_BASE_URL=https://backend-test.actone.live expo publish --target managed",
     "check-types": "tsc -p tsconfig.json --noEmit",
-    "sync-gql": "./scripts/gql/get-gql-schema.sh && ./scripts/gql/update-gql-types.sh"
+    "sync-gql": "./scripts/gql/get-gql-schema.sh && ./scripts/gql/update-gql-types.sh",
+    "proxy": "cloudflared tunnel --hostname=\"backend-proxy.actone.live\" --url=\"http://localhost:8000\""
   },
   "dependencies": {
     "@apollo/client": "^3.1.3",

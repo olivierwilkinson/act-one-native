@@ -9,6 +9,8 @@ https://docs.expo.io/versions/latest/get-started/installation/
 
 ## Usage
 
+### Scripts
+
 install dependencies: `yarn`
 
 start dev server: `yarn dev`
@@ -16,6 +18,14 @@ start dev server: `yarn dev`
 run tests: `yarn test`
 
 check types: `yarn check-types`
+
+### Logging into the app using a local backend
+
+In order to log into the app you need to use Google OAuth. Google does not
+accept local IP addresses so a proxy that accesses the backend through a known
+host is needed; to do this a cloudflare tunnel needs to be created to point to a
+local backend, there is an npm script to do this: `yarn proxy`. To run the app
+pointing to the proxied backend there is another script: `yarn dev:proxy`
 
 ## Committing
 

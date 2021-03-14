@@ -15,9 +15,9 @@ export type Props = {
 };
 
 export default ({ plays: localPlays = [], goToPlay }: Props) => {
-  const { data: { getPlays: plays } = {}, loading, refetch } = useQuery<
-    GetPlays
-  >(GET_PLAYS);
+  const { data: { plays } = {}, loading, refetch } = useQuery<GetPlays>(
+    GET_PLAYS
+  );
 
   if (loading || !(plays?.length || localPlays.length)) {
     return (
