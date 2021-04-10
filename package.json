@@ -100,12 +100,18 @@
     "projects": [
       {
         "preset": "jest-expo/ios",
+        "setupFiles": [
+          "<rootDir>/src/polyfills/index.ts"
+        ],
         "transformIgnorePatterns": [
           "node_modules/(?!(jest-)?|react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry|@expo-google-fonts/.*)"
         ]
       },
       {
         "preset": "jest-expo/android",
+        "setupFiles": [
+          "<rootDir>/src/polyfills/index.ts"
+        ],
         "transformIgnorePatterns": [
           "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry|@expo-google-fonts/.*)"
         ]
