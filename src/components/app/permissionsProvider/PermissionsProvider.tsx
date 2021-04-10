@@ -1,13 +1,19 @@
-import React, { useState, ReactNode, useEffect, useCallback } from "react";
+import React, {
+  useState,
+  ReactNode,
+  useEffect,
+  useCallback,
+} from "react";
 import {
   PermissionType,
   PermissionResponse,
   AUDIO_RECORDING,
   getAsync,
-  askAsync
+  askAsync,
 } from "expo-permissions";
 
 import PermissionsContext from "../../../contexts/Permissions";
+import useIsMounted from "../../../hooks/useIsMounted";
 
 export type Permissions = PermissionType[];
 type PermissionsRequest = (
@@ -23,19 +29,24 @@ type Props = {
 const PermissionsProvider = ({ children }: Props) => {
   const [permissions, setPermissions] = useState({});
   const [requesting, setRequesting] = useState<Permissions>([]);
+  const isMounted = useIsMounted();
 
   const requestPermissions = useCallback(
     (fn: PermissionsRequest, types: PermissionType[]) => {
       setRequesting(types);
 
       fn(...types)
-        .then(res => {
-          setPermissions(res.permissions);
-          setRequesting(requesting.filter(type => types.includes(type)));
+        .then((res) => {
+          if (isMounted.current) {
+            setPermissions(res.permissions);
+            setRequesting(requesting.filter((type) => types.includes(type)));
+          }
         })
-        .catch(() =>
-          setRequesting(requesting.filter(type => types.includes(type)))
-        );
+        .catch(() => {
+          if (!isMounted.current) {
+            setRequesting(requesting.filter((type) => types.includes(type)));
+          }
+        });
     },
     [setPermissions, setRequesting]
   );
@@ -60,7 +71,7 @@ const PermissionsProvider = ({ children }: Props) => {
         permissions,
         requesting,
         ask,
-        get
+        get,
       }}
     >
       {children}
