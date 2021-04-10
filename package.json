@@ -75,6 +75,7 @@
     "@typescript-eslint/eslint-plugin": "^2.13.0",
     "@typescript-eslint/parser": "^2.13.0",
     "apollo": "^2.30.2",
+    "babel-jest": "^26.6.3",
     "babel-plugin-import-graphql": "^2.7.0",
     "babel-preset-expo": "^8.2.3",
     "eslint": "^6.8.0",
