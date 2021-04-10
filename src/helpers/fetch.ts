@@ -1,6 +1,5 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import Constants from "expo-constants";
-import crossFetch from "cross-fetch";
 
 const { apiBaseUrl } = Constants.manifest.extra || {
   apiBaseUrl: "http://localhost"
@@ -20,7 +19,7 @@ export default async (
     };
   }
 
-  return crossFetch(input, {
+  return fetch(input, {
     ...init,
     headers,
     credentials: "omit"

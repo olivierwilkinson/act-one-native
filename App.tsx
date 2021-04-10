@@ -8,6 +8,7 @@ import { AppLoading } from "expo";
 import AppProviders from "./src/components/app/appProviders/AppProviders";
 import AppStack from "./src/stacks/AppStack";
 import "./disableWarnings";
+import "./src/polyfills"
 
 if (__DEV__ && process.env.NODE_ENV !== "test") {
   const whyDidYouRender = require("@welldone-software/why-did-you-render");
