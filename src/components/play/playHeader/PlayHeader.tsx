@@ -1,12 +1,9 @@
-import React, { useContext, useLayoutEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import styled from "styled-components/native";
 
 import Header from "../../common/header/Header";
-import Playback from "../../../contexts/Playback";
-import PlaySettings from "../../../contexts/PlaySettings";
 import { bigSizeFont } from "../../../styles/typography";
-import { Play } from "../../../types/play-types";
 import { PlayNavigationProp } from "../../../types/navigation-types";
 
 const HeaderText = styled.Text`
@@ -15,34 +12,30 @@ const HeaderText = styled.Text`
 `;
 
 export type Props = {
-  play?: Play;
+  title?: string;
+  onBackPress: () => void;
+  onSettingsPress: () => void;
   navigation: PlayNavigationProp;
 };
 
-export default ({ play, navigation }: Props) => {
-  const { stop } = useContext(Playback);
-  const { openSettings } = useContext(PlaySettings);
-
+export default ({ title, onBackPress, onSettingsPress, navigation }: Props) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       header: () => (
         <Header
-          title={play?.title}
+          title={title}
           left={{
             view: <HeaderText>Back</HeaderText>,
-            onPress: () => navigation.pop()
+            onPress: onBackPress
           }}
           right={{
-            onPress: () => {
-              stop();
-              openSettings();
-            },
-            view: <Ionicons name="ios-settings" color="white" size={28} />
+            view: <Ionicons name="ios-settings" color="white" size={28} />,
+            onPress: onSettingsPress
           }}
         />
       )
     });
-  }, [navigation, openSettings, stop]);
+  }, [navigation, onBackPress, onSettingsPress]);
 
   return null;
 };

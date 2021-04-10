@@ -4,22 +4,16 @@ import { render, waitFor } from "react-native-testing-library";
 
 import SceneLinesContainer from "../SceneLinesContainer";
 
-import play from "../../../../data/plays/shakespeare/AComedyOfErrors";
-import { Line } from "../../../../types/play-types";
 import AppProviders from "../../../app/appProviders/AppProviders";
 import PlayProviders from "../../playProviders/PlayProviders";
-const {
-  scenes: [scene]
-} = play;
-const line = scene.lines.find(({ player }) => player) as Line;
-const {
-  lineRows: [lineRow]
-} = line;
+import { play } from "../../../../../test/graphql/mocks/play";
+import { lineRow } from "../../../../../test/graphql/mocks/lineRow";
+import { line } from "../../../../../test/graphql/mocks/line";
 
 const mount = () =>
   render(
     <AppProviders>
-      <PlayProviders play={play}>
+      <PlayProviders playId={play.id}>
         <SceneLinesContainer />
       </PlayProviders>
     </AppProviders>

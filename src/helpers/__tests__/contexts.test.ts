@@ -1,9 +1,23 @@
-import play from "../../data/plays/shakespeare/AComedyOfErrors";
-
 import { createPlayNavigation } from "../contexts";
 import navigation from "../../../test/mocks/navigation";
 import { PlayNavigation } from "../../contexts/PlayNavigation";
 import { PlaySettings } from "../../contexts/PlaySettings";
+import { play as playMock } from "../../../test/graphql/mocks/play";
+import { Play } from "../../types/play-types";
+import {
+  actTwoScene,
+  otherScene,
+  scene
+} from "../../../test/graphql/mocks/scene";
+
+const play: Play = {
+  ...playMock,
+  scenes: [
+    { ...scene, lines: [] },
+    { ...otherScene, lines: [] },
+    { ...actTwoScene, lines: [] }
+  ]
+};
 
 describe("contexts helpers", () => {
   beforeEach(() => {
@@ -14,18 +28,18 @@ describe("contexts helpers", () => {
     let settings: PlaySettings;
     let setSettings: jest.Mock;
     let playNavigation: PlayNavigation;
-    let setSceneSelectModalOpen: () => void;
+    let setSceneSelectActive: () => void;
     beforeEach(() => {
       settings = { actNum: 1, sceneNum: 2 };
       setSettings = jest.fn();
-      setSceneSelectModalOpen = jest.fn();
+      setSceneSelectActive = jest.fn();
 
-      playNavigation = createPlayNavigation(
+      playNavigation = createPlayNavigation({
         play,
         settings,
         setSettings,
-        setSceneSelectModalOpen
-      );
+        setSceneSelectActive
+      });
     });
 
     it("creates goToNextScene correctly", () => {
@@ -52,12 +66,12 @@ describe("contexts helpers", () => {
       beforeEach(() => {
         settings = { actNum: 1, sceneNum: 1 };
 
-        playNavigation = createPlayNavigation(
+        playNavigation = createPlayNavigation({
           play,
           settings,
           setSettings,
-          setSceneSelectModalOpen
-        );
+          setSceneSelectActive
+        });
       });
 
       it("does not create goToPreviousScene", () => {
@@ -73,12 +87,12 @@ describe("contexts helpers", () => {
           sceneNum: finalScene!.sceneNum
         };
 
-        playNavigation = createPlayNavigation(
+        playNavigation = createPlayNavigation({
           play,
           settings,
           setSettings,
-          setSceneSelectModalOpen
-        );
+          setSceneSelectActive
+        });
       });
 
       it("does not create goToNextScene", () => {

@@ -2,15 +2,22 @@ import { Play } from "../types/play-types";
 import { findActiveScene } from "../helpers/play";
 import { PlaySettings } from "../contexts/PlaySettings";
 
-export const createPlayNavigation = (
-  play: Play,
-  settings: PlaySettings,
-  setSettings: (settings: PlaySettings) => void,
-  setSceneSelectModalActive: (active: boolean) => void
-) => {
+export const createPlayNavigation = ({
+  play,
+  settings,
+  setSettings,
+  setSceneSelectActive
+}: {
+  play?: Play | null;
+  settings?: PlaySettings;
+  setSettings: (settings: PlaySettings) => void;
+  setSceneSelectActive: (active: boolean) => void;
+}) => {
+  if (!play) return { openSceneSelect: () => setSceneSelectActive(true) };
+
   const { scenes } = play;
-  const activeScene = findActiveScene(play, settings);
-  const sceneIndex = scenes.indexOf(activeScene);
+  const activeScene = findActiveScene(play.scenes, settings);
+  const sceneIndex = activeScene ? scenes.indexOf(activeScene) : -1;
 
   const nextScene = scenes[sceneIndex + 1];
   const previousScene = scenes[sceneIndex - 1];
@@ -31,6 +38,6 @@ export const createPlayNavigation = (
   return {
     goToNextScene,
     goToPreviousScene,
-    openSceneSelect: () => setSceneSelectModalActive(true)
+    openSceneSelect: () => setSceneSelectActive(true)
   };
 };

@@ -7,13 +7,12 @@ export type PlaySettings = {
 };
 
 export type PlaySettingsContextValue = {
-  settings: PlaySettings;
+  settings?: PlaySettings;
   setSettings: (settings: PlaySettings) => void;
   openSettings: () => void;
 };
 
 export default React.createContext<PlaySettingsContextValue>({
-  settings: {},
   setSettings: () => null,
   openSettings: () => null
 });

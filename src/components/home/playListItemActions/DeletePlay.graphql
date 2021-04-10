@@ -1,5 +1,6 @@
 mutation DeletePlay($id: Int!) {
   deletePlay(id: $id) {
+    __typename
     id
     title
   }

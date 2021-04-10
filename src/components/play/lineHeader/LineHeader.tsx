@@ -23,7 +23,7 @@ type Props = {
   onPress: () => void;
   highlighted: boolean;
   player: string;
-  colour: RGBColour;
+  colour?: RGBColour;
   isSelected: boolean;
 };
 
@@ -31,7 +31,7 @@ const LineHeader = ({
   onPress,
   highlighted,
   player,
-  colour,
+  colour = { red: 0, green: 0, blue: 0 },
   isSelected
 }: Props) => (
   <TouchableHighlight onPress={onPress} underlayColor="transparent">

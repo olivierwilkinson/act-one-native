@@ -198,7 +198,9 @@ export default () => {
                           return;
                         }
 
-                        await start(activeLine);
+                        if (activeLine) {
+                          await start(activeLine);
+                        }
                       } catch (e) {
                         console.error(e);
                       }
@@ -286,7 +288,9 @@ export default () => {
                             return;
                           }
 
-                          await start(activeLine);
+                          if (activeLine) {
+                            await start(activeLine);
+                          }
                         } catch (e) {
                           console.error(e);
                         }

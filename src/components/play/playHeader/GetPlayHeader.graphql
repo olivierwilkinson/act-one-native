@@ -1,0 +1,7 @@
+query GetPlayHeader($id: Int!) {
+  play(where: { id: $id }) {
+    __typename
+    id
+    title
+  }
+}

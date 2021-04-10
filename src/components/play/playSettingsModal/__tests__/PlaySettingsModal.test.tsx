@@ -1,79 +1,65 @@
 import React from "react";
-import {
-  render,
-  fireEvent,
-  GetByAPI,
-  QueryByAPI
-} from "react-native-testing-library";
+import { render, fireEvent } from "react-native-testing-library";
 import { Picker } from "@react-native-community/picker";
 
 import PlaySettingsModal, { Props } from "../PlaySettingsModal";
-import PlaySettingsContext, {
-  PlaySettingsContextValue
-} from "../../../../contexts/PlaySettings";
+import { otherScene, scene } from "../../../../../test/graphql/mocks/scene";
+import { line, otherLine } from "../../../../../test/graphql/mocks/line";
 
-import play from "../../../../data/plays/shakespeare/AComedyOfErrors";
+const scenes = [
+  { ...scene, lines: [{ ...line, lineRows: [] }] },
+  { ...otherScene, lines: [{ ...otherLine, lineRows: [] }] }
+];
+
+const defaultProps = {
+  scenes,
+  visible: true,
+  onClose: () => {},
+  onPlayerSelected: () => {}
+};
+
+const mount = (props: Partial<Props> = {}) =>
+  render(<PlaySettingsModal {...defaultProps} {...props} />);
 
 describe("PlaySettings", () => {
-  let defaultProps: Props;
-  let settingsContext: PlaySettingsContextValue;
-  let getByText: GetByAPI["getByText"];
-  let getByType: GetByAPI["UNSAFE_getByType"];
-  let queryByText: QueryByAPI["queryByText"];
-  beforeEach(() => {
-    defaultProps = {
-      play,
-      visible: false,
-      onClose: jest.fn()
-    };
-    settingsContext = {
-      settings: { selectedPlayer: "captain hindsight" },
-      setSettings: jest.fn(),
-      openSettings: jest.fn()
-    };
-
-    ({ getByText, UNSAFE_getByType: getByType, queryByText } = render(
-      <PlaySettingsContext.Provider value={settingsContext}>
-        <PlaySettingsModal {...defaultProps} />
-      </PlaySettingsContext.Provider>
-    ));
-  });
-
   it("renders close button on header", () => {
-    expect(queryByText("Close")).not.toBeNull();
+    const screen = mount();
+
+    expect(screen.queryByText("Close")).not.toBeNull();
   });
 
   it("renders title", () => {
-    expect(queryByText("Play Settings")).not.toBeNull();
+    const screen = mount();
+
+    expect(screen.queryByText("Play Settings")).not.toBeNull();
   });
 
   it("renders character setting", () => {
-    expect(queryByText("Character")).not.toBeNull();
+    const screen = mount();
+
+    expect(screen.queryByText("Character")).not.toBeNull();
   });
 
   it("renders selected character in settings value", () => {
-    expect(
-      queryByText(settingsContext.settings.selectedPlayer!)
-    ).not.toBeNull();
+    const screen = mount({ selectedPlayer: "Captain Hindsight" });
+
+    expect(screen.getByText("Captain Hindsight")).not.toBeNull();
   });
 
-  describe("on character setting press", () => {
-    beforeEach(() => {
-      fireEvent.press(getByText("Character"));
-    });
+  it("renders character list when character setting pressed", () => {
+    const screen = mount();
 
-    describe("when new character is selected", () => {
-      beforeEach(() => {
-        fireEvent(getByType(Picker), "onValueChange", "AEGEON");
-      });
+    fireEvent.press(screen.getByText("Character"));
+    const characterSelectPicker = screen.UNSAFE_getByType(Picker);
+    const characters = characterSelectPicker.props.children.map(
+      ({ key }: any) => key
+    );
 
-      it("calls setSettings with selected player", () => {
-        fireEvent.press(getByText("Done"));
-
-        expect(settingsContext.setSettings).toHaveBeenCalledWith({
-          selectedPlayer: "AEGEON"
-        });
-      });
-    });
+    expect(characters).toEqual(["Hamlet", "Captain Hindsight"]);
   });
+
+  // this needs to be in a different place
+  it.todo(
+    "calls setSettings with selected player when a new character is selected"
+  );
 });

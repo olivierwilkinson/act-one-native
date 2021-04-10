@@ -14,7 +14,7 @@ const LineContainer = (line: LineType) => {
     <Line
       id={id}
       lineRows={lineRows}
-      highlighted={id === activeLine.id}
+      highlighted={id === activeLine?.id}
       italic={!player}
       onPress={() => {
         stop();

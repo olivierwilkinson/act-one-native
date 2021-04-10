@@ -1,35 +1,35 @@
 import React, { useState, useEffect, useContext } from "react";
 
-import { Play as PlayType } from "../../../types/play-types";
+import GET_PLAY from "../../../graphql/queries/GetPlay.graphql";
 import PlayPositionContext from "../../../contexts/PlayPosition";
 import PlaySettingsContext from "../../../contexts/PlaySettings";
 import { findActiveScene } from "../../../helpers/play";
+import { useQuery } from "@apollo/client";
+import { GetPlay } from "../../../graphql/queries/types/GetPlay";
 
 type Props = {
-  play: PlayType;
+  playId: number;
   children: JSX.Element;
 };
 
-const PlayPositionProvider = ({ play, children }: Props) => {
+const PlayPositionProvider = ({ playId, children }: Props) => {
   const { settings } = useContext(PlaySettingsContext);
+
+  const { data: { play } = {} } = useQuery<GetPlay>(GET_PLAY, {
+    variables: { where: { id: playId } },
+    skip: !playId
+  });
+
   const [activeScene, setActiveScene] = useState(
-    findActiveScene(play, settings)
+    findActiveScene(play?.scenes || [], settings)
   );
-  const [activeLine, setActiveLine] = useState(activeScene.lines[0]);
+  const [activeLine, setActiveLine] = useState(activeScene?.lines[0]);
 
   useEffect(() => {
-    const { actNum: prevActNum, sceneNum: prevSceneNum } = activeScene;
-    const { actNum, sceneNum } = settings || {};
-    if (actNum === prevActNum && sceneNum === prevSceneNum) {
-      return;
-    }
-
-    const newActiveScene = findActiveScene(play, settings);
-    const newActiveLine = newActiveScene.lines[0];
-
+    const newActiveScene = findActiveScene(play?.scenes || [], settings);
     setActiveScene(newActiveScene);
-    setActiveLine(newActiveLine);
-  }, [settings?.actNum, settings?.sceneNum]);
+    setActiveLine(newActiveScene?.lines[0]);
+  }, [play, settings]);
 
   return (
     <PlayPositionContext.Provider

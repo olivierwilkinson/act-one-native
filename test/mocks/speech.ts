@@ -1,3 +1,5 @@
+import { act } from "react-native-testing-library";
+
 export type SpeechMock = {
   _onStart: () => void;
   _onStopped: () => void;
@@ -51,7 +53,7 @@ const speech: SpeechMock = {
           onDone = () => null,
           onError = () => null,
           onPause = () => null,
-          onResume = () => null
+          onResume = () => null,
         } = {}
       ) => {
         speech._onStart = onStart;
@@ -79,20 +81,23 @@ const speech: SpeechMock = {
     return Promise.resolve(speech._isSpeaking);
   }),
 
-  startSpeaking: () => {
-    speech._isSpeaking = true;
-    speech._onStart();
-  },
+  startSpeaking: () =>
+    act(() => {
+      speech._isSpeaking = true;
+      speech._onStart();
+    }),
 
-  finishSpeaking: () => {
-    speech._isSpeaking = false;
-    speech._onDone();
-  },
+  finishSpeaking: () =>
+    act(() => {
+      speech._isSpeaking = false;
+      speech._onDone();
+    }),
 
-  errorSpeaking: () => {
-    speech._isSpeaking = false;
-    speech._onError();
-  },
+  errorSpeaking: () =>
+    act(() => {
+      speech._isSpeaking = false;
+      speech._onError();
+    }),
 
   mockClear: () => {
     speech.speak.mockClear();
@@ -105,7 +110,7 @@ const speech: SpeechMock = {
   reset: () => {
     speech._reset();
     speech.mockClear();
-  }
+  },
 };
 
 export default speech;

@@ -1,109 +1,92 @@
 import "react-native";
 import React from "react";
-import { render, fireEvent, act } from "react-native-testing-library";
-import Speech from "expo-speech";
+import { render, fireEvent, waitFor, act } from "react-native-testing-library";
+import AsyncStorage from "@react-native-community/async-storage";
 
-import LineHeaderContainer from "../LineHeaderContainer";
+import LineHeaderContainer, { Props } from "../LineHeaderContainer";
 import AppProviders from "../../../app/appProviders/AppProviders";
 import PlayProviders from "../../playProviders/PlayProviders";
 
-import play from "../../../../data/plays/shakespeare/AComedyOfErrors";
-import { Line } from "../../../../types/play-types";
+import SpeechMock from "../../../../../test/mocks/speech";
+import { play } from "../../../../../test/graphql/mocks/play";
+import { line } from "../../../../../test/graphql/mocks/line";
+import { lineRow } from "../../../../../test/graphql/mocks/lineRow";
 import wait from "../../../../../test/helpers/wait";
 
-import { SpeechMock } from "../../../../../test/mocks/speech";
-import AsyncStorage from "@react-native-community/async-storage";
+const defaultProps = {
+  ...line,
+  lineRows: [lineRow]
+};
 
-jest.mock("@react-native-community/async-storage", () => {
-  const MockAsyncStorage = require("mock-async-storage").default;
-  return new MockAsyncStorage();
-});
+// TODO:- fix act warnings produced by contexts
 
-jest.mock(
-  "expo-speech",
-  () => jest.requireActual("../../../../../test/mocks/speech").default
-);
-
-const MockedSpeech = (Speech as unknown) as SpeechMock;
-
-const {
-  scenes: [scene]
-} = play;
-
-const [, inactiveLine] = scene.lines;
-const playerLine = scene.lines.find(({ player }) => player) as Line;
-const noPlayerLine = scene.lines.find(({ player }) => !player) as Line;
-const otherPlayerLine = scene.lines.find(
-  ({ player, id }) => id !== playerLine.id && player
-) as Line;
-
-const mount = (l: Line) =>
+const mount = (props: Partial<Props> = {}) =>
   render(
     <AppProviders>
-      <PlayProviders play={play}>
-        <LineHeaderContainer {...l} />
+      <PlayProviders playId={play.id}>
+        <LineHeaderContainer {...defaultProps} {...props} />
       </PlayProviders>
     </AppProviders>
   );
 
 describe("LineHeaderContainer", () => {
-  it("sets active line on press", async () => {
-    const { getByTestId } = mount(inactiveLine);
-    await act(wait);
-
-    fireEvent.press(getByTestId("play-line-header"));
-    await act(wait);
-
-    expect(getByTestId("play-line-header").props.highlighted).toEqual(true);
-  });
-
-  it("stops audio on press", async () => {
-    const { getByTestId } = mount(inactiveLine);
-    await act(wait);
-
-    MockedSpeech.mockClear();
-    fireEvent.press(getByTestId("play-line-header"));
-    await act(wait);
-
-    expect(MockedSpeech.stop).toHaveBeenCalledTimes(1);
+  afterEach(() => {
+    SpeechMock.mockClear();
   });
 
   it("renders player bubble when line has player", async () => {
-    const { queryByTestId } = mount(playerLine);
-    await act(wait);
+    const screen = mount({ player: "test-player" });
 
-    expect(queryByTestId("player-bubble")).not.toBeNull();
+    expect(screen.getByTestId("player-bubble")).toBeDefined();
+    await act(() => wait(100));
   });
 
   it("does not render player bubble when line has no player", async () => {
-    const { queryByTestId } = mount(noPlayerLine);
-    await act(wait);
+    const screen = mount({ player: undefined });
 
-    expect(queryByTestId("player-bubble")).toBeNull();
+    expect(screen.queryByTestId("player-bubble")).toBeNull();
+    await act(() => wait(100));
   });
 
-  describe("when user has selected player", () => {
-    beforeEach(() => {
-      AsyncStorage.setItem(
-        `@${play.title}-settings`,
-        JSON.stringify({
-          selectedPlayer: playerLine.player
-        })
-      );
-    });
+  it("does not render profile icon in player bubble when line has different player", async () => {
+    const screen = mount({ player: "random-player" });
 
-    it("renders profile icon in player bubble when line has selected player", async () => {
-      const { queryByTestId } = mount(playerLine);
-      await act(wait);
+    expect(screen.queryByTestId("player-user-icon")).toBeNull();
+    await act(() => wait(100));
+  });
 
-      expect(queryByTestId("player-user-icon")).not.toBeNull();
-    });
+  it("renders profile icon in player bubble when line has selected player", async () => {
+    AsyncStorage.setItem(
+      `@${play.id}-settings`,
+      JSON.stringify({
+        selectedPlayer: line.player
+      })
+    );
 
-    it("does not render profile icon in player bubble when line has different player", async () => {
-      const { queryByTestId } = mount(otherPlayerLine);
-      await act(wait);
+    const screen = mount();
 
-      expect(queryByTestId("player-user-icon")).toBeNull();
-    });
+    await waitFor(() =>
+      expect(screen.queryByTestId("player-user-icon")).toBeDefined()
+    );
+    await act(() => wait(100));
+  });
+
+  it("sets active line on press", async () => {
+    const screen = mount();
+
+    fireEvent.press(screen.getByTestId("play-line-header"));
+    await waitFor(() =>
+      expect(screen.getByTestId("play-line-header").props.highlighted).toEqual(
+        true
+      )
+    );
+  });
+
+  it("stops audio on press", async () => {
+    const screen = mount();
+
+    fireEvent.press(screen.getByTestId("play-line-header"));
+    await waitFor(() => expect(SpeechMock.stop).toHaveBeenCalledTimes(1));
+    await act(() => wait(100));
   });
 });

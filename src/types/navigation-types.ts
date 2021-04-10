@@ -2,12 +2,10 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 
-import { Play } from "./play-types";
-
 // Param Lists
 export type MainStackParamList = {
   Tabs: undefined;
-  Play: { play: Play };
+  Play: { playId: number };
 };
 
 export type BottomTabStackParamList = {
@@ -27,12 +25,18 @@ export type PlayNavigationProp = StackNavigationProp<
 >;
 
 // Bottom Tab Stack Navigation Props
-export type BottomTabStackNavigationProp = BottomTabNavigationProp<BottomTabStackParamList>;
-export type HomeNavigationProp = BottomTabNavigationProp<BottomTabStackParamList, "Home">;
-export type ProfileNavigationProp = BottomTabNavigationProp<BottomTabStackParamList, "Profile">
-
+export type BottomTabStackNavigationProp = BottomTabNavigationProp<
+  BottomTabStackParamList
+>;
+export type HomeNavigationProp = BottomTabNavigationProp<
+  BottomTabStackParamList,
+  "Home"
+>;
+export type ProfileNavigationProp = BottomTabNavigationProp<
+  BottomTabStackParamList,
+  "Profile"
+>;
 
 // Route Props
 export type BottomTabRouteProp = RouteProp<MainStackParamList, "Tabs">;
 export type PlayRouteProp = RouteProp<MainStackParamList, "Play">;
-

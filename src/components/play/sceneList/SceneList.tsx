@@ -75,9 +75,9 @@ const generateSections: (scenes: Scene[]) => ListSection[] = scenes =>
     [{ title: `ACT 1`, data: [] }]
   );
 
-type Props = {
+export type Props = {
   scenes: Scene[];
-  activeScene: Scene;
+  activeScene?: Scene;
   onScenePress: (scene: Scene) => void;
 };
 
@@ -91,7 +91,6 @@ export default ({ scenes, activeScene, onScenePress }: Props) => {
       testID="play-scene-list"
       bounces={false}
       sections={sections}
-      initialNumToRender={scenes.length}
       renderSectionHeader={({ section: { title } }) => (
         <ActHeaderView>
           <ActText>{title}</ActText>

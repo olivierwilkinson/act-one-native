@@ -1,6 +1,5 @@
-import { Play } from "../../types/play-types";
 import AComedyOfErrors from "./shakespeare/AComedyOfErrors";
 
-const PlayData: Play[] = [AComedyOfErrors];
+const PlayData = [AComedyOfErrors];
 
 export default PlayData;

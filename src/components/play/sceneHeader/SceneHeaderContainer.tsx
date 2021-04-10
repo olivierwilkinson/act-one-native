@@ -9,9 +9,9 @@ import PlayPosition from "../../../contexts/PlayPosition";
 export type Props = Scene;
 
 export default () => {
-  const {
-    activeScene: { actNum, sceneNum }
-  } = useContext(PlayPosition);
+  const { activeScene: { actNum = 1, sceneNum = 1 } = {} } = useContext(
+    PlayPosition
+  );
   const { goToNextScene, goToPreviousScene, openSceneSelect } = useContext(
     PlayNavigationContext
   );

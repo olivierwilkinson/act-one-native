@@ -10,6 +10,7 @@ import Logo from "../googleLogo/GoogleLogo";
 import Button from "../../common/button/Button";
 import { buttonFont } from "../../../styles/typography";
 import { mediumGray } from "../../../styles/colours";
+import { apiBaseUrl } from "../../../services/baseUrls";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -62,7 +63,6 @@ export default function GoogleSignInButton({
     return null;
   }
 
-  const { apiBaseUrl } = Constants.manifest.extra;
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const login = async () => {
     setIsLoggingIn(true);

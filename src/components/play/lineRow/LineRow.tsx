@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
 
-import { LineRow } from "../../../types/play-types";
 import { italicFont, subFont, thinFont } from "../../../styles/typography";
 import { mediumDarkGray } from "../../../styles/colours";
 
@@ -35,7 +34,9 @@ const LineRowNumberText = styled.Text`
   text-align: center;
 `;
 
-type Props = LineRow & {
+export type Props = {
+  number: number | null;
+  text: string;
   italic: boolean;
 };
 

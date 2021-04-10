@@ -1,5 +1,6 @@
 mutation CreatePlay($play: PlayData!) {
   createPlay(play: $play) {
+    __typename
     id
     title
   }

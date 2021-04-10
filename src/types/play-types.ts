@@ -1,15 +1,22 @@
-import { ColourByPlayer } from "./colour-types";
-import {
-  GetPlays_plays,
-  GetPlays_plays_scenes,
-  GetPlays_plays_scenes_lines,
-  GetPlays_plays_scenes_lines_lineRows
-} from "../graphql/queries/types/GetPlays";
+import { PlayFragment } from "../graphql/fragments/types/PlayFragment";
+import { SceneFragment } from "../graphql/fragments/types/SceneFragment";
+import { LineFragment } from "../graphql/fragments/types/LineFragment";
+import { LineRowFragment } from "../graphql/fragments/types/LineRowFragment";
 
-export type LineRow = GetPlays_plays_scenes_lines_lineRows;
-export type Line = GetPlays_plays_scenes_lines;
-export type Scene = GetPlays_plays_scenes;
-export type Play = GetPlays_plays & {
-  colourByPlayer: ColourByPlayer;
-  local?: boolean;
+export type LineRow = LineRowFragment;
+export type Line = LineFragment & { lineRows: LineRow[] };
+export type Scene = SceneFragment & { lines: Line[] };
+export type Play = PlayFragment & {
+  scenes: Scene[];
 };
+
+export function isPlayFragment(play: any): play is PlayFragment {
+  return !!(
+    play.__typename === "Play" &&
+    typeof play.id === "number" &&
+    typeof play.image === "string" &&
+    typeof play.imageLicenseCode === "string" &&
+    typeof play.imageLicenseUrl === "string" &&
+    typeof play.title === "string"
+  );
+}

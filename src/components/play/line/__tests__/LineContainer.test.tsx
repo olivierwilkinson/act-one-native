@@ -1,31 +1,27 @@
 import "react-native";
 import React from "react";
-import { render, fireEvent, act } from "react-native-testing-library";
+import { render, fireEvent, waitFor } from "react-native-testing-library";
 import Speech from "expo-speech";
 
 import LineContainer from "../LineContainer";
-
-import play from "../../../../data/plays/shakespeare/AComedyOfErrors";
 import AppProviders from "../../../app/appProviders/AppProviders";
 import PlayProviders from "../../playProviders/PlayProviders";
-import wait from "../../../../../test/helpers/wait";
 import { SpeechMock } from "../../../../../test/mocks/speech";
-
-jest.mock(
-  "expo-speech",
-  () => jest.requireActual("../../../../../test/mocks/speech").default
-);
+import { play } from "../../../../../test/graphql/mocks/play";
+import { otherLine } from "../../../../../test/graphql/mocks/line";
 
 const MockedSpeech = (Speech as unknown) as SpeechMock;
 
-// use second line because first is active by default
-const line = play.scenes[0].lines[1];
-const lineId = `play-line-${line.id}`;
+// use otherLine as line is active by default
+const line = {
+  ...otherLine,
+  lineRows: []
+};
 
 const mount = () =>
   render(
     <AppProviders>
-      <PlayProviders play={play}>
+      <PlayProviders playId={play.id}>
         <LineContainer {...line} />
       </PlayProviders>
     </AppProviders>
@@ -33,26 +29,19 @@ const mount = () =>
 
 describe("Line", () => {
   it("sets active line on press", async () => {
-    const { getByTestId } = mount();
-    await act(wait);
-
-    fireEvent.press(getByTestId(lineId));
-    await act(wait);
+    const screen = mount();
+    fireEvent.press(await screen.findByTestId(`play-line-${line.id}`));
 
     const {
       props: { highlighted }
-    } = getByTestId(`play-line-view-${line.id}`);
+    } = screen.getByTestId(`play-line-view-${line.id}`);
     expect(highlighted).toEqual(true);
   });
 
   it("stops audio on press", async () => {
-    const { getByTestId } = mount();
-    await act(wait);
+    const screen = mount();
+    fireEvent.press(await screen.findByTestId(`play-line-${line.id}`));
 
-    MockedSpeech.mockClear();
-    fireEvent.press(getByTestId(lineId));
-    await act(wait);
-
-    expect(MockedSpeech.stop).toHaveBeenCalledTimes(1);
+    await waitFor(() => expect(MockedSpeech.stop).toHaveBeenCalledTimes(1));
   });
 });

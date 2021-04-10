@@ -2,37 +2,33 @@ import "react-native";
 import React from "react";
 import { render, fireEvent, waitFor } from "react-native-testing-library";
 
-import play from "../../../../data/plays/shakespeare/AComedyOfErrors";
 import PlayListContainer, { Props } from "../PlayListContainer";
 import AppProviders from "../../../app/appProviders/AppProviders";
+import { otherPlay, play } from "../../../../../test/graphql/mocks/play";
 
-const mount = ({ plays, goToPlay }: Props) =>
+const mount = ({ goToPlay = jest.fn() }: Partial<Props> = {}) =>
   render(
     <AppProviders>
-      <PlayListContainer plays={plays} goToPlay={goToPlay} />
+      <PlayListContainer goToPlay={goToPlay} />
     </AppProviders>
   );
 
 describe("PlayListContainer", () => {
-  it("renders play list item", async () => {
-    const { queryByText } = mount({
-      plays: [play],
-      goToPlay: jest.fn()
-    });
+  it("renders play list", async () => {
+    const screen = mount();
 
-    await waitFor(() => expect(queryByText(play.title)).not.toBeNull());
+    await waitFor(() => expect(screen.getByText(play.title)).toBeDefined());
+    expect(screen.getByText(otherPlay.title)).toBeDefined();
   });
 
   it("calls goToPlay with play on list item press", async () => {
     const goToPlay = jest.fn();
-    const { findByTestId } = mount({
-      plays: [play],
+    const screen = mount({
       goToPlay
     });
 
-    const playListItem = await findByTestId("play-list-item");
-    fireEvent.press(playListItem);
+    fireEvent.press(await screen.findByText(play.title));
 
-    expect(goToPlay).toHaveBeenCalledWith(play);
+    expect(goToPlay).toHaveBeenCalledWith(play.id);
   });
 });

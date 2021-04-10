@@ -26,6 +26,10 @@ export interface PlayData {
   scenes: SceneData[];
 }
 
+export interface PlayWhereUniqueInput {
+  id?: number | null;
+}
+
 export interface SceneData {
   actNum: number;
   sceneNum: number;

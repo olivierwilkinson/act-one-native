@@ -2,39 +2,27 @@ import AsyncStorage from "@react-native-community/async-storage";
 
 import { getStoredSettings, setStoredSettings } from "../storage";
 import { PlaySettings } from "../../contexts/PlaySettings";
-import play from "../../data/plays/shakespeare/AComedyOfErrors";
-
-jest.mock("@react-native-community/async-storage", () => {
-  const MockAsyncStorage = require("mock-async-storage").default;
-  return new MockAsyncStorage();
-});
+import { play } from "../../../test/graphql/mocks/play";
 
 const settings: PlaySettings = {
   selectedPlayer: "captain hindsight"
 };
 
 describe("storage helpers", () => {
-  beforeEach(() => {
-    AsyncStorage.clear();
-  });
-
   describe("#getStoredSettings", () => {
     it("returns null when no settings stored", async () => {
-      const settings = await getStoredSettings(play);
+      const settings = await getStoredSettings(play.id);
 
       expect(settings).toBeNull();
     });
 
     describe("when settings stored", () => {
       beforeEach(() => {
-        AsyncStorage.setItem(
-          `@${play.title}-settings`,
-          JSON.stringify(settings)
-        );
+        AsyncStorage.setItem(`@${play.id}-settings`, JSON.stringify(settings));
       });
 
       it("returns settings", async () => {
-        const storedSettings = await getStoredSettings(play);
+        const storedSettings = await getStoredSettings(play.id);
 
         expect(storedSettings).toEqual(settings);
       });
@@ -43,28 +31,23 @@ describe("storage helpers", () => {
 
   describe("#setStoredSettings", () => {
     it("sets settings correctly", async () => {
-      await setStoredSettings(play, settings);
+      await setStoredSettings(play.id, settings);
 
-      const storedSettings = await AsyncStorage.getItem(
-        `@${play.title}-settings`
-      );
+      const storedSettings = await AsyncStorage.getItem(`@${play.id}-settings`);
       expect(JSON.parse(storedSettings!)).toEqual(settings);
     });
 
     describe("when settings stored", () => {
       beforeEach(() => {
-        AsyncStorage.setItem(
-          `@${play.title}-settings`,
-          JSON.stringify(settings)
-        );
+        AsyncStorage.setItem(`@${play.id}-settings`, JSON.stringify(settings));
       });
 
       it("overwrites settings", async () => {
         const newSettings = { selectedPlayer: "new current player" };
-        await setStoredSettings(play, newSettings);
+        await setStoredSettings(play.id, newSettings);
 
         const storedSettings = await AsyncStorage.getItem(
-          `@${play.title}-settings`
+          `@${play.id}-settings`
         );
         expect(JSON.parse(storedSettings!)).toEqual(newSettings);
       });
