@@ -2,32 +2,33 @@ import React from "react";
 import { useMutation } from "@apollo/client";
 import { ActivityIndicator, StyleProp, ViewStyle } from "react-native";
 
-import { Play } from "../../../types/play-types";
+import { isPlayFragment } from "../../../types/play-types";
 import PlayListItemActions from "./PlayListItemActions";
-import sanitisePlayData from "./helpers/sanitisePlayData";
 
 import CREATE_PLAY from "./CreatePlay.graphql";
 import DELETE_PLAY from "./DeletePlay.graphql";
-import { CreatePlay } from "./types/CreatePlay";
+import { CreatePlay, CreatePlayVariables } from "./types/CreatePlay";
 import { DeletePlay } from "./types/DeletePlay";
 import { useAuth } from "../../app/authProvider/AuthProvider";
 import userIsAdmin from "../../../helpers/userIsAdmin";
+import { LocalPlayData } from "../../../data/plays/types";
+import { PlayFragment } from "../../../graphql/fragments/types/PlayFragment";
 
 type Props = {
-  play: Play;
+  play: PlayFragment | LocalPlayData;
   style?: StyleProp<ViewStyle>;
 };
 
 const PlayListItemActionsContainer = ({ play, style }: Props) => {
   const { user } = useAuth();
-  const [createPlay, { loading: creating }] = useMutation<CreatePlay>(
-    CREATE_PLAY,
-    {
-      refetchQueries: ["GetPlays"],
-      awaitRefetchQueries: true,
-      onError: console.error
-    }
-  );
+  const [createPlay, { loading: creating }] = useMutation<
+    CreatePlay,
+    CreatePlayVariables
+  >(CREATE_PLAY, {
+    refetchQueries: ["GetPlays"],
+    awaitRefetchQueries: true,
+    onError: console.error
+  });
   const [deletePlay, { loading: deleting }] = useMutation<DeletePlay>(
     DELETE_PLAY,
     {
@@ -38,19 +39,34 @@ const PlayListItemActionsContainer = ({ play, style }: Props) => {
   );
 
   if (creating || deleting) {
-    return <ActivityIndicator size="large" style={style} />;
+    return <ActivityIndicator size="small" style={style} />;
   }
 
   return (
     <PlayListItemActions
-      showCreateButton={!!(play.local && userIsAdmin(user))}
-      showDeleteButton={!!(!play.local && userIsAdmin(user))}
+      showCreateButton={!isPlayFragment(play) && userIsAdmin(user)}
+      showDeleteButton={isPlayFragment(play) && userIsAdmin(user)}
       onCreatePress={async () => {
+        if (isPlayFragment(play)) {
+          throw new Error("Trying to create using an existing play");
+        }
+
+        const sanitisedPlay = {
+          ...play,
+          image: play.image.toString()
+        };
+
         await createPlay({
-          variables: { play: sanitisePlayData(play) }
+          variables: {
+            play: sanitisedPlay
+          }
         });
       }}
       onDeletePress={async () => {
+        if (!isPlayFragment(play)) {
+          throw new Error("Trying to delete a local play");
+        }
+
         await deletePlay({ variables: { id: play.id } });
       }}
       style={style}

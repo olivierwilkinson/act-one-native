@@ -21,9 +21,7 @@ const PlaybackProvider = ({ children }: Props) => {
   const { user, openLoginModal } = useAuth();
 
   const { activeScene, activeLine, setActiveLine } = useContext(PlayPosition);
-  const {
-    settings: { selectedPlayer }
-  } = useContext(PlaySettings);
+  const { settings: { selectedPlayer = "" } = {} } = useContext(PlaySettings);
 
   const [mode, setMode] = useState(PlaybackMode.Play);
   const stoppedFlag = useRef(false);
@@ -58,8 +56,9 @@ const PlaybackProvider = ({ children }: Props) => {
       return stop();
     }
 
-    const lineIndex = activeScene.lines.findIndex(({ id }) => id === line.id);
-    const nextLine = activeScene.lines[lineIndex + 1];
+    const lineIndex =
+      activeScene?.lines.findIndex(({ id }) => id === line.id) || -1;
+    const nextLine = activeScene?.lines[lineIndex + 1];
     if (!nextLine) {
       return stop();
     }
@@ -96,6 +95,8 @@ const PlaybackProvider = ({ children }: Props) => {
           setMode(mode);
         },
         start: () => {
+          if (!activeLine) return;
+
           stoppedFlag.current = false;
           return run(activeLine);
         },

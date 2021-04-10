@@ -2,15 +2,14 @@ import "react-native";
 
 import AsyncStorage from "@react-native-community/async-storage";
 
-import { Play } from "../types/play-types";
 import { PlaySettings } from "../contexts/PlaySettings";
 
 export const getStoredSettings: (
-  play: Play
-) => Promise<null | PlaySettings> = async play => {
+  playId: number
+) => Promise<null | PlaySettings> = async playId => {
   try {
     const serialisedSettings = await AsyncStorage.getItem(
-      `@${play.title}-settings`
+      `@${playId}-settings`
     );
 
     if (!serialisedSettings) {
@@ -23,12 +22,15 @@ export const getStoredSettings: (
   }
 };
 
-export const setStoredSettings = async (play: Play, settings: PlaySettings) => {
+export const setStoredSettings = async (
+  playId: number,
+  settings: PlaySettings
+) => {
   try {
-    const oldSettings = await getStoredSettings(play);
+    const oldSettings = await getStoredSettings(playId);
     const serialisedSettings = JSON.stringify({ ...oldSettings, ...settings });
 
-    await AsyncStorage.setItem(`@${play.title}-settings`, serialisedSettings);
+    await AsyncStorage.setItem(`@${playId}-settings`, serialisedSettings);
   } catch (e) {
     return;
   }

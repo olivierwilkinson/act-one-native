@@ -1,37 +1,31 @@
 import React, { useState, useEffect } from "react";
 
-import Placeholder from "../../common/placeholder/Placeholder";
 import PlaySettingsContext, {
   PlaySettings
 } from "../../../contexts/PlaySettings";
 import { getStoredSettings, setStoredSettings } from "../../../helpers/storage";
-import PlaySettingsModal from "../playSettingsModal/PlaySettingsModal";
-import { Play as PlayType } from "../../../types/play-types";
+import PlaySettingsModalContainer from "../playSettingsModal/PlaySettingsModalContainer";
 
 type Props = {
-  play: PlayType;
+  playId: number;
   children: JSX.Element;
 };
 
-const PlaySettingsProvider = ({ play, children }: Props) => {
+const PlaySettingsProvider = ({ playId, children }: Props) => {
   const [settings, setSettings] = useState<PlaySettings>();
   const [settingsActive, setSettingsActive] = useState(false);
 
   useEffect(() => {
-    getStoredSettings(play).then(storedSettings =>
+    getStoredSettings(playId).then(storedSettings =>
       setSettings(storedSettings || {})
     );
-  }, [getStoredSettings, play, setSettings]);
+  }, [getStoredSettings, playId, setSettings]);
 
   useEffect(() => {
     if (settings) {
-      setStoredSettings(play, settings);
+      setStoredSettings(playId, settings);
     }
-  }, [setStoredSettings, play, settings]);
-
-  if (!settings) {
-    return <Placeholder loading message={`Loading ${play.title}...`} />;
-  }
+  }, [setStoredSettings, playId, settings]);
 
   return (
     <PlaySettingsContext.Provider
@@ -48,8 +42,8 @@ const PlaySettingsProvider = ({ play, children }: Props) => {
     >
       {children}
 
-      <PlaySettingsModal
-        play={play}
+      <PlaySettingsModalContainer
+        playId={playId}
         visible={settingsActive}
         onClose={() => setSettingsActive(false)}
       />

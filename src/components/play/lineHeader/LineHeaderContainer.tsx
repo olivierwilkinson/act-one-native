@@ -5,19 +5,17 @@ import PlayPositionContext from "../../../contexts/PlayPosition";
 import PlaybackContext from "../../../contexts/Playback";
 import PlaySettingsContext from "../../../contexts/PlaySettings";
 import LineHeader from "./LineHeader";
-import { usePlay } from "../playProvider/PlayProvider";
 
-type Props = Line;
+export type Props = Line;
 
 const LineHeaderContainer = ({ ...line }: Props) => {
-  const { colourByPlayer } = usePlay();
   const { activeLine, setActiveLine } = useContext(PlayPositionContext);
-  const {
-    settings: { selectedPlayer }
-  } = useContext(PlaySettingsContext);
+  const { settings: { selectedPlayer = "" } = {} } = useContext(
+    PlaySettingsContext
+  );
   const { stop } = useContext(PlaybackContext);
   const { player, id } = line;
-  const isCurrentLine = activeLine.id === id;
+  const isCurrentLine = activeLine?.id === id;
 
   return (
     <LineHeader
@@ -27,7 +25,7 @@ const LineHeaderContainer = ({ ...line }: Props) => {
       }}
       highlighted={isCurrentLine}
       player={player}
-      colour={colourByPlayer[player]}
+      // colour={colourByPlayer[player]}
       isSelected={selectedPlayer === player}
     />
   );

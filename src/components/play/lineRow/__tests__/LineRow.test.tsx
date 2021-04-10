@@ -1,49 +1,34 @@
 import "react-native";
 import React from "react";
-import { render, act } from "react-native-testing-library";
+import { render } from "react-native-testing-library";
 
-import LineRow from "../LineRow";
+import LineRow, { Props } from "../LineRow";
+import { lineRow } from "../../../../../test/graphql/mocks/lineRow";
 
-import play from "../../../../data/plays/shakespeare/AComedyOfErrors";
-import AppProviders from "../../../app/appProviders/AppProviders";
-import PlayProviders from "../../playProviders/PlayProviders";
-import { LineRow as LineRowType } from "../../../../types/play-types";
-import wait from "../../../../../test/helpers/wait";
-const {
-  scenes: [scene]
-} = play;
-const {
-  lineRows: [lineRow, , fifthLineRow]
-} = scene.lines[2];
+const defaultProps = {
+  ...lineRow,
+  italic: false
+};
 
-const mount = (lineRow: LineRowType) =>
-  render(
-    <AppProviders>
-      <PlayProviders play={play}>
-        <LineRow {...lineRow} italic />
-      </PlayProviders>
-    </AppProviders>
-  );
+const mount = (props: Partial<Props> = {}) =>
+  render(<LineRow {...defaultProps} {...props} />);
 
 describe("LineRow", () => {
-  it("renders text", async () => {
-    const { queryByText } = mount(lineRow);
-    await act(wait);
+  it("renders text", () => {
+    const screen = mount();
 
-    expect(queryByText(lineRow.text)).not.toBeNull();
+    expect(screen.queryByText(lineRow.text)).not.toBeNull();
   });
 
-  it("does not render number", async () => {
-    const { queryByText } = mount(lineRow);
-    await act(wait);
+  it("does not render number", () => {
+    const screen = mount();
 
-    expect(queryByText(lineRow.number!.toString())).toBeNull();
+    expect(screen.queryByText(lineRow.number!.toString())).toBeNull();
   });
 
-  it("renders number if divisible by 5", async () => {
-    const { queryByText } = mount(fifthLineRow);
-    await act(wait);
+  it("renders number if divisible by 5", () => {
+    const screen = mount({ number: 15 });
 
-    expect(queryByText("5")).not.toBeNull();
+    expect(screen.queryByText("15")).not.toBeNull();
   });
 });

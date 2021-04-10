@@ -1,25 +1,31 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import styled from "styled-components/native";
 
 import CardModal from "../../common/cardModal/CardModal";
 import SettingsRow from "../../common/settingsRow/SettingsRow";
 import PickerActionSheet from "../../common/pickerActionSheet/PickerActionSheet";
 import { findPlayers } from "../../../helpers/play";
-import { Play } from "../../../types/play-types";
-import PlaySettingsContext from "../../../contexts/PlaySettings";
+import { Scene } from "../../../types/play-types";
 
 const SettingsView = styled.View`
   padding: 0px;
 `;
 
 export type Props = {
-  play: Play;
+  selectedPlayer?: string;
+  scenes?: Scene[];
   visible: boolean;
   onClose: () => void;
+  onPlayerSelected: (selectedPlayer: string) => void;
 };
 
-export default ({ visible, onClose, play }: Props) => {
-  const { settings, setSettings } = useContext(PlaySettingsContext);
+export default ({
+  selectedPlayer,
+  scenes = [],
+  visible,
+  onClose,
+  onPlayerSelected
+}: Props) => {
   const [playerSelectActive, setPlayerSelectActive] = useState(false);
 
   return (
@@ -32,22 +38,19 @@ export default ({ visible, onClose, play }: Props) => {
       <SettingsView>
         <SettingsRow
           label="Character"
-          value={settings.selectedPlayer}
+          value={selectedPlayer}
           leftIconName="ios-person"
           onPress={() => setPlayerSelectActive(true)}
         />
       </SettingsView>
 
       <PickerActionSheet
-        initialValue={settings.selectedPlayer}
-        options={findPlayers(play.scenes)}
+        initialValue={selectedPlayer}
+        options={findPlayers(scenes)}
         visible={playerSelectActive}
         onCancel={() => setPlayerSelectActive(false)}
-        onDone={selectedPlayer => {
-          if (selectedPlayer !== settings.selectedPlayer) {
-            setSettings({ selectedPlayer });
-          }
-
+        onDone={player => {
+          onPlayerSelected(player);
           setPlayerSelectActive(false);
         }}
       />

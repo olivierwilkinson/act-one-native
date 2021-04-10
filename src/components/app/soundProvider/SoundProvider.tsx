@@ -8,7 +8,7 @@ type Props = {
 };
 
 const waitForSound = async (sound: Audio.Sound) =>
-  new Promise(res => {
+  new Promise<void>(res => {
     sound.setOnPlaybackStatusUpdate(status => {
       // @ts-ignore
       if (status.didJustFinish) {

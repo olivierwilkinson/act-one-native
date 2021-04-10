@@ -33,21 +33,19 @@ const PlayListItemActions = ({
   showCreateButton,
   showDeleteButton,
   style
-}: Props) => {
-  return (
-    <Actions style={style}>
-      {showCreateButton && (
-        <Button onPress={onCreatePress}>
-          <ButtonText>Create</ButtonText>
-        </Button>
-      )}
-      {showDeleteButton && (
-        <Button onPress={onDeletePress}>
-          <ButtonText>Delete</ButtonText>
-        </Button>
-      )}
-    </Actions>
-  );
-};
+}: Props) => (
+  <Actions style={style}>
+    {showCreateButton && (
+      <Button onPress={onCreatePress}>
+        <ButtonText>Create</ButtonText>
+      </Button>
+    )}
+    {showDeleteButton && (
+      <Button onPress={onDeletePress}>
+        <ButtonText>Delete</ButtonText>
+      </Button>
+    )}
+  </Actions>
+);
 
 export default PlayListItemActions;

@@ -5,7 +5,7 @@ import SceneList from "../sceneList/SceneList";
 import { Scene } from "../../../types/play-types";
 
 export type Props = {
-  activeScene: Scene;
+  activeScene?: Scene;
   scenes: Scene[];
   visible: boolean;
   onClose: () => void;

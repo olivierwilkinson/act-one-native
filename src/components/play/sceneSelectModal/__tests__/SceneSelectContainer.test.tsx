@@ -1,31 +1,35 @@
 import "react-native";
 import React from "react";
-import { render, QueryByAPI } from "react-native-testing-library";
+import { render } from "react-native-testing-library";
 
 import SceneSelectModalContainer, { Props } from "../SceneSelectModalContainer";
-import play from "../../../../data/plays/shakespeare/AComedyOfErrors";
+import { otherScene, scene } from "../../../../../test/graphql/mocks/scene";
+import { line, otherLine } from "../../../../../test/graphql/mocks/line";
+
+const scenes = [
+  { ...scene, lines: [{ ...line, lineRows: [] }] },
+  { ...otherScene, lines: [{ ...otherLine, lineRows: [] }] }
+];
+
+const defaultProps = {
+  scenes,
+  visible: false,
+  onClose: () => {}
+};
+
+const mount = (props: Partial<Props> = {}) =>
+  render(<SceneSelectModalContainer {...defaultProps} {...props} />);
 
 describe("SceneSelect", () => {
-  let defaultProps: Props;
-  let queryByText: QueryByAPI["queryByText"];
-  let queryByTestId: QueryByAPI["queryByTestId"];
-  beforeEach(async () => {
-    defaultProps = {
-      scenes: play.scenes,
-      visible: false,
-      onClose: jest.fn()
-    };
-
-    ({ queryByText, queryByTestId } = render(
-      <SceneSelectModalContainer {...defaultProps} />
-    ));
-  });
-
   it("renders title", () => {
-    expect(queryByText("Scene Select")).not.toBeNull();
+    const screen = mount();
+
+    expect(screen.queryByText("Scene Select")).not.toBeNull();
   });
 
   it("renders play scene list", async () => {
-    expect(queryByTestId("play-scene-list")).not.toBeNull();
+    const screen = mount();
+
+    expect(screen.queryByTestId("play-scene-list")).not.toBeNull();
   });
 });

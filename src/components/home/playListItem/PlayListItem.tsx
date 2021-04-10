@@ -1,8 +1,9 @@
 import React from "react";
 import { TouchableHighlight } from "react-native";
 import styled from "styled-components/native";
+import { LocalPlayData } from "../../../data/plays/types";
+import { PlayFragment } from "../../../graphql/fragments/types/PlayFragment";
 
-import { Play } from "../../../types/play-types";
 import { titleFont, subFont } from "../../../styles/typography";
 
 import UnstyledPlayListItemActionsContainer from "../playListItemActions/PlayListItemActionsContainer";
@@ -51,11 +52,12 @@ const PlayListItemActionsContainer = styled(
   margin-right: 5px;
 `;
 
-type Props = Play & {
+type Props = {
   onPress: () => void;
+  play: PlayFragment | LocalPlayData;
 };
 
-const PlayListItem = ({ onPress, ...play }: Props) => {
+const PlayListItem = ({ onPress, play }: Props) => {
   const { title, description, image } = play;
   const source =
     typeof image === "number"

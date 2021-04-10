@@ -11,7 +11,7 @@ type Props = {
 };
 
 const waitForRecording = async (recording: Audio.Recording) =>
-  new Promise(res => {
+  new Promise<void>(res => {
     recording.setOnRecordingStatusUpdate(status => {
       if (status.isDoneRecording) {
         res();

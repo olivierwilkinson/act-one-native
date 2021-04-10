@@ -1,19 +1,7 @@
 #import "../../graphql/fragments/Play.graphql"
-#import "../../graphql/fragments/Scene.graphql"
-#import "../../graphql/fragments/Line.graphql"
-#import "../../graphql/fragments/LineRow.graphql"
 
 query GetPlays {
   plays {
     ...PlayFragment
-    scenes {
-      ...SceneFragment
-      lines {
-        ...LineFragment
-        lineRows {
-          ...LineRowFragment
-        }
-      }
-    }
   }
 }

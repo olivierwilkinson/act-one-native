@@ -1,6 +1,6 @@
 import { Play } from "../../../../types/play-types";
 
-export default ({ id, local, title, colourByPlayer: _, ...play }: Play) => ({
+export default ({ id, title, ...play }: Play) => ({
   ...play,
   title,
   image: "TBD",

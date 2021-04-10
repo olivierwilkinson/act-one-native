@@ -3,81 +3,100 @@ import React from "react";
 import { render, fireEvent, waitFor } from "react-native-testing-library";
 
 import SceneHeaderContainer from "../SceneHeaderContainer";
-import play from "../../../../data/plays/shakespeare/AComedyOfErrors";
 import AppProviders from "../../../app/appProviders/AppProviders";
 import PlayProviders from "../../playProviders/PlayProviders";
-import { Scene } from "../../../../types/play-types";
-const {
-  scenes: [scene, secondScene]
-} = play;
+import { play } from "../../../../../test/graphql/mocks/play";
+import { graphql, server } from "../../../../../test/msw/server";
+import {
+  GetPlay,
+  GetPlayVariables
+} from "../../../../graphql/queries/types/GetPlay";
+import createGetPlay from "../../../../../test/graphql/factories/createGetPlay";
+import { otherScene, scene } from "../../../../../test/graphql/mocks/scene";
 
-const mount = () => {
-  const result = render(
+const mount = () =>
+  render(
     <AppProviders>
-      <PlayProviders
-        play={{
-          ...play,
-          scenes: [scene, secondScene]
-        }}
-      >
+      <PlayProviders playId={play.id}>
         <SceneHeaderContainer />
       </PlayProviders>
     </AppProviders>
   );
 
-  return {
-    ...result,
-    waitForSceneTitle: (s: Scene) =>
-      waitFor(() => result.getByText(`ACT ${s.actNum} - SCENE ${s.sceneNum}`))
-  };
-};
 describe("SceneHeaderContainer", () => {
+  beforeEach(() => {
+    server.use(
+      graphql.query<GetPlay, GetPlayVariables>("GetPlay", (req, res, ctx) =>
+        res(
+          ctx.data(
+            createGetPlay(req.variables, [
+              { ...scene, lines: [] },
+              { ...otherScene, lines: [] }
+            ])
+          )
+        )
+      )
+    );
+  });
+
   it("renders act and scene title", async () => {
-    const { waitForSceneTitle } = mount();
-    await waitForSceneTitle(scene);
+    const screen = mount();
+
+    await waitFor(() =>
+      expect(screen.getByText("ACT 1 - SCENE 1")).toBeDefined()
+    );
   });
 
   it("opens scene select when scene select button pressed", async () => {
-    const { findByTestId, getByText } = mount();
-    const sceneSelectButton = await findByTestId("scene-select-button");
+    const screen = mount();
+
+    const sceneSelectButton = await screen.findByTestId("scene-select-button");
     fireEvent.press(sceneSelectButton);
 
-    await waitFor(() => getByText("Scene Select"));
+    await waitFor(() => expect(screen.getByText("Scene Select")).toBeDefined());
   });
 
   it("does not render previous scene button", async () => {
-    const { waitForSceneTitle, queryByTestId } = mount();
-    await waitForSceneTitle(scene);
+    const screen = mount();
 
-    expect(queryByTestId("previous-scene-button")).toBeNull();
+    await waitFor(() =>
+      expect(screen.getByText("ACT 1 - SCENE 1")).toBeDefined()
+    );
+
+    expect(screen.queryByTestId("previous-scene-button")).toBeNull();
   });
 
   it("can go to next scene", async () => {
-    const { waitForSceneTitle, getByTestId } = mount();
-    await waitForSceneTitle(scene);
+    const screen = mount();
 
-    fireEvent.press(getByTestId("next-scene-button"));
-    await waitForSceneTitle(secondScene);
+    fireEvent.press(await screen.findByTestId("next-scene-button"));
+    await waitFor(() =>
+      expect(screen.getByText("ACT 1 - SCENE 2")).toBeDefined()
+    );
   });
 
   it("can go to previous scene when in second scene", async () => {
-    const { waitForSceneTitle, getByTestId } = mount();
-    await waitForSceneTitle(scene);
+    const screen = mount();
 
-    fireEvent.press(getByTestId("next-scene-button"));
-    await waitForSceneTitle(secondScene);
+    fireEvent.press(await screen.findByTestId("next-scene-button"));
+    await waitFor(() =>
+      expect(screen.getByText("ACT 1 - SCENE 2")).toBeDefined()
+    );
 
-    fireEvent.press(getByTestId("previous-scene-button"));
-    await waitForSceneTitle(scene);
+    fireEvent.press(await screen.findByTestId("previous-scene-button"));
+    await waitFor(() =>
+      expect(screen.getByText("ACT 1 - SCENE 1")).toBeDefined()
+    );
   });
 
   it("does not render next scene button when in final scene", async () => {
-    const { waitForSceneTitle, getByTestId, queryByTestId } = mount();
-    await waitForSceneTitle(scene);
+    const screen = mount();
 
-    fireEvent.press(getByTestId("next-scene-button"));
-    await waitForSceneTitle(secondScene);
+    fireEvent.press(await screen.findByTestId("next-scene-button"));
+    await waitFor(() =>
+      expect(screen.getByText("ACT 1 - SCENE 2")).toBeDefined()
+    );
 
-    expect(queryByTestId("next-scene-button")).toBeNull();
+    expect(screen.queryByTestId("next-scene-button")).toBeNull();
   });
 });

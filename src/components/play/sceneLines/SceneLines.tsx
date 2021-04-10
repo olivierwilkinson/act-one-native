@@ -16,7 +16,7 @@ export default ({ lines, act, scene }: Props) => {
   const sceneElement = useRef<any>(null);
 
   useEffect(() => {
-    if (sceneElement && sceneElement.current) {
+    if (sceneElement && sceneElement.current && act !== -1 && scene !== -1) {
       sceneElement.current.scrollToLocation({
         sectionIndex: 0,
         itemIndex: 0,
