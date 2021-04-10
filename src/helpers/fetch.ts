@@ -1,9 +1,6 @@
 import AsyncStorage from "@react-native-community/async-storage";
-import Constants from "expo-constants";
 
-const { apiBaseUrl } = Constants.manifest.extra || {
-  apiBaseUrl: "http://localhost"
-};
+import { apiBaseUrl } from "../services/baseUrls";
 
 export default async (
   input: RequestInfo,
