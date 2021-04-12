@@ -12,6 +12,7 @@ import { PlayWhereUniqueInput } from "./../../../types/graphql-types";
 export interface GetPlay_play_scenes_lines_lineRows {
   __typename: "LineRow";
   id: number;
+  index: number;
   lineId: number | null;
   number: number | null;
   text: string;
@@ -20,6 +21,7 @@ export interface GetPlay_play_scenes_lines_lineRows {
 export interface GetPlay_play_scenes_lines {
   __typename: "Line";
   id: number;
+  index: number;
   player: string;
   sceneId: number | null;
   lineRows: GetPlay_play_scenes_lines_lineRows[];
@@ -27,9 +29,10 @@ export interface GetPlay_play_scenes_lines {
 
 export interface GetPlay_play_scenes {
   __typename: "Scene";
-  actNum: number;
   id: number;
+  index: number;
   playId: number | null;
+  actNum: number;
   sceneNum: number;
   lines: GetPlay_play_scenes_lines[];
 }

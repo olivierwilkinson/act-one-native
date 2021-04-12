@@ -14,7 +14,7 @@ export const findActiveScene = (
       actNum === settings.actNum && sceneNum === settings.sceneNum
   );
 
-  return activeScene || scenes[0];
+  return activeScene || scenes.sort((a, b) => a.index - b.index)[0];
 };
 
 export const getLineText = ({ lineRows }: Line) => {
@@ -22,11 +22,13 @@ export const getLineText = ({ lineRows }: Line) => {
     return "";
   }
 
-  return lineRows.reduce((text, row) => {
-    if (!text) return row.text;
+  return lineRows
+    .sort((a, b) => a.index - b.index)
+    .reduce((text, row) => {
+      if (!text) return row.text;
 
-    return `${text}\n${row.text}`;
-  }, "");
+      return `${text}\n${row.text}`;
+    }, "");
 };
 
 export const findPlayers: (scenes: Scene[]) => string[] = scenes => {

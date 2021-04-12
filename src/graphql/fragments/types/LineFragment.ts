@@ -10,6 +10,7 @@
 export interface LineFragment {
   __typename: "Line";
   id: number;
+  index: number;
   player: string;
   sceneId: number | null;
 }

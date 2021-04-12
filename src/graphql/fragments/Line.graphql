@@ -1,5 +1,6 @@
 fragment LineFragment on Line {
   id
+  index
   player
   sceneId
 }

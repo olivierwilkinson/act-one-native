@@ -4,6 +4,7 @@ import createMockLookup from "./helpers/createMockLookup";
 export const lineRow: LineRowFragment = {
   __typename: "LineRow",
   id: 30,
+  index: 0,
   number: 1,
   lineId: -1,
   text: "Line in a play no one will read"
@@ -12,6 +13,7 @@ export const lineRow: LineRowFragment = {
 export const otherLineRow: LineRowFragment = {
   __typename: "LineRow",
   id: 31,
+  index: 1,
   number: 2,
   lineId: -1,
   text: "Other line in a play no one will read"

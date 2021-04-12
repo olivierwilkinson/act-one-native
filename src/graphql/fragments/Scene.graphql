@@ -1,6 +1,7 @@
 fragment SceneFragment on Scene {
-  actNum
   id
+  index
   playId
+  actNum
   sceneNum
 }
