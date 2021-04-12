@@ -29,9 +29,11 @@ export default ({ lines, act, scene }: Props) => {
     <SectionList
       ref={sceneElement}
       style={{ backgroundColor: playBackgroundColour }}
-      sections={lines.map(line => ({
-        data: [line]
-      }))}
+      sections={lines
+        .sort((a, b) => a.index - b.index)
+        .map(line => ({
+          data: [line]
+        }))}
       renderItem={({ item: line }) => <LineContainer {...line} />}
       renderSectionHeader={({
         section: {

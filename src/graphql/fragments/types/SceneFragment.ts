@@ -9,8 +9,9 @@
 
 export interface SceneFragment {
   __typename: "Scene";
-  actNum: number;
   id: number;
+  index: number;
   playId: number | null;
+  actNum: number;
   sceneNum: number;
 }

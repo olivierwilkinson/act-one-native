@@ -1,5 +1,6 @@
 fragment LineRowFragment on LineRow {
   id
+  index
   lineId
   number
   text

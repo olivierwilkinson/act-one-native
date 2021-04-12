@@ -33,9 +33,11 @@ const Line = ({ id, italic, highlighted, lineRows, onPress }: Props) => (
     underlayColor="transparent"
   >
     <LineView testID={`play-line-view-${id}`} highlighted={highlighted}>
-      {lineRows.map(lineRow => (
-        <LineRow key={`${id}-${lineRow.text}`} italic={italic} {...lineRow} />
-      ))}
+      {lineRows
+        .sort((a, b) => a.index - b.index)
+        .map(lineRow => (
+          <LineRow key={`${id}-${lineRow.text}`} italic={italic} {...lineRow} />
+        ))}
     </LineView>
   </TouchableHighlight>
 );
