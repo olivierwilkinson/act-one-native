@@ -17,6 +17,14 @@ export interface LineRowData {
   number?: number | null;
 }
 
+export interface LineRowWhereUniqueInput {
+  id?: number | null;
+}
+
+export interface LineWhereUniqueInput {
+  id?: number | null;
+}
+
 export interface PlayData {
   title: string;
   description: string;
@@ -34,6 +42,10 @@ export interface SceneData {
   actNum: number;
   sceneNum: number;
   lines: LineData[];
+}
+
+export interface SceneWhereUniqueInput {
+  id?: number | null;
 }
 
 //==============================================================

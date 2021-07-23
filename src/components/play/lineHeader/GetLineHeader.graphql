@@ -1,0 +1,7 @@
+query GetLineHeader($where: LineWhereUniqueInput!) {
+  line(where: $where) {
+    __typename
+    id
+    player
+  }
+}

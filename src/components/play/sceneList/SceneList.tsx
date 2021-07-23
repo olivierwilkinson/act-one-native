@@ -3,7 +3,6 @@ import { SectionList, TouchableHighlight } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import styled from "styled-components/native";
 
-import { Scene } from "../../../types/play-types";
 import { mediumSizeFont, subFont } from "../../../styles/typography";
 import { lightPrimaryColour } from "../../../styles/colours";
 
@@ -54,12 +53,14 @@ const RightArrowView = styled.View`
   align-items: center;
 `;
 
+type Scene = { id: number; actNum: number; sceneNum: number };
+
 type ListSection = {
   title: string;
   data: Scene[];
 };
 
-const generateSections: (scenes: Scene[]) => ListSection[] = scenes =>
+const generateSections = (scenes: Scene[]) =>
   scenes.reduce<ListSection[]>(
     (acc, scene) => {
       const latestSection = acc[acc.length - 1];
@@ -77,11 +78,11 @@ const generateSections: (scenes: Scene[]) => ListSection[] = scenes =>
 
 export type Props = {
   scenes: Scene[];
-  activeScene?: Scene;
+  activeSceneId?: number;
   onScenePress: (scene: Scene) => void;
 };
 
-export default ({ scenes, activeScene, onScenePress }: Props) => {
+export default ({ scenes, activeSceneId, onScenePress }: Props) => {
   const [sections, setSections] = useState(generateSections(scenes));
 
   useEffect(() => setSections(generateSections(scenes)), [scenes]);
@@ -102,7 +103,7 @@ export default ({ scenes, activeScene, onScenePress }: Props) => {
             <SceneInfoView>
               <CurrentSceneIndicator
                 testID={`current-scene-indicator-${scene.actNum}-${scene.sceneNum}`}
-                visible={scene === activeScene}
+                visible={scene.id === activeSceneId}
               />
               <SceneText>{`SCENE ${scene.sceneNum}`}</SceneText>
             </SceneInfoView>
@@ -115,7 +116,7 @@ export default ({ scenes, activeScene, onScenePress }: Props) => {
           </SceneView>
         </TouchableHighlight>
       )}
-      keyExtractor={item => `${item.actNum}-${item.sceneNum}`}
+      keyExtractor={(item) => `${item.actNum}-${item.sceneNum}`}
       stickySectionHeadersEnabled
     />
   );

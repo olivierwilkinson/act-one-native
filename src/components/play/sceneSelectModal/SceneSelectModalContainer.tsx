@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 
 import { Scene } from "../../../types/play-types";
 import PlaySettingsContext from "../../../contexts/PlaySettings";
-import PlayPositionContext from "../../../contexts/PlayPosition";
 import SceneSelectModal from "./SceneSelectModal";
+import { usePlayPosition } from "../../../contexts/PlayPosition";
 
 export type Props = {
   scenes: Scene[];
@@ -13,12 +13,12 @@ export type Props = {
 
 export default ({ scenes, visible, onClose }: Props) => {
   const { setSettings } = useContext(PlaySettingsContext);
-  const { activeScene } = useContext(PlayPositionContext);
+  const { activeSceneId } = usePlayPosition();
 
   return (
     <SceneSelectModal
       scenes={scenes}
-      activeScene={activeScene}
+      activeSceneId={activeSceneId}
       visible={visible}
       onClose={onClose}
       onScenePress={scene =>

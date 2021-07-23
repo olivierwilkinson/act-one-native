@@ -4,23 +4,40 @@ import SceneHeader from "./SceneHeader";
 import PlayNavigationContext from "../../../contexts/PlayNavigation";
 import Playback from "../../../contexts/Playback";
 import { Scene } from "../../../types/play-types";
-import PlayPosition from "../../../contexts/PlayPosition";
+import { usePlayPosition } from "../../../contexts/PlayPosition";
+import { useQuery } from "@apollo/client";
+import {
+  GetSceneHeader,
+  GetSceneHeaderVariables,
+} from "./types/GetSceneHeader";
+import GET_SCENE_HEADER from "./GetSceneHeader.graphql";
+import Placeholder from "../../common/placeholder/Placeholder";
 
 export type Props = Scene;
 
 export default () => {
-  const { activeScene: { actNum = 1, sceneNum = 1 } = {} } = useContext(
-    PlayPosition
-  );
+  const { activeSceneId } = usePlayPosition();
   const { goToNextScene, goToPreviousScene, openSceneSelect } = useContext(
     PlayNavigationContext
   );
   const { stop } = useContext(Playback);
 
+  const { data: { scene } = {}, loading } = useQuery<
+    GetSceneHeader,
+    GetSceneHeaderVariables
+  >(GET_SCENE_HEADER, {
+    variables: { where: { id: activeSceneId } },
+    skip: !activeSceneId,
+  });
+
+  if (!scene) {
+    return <Placeholder loading={loading} />;
+  }
+
   return (
     <SceneHeader
-      act={actNum}
-      scene={sceneNum}
+      act={scene.actNum}
+      scene={scene.sceneNum}
       showPreviousSceneButton={!!goToPreviousScene}
       showNextSceneButton={!!goToNextScene}
       onPreviousScenePress={() => {

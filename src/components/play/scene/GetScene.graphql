@@ -1,0 +1,13 @@
+query GetScene($where: SceneWhereUniqueInput!) {
+  scene(where: $where) {
+    __typename
+    id
+    actNum
+    sceneNum
+    lines {
+      __typename
+      id
+      index
+    }
+  }
+}

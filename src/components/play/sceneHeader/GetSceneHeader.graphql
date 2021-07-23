@@ -1,0 +1,8 @@
+query GetSceneHeader($where: SceneWhereUniqueInput!) {
+  scene(where: $where) {
+    __typename
+    id
+    actNum
+    sceneNum
+  }
+}

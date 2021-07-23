@@ -1,24 +1,48 @@
 import React, { useContext, memo } from "react";
+import { useQuery } from "@apollo/client";
 
-import { Line as LineType } from "../../../types/play-types";
-import PlayPositionContext from "../../../contexts/PlayPosition";
+import { usePlayPosition } from "../../../contexts/PlayPosition";
 import PlaybackContext from "../../../contexts/Playback";
 import Line from "../line/Line";
+import GET_LINE from "./GetLine.graphql";
+import { GetLine, GetLineVariables } from "./types/GetLine";
+import Placeholder from "../../common/placeholder/Placeholder";
+import { useMemo } from "react";
 
-const LineContainer = (line: LineType) => {
-  const { id, player, lineRows } = line;
-  const { activeLine, setActiveLine } = useContext(PlayPositionContext);
+export type Props = {
+  id: number;
+};
+
+const LineContainer = ({ id }: Props) => {
+  const { activeLineId, setActiveLineId } = usePlayPosition();
   const { stop } = useContext(PlaybackContext);
+
+  const { data: { line } = {}, loading } = useQuery<GetLine, GetLineVariables>(
+    GET_LINE,
+    { variables: { where: { id } } }
+  );
+
+  const lineRowIds = useMemo(
+    () =>
+      [...(line?.lineRows || [])]
+        .sort((a, b) => a.index - b.index)
+        .map((lineRow) => lineRow.id),
+    [line?.lineRows]
+  );
+
+  if (!line || !lineRowIds) {
+    return <Placeholder loading={loading} />;
+  }
 
   return (
     <Line
       id={id}
-      lineRows={lineRows}
-      highlighted={id === activeLine?.id}
-      italic={!player}
+      lineRowIds={lineRowIds}
+      highlighted={id === activeLineId}
+      italic={!line.player}
       onPress={() => {
         stop();
-        setActiveLine(line);
+        setActiveLineId(id);
       }}
     />
   );

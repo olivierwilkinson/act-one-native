@@ -1,5 +1,13 @@
 import React from "react";
 
-import Scene from "./scene/Scene";
+import SceneContainer from "./scene/SceneContainer";
+import SceneHeaderContainer from "./sceneHeader/SceneHeaderContainer";
+import PlaybackControls from "./playbackControls/PlaybackControls";
 
-export default () => <Scene />;
+export default () => (
+  <>
+    <SceneHeaderContainer />
+    <SceneContainer />
+    <PlaybackControls />
+  </>
+);

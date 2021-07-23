@@ -1,27 +1,27 @@
 import React from "react";
 
 import CardModal from "../../common/cardModal/CardModal";
-import SceneList from "../sceneList/SceneList";
+import SceneList, { Props as SceneListProps } from "../sceneList/SceneList";
 import { Scene } from "../../../types/play-types";
 
 export type Props = {
-  activeScene?: Scene;
+  activeSceneId?: number;
   scenes: Scene[];
   visible: boolean;
   onClose: () => void;
-  onScenePress: (scene: Scene) => void;
+  onScenePress: SceneListProps["onScenePress"];
 };
 
 export default ({
-  activeScene,
+  activeSceneId,
   scenes,
   visible,
   onClose,
-  onScenePress
+  onScenePress,
 }: Props) => (
   <CardModal title="Scene Select" visible={visible} onClose={onClose}>
     <SceneList
-      activeScene={activeScene}
+      activeSceneId={activeSceneId}
       scenes={scenes}
       onScenePress={onScenePress}
     />

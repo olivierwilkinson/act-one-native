@@ -1,7 +1,7 @@
 import palette from "google-palette";
 import convert from "color-convert";
 
-import { Scene, Line } from "../types/play-types";
+import { Scene } from "../types/play-types";
 import { PlaySettings } from "../contexts/PlaySettings";
 import { ColourByPlayer } from "../types/colour-types";
 
@@ -14,15 +14,19 @@ export const findActiveScene = (
       actNum === settings.actNum && sceneNum === settings.sceneNum
   );
 
-  return activeScene || scenes.sort((a, b) => a.index - b.index)[0];
+  return activeScene || [...scenes].sort((a, b) => a.index - b.index)[0];
 };
 
-export const getLineText = ({ lineRows }: Line) => {
+export const getLineText = ({
+  lineRows,
+}: {
+  lineRows: { index: number; text: string }[];
+}) => {
   if (!lineRows.length) {
     return "";
   }
 
-  return lineRows
+  return [...lineRows]
     .sort((a, b) => a.index - b.index)
     .reduce((text, row) => {
       if (!text) return row.text;
@@ -31,20 +35,20 @@ export const getLineText = ({ lineRows }: Line) => {
     }, "");
 };
 
-export const findPlayers: (scenes: Scene[]) => string[] = scenes => {
+export const findPlayers: (scenes: Scene[]) => string[] = (scenes) => {
   return Array.from(
     new Set(
       scenes.reduce<string[]>(
-        (acc, { lines }) => [...acc, ...lines.map(line => line.player)],
+        (acc, { lines }) => [...acc, ...lines.map((line) => line.player)],
         []
       )
     )
   );
 };
 
-export const createColourByPlayer: (
-  scenes: Scene[]
-) => ColourByPlayer = scenes => {
+export const createColourByPlayer: (scenes: Scene[]) => ColourByPlayer = (
+  scenes
+) => {
   const players = findPlayers(scenes);
   const colours = palette("tol-rainbow", players.length);
 
@@ -55,7 +59,7 @@ export const createColourByPlayer: (
 
       return {
         ...colourByPlayer,
-        [player]: colour
+        [player]: colour,
       };
     },
     {}

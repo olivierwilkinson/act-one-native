@@ -1,0 +1,18 @@
+query GetPlaybackProviderScene($where: SceneWhereUniqueInput!) {
+  scene(where: $where) {
+    __typename
+    id
+    lines {
+      __typename
+      id
+      player
+      index
+      lineRows {
+        __typename
+        id
+        index
+        text
+      }
+    }
+  }
+}

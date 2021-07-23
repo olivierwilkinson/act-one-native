@@ -2,13 +2,11 @@ import React, { memo } from "react";
 import { TouchableHighlight } from "react-native";
 import styled from "styled-components/native";
 
-import { LineRow as LineRowType } from "../../../types/play-types";
 import {
   lightPrimaryColour,
-  playBackgroundColour
+  playBackgroundColour,
 } from "../../../styles/colours";
-
-import LineRow from "../lineRow/LineRow";
+import LineRowContainer from "../lineRow/LineRowContainer";
 
 const LineView = styled.View`
   border-color: ${({ highlighted }: { highlighted: boolean }) =>
@@ -22,22 +20,20 @@ export type Props = {
   id: number;
   italic: boolean;
   highlighted: boolean;
-  lineRows: LineRowType[];
+  lineRowIds: number[];
   onPress: () => void;
 };
 
-const Line = ({ id, italic, highlighted, lineRows, onPress }: Props) => (
+const Line = ({ id, italic, highlighted, lineRowIds, onPress }: Props) => (
   <TouchableHighlight
     testID={`play-line-${id}`}
     onPress={onPress}
     underlayColor="transparent"
   >
     <LineView testID={`play-line-view-${id}`} highlighted={highlighted}>
-      {lineRows
-        .sort((a, b) => a.index - b.index)
-        .map(lineRow => (
-          <LineRow key={`${id}-${lineRow.text}`} italic={italic} {...lineRow} />
-        ))}
+      {lineRowIds.map((lineRowId) => (
+        <LineRowContainer key={lineRowId} id={lineRowId} italic={italic} />
+      ))}
     </LineView>
   </TouchableHighlight>
 );

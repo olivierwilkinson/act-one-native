@@ -6,7 +6,7 @@ export const createPlayNavigation = ({
   play,
   settings,
   setSettings,
-  setSceneSelectActive
+  setSceneSelectActive,
 }: {
   play?: Play | null;
   settings?: PlaySettings;
@@ -15,7 +15,7 @@ export const createPlayNavigation = ({
 }) => {
   if (!play) return { openSceneSelect: () => setSceneSelectActive(true) };
 
-  const scenes = play.scenes.sort((a, b) => a.index - b.index);
+  const scenes = [...play.scenes].sort((a, b) => a.index - b.index);
   const activeScene = findActiveScene(play.scenes, settings);
   const sceneIndex = activeScene ? scenes.indexOf(activeScene) : -1;
 
@@ -32,12 +32,12 @@ export const createPlayNavigation = ({
     (() =>
       setSettings({
         actNum: previousScene.actNum,
-        sceneNum: previousScene.sceneNum
+        sceneNum: previousScene.sceneNum,
       }));
 
   return {
     goToNextScene,
     goToPreviousScene,
-    openSceneSelect: () => setSceneSelectActive(true)
+    openSceneSelect: () => setSceneSelectActive(true),
   };
 };
