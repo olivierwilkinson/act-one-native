@@ -44,8 +44,8 @@ const PlayListItemActionsContainer = ({ play, style }: Props) => {
 
   return (
     <PlayListItemActions
-      showCreateButton={!isPlayFragment(play) && userIsAdmin(user)}
-      showDeleteButton={isPlayFragment(play) && userIsAdmin(user)}
+      showCreateButton={!isPlayFragment(play)}
+      showDeleteButton={isPlayFragment(play)}
       onCreatePress={async () => {
         if (isPlayFragment(play)) {
           throw new Error("Trying to create using an existing play");

@@ -1,7 +1,5 @@
 import React from "react";
 
-import { Line } from '../types/play-types';
-
 export enum PlaybackMode {
   Play = "PLAY",
   Record = "RECORD"
@@ -17,7 +15,7 @@ export enum PlaybackState {
 export interface PlaybackContextValue {
   mode: PlaybackMode;
   setMode: (mode: PlaybackMode) => void;
-  start: (line: Line) => void;
+  start: () => void;
   stop: () => void,
 }
 

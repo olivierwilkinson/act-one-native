@@ -1,0 +1,8 @@
+query GetLineRow($where: LineRowWhereUniqueInput!) {
+  lineRow(where: $where) {
+    __typename
+    id
+    number
+    text
+  }
+}

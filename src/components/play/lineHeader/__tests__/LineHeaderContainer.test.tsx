@@ -30,6 +30,9 @@ const mount = (props: Partial<Props> = {}) =>
   );
 
 describe("LineHeaderContainer", () => {
+  beforeEach(() => {
+    
+  })
   afterEach(() => {
     SpeechMock.mockClear();
   });

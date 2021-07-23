@@ -20,7 +20,7 @@ const PlayNavigationProvider = ({ playId, children }: Props) => {
 
   const { data: { play } = {} } = useQuery<GetPlay>(GET_PLAY, {
     variables: { where: { id: playId } },
-    skip: !playId
+    skip: !playId,
   });
 
   const [sceneSelectActive, setSceneSelectActive] = useState(false);
@@ -29,7 +29,7 @@ const PlayNavigationProvider = ({ playId, children }: Props) => {
       play,
       settings,
       setSettings,
-      setSceneSelectActive
+      setSceneSelectActive,
     })
   );
 
@@ -43,7 +43,7 @@ const PlayNavigationProvider = ({ playId, children }: Props) => {
         play,
         settings,
         setSettings,
-        setSceneSelectActive
+        setSceneSelectActive,
       })
     );
   }, [play, settings, previousSettings, setSettings, setSceneSelectActive]);
@@ -61,7 +61,7 @@ const PlayNavigationProvider = ({ playId, children }: Props) => {
       </PlayNavigationContext.Provider>
 
       <SceneSelectModalContainer
-        scenes={play?.scenes || []}
+        scenes={[...(play?.scenes || [])].sort((a, b) => a.index - b.index)}
         visible={sceneSelectActive}
         onClose={() => setSceneSelectActive(false)}
       />

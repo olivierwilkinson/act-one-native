@@ -1,32 +1,45 @@
 import React, { useContext, memo } from "react";
+import { useQuery } from "@apollo/client";
 
-import { Line } from "../../../types/play-types";
-import PlayPositionContext from "../../../contexts/PlayPosition";
+import { usePlayPosition } from "../../../contexts/PlayPosition";
 import PlaybackContext from "../../../contexts/Playback";
 import PlaySettingsContext from "../../../contexts/PlaySettings";
 import LineHeader from "./LineHeader";
+import GET_LINE_HEADER from "./GetLineHeader.graphql";
+import { GetLineHeader, GetLineHeaderVariables } from "./types/GetLineHeader";
+import Placeholder from "../../common/placeholder/Placeholder";
 
-export type Props = Line;
+export type Props = {
+  id: number;
+};
 
-const LineHeaderContainer = ({ ...line }: Props) => {
-  const { activeLine, setActiveLine } = useContext(PlayPositionContext);
+const LineHeaderContainer = ({ id }: Props) => {
+  const { activeLineId, setActiveLineId } = usePlayPosition();
   const { settings: { selectedPlayer = "" } = {} } = useContext(
     PlaySettingsContext
   );
   const { stop } = useContext(PlaybackContext);
-  const { player, id } = line;
-  const isCurrentLine = activeLine?.id === id;
+  const isCurrentLine = activeLineId === id;
+
+  const { data: { line } = {}, loading } = useQuery<
+    GetLineHeader,
+    GetLineHeaderVariables
+  >(GET_LINE_HEADER, { variables: { where: { id } } });
+
+  if (!line) {
+    return <Placeholder loading={loading} />;
+  }
 
   return (
     <LineHeader
       onPress={() => {
         stop();
-        setActiveLine(line);
+        setActiveLineId(id);
       }}
       highlighted={isCurrentLine}
-      player={player}
+      player={line.player}
       // colour={colourByPlayer[player]}
-      isSelected={selectedPlayer === player}
+      isSelected={selectedPlayer === line.player}
     />
   );
 };

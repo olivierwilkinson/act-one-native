@@ -1,0 +1,12 @@
+query GetLine($where: LineWhereUniqueInput!) {
+  line(where: $where) {
+    __typename
+    id
+    player
+    lineRows {
+      __typename
+      id
+      index
+    }
+  }
+}
