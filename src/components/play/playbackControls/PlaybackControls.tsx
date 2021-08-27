@@ -11,9 +11,9 @@ import Animated, { interpolateNode } from "react-native-reanimated";
 import { useTiming } from "react-native-reanimation";
 import RecordButton from "../recordButton/RecordButton";
 
-import AudioContext, {
-  AudioContextValue,
+import {
   AudioState,
+  useAudio,
 } from "../../../contexts/Audio";
 import Playback, { PlaybackMode } from "../../../contexts/Playback";
 import {
@@ -68,7 +68,7 @@ const ButtonView = styled(Animated.View)`
 
 export default () => {
   const { mode: activeMode, setMode, start } = useContext(Playback);
-  const audio: AudioContextValue = useContext(AudioContext);
+  const audio = useAudio();
   const isPlaying = audio.audioState === AudioState.Playing;
   const isSpeaking = audio.audioState === AudioState.Speaking;
   const isPaused = audio.audioState === AudioState.Paused;

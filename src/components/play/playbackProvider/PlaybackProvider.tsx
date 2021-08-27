@@ -2,7 +2,7 @@ import React, { useState, ReactNode, useContext, useRef, useMemo } from "react";
 import { AUDIO_RECORDING } from "expo-permissions";
 
 import Playback, { PlaybackMode } from "../../../contexts/Playback";
-import Audio from "../../../contexts/Audio";
+import { useAudio } from "../../../contexts/Audio";
 import PermissionsContext from "../../../contexts/Permissions";
 import PlaySettings from "../../../contexts/PlaySettings";
 import { getLineText } from "../../../helpers/play";
@@ -29,7 +29,7 @@ type Line = {
 
 const PlaybackProvider = ({ children }: Props) => {
   const { permissions, requesting, ask } = useContext(PermissionsContext);
-  const { play, record, speak, stop } = useContext(Audio);
+  const { play, record, speak, stop } = useAudio();
   const { user, openLoginModal } = useAuth();
   const { activeSceneId, activeLineId, setActiveLineId } = usePlayPosition();
   const { settings: { selectedPlayer = "" } = {} } = useContext(PlaySettings);
