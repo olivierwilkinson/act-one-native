@@ -2,7 +2,7 @@ import React, { useState, ReactNode, useContext } from "react";
 import * as Speech from 'expo-speech';
 import { Alert, Linking } from "react-native";
 
-import Recording from "./Recording";
+import { useRecording } from "./Recording";
 import Sound from "./Sound";
 import { PermissionError } from "./Permissions";
 
@@ -33,7 +33,7 @@ type Props = {
 };
 
 export const AudioProvider = ({ children }: Props) => {
-  const { recording, record } = useContext(Recording);
+  const { recording, record } = useRecording();
   const { sound, play } = useContext(Sound);
   const [audioState, setAudioState] = useState(AudioState.Stopped);
 

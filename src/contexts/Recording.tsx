@@ -1,14 +1,16 @@
-import React, { useState, useEffect, ReactNode } from "react";
+import React, { useState, useEffect, ReactNode, useContext } from "react";
 import { Audio } from "expo-av";
 import { AUDIO_RECORDING, PermissionMap } from "expo-permissions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import Recording from "../../../contexts/Recording";
-import { usePermissions, PermissionError } from "../../../contexts/Permissions";
+import { usePermissions, PermissionError } from "./Permissions";
 
-type Props = {
-  children: ReactNode;
-};
+export interface RecordingContextValue {
+  recording?: Audio.Recording;
+  record: (key: string, onStart: () => void) => Promise<void>;
+}
+
+const RecordingContext = React.createContext<RecordingContextValue | undefined>(undefined);
 
 const waitForRecording = async (recording: Audio.Recording) =>
   new Promise<void>(res => {
@@ -29,7 +31,11 @@ const checkCanRecord = (permissions: PermissionMap) => {
   );
 };
 
-const RecordingProvider = ({ children }: Props) => {
+type Props = {
+  children: ReactNode;
+};
+
+export const RecordingProvider = ({ children }: Props) => {
   const { permissions } = usePermissions();
   const [recording, setRecording] = useState<Audio.Recording>();
 
@@ -46,7 +52,7 @@ const RecordingProvider = ({ children }: Props) => {
   }, []);
 
   return (
-    <Recording.Provider
+    <RecordingContext.Provider
       value={{
         recording,
         record: async (key: string, onStart: () => void) => {
@@ -77,8 +83,15 @@ const RecordingProvider = ({ children }: Props) => {
       }}
     >
       {children}
-    </Recording.Provider>
+    </RecordingContext.Provider>
   );
 };
 
-export default RecordingProvider;
+export const useRecording = () => {
+  const recording = useContext(RecordingContext);
+  if (!recording) {
+    throw new Error("useRecording must be used within an RecordingProvider");
+  }
+
+  return recording;
+};
