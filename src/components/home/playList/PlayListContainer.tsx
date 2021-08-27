@@ -2,10 +2,10 @@ import React from "react";
 import { useQuery } from "@apollo/client";
 
 import PlayList from "./PlayList";
-import GET_PLAYS from "../../../graphql/queries/GetPlays.graphql";
 import localPlays from "../../../data/plays";
 
-import { GetPlays } from "../../../graphql/queries/types/GetPlays";
+import GET_PLAY_LIST_CONTAINER from "./GetPlayListContainer.graphql";
+import { GetPlayListContainer } from "./types/GetPlayListContainer";
 import Placeholder from "../../common/placeholder/Placeholder";
 
 export type Props = {
@@ -13,9 +13,9 @@ export type Props = {
 };
 
 export default ({ goToPlay }: Props) => {
-  const { data: { plays = [] } = {}, loading, refetch } = useQuery<GetPlays>(
-    GET_PLAYS
-  );
+  const { data: { plays = [] } = {}, loading, refetch } = useQuery<
+    GetPlayListContainer
+  >(GET_PLAY_LIST_CONTAINER);
 
   if (loading || !(plays?.length || localPlays.length)) {
     return (
