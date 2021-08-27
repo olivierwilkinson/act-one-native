@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ReactNode, useContext } from "react";
 import { Audio } from "expo-av";
 import { AUDIO_RECORDING, PermissionMap } from "expo-permissions";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Recording from "../../../contexts/Recording";
 import Permissions, { PermissionError } from "../../../contexts/Permissions";

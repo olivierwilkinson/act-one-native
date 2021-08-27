@@ -67,13 +67,10 @@ export default ({ audioState, ...touchableProps }: Props) => {
     <TouchableWithoutFeedback testID="record-button" {...touchableProps}>
       <RecordingIconBorder>
         <RecordingIcon
+          // @ts-expect-error
           style={{
             borderRadius,
-            transform: [
-              {
-                scale
-              }
-            ]
+            transform: [{ scale }]
           }}
         />
       </RecordingIconBorder>

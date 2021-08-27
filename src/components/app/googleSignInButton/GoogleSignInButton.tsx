@@ -4,7 +4,7 @@ import { startAsync } from "expo-auth-session";
 import { Platform, ActivityIndicator } from "react-native";
 import Constants from "expo-constants";
 import styled from "styled-components/native";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Logo from "../googleLogo/GoogleLogo";
 import Button from "../../common/button/Button";

@@ -1,7 +1,7 @@
 import "react-native";
 import React from "react";
 import { render, fireEvent, waitFor, act } from "react-native-testing-library";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import LineHeaderContainer, { Props } from "../LineHeaderContainer";
 import AppProviders from "../../../app/appProviders/AppProviders";

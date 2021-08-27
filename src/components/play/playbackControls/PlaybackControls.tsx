@@ -7,7 +7,7 @@ import {
   Directions,
   State
 } from "react-native-gesture-handler";
-import Animated, { interpolate } from "react-native-reanimated";
+import Animated, { interpolateNode } from "react-native-reanimated";
 import { useTiming } from "react-native-reanimation";
 import RecordButton from "../recordButton/RecordButton";
 
@@ -150,16 +150,17 @@ export default () => {
           >
             <ControlsView testID="playback-controls">
               <ModeBar
+                // @ts-expect-error
                 style={{
                   transform: [
                     {
-                      translateX: interpolate(position, {
+                      translateX: interpolateNode(position, {
                         inputRange: [-1, 1],
                         outputRange: [40, -40]
                       })
                     }
                   ],
-                  height: interpolate(scale, {
+                  height: interpolateNode(scale, {
                     inputRange: [0, 1],
                     outputRange: [40, 80]
                   })
@@ -171,9 +172,10 @@ export default () => {
                     onPress={() => activateMode(PlaybackMode.Play)}
                   >
                     <Animated.View
+                      // @ts-expect-error
                       style={{
                         opacity: scale,
-                        height: interpolate(scale, {
+                        height: interpolateNode(scale, {
                           inputRange: [0, 1],
                           outputRange: [4, 34]
                         })
@@ -207,16 +209,17 @@ export default () => {
                     }}
                   >
                     <ButtonView
+                      // @ts-expect-error
                       style={{
                         transform: [
                           {
-                            scale: interpolate(scale, {
+                            scale: interpolateNode(scale, {
                               inputRange: [0, 1],
                               outputRange: [0.8, 1]
                             })
                           }
                         ],
-                        opacity: interpolate(position, {
+                        opacity: interpolateNode(position, {
                           inputRange: [-1, 1],
                           outputRange: [1, 0]
                         })
@@ -240,9 +243,10 @@ export default () => {
                     onPress={() => activateMode(PlaybackMode.Record)}
                   >
                     <Animated.View
+                      // @ts-expect-error
                       style={{
                         opacity: scale,
-                        height: interpolate(scale, {
+                        height: interpolateNode(scale, {
                           inputRange: [0, 1],
                           outputRange: [4, 34]
                         })
@@ -253,16 +257,17 @@ export default () => {
                   </TouchableWithoutFeedback>
 
                   <ButtonView
+                    // @ts-expect-error
                     style={{
                       transform: [
                         {
-                          scale: interpolate(scale, {
+                          scale: interpolateNode(scale, {
                             inputRange: [0, 1],
                             outputRange: [0.8, 1]
                           })
                         }
                       ],
-                      opacity: interpolate(position, {
+                      opacity: interpolateNode(position, {
                         inputRange: [-1, 1],
                         outputRange: [0, 1]
                       })

@@ -1,7 +1,7 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { useFonts, Roboto_500Medium } from "@expo-google-fonts/roboto";
-import { AppLoading } from "expo";
+import AppLoading from "expo-app-loading";
 
 import AppProviders from "./src/components/app/appProviders/AppProviders";
 import AppStack from "./src/stacks/AppStack";

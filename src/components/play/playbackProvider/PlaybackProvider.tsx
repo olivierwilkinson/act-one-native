@@ -8,7 +8,7 @@ import { Line } from "../../../types/play-types";
 import PlayPosition from "../../../contexts/PlayPosition";
 import PlaySettings from "../../../contexts/PlaySettings";
 import { getLineText } from "../../../helpers/play";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAuth } from "../../app/authProvider/AuthProvider";
 
 type Props = {
