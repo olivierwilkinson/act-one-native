@@ -1,7 +1,0 @@
-#import "../../graphql/fragments/Play.graphql"
-
-query GetPlays {
-  plays {
-    ...PlayFragment
-  }
-}

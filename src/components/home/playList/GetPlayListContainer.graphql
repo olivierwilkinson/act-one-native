@@ -1,0 +1,7 @@
+#import "../../../graphql/fragments/Play.graphql"
+
+query GetPlayListContainer {
+  plays {
+    ...PlayFragment
+  }
+}

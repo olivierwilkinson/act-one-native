@@ -25,14 +25,14 @@ const PlayListItemActionsContainer = ({ play, style }: Props) => {
     CreatePlay,
     CreatePlayVariables
   >(CREATE_PLAY, {
-    refetchQueries: ["GetPlays"],
+    refetchQueries: ["GetPlayListContainer"],
     awaitRefetchQueries: true,
     onError: console.error
   });
   const [deletePlay, { loading: deleting }] = useMutation<DeletePlay>(
     DELETE_PLAY,
     {
-      refetchQueries: ["GetPlays"],
+      refetchQueries: ["GetPlayListContainer"],
       awaitRefetchQueries: true,
       onError: console.error
     }
