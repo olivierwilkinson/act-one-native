@@ -7,7 +7,7 @@ import AudioProvider from "../audioProvider/AudioProvider";
 import PermissionsProvider from "../permissionsProvider/PermissionsProvider";
 import RecordingProvider from "../recordingProvider/RecordingProvider";
 import SoundProvider from "../soundProvider/SoundProvider";
-import AuthProvider from "../authProvider/AuthProvider";
+import { AuthProvider } from "../../../contexts/Auth";
 
 export type Props = {
   children: ReactNode;

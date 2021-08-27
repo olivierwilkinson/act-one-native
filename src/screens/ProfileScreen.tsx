@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useAuth } from "../components/app/authProvider/AuthProvider";
+import { useAuth } from "../contexts/Auth";
 import Profile from "../components/profile/Profile";
 import { ProfileNavigationProp } from "../types/navigation-types";
 import LoginContainer from "../components/app/login/LoginContainer";

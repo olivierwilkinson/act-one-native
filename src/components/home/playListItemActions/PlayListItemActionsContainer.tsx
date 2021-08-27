@@ -9,7 +9,7 @@ import CREATE_PLAY from "./CreatePlay.graphql";
 import DELETE_PLAY from "./DeletePlay.graphql";
 import { CreatePlay, CreatePlayVariables } from "./types/CreatePlay";
 import { DeletePlay } from "./types/DeletePlay";
-import { useAuth } from "../../app/authProvider/AuthProvider";
+import { useAuth } from "../../../contexts/Auth";
 import userIsAdmin from "../../../helpers/userIsAdmin";
 import { LocalPlayData } from "../../../data/plays/types";
 import { PlayFragment } from "../../../graphql/fragments/types/PlayFragment";

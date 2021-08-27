@@ -7,7 +7,7 @@ import PermissionsContext from "../../../contexts/Permissions";
 import PlaySettings from "../../../contexts/PlaySettings";
 import { getLineText } from "../../../helpers/play";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useAuth } from "../../app/authProvider/AuthProvider";
+import { useAuth } from "../../../contexts/Auth";
 import { usePlayPosition } from "../../../contexts/PlayPosition";
 import { useQuery } from "@apollo/client";
 import GET_PLAYBACK_PROVIDER_SCENE from "./GetPlaybackProviderScene.graphql";
