@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { SceneWhereUniqueInput } from "./../../../../types/graphql-types";
+import { SceneWhereUniqueInput } from "../../../types/graphql-types";
 
 // ====================================================
 // GraphQL query operation: GetPlaybackProviderScene

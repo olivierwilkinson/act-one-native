@@ -1,8 +1,8 @@
-import React, { useContext, memo } from "react";
+import React, { memo } from "react";
 import { useQuery } from "@apollo/client";
 
 import { usePlayPosition } from "../../../contexts/PlayPosition";
-import PlaybackContext from "../../../contexts/Playback";
+import { usePlayback } from "../../../contexts/Playback";
 import Line from "../line/Line";
 import GET_LINE from "./GetLine.graphql";
 import { GetLine, GetLineVariables } from "./types/GetLine";
@@ -15,7 +15,7 @@ export type Props = {
 
 const LineContainer = ({ id }: Props) => {
   const { activeLineId, setActiveLineId } = usePlayPosition();
-  const { stop } = useContext(PlaybackContext);
+  const { stop } = usePlayback();
 
   const { data: { line } = {}, loading } = useQuery<GetLine, GetLineVariables>(
     GET_LINE,

@@ -7,7 +7,7 @@ import React, {
   useEffect,
 } from "react";
 
-import PlaySettingsContext from "./PlaySettings";
+import { usePlaySettings } from "./PlaySettings";
 import { findActiveScene } from "../helpers/play";
 import GET_PLAY from "../graphql/queries/GetPlay.graphql";
 import { GetPlay } from "../graphql/queries/types/GetPlay";
@@ -39,7 +39,7 @@ export type Props = {
 };
 
 export const PlayPositionProvider = ({ playId, children }: Props) => {
-  const { settings } = useContext(PlaySettingsContext);
+  const { settings } = usePlaySettings()
 
   const { data: { play } = {} } = useQuery<GetPlay>(GET_PLAY, {
     variables: { where: { id: playId } },

@@ -1,9 +1,9 @@
 import React, { ReactNode } from "react";
 
-import PlaybackProvider from "../playbackProvider/PlaybackProvider";
-import PlayNavigationProvider from "../playNavigationProvider/PlayNavigationProvider";
-import PlaySettingsProvider from "../playSettingsProvider/PlaySettingsProvider";
+import { PlayNavigationProvider } from "../../../contexts/PlayNavigation";
+import { PlaySettingsProvider } from "../../../contexts/PlaySettings";
 import { PlayPositionProvider } from "../../../contexts/PlayPosition";
+import { PlaybackProvider } from "../../../contexts/Playback";
 
 export type Props = {
   playId: number;

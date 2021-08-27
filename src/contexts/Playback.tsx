@@ -1,20 +1,46 @@
-import React, { useState, ReactNode, useContext, useRef, useMemo } from "react";
+import React, { useState, ReactNode, useRef, useMemo, useContext } from "react";
 import { AUDIO_RECORDING } from "expo-permissions";
-
-import Playback, { PlaybackMode } from "../../../contexts/Playback";
-import Audio from "../../../contexts/Audio";
-import PermissionsContext from "../../../contexts/Permissions";
-import PlaySettings from "../../../contexts/PlaySettings";
-import { getLineText } from "../../../helpers/play";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useAuth } from "../../app/authProvider/AuthProvider";
-import { usePlayPosition } from "../../../contexts/PlayPosition";
 import { useQuery } from "@apollo/client";
+
+import { useAuth } from "./Auth";
+import { useAudio } from "./Audio";
+import { usePermissions } from "./Permissions";
+import { usePlaySettings } from "./PlaySettings";
+import { usePlayPosition } from "./PlayPosition";
+import { getLineText } from "../helpers/play";
+
 import GET_PLAYBACK_PROVIDER_SCENE from "./GetPlaybackProviderScene.graphql";
 import {
   GetPlaybackProviderScene,
   GetPlaybackProviderSceneVariables,
-} from "./types/GetPlaybackProviderScene";
+} from "./queries/types/GetPlaybackProviderScene";
+
+export enum PlaybackMode {
+  Play = "PLAY",
+  Record = "RECORD",
+}
+
+export enum PlaybackState {
+  Running = "RUNNING",
+  Paused = "PAUSED",
+  Stopped = "STOPPED",
+  Recording = "RECORDING",
+}
+
+export interface PlaybackContextValue {
+  mode: PlaybackMode;
+  setMode: (mode: PlaybackMode) => void;
+  start: () => void;
+  stop: () => void;
+}
+
+const PlaybackContext = React.createContext<PlaybackContextValue>({
+  mode: PlaybackMode.Play,
+  setMode: () => null,
+  start: () => null,
+  stop: () => null,
+});
 
 type Props = {
   children: ReactNode;
@@ -27,12 +53,12 @@ type Line = {
   lineRows: { index: number; text: string }[];
 };
 
-const PlaybackProvider = ({ children }: Props) => {
-  const { permissions, requesting, ask } = useContext(PermissionsContext);
-  const { play, record, speak, stop } = useContext(Audio);
+export const PlaybackProvider = ({ children }: Props) => {
+  const { permissions, requesting, ask } = usePermissions();
+  const { play, record, speak, stop } = useAudio();
   const { user, openLoginModal } = useAuth();
   const { activeSceneId, activeLineId, setActiveLineId } = usePlayPosition();
-  const { settings: { selectedPlayer = "" } = {} } = useContext(PlaySettings);
+  const { settings: { selectedPlayer = "" } = {} } = usePlaySettings();
 
   const [mode, setMode] = useState(PlaybackMode.Play);
   const stoppedFlag = useRef(false);
@@ -45,13 +71,13 @@ const PlaybackProvider = ({ children }: Props) => {
     skip: !activeSceneId,
   });
 
-  const lines = useMemo(() =>
-    [...(scene?.lines || [])].sort((a, b) => a.index - b.index),
+  const lines = useMemo(
+    () => [...(scene?.lines || [])].sort((a, b) => a.index - b.index),
     [scene?.lines]
   );
 
   const run: (line: Line) => Promise<void> = async (line: Line) => {
-    console.log('run', line)
+    console.log("run", line);
     try {
       switch (mode) {
         case PlaybackMode.Play:
@@ -96,7 +122,7 @@ const PlaybackProvider = ({ children }: Props) => {
     !requesting.includes(AUDIO_RECORDING);
 
   return (
-    <Playback.Provider
+    <PlaybackContext.Provider
       value={{
         mode,
         setMode: (mode: PlaybackMode) => {
@@ -131,8 +157,15 @@ const PlaybackProvider = ({ children }: Props) => {
       }}
     >
       {children}
-    </Playback.Provider>
+    </PlaybackContext.Provider>
   );
 };
 
-export default PlaybackProvider;
+export const usePlayback = () => {
+  const playback = useContext(PlaybackContext);
+  if (!playback) {
+    throw new Error("usePlayback must be used within a PlaybackProvider");
+  }
+
+  return playback;
+};

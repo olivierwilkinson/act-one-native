@@ -1,19 +1,40 @@
 import React, { useState, ReactNode, useContext } from "react";
-import * as Speech from "expo-speech";
+import * as Speech from 'expo-speech';
 import { Alert, Linking } from "react-native";
 
-import AudioContext, { AudioState } from "../../../contexts/Audio";
-import Recording from "../../../contexts/Recording";
-import Sound from "../../../contexts/Sound";
-import { PermissionError } from "../../../contexts/Permissions";
+import { useRecording } from "./Recording";
+import { useSound } from "./Sound";
+import { PermissionError } from "./Permissions";
+
+export enum AudioState {
+  Stopped = "STOPPED",
+  Speaking = "SPEAKING",
+  Playing = "PLAYING",
+  Recording = "RECORDING",
+  Paused = "PAUSED",
+  Finished = "FINISHED"
+}
+
+export interface AudioContextValue {
+  audioState: AudioState;
+  play: (uri: string) => Promise<void>;
+  record: (key: string) => Promise<void>;
+  speak: (text: string, options?: Speech.SpeechOptions) => Promise<void>;
+  pause: () => Promise<void>;
+  resume: () => Promise<void>;
+  stop: () => Promise<void>;
+  finish: () => Promise<void>;
+}
+
+const AudioContext = React.createContext<AudioContextValue | undefined>(undefined);
 
 type Props = {
   children: ReactNode;
 };
 
-const AudioProvider = ({ children }: Props) => {
-  const { recording, record } = useContext(Recording);
-  const { sound, play } = useContext(Sound);
+export const AudioProvider = ({ children }: Props) => {
+  const { recording, record } = useRecording();
+  const { sound, play } = useSound()
   const [audioState, setAudioState] = useState(AudioState.Stopped);
 
   const stopAudio = async () => {
@@ -143,4 +164,11 @@ const AudioProvider = ({ children }: Props) => {
   );
 };
 
-export default AudioProvider;
+export const useAudio = () => {
+  const audio = useContext(AudioContext);
+  if (!audio) {
+    throw new Error("useAudio must be used within an AudioProvider");
+  }
+
+  return audio;
+};

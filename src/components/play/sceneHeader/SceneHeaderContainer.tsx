@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import SceneHeader from "./SceneHeader";
-import PlayNavigationContext from "../../../contexts/PlayNavigation";
-import Playback from "../../../contexts/Playback";
+import { usePlayNavigation } from "../../../contexts/PlayNavigation";
+import { usePlayback } from "../../../contexts/Playback";
 import { Scene } from "../../../types/play-types";
 import { usePlayPosition } from "../../../contexts/PlayPosition";
 import { useQuery } from "@apollo/client";
@@ -17,10 +17,12 @@ export type Props = Scene;
 
 export default () => {
   const { activeSceneId } = usePlayPosition();
-  const { goToNextScene, goToPreviousScene, openSceneSelect } = useContext(
-    PlayNavigationContext
-  );
-  const { stop } = useContext(Playback);
+  const {
+    goToNextScene,
+    goToPreviousScene,
+    openSceneSelect,
+  } = usePlayNavigation();
+  const { stop } = usePlayback();
 
   const { data: { scene } = {}, loading } = useQuery<
     GetSceneHeader,

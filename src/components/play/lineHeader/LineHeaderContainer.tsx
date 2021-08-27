@@ -1,9 +1,9 @@
-import React, { useContext, memo } from "react";
+import React, { memo } from "react";
 import { useQuery } from "@apollo/client";
 
 import { usePlayPosition } from "../../../contexts/PlayPosition";
-import PlaybackContext from "../../../contexts/Playback";
-import PlaySettingsContext from "../../../contexts/PlaySettings";
+import { usePlayback } from "../../../contexts/Playback";
+import { usePlaySettings } from "../../../contexts/PlaySettings";
 import LineHeader from "./LineHeader";
 import GET_LINE_HEADER from "./GetLineHeader.graphql";
 import { GetLineHeader, GetLineHeaderVariables } from "./types/GetLineHeader";
@@ -15,10 +15,8 @@ export type Props = {
 
 const LineHeaderContainer = ({ id }: Props) => {
   const { activeLineId, setActiveLineId } = usePlayPosition();
-  const { settings: { selectedPlayer = "" } = {} } = useContext(
-    PlaySettingsContext
-  );
-  const { stop } = useContext(PlaybackContext);
+  const { settings: { selectedPlayer = "" } = {} } = usePlaySettings();
+  const { stop } = usePlayback()
   const isCurrentLine = activeLineId === id;
 
   const { data: { line } = {}, loading } = useQuery<

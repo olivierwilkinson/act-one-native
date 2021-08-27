@@ -1,11 +1,11 @@
 import React, { useState, ReactNode, createContext, useContext } from "react";
 import { useQuery } from "@apollo/client";
 
-import CardModal from "../../common/cardModal/CardModal";
-import LoginContainer from "../login/LoginContainer";
+import CardModal from "../components/common/cardModal/CardModal";
+import LoginContainer from "../components/app/login/LoginContainer";
 
-import GET_USER from "../../../graphql/queries/GetUser.graphql";
-import { GetUser } from "../../../graphql/queries/types/GetUser";
+import GET_USER from "../graphql/queries/GetUser.graphql";
+import { GetUser } from "../graphql/queries/types/GetUser";
 
 type Props = {
   children: ReactNode;
@@ -18,7 +18,7 @@ export type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
-const AuthProvider = ({ children }: Props) => {
+export const AuthProvider = ({ children }: Props) => {
   const { data: { user = null } = {} } = useQuery<GetUser>(GET_USER);
   const [isLoginModalActive, setIsLoginModalActive] = useState(false);
   const [message, setMessage] = useState<string>();
@@ -56,10 +56,8 @@ const AuthProvider = ({ children }: Props) => {
 export const useAuth = () => {
   const auth = useContext(AuthContext);
   if (!auth) {
-    throw new Error("Auth must be used within an AuthProvider");
+    throw new Error("useAuth must be used within an AuthProvider");
   }
 
   return auth;
 };
-
-export default AuthProvider;

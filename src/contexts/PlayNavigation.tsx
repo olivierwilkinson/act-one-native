@@ -1,21 +1,30 @@
 import React, { useState, useEffect, useContext } from "react";
-
-import PlayNavigationContext from "../../../contexts/PlayNavigation";
-import PlaySettingsContext from "../../../contexts/PlaySettings";
-import { createPlayNavigation } from "../../../helpers/contexts";
-import usePrevious from "../../../hooks/usePrevious";
-import SceneSelectModalContainer from "../sceneSelectModal/SceneSelectModalContainer";
 import { useQuery } from "@apollo/client";
-import { GetPlay } from "../../../graphql/queries/types/GetPlay";
-import GET_PLAY from "../../../graphql/queries/GetPlay.graphql";
+
+import { usePlaySettings } from "./PlaySettings";
+import { createPlayNavigation } from "../helpers/contexts";
+import usePrevious from "../hooks/usePrevious";
+import SceneSelectModalContainer from "../components/play/sceneSelectModal/SceneSelectModalContainer";
+import { GetPlay } from "../graphql/queries/types/GetPlay";
+import GET_PLAY from "../graphql/queries/GetPlay.graphql";
+
+export interface PlayNavigation {
+  goToNextScene?: () => void;
+  goToPreviousScene?: () => void;
+  openSceneSelect: () => void;
+}
+
+const PlayNavigationContext = React.createContext<PlayNavigation>({
+  openSceneSelect: () => null,
+});
 
 type Props = {
   playId: number;
   children: JSX.Element;
 };
 
-const PlayNavigationProvider = ({ playId, children }: Props) => {
-  const { settings, setSettings } = useContext(PlaySettingsContext);
+export const PlayNavigationProvider = ({ playId, children }: Props) => {
+  const { settings, setSettings } = usePlaySettings()
   const previousSettings = usePrevious(settings);
 
   const { data: { play } = {} } = useQuery<GetPlay>(GET_PLAY, {
@@ -69,4 +78,11 @@ const PlayNavigationProvider = ({ playId, children }: Props) => {
   );
 };
 
-export default PlayNavigationProvider;
+export const usePlayNavigation = () => {
+  const playNavigation = useContext(PlayNavigationContext);
+  if (!playNavigation) {
+    throw new Error("usePlayNavigation must be used within a PlayNavigationProvider");
+  }
+
+  return playNavigation;
+};

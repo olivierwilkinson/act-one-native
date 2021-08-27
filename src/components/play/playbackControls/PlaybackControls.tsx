@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components/native";
 import { TouchableWithoutFeedback } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -11,18 +11,14 @@ import Animated, { interpolateNode } from "react-native-reanimated";
 import { useTiming } from "react-native-reanimation";
 import RecordButton from "../recordButton/RecordButton";
 
-import AudioContext, {
-  AudioContextValue,
-  AudioState,
-} from "../../../contexts/Audio";
-import Playback, { PlaybackMode } from "../../../contexts/Playback";
+import { AudioState, useAudio } from "../../../contexts/Audio";
+import { usePlayback, PlaybackMode } from "../../../contexts/Playback";
 import {
   lightGray,
   mediumGray,
   mediumLightGray,
 } from "../../../styles/colours";
 import { subFont } from "../../../styles/typography";
-import { usePlayPosition } from "../../../contexts/PlayPosition";
 
 const modes = [PlaybackMode.Play, PlaybackMode.Record];
 
@@ -67,8 +63,8 @@ const ButtonView = styled(Animated.View)`
 `;
 
 export default () => {
-  const { mode: activeMode, setMode, start } = useContext(Playback);
-  const audio: AudioContextValue = useContext(AudioContext);
+  const { mode: activeMode, setMode, start } = usePlayback();
+  const audio = useAudio();
   const isPlaying = audio.audioState === AudioState.Playing;
   const isSpeaking = audio.audioState === AudioState.Speaking;
   const isPaused = audio.audioState === AudioState.Paused;
