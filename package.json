@@ -92,7 +92,7 @@
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-native": "^3.8.1",
     "husky": "^1.3.1",
-    "jest-expo": "^38.0.0",
+    "jest-expo": "^42.0.0",
     "jest-localstorage-mock": "^2.4.8",
     "jest-styled-components": "^6.3.4",
     "jetifier": "^1.6.4",
