@@ -3,7 +3,7 @@ import * as Speech from 'expo-speech';
 import { Alert, Linking } from "react-native";
 
 import { useRecording } from "./Recording";
-import Sound from "./Sound";
+import { useSound } from "./Sound";
 import { PermissionError } from "./Permissions";
 
 export enum AudioState {
@@ -34,7 +34,7 @@ type Props = {
 
 export const AudioProvider = ({ children }: Props) => {
   const { recording, record } = useRecording();
-  const { sound, play } = useContext(Sound);
+  const { sound, play } = useSound()
   const [audioState, setAudioState] = useState(AudioState.Stopped);
 
   const stopAudio = async () => {

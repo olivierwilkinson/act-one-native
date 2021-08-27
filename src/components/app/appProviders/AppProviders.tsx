@@ -3,10 +3,10 @@ import { useMemoOne } from "use-memo-one";
 import { ApolloProvider } from "@apollo/client";
 
 import createClient from "../../../apollo/client";
-import SoundProvider from "../soundProvider/SoundProvider";
 import { AuthProvider } from "../../../contexts/Auth";
 import { PermissionsProvider } from "../../../contexts/Permissions";
 import { RecordingProvider } from "../../../contexts/Recording";
+import { SoundProvider } from "../../../contexts/Sound";
 import { AudioProvider } from "../../../contexts/Audio";
 
 export type Props = {

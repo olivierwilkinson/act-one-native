@@ -1,7 +1,15 @@
-import React, { useState, ReactNode } from "react";
-import { Audio } from "expo-av";
+import React, { useState, ReactNode, useContext } from "react";
+import { Audio } from 'expo-av';
 
-import Sound from "../../../contexts/Sound";
+export interface SoundContextValue {
+  sound?: Audio.Sound;
+  play: (uri: string, onStart: () => void) => Promise<void>;
+}
+
+const SoundContext = React.createContext<SoundContextValue>({
+  play: async () => {},
+});
+
 
 type Props = {
   children: ReactNode;
@@ -17,11 +25,11 @@ const waitForSound = async (sound: Audio.Sound) =>
     });
   });
 
-const SoundProvider = ({ children }: Props) => {
+export const SoundProvider = ({ children }: Props) => {
   const [sound, setSound] = useState<Audio.Sound>();
 
   return (
-    <Sound.Provider
+    <SoundContext.Provider
       value={{
         sound,
         play: async (uri: string, onStart: () => void) => {
@@ -46,8 +54,15 @@ const SoundProvider = ({ children }: Props) => {
       }}
     >
       {children}
-    </Sound.Provider>
+    </SoundContext.Provider>
   );
 };
 
-export default SoundProvider;
+export const useSound = () => {
+  const sound = useContext(SoundContext);
+  if (!sound) {
+    throw new Error("useSound must be used within a SoundProvider");
+  }
+
+  return sound
+}
