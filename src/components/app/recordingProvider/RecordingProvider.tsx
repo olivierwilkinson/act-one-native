@@ -1,10 +1,10 @@
-import React, { useState, useEffect, ReactNode, useContext } from "react";
+import React, { useState, useEffect, ReactNode } from "react";
 import { Audio } from "expo-av";
 import { AUDIO_RECORDING, PermissionMap } from "expo-permissions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Recording from "../../../contexts/Recording";
-import Permissions, { PermissionError } from "../../../contexts/Permissions";
+import { usePermissions, PermissionError } from "../../../contexts/Permissions";
 
 type Props = {
   children: ReactNode;
@@ -30,7 +30,7 @@ const checkCanRecord = (permissions: PermissionMap) => {
 };
 
 const RecordingProvider = ({ children }: Props) => {
-  const { permissions } = useContext(Permissions);
+  const { permissions } = usePermissions();
   const [recording, setRecording] = useState<Audio.Recording>();
 
   useEffect(() => {

@@ -3,7 +3,7 @@ import { AUDIO_RECORDING } from "expo-permissions";
 
 import Playback, { PlaybackMode } from "../../../contexts/Playback";
 import { useAudio } from "../../../contexts/Audio";
-import PermissionsContext from "../../../contexts/Permissions";
+import { usePermissions } from "../../../contexts/Permissions";
 import PlaySettings from "../../../contexts/PlaySettings";
 import { getLineText } from "../../../helpers/play";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -28,7 +28,7 @@ type Line = {
 };
 
 const PlaybackProvider = ({ children }: Props) => {
-  const { permissions, requesting, ask } = useContext(PermissionsContext);
+  const { permissions, requesting, ask } = usePermissions();
   const { play, record, speak, stop } = useAudio();
   const { user, openLoginModal } = useAuth();
   const { activeSceneId, activeLineId, setActiveLineId } = usePlayPosition();

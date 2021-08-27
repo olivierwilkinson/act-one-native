@@ -1,9 +1,4 @@
-import React, {
-  useState,
-  ReactNode,
-  useEffect,
-  useCallback,
-} from "react";
+import React, { useState, ReactNode, useEffect, useCallback, useContext } from "react";
 import {
   PermissionType,
   PermissionResponse,
@@ -12,23 +7,39 @@ import {
   askAsync,
 } from "expo-permissions";
 
-import PermissionsContext from "../../../contexts/Permissions";
-import useIsMounted from "../../../hooks/useIsMounted";
+import useIsMounted from "../hooks/useIsMounted";
 
-export type Permissions = PermissionType[];
+const appPermissions: PermissionType[] = [AUDIO_RECORDING];
+
+export class PermissionError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "PermissionError";
+  }
+}
+
+export interface PermissionsContextValue {
+  permissions: PermissionResponse["permissions"];
+  requesting: PermissionType[];
+  ask: (...types: PermissionType[]) => void;
+  get: (...types: PermissionType[]) => void;
+}
+
+const PermissionsContext = React.createContext<
+  PermissionsContextValue | undefined
+>(undefined);
+
 type PermissionsRequest = (
-  ...types: Permissions
+  ...types: PermissionType[]
 ) => Promise<PermissionResponse>;
-
-const appPermissions: Permissions = [AUDIO_RECORDING];
 
 type Props = {
   children: ReactNode;
 };
 
-const PermissionsProvider = ({ children }: Props) => {
+export const PermissionsProvider = ({ children }: Props) => {
   const [permissions, setPermissions] = useState({});
-  const [requesting, setRequesting] = useState<Permissions>([]);
+  const [requesting, setRequesting] = useState<PermissionType[]>([]);
   const isMounted = useIsMounted();
 
   const requestPermissions = useCallback(
@@ -52,12 +63,12 @@ const PermissionsProvider = ({ children }: Props) => {
   );
 
   const ask = useCallback(
-    (...types: Permissions) => requestPermissions(askAsync, types),
+    (...types: PermissionType[]) => requestPermissions(askAsync, types),
     [requestPermissions, askAsync]
   );
 
   const get = useCallback(
-    (...types: Permissions) => requestPermissions(getAsync, types),
+    (...types: PermissionType[]) => requestPermissions(getAsync, types),
     [requestPermissions, getAsync]
   );
 
@@ -79,4 +90,11 @@ const PermissionsProvider = ({ children }: Props) => {
   );
 };
 
-export default PermissionsProvider;
+export const usePermissions = () => {
+  const permissions = useContext(PermissionsContext);
+  if (!permissions) {
+    throw new Error("usePermissions must be used within a PermissionsProvider");
+  }
+
+  return permissions;
+};
