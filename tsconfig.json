@@ -12,5 +12,6 @@
     "noImplicitReturns": true,
     "forceConsistentCasingInFileNames": true,
     "noUnusedParameters": true
-  }
+  },
+  "extends": "expo/tsconfig.base"
 }
