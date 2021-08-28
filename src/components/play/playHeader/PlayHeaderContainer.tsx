@@ -5,7 +5,7 @@ import { PlayNavigationProp } from "../../../types/navigation-types";
 import { useQuery } from "@apollo/client";
 import GET_PLAY_HEADER from "./GetPlayHeader.graphql";
 import Playback from "../../../contexts/Playback";
-import PlaySettings from "../../../contexts/PlaySettings";
+import { usePlaySettings } from "../../../contexts/PlaySettings";
 import { GetPlayHeader } from "./types/GetPlayHeader";
 
 export type Props = {
@@ -15,7 +15,7 @@ export type Props = {
 
 const PlayHeaderContainer = ({ playId, navigation }: Props) => {
   const { stop } = useContext(Playback);
-  const { openSettings } = useContext(PlaySettings);
+  const { openSettings } = usePlaySettings()
 
   const { data: { play } = {} } = useQuery<GetPlayHeader>(GET_PLAY_HEADER, {
     variables: { id: playId },

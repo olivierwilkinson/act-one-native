@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 
 import PlayNavigationContext from "../../../contexts/PlayNavigation";
-import PlaySettingsContext from "../../../contexts/PlaySettings";
+import { usePlaySettings } from "../../../contexts/PlaySettings";
 import { createPlayNavigation } from "../../../helpers/contexts";
 import usePrevious from "../../../hooks/usePrevious";
 import SceneSelectModalContainer from "../sceneSelectModal/SceneSelectModalContainer";
@@ -15,7 +15,7 @@ type Props = {
 };
 
 const PlayNavigationProvider = ({ playId, children }: Props) => {
-  const { settings, setSettings } = useContext(PlaySettingsContext);
+  const { settings, setSettings } = usePlaySettings()
   const previousSettings = usePrevious(settings);
 
   const { data: { play } = {} } = useQuery<GetPlay>(GET_PLAY, {

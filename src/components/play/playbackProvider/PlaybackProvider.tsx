@@ -1,13 +1,13 @@
-import React, { useState, ReactNode, useContext, useRef, useMemo } from "react";
+import React, { useState, ReactNode, useRef, useMemo } from "react";
 import { AUDIO_RECORDING } from "expo-permissions";
 
 import Playback, { PlaybackMode } from "../../../contexts/Playback";
 import { useAudio } from "../../../contexts/Audio";
 import { usePermissions } from "../../../contexts/Permissions";
-import PlaySettings from "../../../contexts/PlaySettings";
 import { getLineText } from "../../../helpers/play";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAuth } from "../../../contexts/Auth";
+import { usePlaySettings } from "../../../contexts/PlaySettings";
 import { usePlayPosition } from "../../../contexts/PlayPosition";
 import { useQuery } from "@apollo/client";
 import GET_PLAYBACK_PROVIDER_SCENE from "./GetPlaybackProviderScene.graphql";
@@ -32,7 +32,7 @@ const PlaybackProvider = ({ children }: Props) => {
   const { play, record, speak, stop } = useAudio();
   const { user, openLoginModal } = useAuth();
   const { activeSceneId, activeLineId, setActiveLineId } = usePlayPosition();
-  const { settings: { selectedPlayer = "" } = {} } = useContext(PlaySettings);
+  const { settings: { selectedPlayer = "" } = {} } = usePlaySettings();
 
   const [mode, setMode] = useState(PlaybackMode.Play);
   const stoppedFlag = useRef(false);

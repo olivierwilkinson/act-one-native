@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { Scene } from "../../../types/play-types";
-import PlaySettingsContext from "../../../contexts/PlaySettings";
+import { usePlaySettings } from "../../../contexts/PlaySettings";
 import SceneSelectModal from "./SceneSelectModal";
 import { usePlayPosition } from "../../../contexts/PlayPosition";
 
@@ -12,7 +12,7 @@ export type Props = {
 };
 
 export default ({ scenes, visible, onClose }: Props) => {
-  const { setSettings } = useContext(PlaySettingsContext);
+  const { setSettings } = usePlaySettings()
   const { activeSceneId } = usePlayPosition();
 
   return (

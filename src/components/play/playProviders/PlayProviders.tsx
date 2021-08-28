@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 
 import PlaybackProvider from "../playbackProvider/PlaybackProvider";
 import PlayNavigationProvider from "../playNavigationProvider/PlayNavigationProvider";
-import PlaySettingsProvider from "../playSettingsProvider/PlaySettingsProvider";
+import { PlaySettingsProvider } from "../../../contexts/PlaySettings";
 import { PlayPositionProvider } from "../../../contexts/PlayPosition";
 
 export type Props = {

@@ -1,7 +1,7 @@
-import React, { useContext, memo } from "react";
+import React, { memo } from "react";
 
 import PlaySettingsModal from "./PlaySettingsModal";
-import PlaySettingsContext from "../../../contexts/PlaySettings";
+import { usePlaySettings } from "../../../contexts/PlaySettings";
 import { useQuery } from "@apollo/client";
 import { GetPlay } from "../../../graphql/queries/types/GetPlay";
 import GET_PLAY from "../../../graphql/queries/GetPlay.graphql";
@@ -13,7 +13,7 @@ export type Props = {
 };
 
 const PlaySettingsModalContainer = ({ playId, visible, onClose }: Props) => {
-  const { settings, setSettings } = useContext(PlaySettingsContext);
+  const { settings, setSettings } = usePlaySettings();
   const { data: { play } = {} } = useQuery<GetPlay>(GET_PLAY, {
     variables: { where: { id: playId } },
     skip: !playId
