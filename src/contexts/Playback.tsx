@@ -35,12 +35,9 @@ export interface PlaybackContextValue {
   stop: () => void;
 }
 
-const PlaybackContext = React.createContext<PlaybackContextValue>({
-  mode: PlaybackMode.Play,
-  setMode: () => null,
-  start: () => null,
-  stop: () => null
-});
+const PlaybackContext = React.createContext<PlaybackContextValue | undefined>(
+  undefined
+);
 
 type Props = {
   children: ReactNode;

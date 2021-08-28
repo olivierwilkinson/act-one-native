@@ -14,9 +14,9 @@ export interface PlayNavigation {
   openSceneSelect: () => void;
 }
 
-const PlayNavigationContext = React.createContext<PlayNavigation>({
-  openSceneSelect: () => null,
-});
+const PlayNavigationContext = React.createContext<PlayNavigation | undefined>(
+  undefined
+);
 
 type Props = {
   playId: number;
@@ -24,12 +24,12 @@ type Props = {
 };
 
 export const PlayNavigationProvider = ({ playId, children }: Props) => {
-  const { settings, setSettings } = usePlaySettings()
+  const { settings, setSettings } = usePlaySettings();
   const previousSettings = usePrevious(settings);
 
   const { data: { play } = {} } = useQuery<GetPlay>(GET_PLAY, {
     variables: { where: { id: playId } },
-    skip: !playId,
+    skip: !playId
   });
 
   const [sceneSelectActive, setSceneSelectActive] = useState(false);
@@ -38,7 +38,7 @@ export const PlayNavigationProvider = ({ playId, children }: Props) => {
       play,
       settings,
       setSettings,
-      setSceneSelectActive,
+      setSceneSelectActive
     })
   );
 
@@ -52,7 +52,7 @@ export const PlayNavigationProvider = ({ playId, children }: Props) => {
         play,
         settings,
         setSettings,
-        setSceneSelectActive,
+        setSceneSelectActive
       })
     );
   }, [play, settings, previousSettings, setSettings, setSceneSelectActive]);
@@ -81,7 +81,9 @@ export const PlayNavigationProvider = ({ playId, children }: Props) => {
 export const usePlayNavigation = () => {
   const playNavigation = useContext(PlayNavigationContext);
   if (!playNavigation) {
-    throw new Error("usePlayNavigation must be used within a PlayNavigationProvider");
+    throw new Error(
+      "usePlayNavigation must be used within a PlayNavigationProvider"
+    );
   }
 
   return playNavigation;

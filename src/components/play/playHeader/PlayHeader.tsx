@@ -14,11 +14,16 @@ const HeaderText = styled.Text`
 export type Props = {
   title?: string;
   onBackPress: () => void;
-  onSettingsPress: () => void;
+  onSettingsPress?: () => void;
   navigation: PlayNavigationProp;
 };
 
-export default ({ title, onBackPress, onSettingsPress, navigation }: Props) => {
+export default ({
+  title,
+  onBackPress,
+  onSettingsPress = () => {},
+  navigation
+}: Props) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       header: () => (

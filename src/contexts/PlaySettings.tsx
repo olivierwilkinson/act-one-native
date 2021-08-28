@@ -15,10 +15,9 @@ export type PlaySettingsContextValue = {
   openSettings: () => void;
 };
 
-const PlaySettingsContext = React.createContext<PlaySettingsContextValue>({
-  setSettings: () => null,
-  openSettings: () => null,
-});
+const PlaySettingsContext = React.createContext<
+  PlaySettingsContextValue | undefined
+>(undefined);
 
 type Props = {
   playId: number;
@@ -30,7 +29,7 @@ export const PlaySettingsProvider = ({ playId, children }: Props) => {
   const [settingsActive, setSettingsActive] = useState(false);
 
   useEffect(() => {
-    getStoredSettings(playId).then((storedSettings) =>
+    getStoredSettings(playId).then(storedSettings =>
       setSettings(storedSettings || {})
     );
   }, [getStoredSettings, playId, setSettings]);
@@ -49,9 +48,9 @@ export const PlaySettingsProvider = ({ playId, children }: Props) => {
         setSettings: (newSettings: PlaySettings) => {
           setSettings({
             ...settings,
-            ...newSettings,
+            ...newSettings
           });
-        },
+        }
       }}
     >
       {children}

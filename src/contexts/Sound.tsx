@@ -1,15 +1,14 @@
 import React, { useState, ReactNode, useContext } from "react";
-import { Audio } from 'expo-av';
+import { Audio } from "expo-av";
 
 export interface SoundContextValue {
   sound?: Audio.Sound;
   play: (uri: string, onStart: () => void) => Promise<void>;
 }
 
-const SoundContext = React.createContext<SoundContextValue>({
-  play: async () => {},
-});
-
+const SoundContext = React.createContext<SoundContextValue | undefined>(
+  undefined
+);
 
 type Props = {
   children: ReactNode;
@@ -64,5 +63,5 @@ export const useSound = () => {
     throw new Error("useSound must be used within a SoundProvider");
   }
 
-  return sound
-}
+  return sound;
+};
