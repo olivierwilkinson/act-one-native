@@ -10,7 +10,13 @@ const Tab = createBottomTabNavigator();
 
 export default function BottomTabStack() {
   return (
-    <Tab.Navigator tabBarOptions={{ showLabel: false }}>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarShowLabel: false,
+        tabBarStyle: [{ display: "flex" }, null],
+        headerShown: false
+      }}
+    >
       <Tab.Screen
         name="Home"
         component={HomeScreen}
@@ -37,7 +43,7 @@ export default function BottomTabStack() {
               size={26}
               color={focused ? primaryColour : darkGray}
             />
-          ),
+          )
         }}
       />
     </Tab.Navigator>
