@@ -10,9 +10,10 @@ if (!apiBaseUrl) {
     const { address } = en0.find(({ family }) => family === "IPv4");
     apiBaseUrl = `http://${address}:8000`;
   } catch (_) {
-    throw new Error(
-      "Unable to find local network, check you are connected to wifi or set API_BASE_URL to bypass automatic detection"
+    console.warn(
+      "Unable to find local network so using localhost, set API_BASE_URL to bypass automatic detection"
     );
+    apiBaseUrl = "http://localhost:8000";
   }
 }
 
