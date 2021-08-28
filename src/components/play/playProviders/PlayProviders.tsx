@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 
 import PlaybackProvider from "../playbackProvider/PlaybackProvider";
-import PlayNavigationProvider from "../playNavigationProvider/PlayNavigationProvider";
+import { PlayNavigationProvider } from "../../../contexts/PlayNavigation";
 import { PlaySettingsProvider } from "../../../contexts/PlaySettings";
 import { PlayPositionProvider } from "../../../contexts/PlayPosition";
 

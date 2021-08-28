@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import SceneHeader from "./SceneHeader";
-import PlayNavigationContext from "../../../contexts/PlayNavigation";
+import { usePlayNavigation } from "../../../contexts/PlayNavigation";
 import Playback from "../../../contexts/Playback";
 import { Scene } from "../../../types/play-types";
 import { usePlayPosition } from "../../../contexts/PlayPosition";
@@ -17,9 +17,11 @@ export type Props = Scene;
 
 export default () => {
   const { activeSceneId } = usePlayPosition();
-  const { goToNextScene, goToPreviousScene, openSceneSelect } = useContext(
-    PlayNavigationContext
-  );
+  const {
+    goToNextScene,
+    goToPreviousScene,
+    openSceneSelect,
+  } = usePlayNavigation();
   const { stop } = useContext(Playback);
 
   const { data: { scene } = {}, loading } = useQuery<
