@@ -22,4 +22,9 @@ jobs:
       uses: actions/setup-node@v2.1.5
 
     - run: yarn install
+
+    # create empty config files so tests run
+    - run: echo '{}' > ./secret-configs/sentry.json
+    - run: echo '{}' > ./secret-configs/google-auth.json
+
     - run: yarn test
