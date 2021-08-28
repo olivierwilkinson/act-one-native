@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 
 import { getStoredSettings, setStoredSettings } from "../helpers/storage";
-import PlaySettingsModalContainer from "../components/play/playSettingsModal/PlaySettingsModalContainer";
 
 export type PlaySettings = {
   selectedPlayer?: string;
@@ -12,7 +11,6 @@ export type PlaySettings = {
 export type PlaySettingsContextValue = {
   settings?: PlaySettings;
   setSettings: (settings: PlaySettings) => void;
-  openSettings: () => void;
 };
 
 const PlaySettingsContext = React.createContext<
@@ -26,7 +24,6 @@ type Props = {
 
 export const PlaySettingsProvider = ({ playId, children }: Props) => {
   const [settings, setSettings] = useState<PlaySettings>();
-  const [settingsActive, setSettingsActive] = useState(false);
 
   useEffect(() => {
     getStoredSettings(playId).then(storedSettings =>
@@ -44,7 +41,6 @@ export const PlaySettingsProvider = ({ playId, children }: Props) => {
     <PlaySettingsContext.Provider
       value={{
         settings,
-        openSettings: () => setSettingsActive(true),
         setSettings: (newSettings: PlaySettings) => {
           setSettings({
             ...settings,
@@ -54,12 +50,6 @@ export const PlaySettingsProvider = ({ playId, children }: Props) => {
       }}
     >
       {children}
-
-      <PlaySettingsModalContainer
-        playId={playId}
-        visible={settingsActive}
-        onClose={() => setSettingsActive(false)}
-      />
     </PlaySettingsContext.Provider>
   );
 };

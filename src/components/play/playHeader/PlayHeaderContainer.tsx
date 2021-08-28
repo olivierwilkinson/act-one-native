@@ -5,17 +5,20 @@ import { PlayNavigationProp } from "../../../types/navigation-types";
 import { useQuery } from "@apollo/client";
 import GET_PLAY_HEADER from "./GetPlayHeader.graphql";
 import { usePlayback } from "../../../contexts/Playback";
-import { usePlaySettings } from "../../../contexts/PlaySettings";
 import { GetPlayHeader } from "./types/GetPlayHeader";
 
 export type Props = {
   playId?: number;
   navigation: PlayNavigationProp;
+  onSettingsPress?: () => void;
 };
 
-const PlayHeaderContainer = ({ playId, navigation }: Props) => {
+const PlayHeaderContainer = ({
+  playId,
+  navigation,
+  onSettingsPress
+}: Props) => {
   const { stop } = usePlayback();
-  const { openSettings } = usePlaySettings();
 
   const { data: { play } = {} } = useQuery<GetPlayHeader>(GET_PLAY_HEADER, {
     variables: { id: playId },
@@ -28,7 +31,7 @@ const PlayHeaderContainer = ({ playId, navigation }: Props) => {
       onBackPress={() => navigation.pop()}
       onSettingsPress={() => {
         stop();
-        openSettings();
+        onSettingsPress && onSettingsPress();
       }}
       navigation={navigation}
     />
