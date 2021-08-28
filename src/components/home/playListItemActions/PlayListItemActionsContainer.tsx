@@ -44,22 +44,15 @@ const PlayListItemActionsContainer = ({ play, style }: Props) => {
 
   return (
     <PlayListItemActions
-      showCreateButton={!isPlayFragment(play)}
-      showDeleteButton={isPlayFragment(play)}
+      showCreateButton={!isPlayFragment(play) && userIsAdmin(user)}
+      showDeleteButton={isPlayFragment(play) && userIsAdmin(user)}
       onCreatePress={async () => {
         if (isPlayFragment(play)) {
           throw new Error("Trying to create using an existing play");
         }
 
-        const sanitisedPlay = {
-          ...play,
-          image: play.image.toString()
-        };
-
         await createPlay({
-          variables: {
-            play: sanitisedPlay
-          }
+          variables: { play: { ...play, image: play.image.toString() } }
         });
       }}
       onDeletePress={async () => {

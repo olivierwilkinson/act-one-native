@@ -12,10 +12,10 @@ const scenes = [
   { ...otherScene, lines: [{ ...otherLine, lineRows: [] }] }
 ];
 
-const defaultProps = {
+const defaultProps: Props = {
   ...play,
   scenes,
-  activeScene: scenes[0],
+  activeSceneId: scenes[0].id,
   onScenePress: () => {}
 };
 

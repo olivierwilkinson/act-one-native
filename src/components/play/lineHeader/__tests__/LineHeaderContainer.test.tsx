@@ -9,16 +9,15 @@ import PlayProviders from "../../playProviders/PlayProviders";
 
 import SpeechMock from "../../../../../test/mocks/speech";
 import { play } from "../../../../../test/graphql/mocks/play";
-import { line } from "../../../../../test/graphql/mocks/line";
-import { lineRow } from "../../../../../test/graphql/mocks/lineRow";
+import {
+  line,
+  sceneDirectionLine
+} from "../../../../../test/graphql/mocks/line";
 import wait from "../../../../../test/helpers/wait";
 
 const defaultProps = {
-  ...line,
-  lineRows: [lineRow]
+  id: line.id
 };
-
-// TODO:- fix act warnings produced by contexts
 
 const mount = (props: Partial<Props> = {}) =>
   render(
@@ -30,32 +29,30 @@ const mount = (props: Partial<Props> = {}) =>
   );
 
 describe("LineHeaderContainer", () => {
-  beforeEach(() => {
-    
-  })
   afterEach(() => {
     SpeechMock.mockClear();
   });
 
   it("renders player bubble when line has player", async () => {
-    const screen = mount({ player: "test-player" });
+    const screen = mount();
 
-    expect(screen.getByTestId("player-bubble")).toBeDefined();
-    await act(() => wait(100));
+    expect(await screen.findByTestId("player-bubble")).toBeDefined();
   });
 
   it("does not render player bubble when line has no player", async () => {
-    const screen = mount({ player: undefined });
+    const screen = mount({ id: sceneDirectionLine.id });
+
+    await waitFor(() => expect(screen.getByTestId("play-line-header")));
 
     expect(screen.queryByTestId("player-bubble")).toBeNull();
-    await act(() => wait(100));
   });
 
   it("does not render profile icon in player bubble when line has different player", async () => {
-    const screen = mount({ player: "random-player" });
+    const screen = mount();
+
+    await waitFor(() => expect(screen.getByTestId("play-line-header")));
 
     expect(screen.queryByTestId("player-user-icon")).toBeNull();
-    await act(() => wait(100));
   });
 
   it("renders profile icon in player bubble when line has selected player", async () => {
@@ -71,13 +68,12 @@ describe("LineHeaderContainer", () => {
     await waitFor(() =>
       expect(screen.queryByTestId("player-user-icon")).toBeDefined()
     );
-    await act(() => wait(100));
   });
 
   it("sets active line on press", async () => {
     const screen = mount();
 
-    fireEvent.press(screen.getByTestId("play-line-header"));
+    fireEvent.press(await screen.findByTestId("play-line-header"));
     await waitFor(() =>
       expect(screen.getByTestId("play-line-header").props.highlighted).toEqual(
         true
@@ -88,7 +84,7 @@ describe("LineHeaderContainer", () => {
   it("stops audio on press", async () => {
     const screen = mount();
 
-    fireEvent.press(screen.getByTestId("play-line-header"));
+    fireEvent.press(await screen.findByTestId("play-line-header"));
     await waitFor(() => expect(SpeechMock.stop).toHaveBeenCalledTimes(1));
     await act(() => wait(100));
   });

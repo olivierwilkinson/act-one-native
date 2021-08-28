@@ -1,4 +1,4 @@
-import React, { memo, useContext } from "react";
+import React, { memo } from "react";
 
 import PlayHeader from "./PlayHeader";
 import { PlayNavigationProp } from "../../../types/navigation-types";
@@ -19,7 +19,7 @@ const PlayHeaderContainer = ({ playId, navigation }: Props) => {
 
   const { data: { play } = {} } = useQuery<GetPlayHeader>(GET_PLAY_HEADER, {
     variables: { id: playId },
-    skip: !playId,
+    skip: !playId
   });
 
   return (

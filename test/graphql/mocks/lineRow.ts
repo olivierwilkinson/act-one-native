@@ -19,7 +19,17 @@ export const otherLineRow: LineRowFragment = {
   text: "Other line in a play no one will read"
 };
 
+export const sceneDirectionLineRow: LineRowFragment = {
+  __typename: "LineRow",
+  id: 32,
+  index: 2,
+  number: null,
+  lineId: -1,
+  text: "Exeunt"
+};
+
 export const lineRowById = createMockLookup({
   lineRow,
-  otherLineRow
+  otherLineRow,
+  sceneDirectionLineRow
 });

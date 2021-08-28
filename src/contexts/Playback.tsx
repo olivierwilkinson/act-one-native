@@ -10,22 +10,22 @@ import { usePlaySettings } from "./PlaySettings";
 import { usePlayPosition } from "./PlayPosition";
 import { getLineText } from "../helpers/play";
 
-import GET_PLAYBACK_PROVIDER_SCENE from "./GetPlaybackProviderScene.graphql";
+import GET_PLAYBACK_PROVIDER_SCENE from "./queries/GetPlaybackProviderScene.graphql";
 import {
   GetPlaybackProviderScene,
-  GetPlaybackProviderSceneVariables,
+  GetPlaybackProviderSceneVariables
 } from "./queries/types/GetPlaybackProviderScene";
 
 export enum PlaybackMode {
   Play = "PLAY",
-  Record = "RECORD",
+  Record = "RECORD"
 }
 
 export enum PlaybackState {
   Running = "RUNNING",
   Paused = "PAUSED",
   Stopped = "STOPPED",
-  Recording = "RECORDING",
+  Recording = "RECORDING"
 }
 
 export interface PlaybackContextValue {
@@ -39,7 +39,7 @@ const PlaybackContext = React.createContext<PlaybackContextValue>({
   mode: PlaybackMode.Play,
   setMode: () => null,
   start: () => null,
-  stop: () => null,
+  stop: () => null
 });
 
 type Props = {
@@ -68,7 +68,7 @@ export const PlaybackProvider = ({ children }: Props) => {
     GetPlaybackProviderSceneVariables
   >(GET_PLAYBACK_PROVIDER_SCENE, {
     variables: { where: { id: activeSceneId } },
-    skip: !activeSceneId,
+    skip: !activeSceneId
   });
 
   const lines = useMemo(
@@ -77,7 +77,6 @@ export const PlaybackProvider = ({ children }: Props) => {
   );
 
   const run: (line: Line) => Promise<void> = async (line: Line) => {
-    console.log("run", line);
     try {
       switch (mode) {
         case PlaybackMode.Play:
@@ -153,7 +152,7 @@ export const PlaybackProvider = ({ children }: Props) => {
         stop: () => {
           stoppedFlag.current = true;
           return stop();
-        },
+        }
       }}
     >
       {children}

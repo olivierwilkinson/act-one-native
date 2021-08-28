@@ -17,7 +17,16 @@ export const otherLine: LineFragment = {
   sceneId: -1
 };
 
+export const sceneDirectionLine: LineFragment = {
+  __typename: "Line",
+  id: 22,
+  index: 2,
+  player: "",
+  sceneId: -1
+};
+
 export const lineById = createMockLookup({
   line,
-  otherLine
+  otherLine,
+  sceneDirectionLine
 });
