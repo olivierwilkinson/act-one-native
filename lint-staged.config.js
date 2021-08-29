@@ -5,7 +5,7 @@ const javascriptLinters = [
   "git add"
 ];
 const typescriptLinters = filenames => [
-  "yarn check-types",
+  "yarn typecheck",
   ...javascriptLinters.map(command => `${command} ${filenames.join(" ")}`)
 ];
 
