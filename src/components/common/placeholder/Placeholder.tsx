@@ -1,22 +1,22 @@
 import React from "react";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, StyleProp, ViewStyle } from "react-native";
 import styled from "styled-components/native";
 import { SimpleLineIcons } from "@expo/vector-icons";
 
 import { subFont, bigSizeFont, buttonFont } from "../../../styles/typography";
-import { secondaryColour } from "../../../styles/colours";
+import { secondaryColour, darkGray } from "../../../styles/colours";
 import Button from "../button/Button";
 
 const PlaceholderView = styled.SafeAreaView`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
 `;
 
 const MessageText = styled.Text`
   ${bigSizeFont}
   ${subFont}
+  color: ${darkGray}
   margin: 10px 0 20px 0;
 `;
 
@@ -35,20 +35,24 @@ const ButtonText = styled.Text`
 export type Props = {
   message?: string;
   loading?: boolean;
+  error?: boolean;
   size?: number | "small" | "large";
   retry?: () => void;
+  style?: StyleProp<ViewStyle>;
 };
 
 export default ({
   message,
   loading = false,
+  error = false,
   size = "large",
-  retry = () => {}
+  retry,
+  style
 }: Props) => (
-  <PlaceholderView>
-    {loading && <ActivityIndicator size={size} animating />}
+  <PlaceholderView style={style}>
     {message && <MessageText>{message}</MessageText>}
-    {!loading && (
+    {loading && <ActivityIndicator size={size} animating />}
+    {error && !loading && retry && (
       <RetryButton onPress={retry}>
         <SimpleLineIcons name="refresh" size={24} color={secondaryColour} />
         <ButtonText>Retry</ButtonText>
