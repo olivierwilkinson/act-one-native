@@ -7,13 +7,15 @@ import localPlays from "../../../data/plays";
 import GET_PLAY_LIST_CONTAINER from "./GetPlayListContainer.graphql";
 import { GetPlayListContainer } from "./types/GetPlayListContainer";
 import Placeholder from "../../common/placeholder/Placeholder";
+import { StyleProp, ViewStyle } from "react-native";
 
 export type Props = {
   goToPlay: (playId: number) => void;
+  style?: StyleProp<ViewStyle>;
 };
 
-export default ({ goToPlay }: Props) => {
-  const { data: { plays = [] } = {}, loading, refetch } = useQuery<
+export default ({ goToPlay, style }: Props) => {
+  const { data: { plays = [] } = {}, loading, error, refetch } = useQuery<
     GetPlayListContainer
   >(GET_PLAY_LIST_CONTAINER);
 
@@ -22,7 +24,9 @@ export default ({ goToPlay }: Props) => {
       <Placeholder
         message={loading ? "Loading scripts..." : "No scripts found"}
         loading={loading}
-        retry={() => refetch()}
+        error={!!error}
+        retry={refetch}
+        style={style}
       />
     );
   }

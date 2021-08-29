@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList } from "react-native";
+import { FlatList, StyleProp, ViewStyle } from "react-native";
 
 import PlayListItem from "../playListItem/PlayListItem";
 
@@ -11,6 +11,7 @@ import { PlayFragment } from "../../../graphql/fragments/types/PlayFragment";
 type Props = {
   plays: (PlayFragment | LocalPlayData)[];
   goToPlay: (playId: number) => void;
+  style?: StyleProp<ViewStyle>;
 };
 
 export default ({ plays, goToPlay }: Props) => (

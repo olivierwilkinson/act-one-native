@@ -10,8 +10,12 @@ import Placeholder from "../../common/placeholder/Placeholder";
 export default () => {
   const { activeSceneId } = usePlayPosition();
 
-  const { data, loading } = useQuery<GetScene, GetSceneVariables>(GET_SCENE, {
-    variables: { where: { id: activeSceneId } }
+  const { data, loading, error, refetch } = useQuery<
+    GetScene,
+    GetSceneVariables
+  >(GET_SCENE, {
+    variables: { where: { id: activeSceneId } },
+    skip: !activeSceneId
   });
 
   const lineIds = useMemo(
@@ -23,7 +27,15 @@ export default () => {
   );
 
   if (!data?.scene) {
-    return <Placeholder loading={loading} />;
+    const showLoading = !activeSceneId || loading;
+    return (
+      <Placeholder
+        loading={showLoading}
+        message={showLoading ? "Loading scene..." : "Unable to load scene"}
+        error={!!error}
+        retry={refetch}
+      />
+    );
   }
 
   return (
