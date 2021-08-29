@@ -1,10 +1,10 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import PlayScreen from "../screens/PlayScreen";
 import { MainStackParamList } from "../types/navigation-types";
-import BottomTabStack from "./BottomTabStack";
 import Header from "../components/common/header/Header";
+import BottomTabStack from "./BottomTabStack";
+import * as Play from "../screens/PlayScreen";
 
 const Stack = createStackNavigator<MainStackParamList>();
 
@@ -15,10 +15,14 @@ export default function AppStack() {
         name="Tabs"
         component={BottomTabStack}
         options={{
-          header: () => <Header />,
+          header: () => <Header />
         }}
       />
-      <Stack.Screen name="Play" component={PlayScreen} />
+      <Stack.Screen
+        name="Play"
+        component={Play.Screen}
+        options={{ header: Play.Header }}
+      />
     </Stack.Navigator>
   );
 }

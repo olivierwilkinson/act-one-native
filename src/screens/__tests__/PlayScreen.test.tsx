@@ -1,11 +1,11 @@
 import "react-native";
 import React from "react";
-import { render, waitFor } from "react-native-testing-library";
+import { fireEvent, render, waitFor } from "react-native-testing-library";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import { getStoredSettings, setStoredSettings } from "../../helpers/storage";
-import PlayScreen from "../PlayScreen";
+import { Screen, Header } from "../PlayScreen";
 import AppProviders from "../../components/app/appProviders/AppProviders";
 import { play } from "../../../test/graphql/mocks/play";
 import { lineRow } from "../../../test/graphql/mocks/lineRow";
@@ -44,7 +44,8 @@ const mount = (
         <Stack.Navigator>
           <Stack.Screen
             name="Play"
-            component={PlayScreen}
+            component={Screen}
+            options={{ header: Header }}
             initialParams={{ playId }}
           />
         </Stack.Navigator>
@@ -96,6 +97,16 @@ describe("PlayScreen", () => {
     await waitFor(() => expect(getStoredSettingsMock).toHaveBeenCalled());
     await waitFor(() =>
       expect(setStoredSettingsMock).toHaveBeenCalledWith(play, {})
+    );
+  });
+
+  it("opens play settings when header settings button pressed", async () => {
+    const screen = mount();
+
+    fireEvent.press(await screen.findByTestId("header-right-button"));
+
+    await waitFor(() =>
+      expect(screen.getByText("Play Settings")).toBeDefined()
     );
   });
 

@@ -5,7 +5,7 @@ import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 // Param Lists
 export type MainStackParamList = {
   Tabs: undefined;
-  Play: { playId: number };
+  Play: { playId: number; showSettings?: boolean };
 };
 
 export type BottomTabStackParamList = {

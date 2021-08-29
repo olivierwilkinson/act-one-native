@@ -1,7 +1,15 @@
-import React, { useState, ReactNode, useRef, useMemo, useContext } from "react";
+import React, {
+  useState,
+  ReactNode,
+  useRef,
+  useMemo,
+  useContext,
+  useEffect
+} from "react";
 import { AUDIO_RECORDING } from "expo-permissions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useQuery } from "@apollo/client";
+import { useNavigation } from "@react-navigation/native";
 
 import { useAuth } from "./Auth";
 import { useAudio } from "./Audio";
@@ -51,6 +59,7 @@ type Line = {
 };
 
 export const PlaybackProvider = ({ children }: Props) => {
+  const navigation = useNavigation();
   const { permissions, requesting, ask } = usePermissions();
   const { play, record, speak, stop } = useAudio();
   const { user, openLoginModal } = useAuth();
@@ -116,6 +125,11 @@ export const PlaybackProvider = ({ children }: Props) => {
     !!permissions[AUDIO_RECORDING]?.granted &&
     permissions[AUDIO_RECORDING]?.status !== "denied" &&
     !requesting.includes(AUDIO_RECORDING);
+
+  // stop playback when the screen is popped from the stack
+  useEffect(() => {
+    return navigation.addListener("blur", stop);
+  }, [navigation, stop]);
 
   return (
     <PlaybackContext.Provider
