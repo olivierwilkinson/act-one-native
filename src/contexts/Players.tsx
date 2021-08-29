@@ -34,7 +34,7 @@ export const PlayersProvider = ({ playId, children }: Props) => {
     }
   );
 
-  const players = useMemo(() => findPlayers(play?.scenes || []), [play]);
+  const players = useMemo(() => findPlayers(play?.scenes || []).sort(), [play]);
   const colourByPlayer = useMemo(() => createColourByPlayer(players), [
     players
   ]);
