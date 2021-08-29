@@ -47,9 +47,8 @@ export const findPlayers: (scenes: Scene[]) => string[] = scenes => {
 };
 
 export const createColourByPlayer: (
-  scenes: Scene[]
-) => ColourByPlayer = scenes => {
-  const players = findPlayers(scenes);
+  players: string[]
+) => ColourByPlayer = players => {
   const colours = palette("tol-rainbow", players.length);
 
   return players.reduce<ColourByPlayer>(

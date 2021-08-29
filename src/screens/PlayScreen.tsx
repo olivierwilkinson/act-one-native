@@ -33,7 +33,6 @@ export const Screen = ({ route: { params }, navigation }: Props) => {
       <Play />
 
       <PlaySettingsModalContainer
-        playId={playId}
         visible={!!showSettings}
         onClose={() => navigation.setParams({ showSettings: false })}
       />

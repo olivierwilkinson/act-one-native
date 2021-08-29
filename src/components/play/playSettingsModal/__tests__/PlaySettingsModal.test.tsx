@@ -5,6 +5,7 @@ import { Picker } from "@react-native-community/picker";
 import PlaySettingsModal, { Props } from "../PlaySettingsModal";
 import { otherScene, scene } from "../../../../../test/graphql/mocks/scene";
 import { line, otherLine } from "../../../../../test/graphql/mocks/line";
+import { findPlayers } from "../../../../helpers/play";
 
 const scenes = [
   { ...scene, lines: [{ ...line, lineRows: [] }] },
@@ -12,7 +13,7 @@ const scenes = [
 ];
 
 const defaultProps = {
-  scenes,
+  players: findPlayers(scenes),
   visible: true,
   onClose: () => {},
   onPlayerSelected: () => {}

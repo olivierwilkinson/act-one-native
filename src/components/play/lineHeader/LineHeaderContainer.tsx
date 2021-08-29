@@ -8,6 +8,7 @@ import LineHeader from "./LineHeader";
 import GET_LINE_HEADER from "./GetLineHeader.graphql";
 import { GetLineHeader, GetLineHeaderVariables } from "./types/GetLineHeader";
 import Placeholder from "../../common/placeholder/Placeholder";
+import { usePlayers } from "../../../contexts/Players";
 
 export type Props = {
   id: number;
@@ -16,7 +17,8 @@ export type Props = {
 const LineHeaderContainer = ({ id }: Props) => {
   const { activeLineId, setActiveLineId } = usePlayPosition();
   const { settings: { selectedPlayer = "" } = {} } = usePlaySettings();
-  const { stop } = usePlayback()
+  const { colourByPlayer } = usePlayers();
+  const { stop } = usePlayback();
   const isCurrentLine = activeLineId === id;
 
   const { data: { line } = {}, loading } = useQuery<
@@ -36,7 +38,7 @@ const LineHeaderContainer = ({ id }: Props) => {
       }}
       highlighted={isCurrentLine}
       player={line.player}
-      // colour={colourByPlayer[player]}
+      colour={colourByPlayer[line.player]}
       isSelected={selectedPlayer === line.player}
     />
   );

@@ -1,7 +1,12 @@
 import { line, otherLine } from "../../../test/graphql/mocks/line";
 import { lineRow, otherLineRow } from "../../../test/graphql/mocks/lineRow";
 import { otherScene, scene } from "../../../test/graphql/mocks/scene";
-import { findActiveScene, getLineText, createColourByPlayer } from "../play";
+import {
+  findActiveScene,
+  getLineText,
+  createColourByPlayer,
+  findPlayers
+} from "../play";
 import colourByPlayer from "./data/colourByPlayer.json";
 
 const firstScene = { ...scene, lines: [{ ...line, lineRows: [] }] };
@@ -51,7 +56,7 @@ describe("play helpers", () => {
 
   describe("#createColourByPlayer", () => {
     it("creates colourByPlayer object correctly", () => {
-      expect(createColourByPlayer(scenes)).toEqual(colourByPlayer);
+      expect(createColourByPlayer(findPlayers(scenes))).toEqual(colourByPlayer);
     });
   });
 });
