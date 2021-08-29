@@ -14,6 +14,7 @@
     "publish:test": "API_BASE_URL=https://backend-test.actone.live expo publish --target managed",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "typecheck:build": "tsc -p tsconfig.build.json --noEmit",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "sync-gql": "./scripts/gql/get-gql-schema.sh && ./scripts/gql/update-gql-types.sh",
     "update-gql-types": "./scripts/gql/update-gql-types.sh",
     "proxy": "cloudflared tunnel --hostname=\"backend-proxy.actone.live\" --url=\"http://localhost:8000\""
