@@ -58,12 +58,13 @@ export default function GoogleSignInButton({
   onLogin,
   disabled = false
 }: Props) {
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+
   const clientId = getClientId();
   if (!clientId) {
     return null;
   }
 
-  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const login = async () => {
     setIsLoggingIn(true);
 

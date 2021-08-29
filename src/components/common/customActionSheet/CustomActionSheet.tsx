@@ -76,7 +76,7 @@ export default ({ visible, children, onDone, onCancel }: Props) => {
       duration: 300,
       useNativeDriver: true
     }).start();
-  }, [visible]);
+  }, [visible, opacity]);
 
   return (
     <FadeInView pointerEvents="box-none" style={{ opacity }}>

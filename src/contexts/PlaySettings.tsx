@@ -29,13 +29,13 @@ export const PlaySettingsProvider = ({ playId, children }: Props) => {
     getStoredSettings(playId).then(storedSettings =>
       setSettings(storedSettings || {})
     );
-  }, [getStoredSettings, playId, setSettings]);
+  }, [playId, setSettings]);
 
   useEffect(() => {
     if (settings) {
       setStoredSettings(playId, settings);
     }
-  }, [setStoredSettings, playId, settings]);
+  }, [playId, settings]);
 
   return (
     <PlaySettingsContext.Provider

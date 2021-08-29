@@ -64,7 +64,7 @@ export const PlayNavigationProvider = ({ playId, children }: Props) => {
       goToPreviousScene,
       openSceneSelect: () => setSceneSelectActive(true)
     };
-  }, [play, settings]);
+  }, [play, settings, setSettings]);
 
   useEffect(() => {
     if (settings) {

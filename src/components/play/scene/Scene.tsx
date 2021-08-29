@@ -30,7 +30,7 @@ const Scene = ({ lineIds, actNum, sceneNum }: Props) => {
         animated: false
       });
     }
-  }, [previousActNum, actNum, previousSceneNum, sceneNum]);
+  }, [previousActNum, actNum, previousSceneNum, sceneNum, lineIds.length]);
 
   return (
     <SectionList

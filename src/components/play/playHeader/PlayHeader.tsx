@@ -40,7 +40,7 @@ export default ({
         />
       )
     });
-  }, [navigation, onBackPress, onSettingsPress]);
+  }, [title, navigation, onBackPress, onSettingsPress]);
 
   return null;
 };

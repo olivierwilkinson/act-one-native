@@ -61,7 +61,7 @@ export default ({ audioState, ...touchableProps }: Props) => {
         scaleTo.setValue(0);
         break;
     }
-  }, [audioState]);
+  }, [audioState, borderRadiusTo, scaleTo]);
 
   return (
     <TouchableWithoutFeedback testID="record-button" {...touchableProps}>

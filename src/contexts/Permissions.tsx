@@ -3,7 +3,8 @@ import React, {
   ReactNode,
   useEffect,
   useCallback,
-  useContext
+  useContext,
+  useRef
 } from "react";
 import {
   PermissionType,
@@ -44,9 +45,12 @@ type Props = {
 };
 
 export const PermissionsProvider = ({ children }: Props) => {
-  const [permissions, setPermissions] = useState({});
+  const [permissions, setPermissions] = useState<
+    PermissionResponse["permissions"]
+  >({});
   const [requesting, setRequesting] = useState<PermissionType[]>([]);
   const isMounted = useIsMounted();
+  const needsAppPermissions = useRef(true);
 
   const requestPermissions = useCallback(
     (fn: PermissionsRequest, types: PermissionType[]) => {
@@ -65,22 +69,25 @@ export const PermissionsProvider = ({ children }: Props) => {
           }
         });
     },
-    [setPermissions, setRequesting]
+    [setPermissions, requesting, setRequesting, isMounted]
   );
 
   const ask = useCallback(
     (...types: PermissionType[]) => requestPermissions(askAsync, types),
-    [requestPermissions, askAsync]
+    [requestPermissions]
   );
 
   const get = useCallback(
     (...types: PermissionType[]) => requestPermissions(getAsync, types),
-    [requestPermissions, getAsync]
+    [requestPermissions]
   );
 
   useEffect(() => {
-    get(...appPermissions);
-  }, []);
+    if (needsAppPermissions.current) {
+      get(...appPermissions);
+      needsAppPermissions.current = false;
+    }
+  }, [get]);
 
   return (
     <PermissionsContext.Provider
