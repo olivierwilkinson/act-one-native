@@ -141,7 +141,7 @@ describe("Play", () => {
     );
   });
 
-  it.only("scrolls lines to the top when act changes", async () => {
+  it("scrolls lines to the top when act changes", async () => {
     const scrollToLocationSpy = jest.spyOn(
       SectionList.prototype,
       "scrollToLocation"
@@ -156,11 +156,13 @@ describe("Play", () => {
     fireEvent.press(await screen.findByTestId("next-scene-button"));
     await screen.findByText("ACT 2 - SCENE 1");
 
-    expect(scrollToLocationSpy).toHaveBeenCalledWith({
-      animated: false,
-      sectionIndex: 0,
-      itemIndex: 0
-    });
+    await waitFor(() =>
+      expect(scrollToLocationSpy).toHaveBeenCalledWith({
+        animated: false,
+        sectionIndex: 0,
+        itemIndex: 0
+      })
+    );
   });
 
   // Might actually be broken

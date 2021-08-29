@@ -21,8 +21,7 @@ const Scene = ({ lineIds, actNum, sceneNum }: Props) => {
     if (
       sceneElement &&
       sceneElement.current &&
-      previousActNum !== actNum &&
-      previousSceneNum !== sceneNum &&
+      (previousActNum !== actNum || previousSceneNum !== sceneNum) &&
       lineIds.length > 0
     ) {
       sceneElement.current.scrollToLocation({
