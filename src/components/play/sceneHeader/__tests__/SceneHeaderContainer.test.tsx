@@ -56,7 +56,7 @@ describe("SceneHeaderContainer", () => {
     await waitFor(() => expect(screen.getByText("Scene Select")).toBeDefined());
   });
 
-  it("does not render previous scene button", async () => {
+  it("does not render previous scene button when on first scene", async () => {
     const screen = mount();
 
     await waitFor(() =>

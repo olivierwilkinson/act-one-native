@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import { useQuery } from "@apollo/client";
 
 import { usePlaySettings } from "./PlaySettings";
-import { createPlayNavigation } from "../helpers/contexts";
-import usePrevious from "../hooks/usePrevious";
-import SceneSelectModalContainer from "../components/play/sceneSelectModal/SceneSelectModalContainer";
+import { findActiveScene } from "../helpers/play";
+
 import { GetPlay } from "../graphql/queries/types/GetPlay";
 import GET_PLAY from "../graphql/queries/GetPlay.graphql";
 
+import SceneSelectModalContainer from "../components/play/sceneSelectModal/SceneSelectModalContainer";
 export interface PlayNavigation {
   goToNextScene?: () => void;
   goToPreviousScene?: () => void;
@@ -25,7 +25,6 @@ type Props = {
 
 export const PlayNavigationProvider = ({ playId, children }: Props) => {
   const { settings, setSettings } = usePlaySettings();
-  const previousSettings = usePrevious(settings);
 
   const { data: { play } = {} } = useQuery<GetPlay>(GET_PLAY, {
     variables: { where: { id: playId } },
@@ -33,29 +32,39 @@ export const PlayNavigationProvider = ({ playId, children }: Props) => {
   });
 
   const [sceneSelectActive, setSceneSelectActive] = useState(false);
-  const [playNavigation, setPlayNavigation] = useState(
-    createPlayNavigation({
-      play,
-      settings,
-      setSettings,
-      setSceneSelectActive
-    })
-  );
 
-  useEffect(() => {
-    if (!previousSettings || !settings) {
-      return;
-    }
+  const playNavigation = useMemo(() => {
+    if (!play) return { openSceneSelect: () => setSceneSelectActive(true) };
 
-    setPlayNavigation(
-      createPlayNavigation({
-        play,
-        settings,
-        setSettings,
-        setSceneSelectActive
-      })
-    );
-  }, [play, settings, previousSettings, setSettings, setSceneSelectActive]);
+    const scenes = [...play.scenes].sort((a, b) => a.index - b.index);
+    const activeScene = findActiveScene(play.scenes, settings);
+    const sceneIndex = activeScene ? scenes.indexOf(activeScene) : -1;
+
+    const nextScene = scenes[sceneIndex + 1];
+    const previousScene = scenes[sceneIndex - 1];
+
+    const goToNextScene =
+      nextScene &&
+      (() =>
+        setSettings({
+          actNum: nextScene.actNum,
+          sceneNum: nextScene.sceneNum
+        }));
+
+    const goToPreviousScene =
+      previousScene &&
+      (() =>
+        setSettings({
+          actNum: previousScene.actNum,
+          sceneNum: previousScene.sceneNum
+        }));
+
+    return {
+      goToNextScene,
+      goToPreviousScene,
+      openSceneSelect: () => setSceneSelectActive(true)
+    };
+  }, [play, settings]);
 
   useEffect(() => {
     if (settings) {
