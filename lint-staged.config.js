@@ -1,6 +1,6 @@
 const javascriptLinters = [
-  "prettier --write",
   "eslint --fix",
+  "prettier --write",
   "yarn test --findRelatedTests --bail",
   "git add"
 ];
