@@ -4,7 +4,7 @@ import styled from "styled-components/native";
 
 import {
   lightPrimaryColour,
-  playBackgroundColour,
+  playBackgroundColour
 } from "../../../styles/colours";
 import LineRowContainer from "../lineRow/LineRowContainer";
 
@@ -31,7 +31,7 @@ const Line = ({ id, italic, highlighted, lineRowIds, onPress }: Props) => (
     underlayColor="transparent"
   >
     <LineView testID={`play-line-view-${id}`} highlighted={highlighted}>
-      {lineRowIds.map((lineRowId) => (
+      {lineRowIds.map(lineRowId => (
         <LineRowContainer key={lineRowId} id={lineRowId} italic={italic} />
       ))}
     </LineView>

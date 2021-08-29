@@ -18,7 +18,7 @@ export const findActiveScene = (
 };
 
 export const getLineText = ({
-  lineRows,
+  lineRows
 }: {
   lineRows: { index: number; text: string }[];
 }) => {
@@ -35,20 +35,20 @@ export const getLineText = ({
     }, "");
 };
 
-export const findPlayers: (scenes: Scene[]) => string[] = (scenes) => {
+export const findPlayers: (scenes: Scene[]) => string[] = scenes => {
   return Array.from(
     new Set(
       scenes.reduce<string[]>(
-        (acc, { lines }) => [...acc, ...lines.map((line) => line.player)],
+        (acc, { lines }) => [...acc, ...lines.map(line => line.player)],
         []
       )
     )
   );
 };
 
-export const createColourByPlayer: (scenes: Scene[]) => ColourByPlayer = (
-  scenes
-) => {
+export const createColourByPlayer: (
+  scenes: Scene[]
+) => ColourByPlayer = scenes => {
   const players = findPlayers(scenes);
   const colours = palette("tol-rainbow", players.length);
 
@@ -59,7 +59,7 @@ export const createColourByPlayer: (scenes: Scene[]) => ColourByPlayer = (
 
       return {
         ...colourByPlayer,
-        [player]: colour,
+        [player]: colour
       };
     },
     {}

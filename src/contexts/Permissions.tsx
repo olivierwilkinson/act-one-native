@@ -1,10 +1,16 @@
-import React, { useState, ReactNode, useEffect, useCallback, useContext } from "react";
+import React, {
+  useState,
+  ReactNode,
+  useEffect,
+  useCallback,
+  useContext
+} from "react";
 import {
   PermissionType,
   PermissionResponse,
   AUDIO_RECORDING,
   getAsync,
-  askAsync,
+  askAsync
 } from "expo-permissions";
 
 import useIsMounted from "../hooks/useIsMounted";
@@ -47,15 +53,15 @@ export const PermissionsProvider = ({ children }: Props) => {
       setRequesting(types);
 
       fn(...types)
-        .then((res) => {
+        .then(res => {
           if (isMounted.current) {
             setPermissions(res.permissions);
-            setRequesting(requesting.filter((type) => types.includes(type)));
+            setRequesting(requesting.filter(type => types.includes(type)));
           }
         })
         .catch(() => {
           if (!isMounted.current) {
-            setRequesting(requesting.filter((type) => types.includes(type)));
+            setRequesting(requesting.filter(type => types.includes(type)));
           }
         });
     },
@@ -82,7 +88,7 @@ export const PermissionsProvider = ({ children }: Props) => {
         permissions,
         requesting,
         ask,
-        get,
+        get
       }}
     >
       {children}

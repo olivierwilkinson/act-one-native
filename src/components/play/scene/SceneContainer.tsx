@@ -11,14 +11,14 @@ export default () => {
   const { activeSceneId } = usePlayPosition();
 
   const { data, loading } = useQuery<GetScene, GetSceneVariables>(GET_SCENE, {
-    variables: { where: { id: activeSceneId } },
+    variables: { where: { id: activeSceneId } }
   });
 
   const lineIds = useMemo(
     () =>
       [...(data?.scene?.lines || [])]
         .sort((a, b) => a.index - b.index)
-        .map((line) => line.id),
+        .map(line => line.id),
     [data?.scene?.lines]
   );
 

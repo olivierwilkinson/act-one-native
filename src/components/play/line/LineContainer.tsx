@@ -26,7 +26,7 @@ const LineContainer = ({ id }: Props) => {
     () =>
       [...(line?.lineRows || [])]
         .sort((a, b) => a.index - b.index)
-        .map((lineRow) => lineRow.id),
+        .map(lineRow => lineRow.id),
     [line?.lineRows]
   );
 

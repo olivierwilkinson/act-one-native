@@ -116,7 +116,7 @@ export default ({ scenes, activeSceneId, onScenePress }: Props) => {
           </SceneView>
         </TouchableHighlight>
       )}
-      keyExtractor={(item) => `${item.actNum}-${item.sceneNum}`}
+      keyExtractor={item => `${item.actNum}-${item.sceneNum}`}
       stickySectionHeadersEnabled
     />
   );
