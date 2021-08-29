@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 import Modal from "react-native-modal";
 
 import { titleFont, bigSizeFont } from "../../../styles/typography";
-import { primaryColour, lightGray } from "../../../styles/colours";
+import { primaryColour } from "../../../styles/colours";
 
 const ContentView = styled.View`
   height: 100%;
@@ -11,7 +11,6 @@ const ContentView = styled.View`
   background: white;
   border-radius: 40px;
   margin-top: 100px;
-  background-color: ${lightGray};
 `;
 
 const TitleView = styled.View`
