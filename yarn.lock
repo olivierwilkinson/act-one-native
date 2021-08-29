@@ -10497,10 +10497,10 @@ react-native-reanimated@~2.2.0:
     mockdate "^3.0.2"
     string-hash-64 "^1.0.3"
 
-react-native-reanimation@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/react-native-reanimation/-/react-native-reanimation-0.0.6.tgz#1729f7d663892d754b4397695bedfb4d0964614f"
-  integrity sha512-iUIzaiXlPocmeqrUmJIwfKA397f6NG7MGJBRxq9HHk0Pi9M8BFk8nuVqaHkv2y4YatctaXuXyS29uU9qjdUQXA==
+react-native-reanimation@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-reanimation/-/react-native-reanimation-1.0.1.tgz#4075a0af4f7417b179e0f9ddb71c0c95af1a6752"
+  integrity sha512-FhFzaOJBjwA29JyCTLsbIlqQEpyaRvF/IoHT7vyJgosGMG9g6n2KGxppTuAfupyCAeVr0GOmWZTWPMLoxUfL2A==
 
 react-native-safe-area-context@3.2.0:
   version "3.2.0"
