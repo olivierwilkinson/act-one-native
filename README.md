@@ -16,6 +16,14 @@ used to learn about React Native as much as it is to build a useful app.
 
 ## Usage
 
+### Getting Started
+
+The backend for this app can be found here: [ActOne Backend](https://github.com/olivierwilkinson/act-one-backend)
+
+Before starting the app using the instructions below, you will need to create the `secret-configs/google-auth.json` and `secret-configs/sentry.json` files, these can be filled with an empty object: `{}`.
+
+Once you have the app and backend running you can sign up or log in using email and password. This is the recommended way to authenticate within the app for development.
+
 ### Scripts
 
 install dependencies: `yarn`
@@ -25,13 +33,6 @@ start dev server: `yarn dev`
 run tests: `yarn test`
 
 check types: `yarn check-types`
-
-### Logging into the app using a local backend
-
-The backend for this app can be found here: [ActOne Backend](https://github.com/olivierwilkinson/act-one-backend)
-
-Once the backend is running you can sign up or log in using email and password.
-This is the recommended way to authenticate within the app for development.
 
 ## Committing
 
