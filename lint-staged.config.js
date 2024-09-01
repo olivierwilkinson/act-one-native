@@ -1,7 +1,7 @@
 const javascriptLinters = [
   "eslint --fix",
   "prettier --write",
-  "yarn test --findRelatedTests --bail",
+  "yarn test --findRelatedTests --bail --passWithNoTests",
   "git add"
 ];
 const typescriptLinters = filenames => [

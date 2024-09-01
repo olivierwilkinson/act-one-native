@@ -76,7 +76,7 @@ export default ({
     {isSelected && (
       <UserView testID="player-user-icon" {...colour}>
         <Ionicons
-          name="ios-person"
+          name="person"
           size={20}
           color={
             highlighted

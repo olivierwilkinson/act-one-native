@@ -10,7 +10,6 @@ import AppProviders from "../../components/app/appProviders/AppProviders";
 import { play } from "../../../test/graphql/mocks/play";
 import { lineRow } from "../../../test/graphql/mocks/lineRow";
 
-jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
 jest.mock("../../helpers/storage.ts", () => ({
   getStoredSettings: jest.fn().mockResolvedValue(null),
   setStoredSettings: jest.fn().mockResolvedValue(null)
@@ -44,7 +43,7 @@ const mount = (
         <Stack.Navigator>
           <Stack.Screen
             name="Play"
-            component={Screen}
+            component={Screen as any}
             options={{ header: Header }}
             initialParams={{ playId }}
           />

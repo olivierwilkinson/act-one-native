@@ -4,8 +4,11 @@ import {
   TouchableWithoutFeedback,
   TouchableWithoutFeedbackProps
 } from "react-native";
-import Animated from "react-native-reanimated";
-import { useTiming } from "react-native-reanimation";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming
+} from "react-native-reanimated";
 
 import { AudioState } from "../../../contexts/Audio";
 
@@ -32,47 +35,42 @@ export type Props = TouchableWithoutFeedbackProps & {
 };
 
 export default ({ audioState, ...touchableProps }: Props) => {
-  const [borderRadius, , { toValue: borderRadiusTo }] = useTiming({
-    toValue: 20,
-    position: 20,
+  const borderRadius = useSharedValue(20);
+  const scale = useSharedValue(0);
+  const timingConfig = {
     duration: 200
-  });
-  const [scale, , { toValue: scaleTo }] = useTiming({
-    toValue: 0,
-    duration: 200
-  });
+  };
+
+  const animatedRecordingIconStyle = useAnimatedStyle(() => ({
+    borderRadius: borderRadius.value,
+    transform: [{ scale: scale.value }]
+  }));
 
   useEffect(() => {
     switch (audioState) {
       case AudioState.Recording:
-        borderRadiusTo.setValue(5);
-        scaleTo.setValue(0.8);
+        borderRadius.value = withTiming(5, timingConfig);
+        scale.value = withTiming(0.8, timingConfig);
         break;
 
       case AudioState.Playing:
       case AudioState.Speaking:
       case AudioState.Finished:
-        borderRadiusTo.setValue(20);
-        scaleTo.setValue(1);
+        borderRadius.value = withTiming(20, timingConfig);
+        scale.value = withTiming(1, timingConfig);
         break;
 
       default:
-        borderRadiusTo.setValue(20);
-        scaleTo.setValue(0);
+        borderRadius.value = withTiming(20, timingConfig);
+        scale.value = withTiming(0, timingConfig);
         break;
     }
-  }, [audioState, borderRadiusTo, scaleTo]);
+  }, [audioState, borderRadius, scale]);
 
   return (
     <TouchableWithoutFeedback testID="record-button" {...touchableProps}>
       <RecordingIconBorder>
-        <RecordingIcon
-          // @ts-expect-error
-          style={{
-            borderRadius,
-            transform: [{ scale }]
-          }}
-        />
+        <RecordingIcon style={animatedRecordingIconStyle} />
       </RecordingIconBorder>
     </TouchableWithoutFeedback>
   );

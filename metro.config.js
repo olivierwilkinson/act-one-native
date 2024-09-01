@@ -6,12 +6,9 @@ const {
 } = defaultConfig;
 
 module.exports = {
-  transformer: {
-    babelTransformerPath: require.resolve(
-      "@bam.tech/react-native-graphql-transformer"
-    )
-  },
+  ...defaultConfig,
   resolver: {
+    ...defaultConfig.resolver,
     sourceExts: [...sourceExts, "gql", "graphql"]
   }
 };

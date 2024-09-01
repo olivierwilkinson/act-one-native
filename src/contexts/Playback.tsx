@@ -6,14 +6,12 @@ import React, {
   useContext,
   useEffect
 } from "react";
-import { AUDIO_RECORDING } from "expo-permissions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useQuery } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
 
 import { useAuth } from "./Auth";
 import { useAudio } from "./Audio";
-import { usePermissions } from "./Permissions";
 import { usePlaySettings } from "./PlaySettings";
 import { usePlayPosition } from "./PlayPosition";
 import { getLineText } from "../helpers/play";
@@ -60,7 +58,6 @@ type Line = {
 
 export const PlaybackProvider = ({ children }: Props) => {
   const navigation = useNavigation();
-  const { permissions, requesting, ask } = usePermissions();
   const { play, record, speak, stop } = useAudio();
   const { user, openLoginModal } = useAuth();
   const { activeSceneId, activeLineId, setActiveLineId } = usePlayPosition();
@@ -121,11 +118,6 @@ export const PlaybackProvider = ({ children }: Props) => {
     return run(nextLine);
   };
 
-  const canRecord =
-    !!permissions[AUDIO_RECORDING]?.granted &&
-    permissions[AUDIO_RECORDING]?.status !== "denied" &&
-    !requesting.includes(AUDIO_RECORDING);
-
   // stop playback when the screen is popped from the stack
   useEffect(() => {
     return navigation.addListener("blur", stop);
@@ -143,11 +135,6 @@ export const PlaybackProvider = ({ children }: Props) => {
             if (!user) {
               openLoginModal("Sign in to begin recording");
               throw new Error("Unable to record, you must be logged in");
-            }
-
-            if (!canRecord) {
-              ask(AUDIO_RECORDING);
-              throw new Error("Unable to record, insufficient permissions");
             }
           }
 

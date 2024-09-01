@@ -85,7 +85,7 @@ export default ({
           onPress={onPreviousScenePress}
         >
           <IconView>
-            <Ionicons name="ios-arrow-back" size={18} color={mediumGray} />
+            <Ionicons name="arrow-back" size={18} color={mediumGray} />
           </IconView>
         </TouchableHighlight>
       </LeftArrowView>
@@ -101,7 +101,7 @@ export default ({
           onPress={onNextScenePress}
         >
           <IconView>
-            <Ionicons name="ios-arrow-forward" size={18} color={mediumGray} />
+            <Ionicons name="arrow-forward" size={18} color={mediumGray} />
           </IconView>
         </TouchableHighlight>
       </RightArrowView>
@@ -114,7 +114,7 @@ export default ({
         onPress={onSceneSelectPress}
       >
         <IconView>
-          <Ionicons name="ios-list" size={32} color={mediumGray} />
+          <Ionicons name="list" size={32} color={mediumGray} />
         </IconView>
       </TouchableHighlight>
     </SceneSelectView>

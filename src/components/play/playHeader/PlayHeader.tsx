@@ -25,7 +25,7 @@ export default ({ title, onBackPress, onSettingsPress = () => {} }: Props) => {
         onPress: onBackPress
       }}
       right={{
-        view: <Ionicons name="ios-settings" color="white" size={28} />,
+        view: <Ionicons name="settings" color="white" size={28} />,
         onPress: onSettingsPress
       }}
     />

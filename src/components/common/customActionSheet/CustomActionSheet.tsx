@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Animated } from "react-native";
 import styled from "styled-components/native";
-import { css } from "styled-components";
+import { css } from "styled-components/native";
 
 const ModalContentView = styled.SafeAreaView`
   margin-top: auto;

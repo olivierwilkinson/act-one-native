@@ -1,7 +1,6 @@
 import "react-native";
 import React from "react";
 import { render, waitFor } from "react-native-testing-library";
-import { getAsync, askAsync, AUDIO_RECORDING } from "expo-permissions";
 
 import PlaybackControls from "../PlaybackControls";
 import AppProviders from "../../../app/appProviders/AppProviders";
@@ -12,13 +11,12 @@ import pressByText from "../../../../../test/actions/pressByText";
 import pressById from "../../../../../test/actions/pressById";
 import SpeechMock from "../../../../../test/mocks/speech";
 import { play } from "../../../../../test/graphql/mocks/play";
-
-const getAsyncMock = getAsync as jest.Mock;
-const askAsyncMock = askAsync as jest.Mock;
+import LoginModal from "../../../app/loginModal/LoginModal";
 
 const mount = () => {
   const result = render(
     <AppProviders>
+      <LoginModal />
       <PlayProviders playId={play.id}>
         <PlaybackControls />
       </PlayProviders>
@@ -133,24 +131,7 @@ describe("PlaybackControls", () => {
   });
 
   describe("when logged in", () => {
-    it.skip("asks for permission to record when record header pressed", async () => {
-      const screen = mount();
-      await screen.pressRecordHeader();
-
-      expect(askAsyncMock).toHaveBeenCalled();
-    });
-
     describe("with permission to record", () => {
-      beforeEach(() => {
-        getAsyncMock.mockResolvedValue({
-          permissions: {
-            [AUDIO_RECORDING]: {
-              granted: true
-            }
-          }
-        });
-      });
-
       it.todo("enables record mode when record header pressed");
       it.todo("hides play button in record mode");
       it.todo("enables play mode when play header pressed");

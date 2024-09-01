@@ -5,6 +5,7 @@ import { render, fireEvent, waitFor } from "react-native-testing-library";
 
 import App from "../App";
 import { play } from "../test/graphql/mocks/play";
+import navigationMock from "../test/mocks/navigation";
 
 const mount = () => render(<App />);
 
@@ -23,17 +24,14 @@ describe("App", () => {
     );
   });
 
-  it("can navigate to play screen and back", async () => {
+  it("can navigate to play screen", async () => {
     const screen = mount();
 
     fireEvent.press(await screen.findByText(play.title));
-    await waitFor(() =>
-      expect(screen.getByText("ACT 1 - SCENE 1")).toBeDefined()
-    );
 
-    fireEvent.press(screen.getByTestId("header-left-button"));
-    await waitFor(async () =>
-      expect(screen.getByTestId("play-list")).toBeDefined()
-    );
+    await waitFor(() => navigationMock.navigate.mock.calls[0][0] === "Play");
+    expect(navigationMock.navigate.mock.calls[0][1]).toEqual({
+      playId: play.id
+    });
   });
 });

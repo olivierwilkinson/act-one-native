@@ -1,7 +1,7 @@
 import React from "react";
 import { TouchableHighlight, StatusBar } from "react-native";
 import styled from "styled-components/native";
-import { css } from "styled-components";
+import { css } from "styled-components/native";
 
 import { primaryColour } from "../../../styles/colours";
 import { titleFont, bigSizeFont } from "../../../styles/typography";
@@ -57,11 +57,7 @@ export type Props = {
   right?: HeaderAction;
 };
 
-const defaultProps = {
-  title: "ActOne"
-};
-
-const Header = ({ title, left, right }: Props) => (
+const Header = ({ title = "ActOne", left, right }: Props) => (
   <PrimaryHeader>
     <StatusBar barStyle="light-content" />
     <LeftView>
@@ -95,7 +91,5 @@ const Header = ({ title, left, right }: Props) => (
     </RightView>
   </PrimaryHeader>
 );
-
-Header.defaultProps = defaultProps;
 
 export default Header;

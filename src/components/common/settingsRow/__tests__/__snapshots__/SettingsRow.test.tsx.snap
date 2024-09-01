@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingsRow renders correctly 1`] = `
+<View
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+>
+  <View
+    style={
+      [
+        {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "display": "flex",
+          "flexDirection": "row",
+          "height": 70,
+          "paddingBottom": 10,
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "paddingTop": 10,
+          "width": "100%",
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "alignItems": "center",
+            "borderBottomColor": "rgb(240, 240, 240)",
+            "borderBottomWidth": 1,
+            "display": "flex",
+            "flexBasis": 0,
+            "flexDirection": "row",
+            "flexGrow": 1,
+            "flexShrink": 1,
+            "height": "100%",
+            "justifyContent": "space-between",
+            "paddingRight": 10,
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          [
+            {
+              "color": "#202020",
+              "fontSize": 16,
+            },
+          ]
+        }
+      >
+        Setting label
+      </Text>
+      <View
+        style={
+          [
+            {
+              "alignItems": "center",
+              "display": "flex",
+              "flexBasis": 0,
+              "flexDirection": "row",
+              "flexGrow": 3,
+              "flexShrink": 1,
+              "justifyContent": "flex-end",
+              "marginLeft": "auto",
+              "position": "relative",
+            },
+          ]
+        }
+      />
+    </View>
+  </View>
+</View>
+`;

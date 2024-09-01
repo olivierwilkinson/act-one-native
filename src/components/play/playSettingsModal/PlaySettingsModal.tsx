@@ -37,7 +37,7 @@ export default ({
         <SettingsRow
           label="Character"
           value={selectedPlayer}
-          leftIconName="ios-person"
+          leftIconName="person"
           onPress={() => setPlayerSelectActive(true)}
         />
       </SettingsView>

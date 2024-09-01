@@ -49,5 +49,9 @@ export default {
     sentryDSN: sentry.dsn,
     googleAuth,
     apiBaseUrl
+  },
+  plugins: ["sentry-expo", "expo-font"],
+  android: {
+    package: "com.olivierwilkinson.actone"
   }
 };
