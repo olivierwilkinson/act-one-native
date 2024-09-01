@@ -3,7 +3,7 @@ import React from "react";
 import { useAuth } from "../contexts/Auth";
 import Profile from "../components/profile/Profile";
 import { ProfileNavigationProp } from "../types/navigation-types";
-import LoginContainer from "../components/app/login/LoginContainer";
+import Login from "../components/common/login/Login";
 
 export type Props = {
   navigation: ProfileNavigationProp;
@@ -12,7 +12,7 @@ export type Props = {
 export default function ProfileScreen() {
   const { user } = useAuth();
   if (!user) {
-    return <LoginContainer message="Sign In to access your profile" />;
+    return <Login message="Sign In to access your profile" />;
   }
 
   return <Profile name={user.name || ""} picture={user.picture || ""} />;

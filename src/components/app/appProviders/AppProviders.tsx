@@ -7,23 +7,27 @@ import { AuthProvider } from "../../../contexts/Auth";
 import { RecordingProvider } from "../../../contexts/Recording";
 import { SoundProvider } from "../../../contexts/Sound";
 import { AudioProvider } from "../../../contexts/Audio";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export type Props = {
   children: ReactNode;
 };
 
 const AppProviders = ({ children }: Props) => {
-  const client = useMemoOne(createClient, []);
+  const apolloClient = useMemoOne(createClient, []);
+  const tanstackQueryClient = useMemoOne(() => new QueryClient(), []);
 
   return (
-    <ApolloProvider client={client}>
-      <AuthProvider>
-        <RecordingProvider>
-          <SoundProvider>
-            <AudioProvider>{children}</AudioProvider>
-          </SoundProvider>
-        </RecordingProvider>
-      </AuthProvider>
+    <ApolloProvider client={apolloClient}>
+      <QueryClientProvider client={tanstackQueryClient}>
+        <AuthProvider>
+          <RecordingProvider>
+            <SoundProvider>
+              <AudioProvider>{children}</AudioProvider>
+            </SoundProvider>
+          </RecordingProvider>
+        </AuthProvider>
+      </QueryClientProvider>
     </ApolloProvider>
   );
 };

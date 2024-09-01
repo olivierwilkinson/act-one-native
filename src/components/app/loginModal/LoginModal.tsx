@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuth } from "../../../contexts/Auth";
 import CardModal from "../../common/cardModal/CardModal";
-import LoginContainer from "../../app/login/LoginContainer";
+import Login from "../../common/login/Login";
 
 export default function LoginModal() {
   const auth = useAuth();
@@ -12,7 +12,7 @@ export default function LoginModal() {
       visible={auth.isLoginModalActive}
       onClose={auth.closeLoginModal}
     >
-      <LoginContainer message={auth.message} onLogin={auth.closeLoginModal} />
+      <Login message={auth.message} onLogin={auth.closeLoginModal} />
     </CardModal>
   );
 }
