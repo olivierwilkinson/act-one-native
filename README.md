@@ -28,8 +28,10 @@ check types: `yarn check-types`
 
 ### Logging into the app using a local backend
 
-Once the app is running you can sign up or log in using email and password.
-This is the recommended way to authenticate within the app.
+The backend for this app can be found here: [ActOne Backend](https://github.com/olivierwilkinson/act-one-backend)
+
+Once the backend is running you can sign up or log in using email and password.
+This is the recommended way to authenticate within the app for development.
 
 ## Committing
 
