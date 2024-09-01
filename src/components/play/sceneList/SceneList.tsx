@@ -111,7 +111,7 @@ export default ({ scenes, activeSceneId, onScenePress }: Props) => {
             <RightArrowView
               testID={`right-arrow-${scene.actNum}-${scene.sceneNum}`}
             >
-              <Ionicons name="ios-arrow-forward" size={18} color="grey" />
+              <Ionicons name="arrow-forward" size={18} color="grey" />
             </RightArrowView>
           </SceneView>
         </TouchableHighlight>

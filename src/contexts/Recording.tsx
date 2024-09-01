@@ -1,16 +1,26 @@
 import React, { useState, useEffect, ReactNode, useContext } from "react";
 import { Audio } from "expo-av";
-import { AUDIO_RECORDING, PermissionMap } from "expo-permissions";
+import {
+  InterruptionModeIOS,
+  InterruptionModeAndroid
+} from "expo-av/build/Audio.types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { usePermissions, PermissionError } from "./Permissions";
+export class PermissionError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "PermissionError";
+  }
+}
 
 export interface RecordingContextValue {
   recording?: Audio.Recording;
   record: (key: string, onStart: () => void) => Promise<void>;
 }
 
-const RecordingContext = React.createContext<RecordingContextValue | undefined>(undefined);
+const RecordingContext = React.createContext<RecordingContextValue | undefined>(
+  undefined
+);
 
 const waitForRecording = async (recording: Audio.Recording) =>
   new Promise<void>(res => {
@@ -21,31 +31,31 @@ const waitForRecording = async (recording: Audio.Recording) =>
     });
   });
 
-const checkCanRecord = (permissions: PermissionMap) => {
-  if (permissions[AUDIO_RECORDING]?.granted) {
-    return;
-  }
-
-  throw new PermissionError(
-    "We are unable to access your microphone, please update your permissions in the Settings app..."
-  );
-};
-
 type Props = {
   children: ReactNode;
 };
 
 export const RecordingProvider = ({ children }: Props) => {
-  const { permissions } = usePermissions();
   const [recording, setRecording] = useState<Audio.Recording>();
+
+  const requestPermissionIfNeeded = async () => {
+    const { status: currentStatus } = await Audio.getPermissionsAsync();
+
+    if (currentStatus === 'granted') {
+      return currentStatus;
+    }
+
+    const response = await Audio.requestPermissionsAsync();
+    return response.status;
+  };
 
   useEffect(() => {
     Audio.setAudioModeAsync({
       allowsRecordingIOS: true,
-      interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+      interruptionModeIOS: InterruptionModeIOS.DoNotMix,
       playsInSilentModeIOS: true,
       shouldDuckAndroid: true,
-      interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+      interruptionModeAndroid: InterruptionModeAndroid.DoNotMix,
       playThroughEarpieceAndroid: false,
       staysActiveInBackground: true
     });
@@ -56,7 +66,12 @@ export const RecordingProvider = ({ children }: Props) => {
       value={{
         recording,
         record: async (key: string, onStart: () => void) => {
-          checkCanRecord(permissions);
+          const status = await requestPermissionIfNeeded();
+
+          if (status !== "granted") {
+            throw new PermissionError("Permission to record audio was denied");
+          }
+
           if (recording) {
             const status = await recording.getStatusAsync();
             if (status.isRecording) {

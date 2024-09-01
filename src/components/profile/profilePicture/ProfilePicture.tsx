@@ -35,7 +35,7 @@ export default function ProfilePicture({ uri, size = 50 }: Props) {
       {uri ? (
         <ProfileImage size={size} source={{ uri }} />
       ) : (
-        <MaterialCommunityIcons name="face-profile" size={size} color="white" />
+        <MaterialCommunityIcons name="face-man" size={size} color="white" />
       )}
     </ImageContainer>
   );

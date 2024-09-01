@@ -9,8 +9,6 @@ import Home from "../HomeScreen";
 import Header from "../../components/common/header/Header";
 import AppProviders from "../../components/app/appProviders/AppProviders";
 
-jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
-
 const mount = () => {
   const Stack = createStackNavigator();
   return render(

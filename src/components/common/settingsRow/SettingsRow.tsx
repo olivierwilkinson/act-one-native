@@ -89,7 +89,7 @@ export default ({ label, onPress, leftIconName, value }: Props) => {
               <View testID="settings-row-right-arrow">
                 <SettingRightArrow
                   size={20}
-                  name="ios-arrow-forward"
+                  name="arrow-forward"
                   color="gray"
                 />
               </View>

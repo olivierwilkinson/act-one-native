@@ -4,7 +4,6 @@ import { ApolloProvider } from "@apollo/client";
 
 import createClient from "../../../apollo/client";
 import { AuthProvider } from "../../../contexts/Auth";
-import { PermissionsProvider } from "../../../contexts/Permissions";
 import { RecordingProvider } from "../../../contexts/Recording";
 import { SoundProvider } from "../../../contexts/Sound";
 import { AudioProvider } from "../../../contexts/Audio";
@@ -19,13 +18,11 @@ const AppProviders = ({ children }: Props) => {
   return (
     <ApolloProvider client={client}>
       <AuthProvider>
-        <PermissionsProvider>
-          <RecordingProvider>
-            <SoundProvider>
-              <AudioProvider>{children}</AudioProvider>
-            </SoundProvider>
-          </RecordingProvider>
-        </PermissionsProvider>
+        <RecordingProvider>
+          <SoundProvider>
+            <AudioProvider>{children}</AudioProvider>
+          </SoundProvider>
+        </RecordingProvider>
       </AuthProvider>
     </ApolloProvider>
   );

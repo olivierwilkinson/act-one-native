@@ -5,10 +5,14 @@ import { Ionicons } from "@expo/vector-icons";
 import {
   FlingGestureHandler,
   Directions,
-  State,
+  State
 } from "react-native-gesture-handler";
-import Animated, { interpolateNode } from "react-native-reanimated";
-import { useTiming } from "react-native-reanimation";
+import Animated, {
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming
+} from "react-native-reanimated";
 import RecordButton from "../recordButton/RecordButton";
 
 import { AudioState, useAudio } from "../../../contexts/Audio";
@@ -16,7 +20,7 @@ import { usePlayback, PlaybackMode } from "../../../contexts/Playback";
 import {
   lightGray,
   mediumGray,
-  mediumLightGray,
+  mediumLightGray
 } from "../../../styles/colours";
 import { subFont } from "../../../styles/typography";
 
@@ -72,16 +76,36 @@ export default () => {
   const isRecording = audio.audioState === AudioState.Recording;
 
   const [expanded, setExpanded] = useState(true);
-  const [position, , { toValue: positionTo }] = useTiming({
-    position: -1,
-    toValue: -1,
-    duration: 150,
-  });
-  const [scale, , { toValue: scaleTo }] = useTiming({
-    position: 1,
-    toValue: 1,
-    duration: 150,
-  });
+  const position = useSharedValue(-1);
+  const scale = useSharedValue(1);
+  const timingConfig = { duration: 150 };
+
+  const animatedModeBarStyle = useAnimatedStyle(() => ({
+    transform: [
+      { translateX: interpolate(position.value, [-1, 1], [40, -40]) }
+    ],
+    height: interpolate(scale.value, [0, 1], [40, 80])
+  }));
+
+  const animatedPlayBarButtonStyle = useAnimatedStyle(() => ({
+    opacity: scale.value,
+    height: interpolate(scale.value, [0, 1], [4, 34])
+  }));
+
+  const animatedPlayButtonStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: interpolate(scale.value, [0, 1], [0.8, 1]) }],
+    opacity: interpolate(position.value, [-1, 1], [1, 0])
+  }));
+
+  const animiatedRecordBarButtonStyle = useAnimatedStyle(() => ({
+    opacity: scale.value,
+    height: interpolate(scale.value, [0, 1], [4, 34])
+  }));
+
+  const animatedRecordButtonStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: interpolate(scale.value, [0, 1], [0.8, 1]) }],
+    opacity: interpolate(position.value, [-1, 1], [0, 1])
+  }));
 
   const activateMode = (mode: PlaybackMode) => {
     if (mode === activeMode) {
@@ -91,7 +115,10 @@ export default () => {
     audio.stop();
     try {
       setMode(mode);
-      positionTo.setValue(mode === PlaybackMode.Play ? -1 : 1);
+      position.value = withTiming(
+        mode === PlaybackMode.Play ? -1 : 1,
+        timingConfig
+      );
     } catch (_) {}
   };
 
@@ -101,7 +128,7 @@ export default () => {
     }
 
     setExpanded(shouldExpand);
-    scaleTo.setValue(shouldExpand ? 1 : 0);
+    scale.value = withTiming(shouldExpand ? 1 : 0, timingConfig);
   };
 
   return (
@@ -144,38 +171,13 @@ export default () => {
             }}
           >
             <ControlsView testID="playback-controls">
-              <ModeBar
-                // @ts-expect-error
-                style={{
-                  transform: [
-                    {
-                      translateX: interpolateNode(position, {
-                        inputRange: [-1, 1],
-                        outputRange: [40, -40],
-                      }),
-                    },
-                  ],
-                  height: interpolateNode(scale, {
-                    inputRange: [0, 1],
-                    outputRange: [40, 80],
-                  }),
-                }}
-              >
+              <ModeBar style={animatedModeBarStyle}>
                 <ModeView>
                   <TouchableWithoutFeedback
                     testID="play-bar-button"
                     onPress={() => activateMode(PlaybackMode.Play)}
                   >
-                    <Animated.View
-                      // @ts-expect-error
-                      style={{
-                        opacity: scale,
-                        height: interpolateNode(scale, {
-                          inputRange: [0, 1],
-                          outputRange: [4, 34],
-                        }),
-                      }}
-                    >
+                    <Animated.View style={animatedPlayBarButtonStyle}>
                       <ModeText>{PlaybackMode.Play}</ModeText>
                     </Animated.View>
                   </TouchableWithoutFeedback>
@@ -201,28 +203,12 @@ export default () => {
                       }
                     }}
                   >
-                    <ButtonView
-                      // @ts-expect-error
-                      style={{
-                        transform: [
-                          {
-                            scale: interpolateNode(scale, {
-                              inputRange: [0, 1],
-                              outputRange: [0.8, 1],
-                            }),
-                          },
-                        ],
-                        opacity: interpolateNode(position, {
-                          inputRange: [-1, 1],
-                          outputRange: [1, 0],
-                        }),
-                      }}
-                    >
+                    <ButtonView style={animatedPlayButtonStyle}>
                       <Ionicons
                         testID={
                           isStopped || isPaused ? "play-icon" : "pause-icon"
                         }
-                        name={isStopped || isPaused ? "ios-play" : "ios-pause"}
+                        name={isStopped || isPaused ? "play" : "pause"}
                         size={40}
                         color="rgb(80, 80, 80)"
                       />
@@ -235,37 +221,12 @@ export default () => {
                     testID="record-bar-button"
                     onPress={() => activateMode(PlaybackMode.Record)}
                   >
-                    <Animated.View
-                      // @ts-expect-error
-                      style={{
-                        opacity: scale,
-                        height: interpolateNode(scale, {
-                          inputRange: [0, 1],
-                          outputRange: [4, 34],
-                        }),
-                      }}
-                    >
+                    <Animated.View style={animiatedRecordBarButtonStyle}>
                       <ModeText>{PlaybackMode.Record}</ModeText>
                     </Animated.View>
                   </TouchableWithoutFeedback>
 
-                  <ButtonView
-                    // @ts-expect-error
-                    style={{
-                      transform: [
-                        {
-                          scale: interpolateNode(scale, {
-                            inputRange: [0, 1],
-                            outputRange: [0.8, 1],
-                          }),
-                        },
-                      ],
-                      opacity: interpolateNode(position, {
-                        inputRange: [-1, 1],
-                        outputRange: [0, 1],
-                      }),
-                    }}
-                  >
+                  <ButtonView style={animatedRecordButtonStyle}>
                     <RecordButton
                       audioState={audio.audioState}
                       disabled={PlaybackMode.Record !== activeMode}

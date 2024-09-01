@@ -2,9 +2,8 @@ import React, { useState, ReactNode, useContext } from "react";
 import * as Speech from 'expo-speech';
 import { Alert, Linking } from "react-native";
 
-import { useRecording } from "./Recording";
+import { PermissionError, useRecording } from "./Recording";
 import { useSound } from "./Sound";
-import { PermissionError } from "./Permissions";
 
 export enum AudioState {
   Stopped = "STOPPED",

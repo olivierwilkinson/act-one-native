@@ -54,7 +54,7 @@ describe("SettingsRow", () => {
     beforeEach(() => {
       defaultProps = {
         ...defaultProps,
-        leftIconName: "ios-airplane"
+        leftIconName: "airplane"
       };
 
       rerender(<SettingsRow {...defaultProps} />);

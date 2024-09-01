@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import * as WebBrowser from "expo-web-browser";
-import { startAsync } from "expo-auth-session";
+// import * as Google from "expo-auth-session/providers/google";
 import { Platform, ActivityIndicator } from "react-native";
 import Constants from "expo-constants";
 import styled from "styled-components/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Logo from "../googleLogo/GoogleLogo";
 import Button from "../../common/button/Button";
 import { buttonFont } from "../../../styles/typography";
 import { mediumGray } from "../../../styles/colours";
-import { apiBaseUrl } from "../../../services/baseUrls";
+// import { apiBaseUrl } from "../../../services/baseUrls";
+// import { useAutoDiscovery } from "expo-auth-session";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -33,7 +34,7 @@ type GoogleAuth = {
 };
 
 const getClientId = () => {
-  const google: GoogleAuth = Constants.manifest?.extra?.googleAuth || {};
+  const google: GoogleAuth = Constants.expoConfig?.extra?.googleAuth || {};
 
   if (Constants.appOwnership === "expo") {
     return google.developmentClientId;
@@ -55,30 +56,36 @@ export type Props = {
 };
 
 export default function GoogleSignInButton({
-  onLogin,
+  // onLogin,
   disabled = false
 }: Props) {
-  const [isLoggingIn, setIsLoggingIn] = useState(false);
-
   const clientId = getClientId();
   if (!clientId) {
     return null;
   }
 
+  const [isLoggingIn] = useState(false);
+
+  // const [_, __, promptAsync] = Google.useIdTokenAuthRequest({
+  //   clientId,
+  //   redirectUri: `${apiBaseUrl}/auth/google/callback`
+  // });
+
   const login = async () => {
-    setIsLoggingIn(true);
+    // TODO:- Reimplement Google Auth with expo 51
+    return;
 
-    const result = await startAsync({
-      authUrl: `${apiBaseUrl}/auth/google`
-    });
+    // setIsLoggingIn(true);
 
-    if (result.type === "success") {
-      const { cookie } = result.params;
-      await AsyncStorage.setItem(apiBaseUrl, cookie);
-    }
+    // const result = await promptAsync();
 
-    await onLogin();
-    setIsLoggingIn(false);
+    // if (result.type === "success") {
+    //   const { cookie } = result.params;
+    //   await AsyncStorage.setItem(apiBaseUrl, cookie);
+    // }
+
+    // await onLogin();
+    // setIsLoggingIn(false);
   };
 
   if (isLoggingIn) {

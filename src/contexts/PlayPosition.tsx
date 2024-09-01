@@ -1,11 +1,5 @@
 import { useQuery } from "@apollo/client";
-import React, {
-  useContext,
-  useState,
-  ReactNode,
-  useMemo,
-  useEffect,
-} from "react";
+import React, { useContext, useState, ReactNode, useMemo } from "react";
 
 import { usePlaySettings } from "./PlaySettings";
 import { findActiveScene } from "../helpers/play";
@@ -39,30 +33,32 @@ export type Props = {
 };
 
 export const PlayPositionProvider = ({ playId, children }: Props) => {
-  const { settings } = usePlaySettings()
+  const { settings } = usePlaySettings();
 
   const { data: { play } = {} } = useQuery<GetPlay>(GET_PLAY, {
     variables: { where: { id: playId } },
-    skip: !playId,
+    skip: !playId
   });
 
   const activeScene = findActiveScene(play?.scenes || [], settings);
-  const [activeSceneId, setActiveSceneId] = useState(activeScene?.id);
-  const [activeLineId, setActiveLineId] = useState(activeScene?.lines[0]?.id);
-
-  useEffect(() => {
-    const newActiveScene = findActiveScene(play?.scenes || [], settings);
-    setActiveSceneId(newActiveScene?.id);
-    setActiveLineId(newActiveScene?.lines[0]?.id);
-  }, [play, settings]);
+  const activeSceneId = activeScene?.id;
+  const defaultActiveLineId = activeScene?.lines[0]?.id;
+  const [chosenActiveLineId, setChosenActiveLineId] = useState(
+    defaultActiveLineId
+  );
 
   const value = useMemo(
     () => ({
       activeSceneId,
-      activeLineId,
-      setActiveLineId,
+      activeLineId: chosenActiveLineId || defaultActiveLineId,
+      setActiveLineId: setChosenActiveLineId
     }),
-    [activeSceneId, activeLineId]
+    [
+      activeSceneId,
+      chosenActiveLineId,
+      defaultActiveLineId,
+      setChosenActiveLineId
+    ]
   );
 
   return (

@@ -18,6 +18,7 @@ export default function AppStack() {
           header: () => <Header />
         }}
       />
+
       <Stack.Screen
         name="Play"
         component={Play.Screen}
