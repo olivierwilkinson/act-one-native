@@ -1,11 +1,18 @@
 # ActOne
 
-ActOne is in the expo managed workflow, using a bare typescript template.
+ActOne is a line-learning and rehearsal app for actors. It is designed to help
+actors learn their lines and rehearse their parts in a play. The app is
+built in React Native using Expo and is based on the original ActOne app built
+in Switch for iOS.
 
-The expo-cli is needed to run the dev server and to install certain expo modules.
+This project is a work in progress and is not close to the feature-set of
+the original ActOne app. The goal is to have a working prototype that can be
+used to learn about React Native as much as it is to build a useful app.
 
-expo-cli installation instructions can be found here:
-https://docs.expo.io/versions/latest/get-started/installation/
+## Preview
+
+<!-- use width attribute as GitHub sanitisation removes style attributes -->
+<img src="readme/assets/play-preview.png" alt="Play screen preview" width="350px" />
 
 ## Usage
 
@@ -21,11 +28,8 @@ check types: `yarn check-types`
 
 ### Logging into the app using a local backend
 
-In order to log into the app you need to use Google OAuth. Google does not
-accept local IP addresses so a proxy that accesses the backend through a known
-host is needed; to do this a cloudflare tunnel needs to be created to point to a
-local backend, there is an npm script to do this: `yarn proxy`. To run the app
-pointing to the proxied backend there is another script: `yarn dev:proxy`
+Once the app is running you can sign up or log in using email and password.
+This is the recommended way to authenticate within the app.
 
 ## Committing
 
@@ -44,25 +48,6 @@ the entire project. The reason is because it does a compilation dry-run. This
 means you may need to add what you want to staging and then
 `git stash save --keep-index` to prevent the script from checking work that is
 in progress.
-
-## Architecture
-
-The entry-point for the app is `App.tsx` in the top-level directory. It is not
-possible to change this due to expo assumptions.
-
-App defines the navigation stack and should also hold the state for any
-application-wide contexts, e.g. a UserContext.
-
-The components App adds to the stack are held in the screens directory e.g.
-Home, Play etc.
-
-Because typescript cannot correctly infer types passed as params to each screen,
-the screens should be defensive against incorrectly passed data, see
-`screens/Play`. This works towards async fetching of plays in future.
-
-Components are found in the components directory, these are organised by screen,
-with components that need to be shared between screens living in the `common`
-folder.
 
 ## Style
 
